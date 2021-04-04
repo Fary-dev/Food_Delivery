@@ -1,0 +1,140 @@
+name: mjam
+description: A new Flutter application.
+
+# The following line prevents the package from being accidentally published to
+# pub.dev using `pub publish`. This is preferred for private packages.
+publish_to: 'none' # Remove this line if you wish to publish to pub.dev
+
+# The following defines the version and build number for your application.
+# A version number is three numbers separated by dots, like 1.2.43
+# followed by an optional build number separated by a +.
+# Both the version and the builder number may be overridden in flutter
+# build by specifying --build-name and --build-number, respectively.
+# In Android, build-name is used as versionName while build-number used as versionCode.
+# Read more about Android versioning at https://developer.android.com/studio/publish/versioning
+# In iOS, build-name is used as CFBundleShortVersionString while build-number used as CFBundleVersion.
+# Read more about iOS versioning at
+# https://developer.apple.com/library/archive/documentation/General/Reference/InfoPlistKeyReference/Articles/CoreFoundationKeys.html
+version: 1.0.0+1
+
+environment:
+  sdk: ">=2.7.0 <3.0.0"
+
+dependencies:
+  flutter:
+    sdk: flutter
+  
+
+  # The following adds the Cupertino Icons font to your application.
+  # Use with the CupertinoIcons class for iOS style icons.
+  cupertino_icons: ^1.0.0
+  parallax_image: ^0.3.1+1
+  intro_views_flutter: '^2.8.2'
+  carousel_slider: ^1.3.0
+  fluentui_icons: ^0.2.0
+  geolocator: ^7.0.1
+  geocoder: ^0.2.1
+  
+
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  smooth_star_rating: ^1.1.1
+  material_design_icons_flutter: 4.0.5855
+  flutter_launcher_icons: ^0.7.0
+  flutter_images_slider: ^0.0.2
+  change_app_package_name: ^0.1.2
+  tuple: ^1.0.3
+  
+  
+
+
+flutter_icons:
+  image_path: "assets/icon.png"
+  ios: true
+  android: true
+
+
+
+# For information on the generic Dart part of this file, see the
+# following page: https://dart.dev/tools/pub/pubspec
+
+# The following section is specific to Flutter.
+flutter:
+
+  # The following line ensures that the Material Icons font is
+  # included with your application, so that you can use the icons in
+  # the material Icons class.
+  uses-material-design: true
+
+  # To add assets to your application, add an assets section, like this:
+  assets:
+    - assets/gim1.jpg
+    - assets/ham1.jpg
+    - assets/obs1.jpg
+    - assets/pom1.jpg
+    - assets/Mc1.png
+    - assets/mc2.jpg
+    - assets/piz1.jpg
+    - assets/gg1.jpg
+    - assets/ber1.jpg
+    - assets/sa1.jpg
+    - assets/sp1.jpg
+    - assets/ke1.jpg
+    - assets/HornerPizzaa.jpg
+    - assets/hornerpizza.png
+    - assets/Milano.jpg
+    - assets/milano.png
+    - assets/Schnitzel.jpg
+    - assets/schnitzelp.png
+    - assets/Ariana.jpg
+    - assets/arian.jpg
+    - assets/Mehr.jpg
+    - assets/icon.png
+    - assets/ico.png
+    - assets/korb.png
+    - assets/Essen.png
+    - assets/abholen.jpg
+    - assets/shop.jpg
+    - assets/prof.png
+    - assets/Favorit.png
+    - assets/top10.jpg
+    - assets/jetztneu.jpg
+    - assets/mcMenu.jpg
+    - assets/berger.jpg
+    - assets/hornerinfo.jpeg
+    - assets/arianinfo.jpg
+    - assets/mcinfo.jpeg
+    - assets/milanoinfo.jpg
+    - assets/schnitzelinfo.jpg
+    - assets/login.jpg
+    - assets/facebook.jpg
+    - assets/google.png
+    - assets/apple.png
+
+
+  # An image asset can refer to one or more resolution-specific "variants", see
+  # https://flutter.dev/assets-and-images/#resolution-aware.
+
+  # For details regarding adding assets from package dependencies, see
+  # https://flutter.dev/assets-and-images/#from-packages
+
+  # To add custom fonts to your application, add a fonts section here,
+  # in this "flutter" section. Each entry in this list should have a
+  # "family" key with the font family name, and a "fonts" key with a
+  # list giving the asset and other descriptors for the font. For
+  # example:
+  fonts:
+    - family: Iconss
+      fonts:
+        - asset: icons/Iconss.ttf
+
+    - family: Iconsss
+      fonts:
+        - asset: icons/Iconsss.ttf
+
+
+  #
+  # For details regarding fonts from package dependencies,
+  # see https://flutter.dev/custom-fonts/#from-packages
