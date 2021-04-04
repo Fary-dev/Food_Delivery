@@ -3,7 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:mjam/Widgets/listFoodGrupe.dart';
 import 'package:mjam/home_Screen_Tile/Bottom_Filter_Abholung_sort.dart';
+import 'package:mjam/myBloc/myBloc.dart';
 import 'package:mjam/resturants/resturans_liste.dart';
+import 'package:provider/provider.dart';
 import '../Widgets/Banr.dart';
 
 class Menu extends StatefulWidget {
@@ -15,19 +17,28 @@ class Menu extends StatefulWidget {
 class _MenuState extends State<Menu> {
   @override
   Widget build(BuildContext context) {
+    MyBloc myBloc = Provider.of<MyBloc>(context);
     return SafeArea(
       child: Scaffold(
         appBar: AppBar(
           backgroundColor: Colors.white,
           elevation: 0,
-          title: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 40),
-            child: Text(
-              "Sofort zu",
+          centerTitle: true,
+          title: RichText(
+              text: TextSpan(children: [
+            TextSpan(
+              text: "Sofort zu",
               style: TextStyle(
                   color: Colors.black, fontSize: 13, letterSpacing: 0.5),
             ),
-          ),
+            TextSpan(
+                text: myBloc.location.toString(),
+                style: TextStyle(
+                  fontSize: 15,
+                  color: Colors.red,
+                  fontWeight: FontWeight.w500,
+                )),
+          ])),
         ),
         body: SingleChildScrollView(
           child: Column(

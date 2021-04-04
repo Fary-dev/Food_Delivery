@@ -1,6 +1,10 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:geocoder/geocoder.dart';
 import 'package:geolocator/geolocator.dart';
+import 'package:mjam/myBloc/myBloc.dart';
+import 'package:provider/provider.dart';
 
 class LocationApp extends StatefulWidget {
   @override
@@ -8,15 +12,8 @@ class LocationApp extends StatefulWidget {
 }
 
 class _LocationAppState extends State<LocationApp> {
-  var add1 = '';
-  var add2 = '';
-  var add3 = '';
-  var add4 = '';
-  var add5 = '';
   var add6 = '';
   var add7 = '';
-  var add8 = '';
-  var add9 = '';
   var add10 = '';
   var add11 = '';
 
@@ -32,15 +29,8 @@ class _LocationAppState extends State<LocationApp> {
     var address =
         await Geocoder.local.findAddressesFromCoordinates(coordinates);
     setState(() {
-      add1 = address.first.addressLine;
-      add2 = address.first.adminArea;
-      add3 = address.first.countryCode;
-      add4 = address.first.countryName;
-      add5 = address.first.featureName;
       add6 = address.first.locality;
       add7 = address.first.postalCode;
-      add8 = address.first.subAdminArea;
-      add9 = address.first.subLocality;
       add10 = address.first.subThoroughfare;
       add11 = address.first.thoroughfare;
     });
@@ -54,6 +44,14 @@ class _LocationAppState extends State<LocationApp> {
 
   @override
   Widget build(BuildContext context) {
+    Timer(Duration(seconds: 3), () {
+      MyBloc myBloc = Provider.of(
+        context,
+        listen: false,
+      );
+      myBloc.setLocation('$add11 $add10, $add6 $add7');
+    });
+
     return Scaffold(
       body: Center(
         child: Column(
@@ -71,51 +69,10 @@ class _LocationAppState extends State<LocationApp> {
             SizedBox(
               height: 20,
             ),
-            Text('addressLine:   $add1'),
+            Text('addressLine:   $add11 $add10, $add6 $add7'),
             SizedBox(
               height: 10,
             ),
-            Text('adminArea:   $add2'),
-            SizedBox(
-              height: 10,
-            ),
-            Text('countryCode:   $add3'),
-            SizedBox(
-              height: 10,
-            ),
-            Text('countryName:   $add4'),
-            SizedBox(
-              height: 10,
-            ),
-            Text('featureName:   $add5'),
-            SizedBox(
-              height: 10,
-            ),
-            Text('locality:   $add6'),
-            SizedBox(
-              height: 10,
-            ),
-            Text('postalCode:   $add7'),
-            SizedBox(
-              height: 10,
-            ),
-            Text('subAdminArea:   $add8'),
-            SizedBox(
-              height: 10,
-            ),
-            Text('subLocality:   $add9'),
-            SizedBox(
-              height: 10,
-            ),
-            Text('subThoroughfare:   $add10'),
-            SizedBox(
-              height: 10,
-            ),
-            Text('thoroughfare:   $add11'),
-            SizedBox(
-              height: 10,
-            ),
-
             // ignore: deprecated_member_use
             FlatButton(
               onPressed: () {},
