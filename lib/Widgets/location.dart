@@ -33,7 +33,7 @@ class _LocationSetState extends State<LocationSet> {
       add7 = address.first.postalCode;
       add10 = address.first.subThoroughfare;
       add11 = address.first.thoroughfare;
-      Timer(Duration(seconds: 0), () {
+      Timer(Duration(seconds: 1), () {
         MyBloc myBloc = Provider.of(
           context,
           listen: false,
@@ -52,43 +52,70 @@ class _LocationSetState extends State<LocationSet> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.black,
       body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            Icon(Icons.location_on, size: 45, color: Colors.blue),
-            SizedBox(
-              height: 20,
+        child: Container(
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(
+              20,
             ),
-            Text(
-              'Ihre location!!',
-              style: TextStyle(fontSize: 25, color: Colors.black),
-            ),
-            SizedBox(
-              height: 20,
-            ),
-            Text('$add11 $add10, $add6 $add7'),
-            SizedBox(
-              height: 10,
-            ),
-            // ignore: deprecated_member_use
-            FlatButton(
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => BottomNavBarWidget(),
-                  ),
-                );
-              },
-              color: Colors.blue[600],
-              child: Text(
-                'Los geht\'s',
-                style: TextStyle(color: Colors.white, fontSize: 18),
+            color: Colors.red[900],
+          ),
+          height: MediaQuery.of(context).size.height / 3,
+          width: MediaQuery.of(context).size.width / 1.50,
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Icon(
+                Icons.location_on,
+                size: 60,
+                color: Colors.white54,
               ),
-            ),
-          ],
+              // SizedBox(
+              //   height: 20,
+              // ),
+              // Text(
+              //   'Ihre location!!',
+              //   style: TextStyle(
+              //     fontSize: 25,
+              //     color: Colors.white54,
+              //     fontWeight: FontWeight.bold,
+              //   ),
+              // ),
+              SizedBox(
+                height: 20,
+              ),
+              Text(
+                '$add11 $add10, $add6 $add7',
+                style: TextStyle(
+                  color: Colors.red[50],
+                  fontSize: 15,
+                  fontWeight: FontWeight.bold,
+                  letterSpacing: 0.5,
+                ),
+              ),
+              SizedBox(
+                height: 40,
+              ),
+              // ignore: deprecated_member_use
+              FlatButton(
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => BottomNavBarWidget(),
+                    ),
+                  );
+                },
+                color: Colors.black87,
+                child: Text(
+                  'Los geht\'s',
+                  style: TextStyle(color: Colors.white, fontSize: 18),
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );
