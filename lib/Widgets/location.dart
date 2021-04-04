@@ -3,15 +3,16 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:geocoder/geocoder.dart';
 import 'package:geolocator/geolocator.dart';
+import 'package:mjam/Widgets/BottomNavBarWidget.dart';
 import 'package:mjam/myBloc/myBloc.dart';
 import 'package:provider/provider.dart';
 
-class LocationApp extends StatefulWidget {
+class LocationSet extends StatefulWidget {
   @override
-  _LocationAppState createState() => _LocationAppState();
+  _LocationSetState createState() => _LocationSetState();
 }
 
-class _LocationAppState extends State<LocationApp> {
+class _LocationSetState extends State<LocationSet> {
   var add6 = '';
   var add7 = '';
   var add10 = '';
@@ -69,13 +70,20 @@ class _LocationAppState extends State<LocationApp> {
             SizedBox(
               height: 20,
             ),
-            Text('addressLine:   $add11 $add10, $add6 $add7'),
+            Text('$add11 $add10, $add6 $add7'),
             SizedBox(
               height: 10,
             ),
             // ignore: deprecated_member_use
             FlatButton(
-              onPressed: () {},
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => BottomNavBarWidget(),
+                  ),
+                );
+              },
               color: Colors.blue[600],
               child: Text(
                 'Get current location',
