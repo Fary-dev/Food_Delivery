@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "847793356677",
+    "project_id": "foodo-8f47e",
+    "storage_bucket": "foodo-8f47e.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:847793356677:android:7579f6706cc68812830eec",
+        "android_client_info": {
+          "package_name": "com.foodor.Foodor"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "847793356677-4vvu73tc2oj3vj0citgfpbbn7nb3227l.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.foodor.Foodor",
+            "certificate_hash": "2df31b4d9300a981ef8b0bf1a4a198ea01b0a708"
+          }
+        },
+        {
+          "client_id": "847793356677-0hfp8mrv3m2hhbbn9hoe9g4q51ojngof.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyARnueivBPkDQJjwfNKWX4hA_LGsYgMQu4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "847793356677-0hfp8mrv3m2hhbbn9hoe9g4q51ojngof.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

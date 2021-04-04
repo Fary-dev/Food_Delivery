@@ -38,23 +38,26 @@ class BanrState extends State<Banr> {
         crossAxisAlignment: CrossAxisAlignment.center,
         children: <Widget>[
           CarouselSlider(
-            viewportFraction: 0.999,
-            height: 160,
-            initialPage: 0,
-            enlargeCenterPage: false,
-            autoPlay: true,
-            reverse: false,
-            enableInfiniteScroll: true,
-            aspectRatio: 16 / 9,
-            autoPlayInterval: Duration(seconds: 5),
-            autoPlayAnimationDuration: Duration(milliseconds: 100),
-            pauseAutoPlayOnTouch: Duration(seconds: 3),
-            scrollDirection: Axis.horizontal,
-            onPageChanged: (index) {
-              setState(() {
-                _current = index;
-              });
-            },
+            options: CarouselOptions(
+              viewportFraction: 0.999,
+              height: 160,
+              initialPage: 0,
+              enlargeCenterPage: false,
+              autoPlay: true,
+              reverse: false,
+              enableInfiniteScroll: true,
+              aspectRatio: 16 / 9,
+              autoPlayInterval: Duration(seconds: 5),
+              autoPlayAnimationDuration: Duration(milliseconds: 100),
+              //pauseAutoPlayOnTouch: Duration(seconds: 3),
+              scrollDirection: Axis.horizontal,
+            ),
+
+            // onPageChanged: (index) {
+            //   setState(() {
+            //     _current = index;
+            //   });
+            // },
             items: imgList.map((imgUrl) {
               return Builder(builder: (BuildContext context) {
                 return Container(
