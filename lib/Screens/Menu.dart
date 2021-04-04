@@ -27,9 +27,13 @@ class _MenuState extends State<Menu> {
           title: RichText(
               text: TextSpan(children: [
             TextSpan(
-              text: "Sofort zu",
+              text: "Sofort zu ",
               style: TextStyle(
-                  color: Colors.black, fontSize: 13, letterSpacing: 0.5),
+                color: Colors.black,
+                fontSize: 15,
+                letterSpacing: 0.5,
+                fontWeight: FontWeight.w500,
+              ),
             ),
             TextSpan(
                 text: myBloc.location.toString(),

@@ -25,7 +25,6 @@ class _LocationSetState extends State<LocationSet> {
     print(lastPosition);
     var lat = position.latitude;
     var long = position.longitude;
-    print('lat $lat. ,lang $long');
     final coordinates = new Coordinates(lat, long);
     var address =
         await Geocoder.local.findAddressesFromCoordinates(coordinates);
@@ -34,6 +33,13 @@ class _LocationSetState extends State<LocationSet> {
       add7 = address.first.postalCode;
       add10 = address.first.subThoroughfare;
       add11 = address.first.thoroughfare;
+      Timer(Duration(seconds: 0), () {
+        MyBloc myBloc = Provider.of(
+          context,
+          listen: false,
+        );
+        myBloc.setLocation('$add11 $add10, $add6 $add7');
+      });
     });
   }
 
@@ -45,14 +51,6 @@ class _LocationSetState extends State<LocationSet> {
 
   @override
   Widget build(BuildContext context) {
-    Timer(Duration(seconds: 3), () {
-      MyBloc myBloc = Provider.of(
-        context,
-        listen: false,
-      );
-      myBloc.setLocation('$add11 $add10, $add6 $add7');
-    });
-
     return Scaffold(
       body: Center(
         child: Column(
@@ -64,7 +62,7 @@ class _LocationSetState extends State<LocationSet> {
               height: 20,
             ),
             Text(
-              'Get Your location!!',
+              'Ihre location!!',
               style: TextStyle(fontSize: 25, color: Colors.black),
             ),
             SizedBox(
@@ -86,7 +84,7 @@ class _LocationSetState extends State<LocationSet> {
               },
               color: Colors.blue[600],
               child: Text(
-                'Get current location',
+                'Los geht\'s',
                 style: TextStyle(color: Colors.white, fontSize: 18),
               ),
             ),
