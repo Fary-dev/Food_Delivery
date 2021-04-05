@@ -1,10 +1,6 @@
-import 'dart:async';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import 'package:geocoder/geocoder.dart';
-import 'package:geocoder/model.dart';
-import 'package:geolocator/geolocator.dart';
 import 'package:mjam/Widgets/listFoodGrupe.dart';
 import 'package:mjam/home_Screen_Tile/Bottom_Filter_Abholung_sort.dart';
 import 'package:mjam/myBloc/myBloc.dart';
@@ -19,41 +15,6 @@ class Menu extends StatefulWidget {
 }
 
 class _MenuState extends State<Menu> {
-  var add6 = '';
-  var add7 = '';
-  var add10 = '';
-  var add11 = '';
-  void getCurrentLocation() async {
-    var position = await Geolocator.getCurrentPosition(
-        desiredAccuracy: LocationAccuracy.high);
-    var lastPosition = await Geolocator.getLastKnownPosition();
-    print(lastPosition);
-    var lat = position.latitude;
-    var long = position.longitude;
-    final coordinates = new Coordinates(lat, long);
-    var address =
-        await Geocoder.local.findAddressesFromCoordinates(coordinates);
-    setState(() {
-      add6 = address.first.locality;
-      add7 = address.first.postalCode;
-      add10 = address.first.subThoroughfare;
-      add11 = address.first.thoroughfare;
-      Timer(Duration(seconds: 0), () {
-        MyBloc myBloc = Provider.of(
-          context,
-          listen: false,
-        );
-        myBloc.setLocation('$add11 $add10, $add6 $add7');
-      });
-    });
-  }
-
-  @override
-  void initState() {
-    super.initState();
-    getCurrentLocation();
-  }
-
   @override
   Widget build(BuildContext context) {
     MyBloc myBloc = Provider.of<MyBloc>(context);
