@@ -86,14 +86,20 @@ class _LocationSetState extends State<LocationSet> {
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             SizedBox(
-              height: 100,
+              height: 120,
             ),
-            Text(
-              'Herzlich Willkommen',
-              style: TextStyle(
-                fontSize: 40,
-                color: Colors.white,
-                fontWeight: FontWeight.bold,
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 20),
+              child: FittedBox(
+                fit: BoxFit.fitWidth,
+                child: Text(
+                  'Herzlich Willkommen',
+                  style: TextStyle(
+                    fontSize: 200,
+                    color: Colors.white,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
               ),
             ),
             SizedBox(
