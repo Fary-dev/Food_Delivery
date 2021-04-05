@@ -39,7 +39,7 @@ class _LocationSetState extends State<LocationSet> {
       myBloc.setLocation('$add11 $add10, $add6 $add7');
     });
     Timer(
-      Duration(seconds: 2),
+      Duration(seconds: 10),
       () => Navigator.push(
         context,
         MaterialPageRoute(
@@ -111,6 +111,36 @@ class _LocationSetState extends State<LocationSet> {
                 fontSize: 80,
                 color: Colors.white,
                 fontWeight: FontWeight.bold,
+              ),
+            ),
+            Spacer(),
+            Padding(
+              padding: const EdgeInsets.only(
+                bottom: 50.0,
+              ),
+              child: RaisedButton(
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(50.0),
+                ),
+                color: Colors.black.withOpacity(0.75),
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => BottomNavBarWidget(),
+                    ),
+                  );
+                },
+                child: Padding(
+                  padding: const EdgeInsets.all(10.0),
+                  child: Text(
+                    'Los geht\'s',
+                    style: TextStyle(
+                      fontSize: 45,
+                      color: Colors.white.withOpacity(0.9),
+                    ),
+                  ),
+                ),
               ),
             ),
           ],
