@@ -21,7 +21,7 @@ class _PageResturantState extends State<PageResturant>
 
   _PageResturantState(this.res);
 
-  bool like = false;
+  bool likeBottumPress = false;
   TabController controller;
 
   @override
@@ -42,11 +42,16 @@ class _PageResturantState extends State<PageResturant>
                 Padding(
                   padding: const EdgeInsets.only(right: 20.0),
                   child: IconButton(
-                    icon: Icon(like ? Icons.favorite : Icons.favorite_border,
-                        color: like ? Colors.red[700] : Colors.red[700]),
+                    icon: Icon(
+                        likeBottumPress
+                            ? Icons.favorite
+                            : Icons.favorite_border,
+                        color: likeBottumPress
+                            ? Colors.red[700]
+                            : Colors.red[700]),
                     onPressed: () {
                       setState(() {
-                        like = !like;
+                        likeBottumPress = !likeBottumPress;
                       });
                     },
                   ),
