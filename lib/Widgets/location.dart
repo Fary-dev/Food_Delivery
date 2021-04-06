@@ -56,11 +56,6 @@ class _LocationSetState extends State<LocationSet> {
   }
 
   @override
-  void dispose() {
-    super.dispose();
-  }
-
-  @override
   Widget build(BuildContext context) {
     return Container(
       constraints: BoxConstraints.expand(),
@@ -95,7 +90,7 @@ class _LocationSetState extends State<LocationSet> {
                 child: Text(
                   'Herzlich Willkommen',
                   style: TextStyle(
-                    fontSize: 200,
+                    fontSize: 30,
                     color: Colors.white,
                     fontWeight: FontWeight.bold,
                   ),
@@ -108,7 +103,7 @@ class _LocationSetState extends State<LocationSet> {
             Text(
               'FOODO',
               style: TextStyle(
-                fontSize: 80,
+                fontSize: 40,
                 color: Colors.white,
                 fontWeight: FontWeight.bold,
               ),
@@ -118,6 +113,7 @@ class _LocationSetState extends State<LocationSet> {
               padding: const EdgeInsets.only(
                 bottom: 50.0,
               ),
+              // ignore: deprecated_member_use
               child: RaisedButton(
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(50.0),
@@ -136,7 +132,7 @@ class _LocationSetState extends State<LocationSet> {
                   child: Text(
                     'Los geht\'s',
                     style: TextStyle(
-                      fontSize: 45,
+                      fontSize: 25,
                       color: Colors.white.withOpacity(0.9),
                     ),
                   ),
