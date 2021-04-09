@@ -4,7 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:mjam/Widgets/search.dart';
 import 'package:mjam/Widgets/Rating.dart';
 import 'package:mjam/models_and_data/models_and_data.dart';
-import 'package:mjam/resturants/info_resturant.dart';
+
+import 'info_resturant.dart';
 
 class PageResturant extends StatefulWidget {
   final Resturant resturant;
@@ -223,6 +224,7 @@ class _PageResturantState extends State<PageResturant>
                 ),
               ),
               expandedHeight: 400.0,
+//========================================= TabBar =============================
               bottom: TabBar(
                 labelStyle:
                     TextStyle(fontSize: 12, fontWeight: FontWeight.w500),
@@ -240,6 +242,8 @@ class _PageResturantState extends State<PageResturant>
             ),
           ];
         },
+//==================================== TabBarView ==============================
+
         body: TabBarView(controller: tabController, children: [
           for (int i = 0; i < resturant.products.length; i++)
             ListView(

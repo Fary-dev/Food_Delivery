@@ -3,10 +3,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:mjam/Widgets/listFoodGrupe.dart';
 import 'package:mjam/home_Screen_Tile/Bottom_Filter_Abholung_sort.dart';
-import 'package:mjam/myBloc/myBloc.dart';
-import 'package:mjam/resturants/resturans_liste.dart';
+import 'package:mjam/models_and_data/myBloc/myBloc.dart';
 import 'package:provider/provider.dart';
 import '../Widgets/Banr.dart';
+import 'resturants/resturans_liste.dart';
 
 class Menu extends StatefulWidget {
   Menu({Key key}) : super(key: key);
@@ -17,32 +17,39 @@ class Menu extends StatefulWidget {
 class _MenuState extends State<Menu> {
   @override
   Widget build(BuildContext context) {
-    UserLocation myBloc = Provider.of<UserLocation>(context);
+    UserLocation userLocation = Provider.of<UserLocation>(context);
     return SafeArea(
       child: Scaffold(
         appBar: AppBar(
+          automaticallyImplyLeading: false,
           backgroundColor: Colors.white,
           elevation: 0,
           centerTitle: true,
-          title: RichText(
-              text: TextSpan(children: [
-            TextSpan(
-              text: "Sofort zu ",
-              style: TextStyle(
-                color: Colors.black,
-                fontSize: 15,
-                letterSpacing: 0.5,
-                fontWeight: FontWeight.w500,
-              ),
+          title: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 15),
+            child: FittedBox(
+              fit: BoxFit.fitWidth,
+              child: RichText(
+                  text: TextSpan(children: [
+                TextSpan(
+                  text: "Sofort zu ",
+                  style: TextStyle(
+                    color: Colors.black,
+                    fontSize: 15,
+                    letterSpacing: 0.5,
+                    fontWeight: FontWeight.w500,
+                  ),
+                ),
+                TextSpan(
+                    text: userLocation.location.toString(),
+                    style: TextStyle(
+                      fontSize: 15,
+                      color: Colors.red,
+                      fontWeight: FontWeight.w500,
+                    )),
+              ])),
             ),
-            TextSpan(
-                text: myBloc.location.toString(),
-                style: TextStyle(
-                  fontSize: 15,
-                  color: Colors.red,
-                  fontWeight: FontWeight.w500,
-                )),
-          ])),
+          ),
         ),
         body: SingleChildScrollView(
           child: Column(
