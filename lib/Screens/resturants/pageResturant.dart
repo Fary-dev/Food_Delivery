@@ -247,6 +247,7 @@ class _PageResturantState extends State<PageResturant>
         body: TabBarView(controller: tabController, children: [
           for (int i = 0; i < resturant.products.length; i++)
             ListView(
+              shrinkWrap: true,
               children: [
                 Card(
                   child: Container(
@@ -287,17 +288,22 @@ class _PageResturantState extends State<PageResturant>
                                       height: 20,
                                       width: 20,
                                       decoration: BoxDecoration(
-                                          color: Colors.green[700],
+                                          border: Border.all(
+                                            color: Colors.grey,
+                                          ),
+                                          // color: Colors.green[700],
                                           borderRadius:
                                               BorderRadius.circular(3)),
-                                      //color: Colors.grey[400],
                                     ),
                                     IconButton(
                                       icon: Icon(
                                         Icons.add_sharp,
-                                        color: Colors.tealAccent[100],
+                                        color: Colors.red[700],
+                                        size: 20,
                                       ),
-                                      onPressed: () {},
+                                      onPressed: () {
+                                        addProductToSchoppingList(context);
+                                      },
                                     ),
                                   ],
                                 ),
@@ -313,4 +319,72 @@ class _PageResturantState extends State<PageResturant>
       ),
     );
   }
+}
+
+void addProductToSchoppingList(context) {
+  showModalBottomSheet(
+    backgroundColor: Colors.transparent,
+    context: context,
+    builder: (BuildContext ww) {
+      return StatefulBuilder(
+        builder: (BuildContext context, StateSetter setState) {
+          return Container(
+            height: MediaQuery.of(context).size.height,
+            width: MediaQuery.of(context).size.width,
+            decoration: BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.only(
+                topRight: Radius.circular(
+                  40,
+                ),
+                topLeft: Radius.circular(
+                  40,
+                ),
+              ),
+            ),
+            child: Column(
+              children: [
+                Container(
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 20,
+                  ),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      SizedBox(
+                        height: 20,
+                      ),
+                      Text('data'),
+                      Text('data'),
+                      SizedBox(
+                        height: 20,
+                      ),
+                      Row(
+                        children: [
+                          TextButton(
+                            onPressed: () {},
+                            child: Text(
+                              'Allergene & Zusatzstoffe',
+                              style: TextStyle(
+                                color: Colors.redAccent[400],
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
+                ),
+                Container(
+                  width: double.infinity,
+                  height: 10,
+                  color: Colors.grey[200],
+                ),
+              ],
+            ),
+          );
+        },
+      );
+    },
+  );
 }

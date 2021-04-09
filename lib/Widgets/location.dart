@@ -79,7 +79,7 @@ class _LocationSetState extends State<LocationSet> {
                 child: Text(
                   'Herzlich Willkommen',
                   style: TextStyle(
-                    fontSize: 25,
+                    fontSize: 19,
                     color: Colors.white,
                     fontWeight: FontWeight.bold,
                   ),
@@ -92,7 +92,7 @@ class _LocationSetState extends State<LocationSet> {
             Text(
               'FOODO',
               style: TextStyle(
-                fontSize: 30,
+                fontSize: 23,
                 color: Colors.white,
                 fontWeight: FontWeight.bold,
               ),
@@ -121,8 +121,8 @@ class _LocationSetState extends State<LocationSet> {
                   child: Text(
                     'Los geht\'s',
                     style: TextStyle(
-                      fontSize: 20,
-                      color: Colors.white.withOpacity(0.9),
+                      fontSize: 15,
+                      color: Colors.white,
                     ),
                   ),
                 ),
