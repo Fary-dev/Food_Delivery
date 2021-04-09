@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:mjam/Widgets/Rating.dart';
 import 'package:mjam/models_and_data/models_and_data.dart';
 
-class InfoGeschaeft extends StatelessWidget {
+class InfoResturant extends StatelessWidget {
   final Resturant resturant;
-  InfoGeschaeft(this.resturant);
+  InfoResturant(this.resturant);
   @override
   Widget build(BuildContext context) {
     return Scaffold(

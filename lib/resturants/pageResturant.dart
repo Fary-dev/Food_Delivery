@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:mjam/Widgets/search.dart';
 import 'package:mjam/Widgets/Rating.dart';
 import 'package:mjam/models_and_data/models_and_data.dart';
-import 'package:mjam/resturants/info_gesch%C3%A4fte.dart';
+import 'package:mjam/resturants/info_resturant.dart';
 
 class PageResturant extends StatefulWidget {
   final Resturant resturant;
@@ -118,7 +118,7 @@ class _PageResturantState extends State<PageResturant>
                                     context,
                                     MaterialPageRoute(
                                       builder: (context) =>
-                                          InfoGeschaeft(resturant),
+                                          InfoResturant(resturant),
                                     ));
                               },
                             ),
