@@ -3,31 +3,30 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:mjam/Widgets/search.dart';
 import 'package:mjam/Widgets/Rating.dart';
+import 'package:mjam/models_and_data/models_and_data.dart';
 import 'package:mjam/resturants/info_gesch%C3%A4fte.dart';
-import 'package:mjam/resturants/resturants_infos.dart';
-import 'package:mjam/resturants/tab_bar_view_res.dart';
 
 class PageResturant extends StatefulWidget {
-  final Res res;
-  PageResturant(this.res, {Key key}) : super(key: key);
+  final Resturant resturant;
+  PageResturant(this.resturant, {Key key}) : super(key: key);
 
   @override
-  _PageResturantState createState() => _PageResturantState(res);
+  _PageResturantState createState() => _PageResturantState(resturant);
 }
 
 class _PageResturantState extends State<PageResturant>
     with SingleTickerProviderStateMixin {
-  final Res res;
+  final Resturant resturant;
 
-  _PageResturantState(this.res);
+  _PageResturantState(this.resturant);
 
   bool likeBottumPress = false;
-  TabController controller;
-
+  TabController tabController;
   @override
   void initState() {
     super.initState();
-    controller = TabController(length: res.listTab.length, vsync: this);
+    tabController =
+        TabController(length: resturant.products.length, vsync: this);
   }
 
   @override
@@ -83,7 +82,7 @@ class _PageResturantState extends State<PageResturant>
                       width: double.infinity,
                       color: Colors.grey,
                       child: Image.asset(
-                        res.fotoR.toString(),
+                        resturant.photoResturant.toString(),
                         width: double.infinity,
                         fit: BoxFit.fitWidth,
                       ),
@@ -97,7 +96,7 @@ class _PageResturantState extends State<PageResturant>
                             padding: EdgeInsets.all(15),
                             alignment: Alignment.topLeft,
                             child: Text(
-                              res.nameR,
+                              resturant.nameResturant,
                               textAlign: TextAlign.left,
                               style: TextStyle(
                                 decoration: TextDecoration.none,
@@ -118,7 +117,8 @@ class _PageResturantState extends State<PageResturant>
                                 Navigator.push(
                                     context,
                                     MaterialPageRoute(
-                                      builder: (context) => InfoGeschaeft(res),
+                                      builder: (context) =>
+                                          InfoGeschaeft(resturant),
                                     ));
                               },
                             ),
@@ -141,7 +141,7 @@ class _PageResturantState extends State<PageResturant>
                             width: 5,
                           ),
                           Text(
-                            '(${res.nRatingR})',
+                            resturant.ratingResturant.toString(),
                             textAlign: TextAlign.left,
                             style: TextStyle(
                               decoration: TextDecoration.none,
@@ -170,7 +170,7 @@ class _PageResturantState extends State<PageResturant>
                           Container(
                             alignment: Alignment.centerLeft,
                             child: Text(
-                              " ca.${res.liferTimeR}min",
+                              " ca.${resturant.deliveryDuration}min",
                               textAlign: TextAlign.center,
                               style: TextStyle(
                                 letterSpacing: 0.4,
@@ -191,7 +191,7 @@ class _PageResturantState extends State<PageResturant>
                           Container(
                             alignment: Alignment.centerLeft,
                             child: Text(
-                              "${res.entferR} km",
+                              "${resturant.distance} km",
                               textAlign: TextAlign.center,
                               style: TextStyle(
                                 letterSpacing: 0.4,
@@ -232,16 +232,79 @@ class _PageResturantState extends State<PageResturant>
                 unselectedLabelColor: Colors.black,
                 indicatorWeight: 4,
                 tabs: [
-                  for (int i = 0; i < res.listTab.length; i++)
-                    Tab(text: res.listTab[i]),
+                  for (int i = 0; i < resturant.products.length; i++)
+                    Tab(text: resturant.products[i].nameProducts),
                 ],
-                controller: controller,
+                controller: tabController,
               ),
             ),
           ];
         },
-        body: TabBarView(controller: controller, children: [
-          for (int i = 0; i < res.listTab.length; i++) TabBarViewRes(res)
+        body: TabBarView(controller: tabController, children: [
+          for (int i = 0; i < resturant.products.length; i++)
+            ListView(
+              children: [
+                Card(
+                  child: Container(
+                      height: 100,
+                      child: Image.asset(
+                        resturant.photoResturant,
+                        fit: BoxFit.fitWidth,
+                      )),
+                ),
+                for (Product product in resturant.product)
+                  if (resturant.products[i].id == product.id)
+                    Card(
+                      child: Container(
+                        padding: EdgeInsets.only(left: 15, right: 15),
+                        height: 50,
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Row(
+                              children: [
+                                Text(
+                                  product.nameProduct,
+                                  style: TextStyle(fontWeight: FontWeight.w400),
+                                ),
+                              ],
+                            ),
+                            Row(
+                              children: [
+                                Text(
+                                  '\€ ${product.price.toString().padRight(4, "0")}',
+                                  style: TextStyle(fontWeight: FontWeight.w400),
+                                ),
+                                SizedBox(width: 10),
+                                Stack(
+                                  alignment: Alignment.center,
+                                  children: [
+                                    Container(
+                                      height: 20,
+                                      width: 20,
+                                      decoration: BoxDecoration(
+                                          color: Colors.green[700],
+                                          borderRadius:
+                                              BorderRadius.circular(3)),
+                                      //color: Colors.grey[400],
+                                    ),
+                                    IconButton(
+                                      icon: Icon(
+                                        Icons.add_sharp,
+                                        color: Colors.tealAccent[100],
+                                      ),
+                                      onPressed: () {},
+                                    ),
+                                  ],
+                                ),
+                              ],
+                            )
+                          ],
+                        ),
+                      ),
+                    ),
+              ],
+            ),
         ]),
       ),
     );

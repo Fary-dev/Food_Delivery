@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:mjam/models_and_data/models_and_data.dart';
 import 'package:mjam/resturants/pageResturant.dart';
 import 'package:mjam/Widgets/Rating.dart';
-import 'package:mjam/resturants/resturants_infos.dart';
 
 class ResturantListe extends StatefulWidget {
   ResturantListe({Key key}) : super(key: key);
@@ -16,13 +16,15 @@ class _ResturantListeState extends State<ResturantListe> {
       child: new ListView.builder(
         shrinkWrap: true,
         physics: NeverScrollableScrollPhysics(),
-        itemCount: ResturantList.length,
+        itemCount: resturants.length,
         itemBuilder: (context, index) {
-          Res res = ResturantList[index];
+          Resturant resturant = resturants[index];
           return GestureDetector(
             onTap: () {
-              Navigator.push(context,
-                  MaterialPageRoute(builder: (context) => PageResturant(res)));
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => PageResturant(resturant)));
             },
             child: Container(
               color: Colors.white,
@@ -33,7 +35,7 @@ class _ResturantListeState extends State<ResturantListe> {
                     margin: EdgeInsets.fromLTRB(15, 15, 15, 5),
                     decoration: BoxDecoration(
                         borderRadius: BorderRadius.all(Radius.circular(20))),
-                    child: Image.asset(res.fotoR,
+                    child: Image.asset(resturant.photoResturant,
                         height: 140,
                         width: MediaQuery.of(context).size.width,
                         fit: BoxFit.fitWidth),
@@ -51,7 +53,7 @@ class _ResturantListeState extends State<ResturantListe> {
                               alignment: Alignment.topLeft,
                               margin: EdgeInsets.only(left: 15),
                               child: Text(
-                                res.nameR,
+                                resturant.nameResturant,
                                 textAlign: TextAlign.center,
                                 textScaleFactor: 1.5,
                                 style: TextStyle(
@@ -65,7 +67,7 @@ class _ResturantListeState extends State<ResturantListe> {
                               alignment: Alignment.topLeft,
                               margin: EdgeInsets.only(left: 15, top: 3),
                               child: Text(
-                                res.detailR,
+                                resturant.description,
                                 textAlign: TextAlign.center,
                                 textScaleFactor: 1.0,
                                 style: TextStyle(
@@ -79,7 +81,7 @@ class _ResturantListeState extends State<ResturantListe> {
                             margin: EdgeInsets.only(right: 15),
                             height: 40,
                             width: 80,
-                            child: Image.asset(res.logoR,
+                            child: Image.asset(resturant.logoResturant,
                                 height: 20,
                                 width: MediaQuery.of(context).size.width,
                                 fit: BoxFit.contain),
@@ -102,7 +104,7 @@ class _ResturantListeState extends State<ResturantListe> {
                                 alignment: Alignment.topLeft,
                                 margin: EdgeInsets.only(left: 15, top: 7),
                                 child: Text(
-                                  res.nRatingR.toString(),
+                                  resturant.ratingResturant.toString(),
                                   textAlign: TextAlign.center,
                                   textScaleFactor: 1.0,
                                   style: TextStyle(
@@ -135,7 +137,7 @@ class _ResturantListeState extends State<ResturantListe> {
                               ),
                               Container(
                                 child: Text(
-                                  res.liferPreisR.toString(),
+                                  "\€ ${resturant.deliveryPrice.toString().padRight(4, '0')}",
                                   textAlign: TextAlign.center,
                                   textScaleFactor: 1.0,
                                   style: TextStyle(color: Colors.black),
@@ -162,7 +164,7 @@ class _ResturantListeState extends State<ResturantListe> {
                               ),
                               Container(
                                 child: Text(
-                                  res.minBestellR.toString(),
+                                  "\€ ${resturant.minimumOrder.toString().padRight(5, '0')}",
                                   textAlign: TextAlign.center,
                                   textScaleFactor: 1.0,
                                   style: TextStyle(color: Colors.black),

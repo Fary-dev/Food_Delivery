@@ -1,5 +1,3 @@
-import 'dart:async';
-
 import 'package:flutter/material.dart';
 import 'package:geocoder/geocoder.dart';
 import 'package:geolocator/geolocator.dart';
@@ -38,15 +36,6 @@ class _LocationSetState extends State<LocationSet> {
       MyBloc myBloc = Provider.of(context, listen: false);
       myBloc.setLocation('$add11 $add10, $add6 $add7');
     });
-    Timer(
-      Duration(seconds: 10),
-      () => Navigator.push(
-        context,
-        MaterialPageRoute(
-          builder: (context) => BottomNavBarWidget(),
-        ),
-      ),
-    );
   }
 
   @override
@@ -90,7 +79,7 @@ class _LocationSetState extends State<LocationSet> {
                 child: Text(
                   'Herzlich Willkommen',
                   style: TextStyle(
-                    fontSize: 30,
+                    fontSize: 25,
                     color: Colors.white,
                     fontWeight: FontWeight.bold,
                   ),
@@ -103,7 +92,7 @@ class _LocationSetState extends State<LocationSet> {
             Text(
               'FOODO',
               style: TextStyle(
-                fontSize: 40,
+                fontSize: 30,
                 color: Colors.white,
                 fontWeight: FontWeight.bold,
               ),
@@ -118,7 +107,7 @@ class _LocationSetState extends State<LocationSet> {
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(50.0),
                 ),
-                color: Colors.black.withOpacity(0.75),
+                color: Colors.redAccent[400].withOpacity(0.80),
                 onPressed: () {
                   Navigator.push(
                     context,
@@ -132,7 +121,7 @@ class _LocationSetState extends State<LocationSet> {
                   child: Text(
                     'Los geht\'s',
                     style: TextStyle(
-                      fontSize: 25,
+                      fontSize: 20,
                       color: Colors.white.withOpacity(0.9),
                     ),
                   ),

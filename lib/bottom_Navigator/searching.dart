@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:mjam/models_and_data/models_and_data.dart';
 import 'package:mjam/resturants/resturans_liste.dart';
-import 'package:mjam/resturants/resturants_infos.dart';
 
 class Searching extends StatefulWidget {
   @override
@@ -22,9 +22,9 @@ class _SearchingState extends State<Searching> {
             onChanged: (String value) {
               items.clear();
               if (value.isEmpty) {
-                items.addAll(ResturantList);
+                items.addAll(resturants);
               } else {
-                ResturantList.forEach((element) {
+                resturants.forEach((element) {
                   if (element
                       .toString()
                       .toLowerCase()

@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:mjam/Widgets/Rating.dart';
-import 'package:mjam/resturants/resturants_infos.dart';
+import 'package:mjam/models_and_data/models_and_data.dart';
 
 class InfoGeschaeft extends StatelessWidget {
-  final Res res;
-  InfoGeschaeft(this.res);
+  final Resturant resturant;
+  InfoGeschaeft(this.resturant);
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -21,7 +21,7 @@ class InfoGeschaeft extends StatelessWidget {
                 width: double.infinity,
                 color: Colors.grey,
                 child: Image.asset(
-                  res.fotoInfo.toString(),
+                  resturant.photoInfoPage.toString(),
                   fit: BoxFit.cover,
                 ),
               ),
@@ -49,7 +49,7 @@ class InfoGeschaeft extends StatelessWidget {
                   padding: EdgeInsets.all(15),
                   alignment: Alignment.topLeft,
                   child: Text(
-                    res.nameR,
+                    resturant.nameResturant,
                     textAlign: TextAlign.left,
                     style: TextStyle(
                       decoration: TextDecoration.none,
@@ -77,7 +77,7 @@ class InfoGeschaeft extends StatelessWidget {
                   width: 5,
                 ),
                 Text(
-                  '(${res.nRatingR})',
+                  resturant.ratingResturant.toString(),
                   textAlign: TextAlign.left,
                   style: TextStyle(
                     decoration: TextDecoration.none,
@@ -106,7 +106,7 @@ class InfoGeschaeft extends StatelessWidget {
                 Container(
                   alignment: Alignment.centerLeft,
                   child: Text(
-                    " ca.${res.liferTimeR}min",
+                    " ca.${resturant.deliveryDuration}min",
                     textAlign: TextAlign.center,
                     style: TextStyle(
                       letterSpacing: 0.4,
@@ -127,7 +127,7 @@ class InfoGeschaeft extends StatelessWidget {
                 Container(
                   alignment: Alignment.centerLeft,
                   child: Text(
-                    "${res.entferR} km",
+                    "${resturant.distance} km",
                     textAlign: TextAlign.center,
                     style: TextStyle(
                       letterSpacing: 0.4,
@@ -158,7 +158,7 @@ class InfoGeschaeft extends StatelessWidget {
                 Container(
                   alignment: Alignment.centerLeft,
                   child: Text(
-                    "  \€ ${res.liferPreisR}",
+                    "  \€ ${resturant.deliveryPrice}",
                     textAlign: TextAlign.center,
                     style: TextStyle(
                       letterSpacing: 0.4,
@@ -179,7 +179,7 @@ class InfoGeschaeft extends StatelessWidget {
                 Container(
                   alignment: Alignment.centerLeft,
                   child: Text(
-                    "  \€ ${res.minBestellR}",
+                    "  \€ ${resturant.deliveryPrice}",
                     textAlign: TextAlign.center,
                     style: TextStyle(
                       letterSpacing: 0.4,
@@ -209,7 +209,7 @@ class InfoGeschaeft extends StatelessWidget {
           Padding(
             padding: const EdgeInsets.only(left: 15),
             child: Text(
-              '${res.offnungZeit}',
+              '${resturant.openingTime}',
               style: TextStyle(fontSize: 14),
             ),
           ),
@@ -229,7 +229,7 @@ class InfoGeschaeft extends StatelessWidget {
           Padding(
             padding: const EdgeInsets.only(left: 15),
             child: Text(
-              '${res.adresse}',
+              resturant.address.toString(),
               style: TextStyle(fontSize: 14),
             ),
           ),
@@ -249,7 +249,7 @@ class InfoGeschaeft extends StatelessWidget {
           Padding(
             padding: const EdgeInsets.only(left: 15),
             child: Text(
-              '${res.eigentumer}',
+              resturant.owner,
               style: TextStyle(fontSize: 14),
             ),
           )
