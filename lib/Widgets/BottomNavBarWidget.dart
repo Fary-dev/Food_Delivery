@@ -4,7 +4,7 @@ import 'package:flutter/widgets.dart';
 import 'package:mjam/bottom_Navigator/FavoritScreen.dart';
 import 'package:mjam/bottom_Navigator/Profil.dart';
 import 'package:mjam/Screens/Menu.dart';
-import 'package:mjam/bottom_Navigator/WarenKorbe.dart';
+import 'package:mjam/bottom_Navigator/shopping_carts.dart';
 import 'package:mjam/bottom_Navigator/searching.dart';
 import 'package:mjam/models_and_data/Icons_Fonts/font1.dart';
 
@@ -23,7 +23,7 @@ class _BottomNavBarWidgetState extends State<BottomNavBarWidget> {
     Menu(),
     Searching(),
     FavoritScreen(),
-    WarenKorbe(),
+    ShoppingCarts(),
     Profil(),
   ];
   void _onPageChanged(int index) {

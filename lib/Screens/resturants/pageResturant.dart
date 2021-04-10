@@ -601,12 +601,36 @@ class _PageResturantState extends State<PageResturant>
                                                           padding:
                                                               const EdgeInsets
                                                                       .symmetric(
-                                                                  vertical: 20),
+                                                                  vertical: 15),
                                                           child: Row(
                                                             mainAxisAlignment:
                                                                 MainAxisAlignment
-                                                                    .center,
+                                                                    .spaceBetween,
                                                             children: [
+                                                              Container(
+                                                                height: 40,
+                                                                width: 40,
+                                                                decoration:
+                                                                    BoxDecoration(
+                                                                  shape: BoxShape
+                                                                      .circle,
+                                                                  color: Colors
+                                                                      .white,
+                                                                ),
+                                                                child: Center(
+                                                                  child: Text(
+                                                                    '1',
+                                                                    style:
+                                                                        TextStyle(
+                                                                      fontSize:
+                                                                          18,
+                                                                      color: Colors
+                                                                              .redAccent[
+                                                                          400],
+                                                                    ),
+                                                                  ),
+                                                                ),
+                                                              ),
                                                               Text(
                                                                 'HINZUFÜGEN',
                                                                 style:
@@ -616,24 +640,13 @@ class _PageResturantState extends State<PageResturant>
                                                                       .white,
                                                                 ),
                                                               ),
-                                                              SizedBox(
-                                                                width: 20,
-                                                              ),
-                                                              Padding(
-                                                                padding:
-                                                                    const EdgeInsets
-                                                                        .only(
-                                                                  right: 0,
-                                                                ),
-                                                                child: Text(
-                                                                  '\€ ${product.price.toString().padRight(4, "0")}',
-                                                                  style:
-                                                                      TextStyle(
-                                                                    fontSize:
-                                                                        15,
-                                                                    color: Colors
-                                                                        .white,
-                                                                  ),
+                                                              Text(
+                                                                '\€ ${product.price.toString().padRight(4, "0")}',
+                                                                style:
+                                                                    TextStyle(
+                                                                  fontSize: 15,
+                                                                  color: Colors
+                                                                      .white,
                                                                 ),
                                                               ),
                                                             ],
