@@ -302,9 +302,353 @@ class _PageResturantState extends State<PageResturant>
                                         size: 20,
                                       ),
                                       onPressed: () {
-                                        addProductToSchoppingList(context);
+                                        showModalBottomSheet(
+                                          enableDrag: true,
+                                          backgroundColor: Colors.transparent,
+                                          context: context,
+                                          builder: (BuildContext ww) {
+                                            return StatefulBuilder(builder:
+                                                (BuildContext context,
+                                                    StateSetter setState) {
+                                              return Container(
+                                                constraints: BoxConstraints(
+                                                  maxHeight:
+                                                      MediaQuery.of(context)
+                                                              .size
+                                                              .height +
+                                                          6 / 2.5,
+                                                ),
+                                                width: MediaQuery.of(context)
+                                                    .size
+                                                    .width,
+                                                decoration: BoxDecoration(
+                                                  color: Colors.white,
+                                                  borderRadius:
+                                                      BorderRadius.only(
+                                                    topRight: Radius.circular(
+                                                      20,
+                                                    ),
+                                                    topLeft: Radius.circular(
+                                                      20,
+                                                    ),
+                                                  ),
+                                                ),
+                                                child: Column(
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment.start,
+                                                  children: [
+//==================================================================================== Product Name =======================
+                                                    Expanded(
+                                                      flex: 1,
+                                                      child: Container(
+                                                        padding:
+                                                            const EdgeInsets
+                                                                .symmetric(
+                                                          horizontal: 20,
+                                                        ),
+                                                        child: Column(
+                                                          crossAxisAlignment:
+                                                              CrossAxisAlignment
+                                                                  .start,
+                                                          children: [
+                                                            SizedBox(
+                                                              height: 5,
+                                                            ),
+                                                            Row(
+                                                              mainAxisAlignment:
+                                                                  MainAxisAlignment
+                                                                      .spaceBetween,
+                                                              children: [
+                                                                Text(
+                                                                  product
+                                                                      .nameProduct,
+                                                                  style:
+                                                                      TextStyle(
+                                                                    fontSize:
+                                                                        15,
+                                                                    fontWeight:
+                                                                        FontWeight
+                                                                            .w500,
+                                                                  ),
+                                                                ),
+                                                                IconButton(
+                                                                  icon: Icon(
+                                                                    Icons
+                                                                        .cancel,
+                                                                  ),
+                                                                  onPressed:
+                                                                      () {
+                                                                    Navigator.pop(
+                                                                        context);
+                                                                  },
+                                                                ),
+                                                              ],
+                                                            ),
+                                                            Text(
+                                                              'subTitle',
+                                                              style: TextStyle(
+                                                                fontSize: 12,
+                                                                color: Colors
+                                                                    .black45,
+                                                              ),
+                                                            ),
+                                                            SizedBox(
+                                                              height: 5,
+                                                            ),
+                                                          ],
+                                                        ),
+                                                      ),
+                                                    ),
+
+//======================================================================== Allergene & Zusatzstoffe =======================
+                                                    Expanded(
+                                                      flex: 1,
+                                                      child: Padding(
+                                                        padding:
+                                                            const EdgeInsets
+                                                                .symmetric(
+                                                          horizontal: 20,
+                                                        ),
+                                                        child: Row(
+                                                          children: [
+                                                            Icon(
+                                                              Icons
+                                                                  .error_outline_sharp,
+                                                              color: Colors
+                                                                      .redAccent[
+                                                                  400],
+                                                            ),
+                                                            TextButton(
+                                                              onPressed: () {},
+                                                              child: Text(
+                                                                'Allergene & Zusatzstoffe',
+                                                                style:
+                                                                    TextStyle(
+                                                                  color: Colors
+                                                                          .redAccent[
+                                                                      400],
+                                                                ),
+                                                              ),
+                                                            ),
+                                                          ],
+                                                        ),
+                                                      ),
+                                                    ),
+                                                    Container(
+                                                      width: double.infinity,
+                                                      height: 10,
+                                                      color: Colors.grey[200],
+                                                    ),
+//=================================================================================== Extraauflagen =======================
+                                                    Expanded(
+                                                      flex: 1,
+                                                      child: Padding(
+                                                        padding:
+                                                            const EdgeInsets
+                                                                .symmetric(
+                                                          vertical: 8,
+                                                        ),
+                                                        // ignore: deprecated_member_use
+                                                        child: FlatButton(
+                                                          onPressed: () {},
+                                                          child: Row(
+                                                            mainAxisAlignment:
+                                                                MainAxisAlignment
+                                                                    .spaceBetween,
+                                                            children: [
+                                                              Column(
+                                                                crossAxisAlignment:
+                                                                    CrossAxisAlignment
+                                                                        .start,
+                                                                children: [
+                                                                  Text(
+                                                                    '1. Extraauflagen',
+                                                                    style:
+                                                                        TextStyle(
+                                                                      fontSize:
+                                                                          14,
+                                                                    ),
+                                                                  ),
+                                                                  Text(
+                                                                    'Optional',
+                                                                    style:
+                                                                        TextStyle(
+                                                                      fontSize:
+                                                                          12,
+                                                                      color: Colors
+                                                                          .black26,
+                                                                    ),
+                                                                  ),
+                                                                ],
+                                                              ),
+                                                              Icon(
+                                                                Icons
+                                                                    .keyboard_arrow_down_outlined,
+                                                                color: Colors
+                                                                        .redAccent[
+                                                                    400],
+                                                                size: 50,
+                                                              )
+                                                            ],
+                                                          ),
+                                                        ),
+                                                      ),
+                                                    ),
+
+                                                    Container(
+                                                      color: Colors.grey[200],
+                                                      height: 2,
+                                                      width:
+                                                          MediaQuery.of(context)
+                                                              .size
+                                                              .width,
+                                                    ),
+
+//============================================================================ Kommentare hinzufügen =======================
+                                                    Expanded(
+                                                      flex: 1,
+                                                      child: Padding(
+                                                        padding:
+                                                            const EdgeInsets
+                                                                .symmetric(
+                                                          vertical: 10,
+                                                        ),
+                                                        // ignore: deprecated_member_use
+                                                        child: FlatButton(
+                                                          onPressed: () {},
+                                                          child: Row(
+                                                            children: [
+                                                              Icon(
+                                                                Icons
+                                                                    .comment_rounded,
+                                                                size: 25,
+                                                                color: Colors
+                                                                        .redAccent[
+                                                                    400],
+                                                              ),
+                                                              Text(
+                                                                'Kommentar hinzufügen',
+                                                                style:
+                                                                    TextStyle(
+                                                                  color: Colors
+                                                                          .redAccent[
+                                                                      400],
+                                                                  fontSize: 14,
+                                                                ),
+                                                              ),
+                                                            ],
+                                                          ),
+                                                        ),
+                                                      ),
+                                                    ),
+                                                    Container(
+                                                      color: Colors.grey[200],
+                                                      height: 2,
+                                                      width:
+                                                          MediaQuery.of(context)
+                                                              .size
+                                                              .width,
+                                                    ),
+//========================================================================================= - and + =======================
+                                                    Expanded(
+                                                      flex: 1,
+                                                      child: Row(
+                                                        mainAxisAlignment:
+                                                            MainAxisAlignment
+                                                                .center,
+                                                        children: [
+                                                          Icon(
+                                                            Icons
+                                                                .do_disturb_on_outlined,
+                                                            size: 50,
+                                                            color: Colors
+                                                                .grey[200],
+                                                          ),
+                                                          Padding(
+                                                            padding:
+                                                                const EdgeInsets
+                                                                        .symmetric(
+                                                                    horizontal:
+                                                                        20),
+                                                            child: Text(
+                                                              '1',
+                                                              style: TextStyle(
+                                                                fontSize: 20,
+                                                              ),
+                                                            ),
+                                                          ),
+                                                          Icon(
+                                                            Icons
+                                                                .add_circle_outline_sharp,
+                                                            size: 50,
+                                                            color: Colors
+                                                                .redAccent[400],
+                                                          ),
+                                                        ],
+                                                      ),
+                                                    ),
+
+//==================================================================================== HINZUFÜGEN =========================
+
+                                                    Expanded(
+                                                      flex: 1,
+                                                      // ignore: deprecated_member_use
+                                                      child: FlatButton(
+                                                        color: Colors
+                                                            .redAccent[400],
+                                                        onPressed: () {},
+                                                        child: Padding(
+                                                          padding:
+                                                              const EdgeInsets
+                                                                      .symmetric(
+                                                                  vertical: 20),
+                                                          child: Row(
+                                                            mainAxisAlignment:
+                                                                MainAxisAlignment
+                                                                    .center,
+                                                            children: [
+                                                              Text(
+                                                                'HINZUFÜGEN',
+                                                                style:
+                                                                    TextStyle(
+                                                                  fontSize: 15,
+                                                                  color: Colors
+                                                                      .white,
+                                                                ),
+                                                              ),
+                                                              SizedBox(
+                                                                width: 20,
+                                                              ),
+                                                              Padding(
+                                                                padding:
+                                                                    const EdgeInsets
+                                                                        .only(
+                                                                  right: 0,
+                                                                ),
+                                                                child: Text(
+                                                                  '\€ ${product.price.toString().padRight(4, "0")}',
+                                                                  style:
+                                                                      TextStyle(
+                                                                    fontSize:
+                                                                        15,
+                                                                    color: Colors
+                                                                        .white,
+                                                                  ),
+                                                                ),
+                                                              ),
+                                                            ],
+                                                          ),
+                                                        ),
+                                                      ),
+                                                    ),
+                                                  ],
+                                                ),
+                                              );
+                                            });
+                                          },
+                                        );
                                       },
-                                    ),
+                                    )
                                   ],
                                 ),
                               ],
@@ -321,70 +665,70 @@ class _PageResturantState extends State<PageResturant>
   }
 }
 
-void addProductToSchoppingList(context) {
-  showModalBottomSheet(
-    backgroundColor: Colors.transparent,
-    context: context,
-    builder: (BuildContext ww) {
-      return StatefulBuilder(
-        builder: (BuildContext context, StateSetter setState) {
-          return Container(
-            height: MediaQuery.of(context).size.height,
-            width: MediaQuery.of(context).size.width,
-            decoration: BoxDecoration(
-              color: Colors.white,
-              borderRadius: BorderRadius.only(
-                topRight: Radius.circular(
-                  40,
-                ),
-                topLeft: Radius.circular(
-                  40,
-                ),
-              ),
-            ),
-            child: Column(
-              children: [
-                Container(
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: 20,
-                  ),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      SizedBox(
-                        height: 20,
-                      ),
-                      Text('data'),
-                      Text('data'),
-                      SizedBox(
-                        height: 20,
-                      ),
-                      Row(
-                        children: [
-                          TextButton(
-                            onPressed: () {},
-                            child: Text(
-                              'Allergene & Zusatzstoffe',
-                              style: TextStyle(
-                                color: Colors.redAccent[400],
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ],
-                  ),
-                ),
-                Container(
-                  width: double.infinity,
-                  height: 10,
-                  color: Colors.grey[200],
-                ),
-              ],
-            ),
-          );
-        },
-      );
-    },
-  );
-}
+// void addProductToSchoppingList(context) {
+//   showModalBottomSheet(
+//     backgroundColor: Colors.transparent,
+//     context: context,
+//     builder: (BuildContext ww) {
+//       return StatefulBuilder(
+//         builder: (BuildContext context, StateSetter setState) {
+//           return Container(
+//             height: MediaQuery.of(context).size.height * 0.70,
+//             width: MediaQuery.of(context).size.width,
+//             decoration: BoxDecoration(
+//               color: Colors.white,
+//               borderRadius: BorderRadius.only(
+//                 topRight: Radius.circular(
+//                   40,
+//                 ),
+//                 topLeft: Radius.circular(
+//                   40,
+//                 ),
+//               ),
+//             ),
+//             child: Column(
+//               children: [
+//                 Container(
+//                   padding: const EdgeInsets.symmetric(
+//                     horizontal: 20,
+//                   ),
+//                   child: Column(
+//                     crossAxisAlignment: CrossAxisAlignment.start,
+//                     children: [
+//                       SizedBox(
+//                         height: 20,
+//                       ),
+//                       Text('nameProduct'),
+//                       Text('subTitle'),
+//                       SizedBox(
+//                         height: 20,
+//                       ),
+//                       Row(
+//                         children: [
+//                           TextButton(
+//                             onPressed: () {},
+//                             child: Text(
+//                               'Allergene & Zusatzstoffe',
+//                               style: TextStyle(
+//                                 color: Colors.redAccent[400],
+//                               ),
+//                             ),
+//                           ),
+//                         ],
+//                       ),
+//                     ],
+//                   ),
+//                 ),
+//                 Container(
+//                   width: double.infinity,
+//                   height: 10,
+//                   color: Colors.grey[200],
+//                 ),
+//               ],
+//             ),
+//           );
+//         },
+//       );
+//     },
+//   );
+// }
