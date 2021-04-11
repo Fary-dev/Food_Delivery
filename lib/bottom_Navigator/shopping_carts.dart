@@ -4,7 +4,9 @@ import 'package:flutter/rendering.dart';
 import 'package:mjam/Screens/HomePage.dart';
 
 class ShoppingCarts extends StatefulWidget {
-  ShoppingCarts({Key key}) : super(key: key);
+  ShoppingCarts({
+    Key key,
+  }) : super(key: key);
 
   @override
   _ShoppingCartsState createState() => _ShoppingCartsState();
@@ -121,7 +123,7 @@ class _ShoppingCartsState extends State<ShoppingCarts> {
                         Text(
                           'Pizza Salami',
                         ),
-                        Text('\€ 19.50')
+                        Text('\€ 19.50'),
                       ],
                     ),
                   ),

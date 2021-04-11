@@ -3,6 +3,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:mjam/Widgets/search.dart';
 import 'package:mjam/Widgets/Rating.dart';
+import 'package:mjam/bottom_Navigator/shopping_carts.dart';
 import 'package:mjam/models_and_data/models_and_data.dart';
 
 import 'info_resturant.dart';
@@ -23,7 +24,7 @@ class _PageResturantState extends State<PageResturant>
 
   bool likeBottumPress = false;
   TabController tabController;
-  String changeText = 'HINZUFÜGEN';
+  String changeText;
 
   @override
   void initState() {
@@ -34,10 +35,15 @@ class _PageResturantState extends State<PageResturant>
 
   int showItemsCurrentOfProduct = 0;
   int itemCurrent = 1;
-  double addPrice;
+  double addPrice = 0;
   void subItems(int a, double b) {
     // ignore: unused_local_variable
     double c = a + b;
+  }
+
+  void malItem(int a, double b) {
+    double d = a * b;
+    addPrice = addPrice + d;
   }
 
   @override
@@ -639,7 +645,12 @@ class _PageResturantState extends State<PageResturant>
                                                                     'WARENKORB ÖFFNEN'
                                                                 : changeText =
                                                                     'HINZUFÜGEN';
+                                                            malItem(itemCurrent,
+                                                                product.price);
+
                                                             itemCurrent = 1;
+                                                            Navigator.pop(
+                                                                context);
                                                           });
                                                         },
                                                         child: Padding(
@@ -685,7 +696,8 @@ class _PageResturantState extends State<PageResturant>
                                                                 ),
                                                               ),
                                                               Text(
-                                                                changeText,
+                                                                changeText =
+                                                                    'HINZUFÜGEN',
                                                                 style:
                                                                     TextStyle(
                                                                   fontSize: 15,
@@ -735,6 +747,70 @@ class _PageResturantState extends State<PageResturant>
             ),
         ]),
       ),
+      bottomSheet: showItemsCurrentOfProduct >= 1
+          ? Container(
+              height: 74,
+              width: MediaQuery.of(context).size.width,
+              color: Colors.redAccent[400],
+              // ignore: deprecated_member_use
+              child: FlatButton(
+                color: Colors.redAccent[400],
+                onPressed: () {
+                  setState(() {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => ShoppingCarts(),
+                      ),
+                    );
+                  });
+                },
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 15),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Container(
+                        height: 40,
+                        width: 40,
+                        decoration: BoxDecoration(
+                          shape: BoxShape.circle,
+                          color: showItemsCurrentOfProduct == 0
+                              ? Colors.redAccent[400]
+                              : Colors.white,
+                        ),
+                        child: Center(
+                          child: Text(
+                            showItemsCurrentOfProduct.toString(),
+                            style: TextStyle(
+                              fontSize: 18,
+                              color: Colors.redAccent[400],
+                            ),
+                          ),
+                        ),
+                      ),
+                      Text(
+                        changeText = 'WARENKORB ÖFFNEN',
+                        style: TextStyle(
+                          fontSize: 15,
+                          color: Colors.white,
+                        ),
+                      ),
+                      Text(
+                        addPrice == null
+                            ? ''
+                            : addPrice.toString().padRight(5, '0'),
+                        style: TextStyle(
+                          fontSize: 15,
+                          color: Colors.white,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            )
+          : Text(''),
     );
   }
 }
