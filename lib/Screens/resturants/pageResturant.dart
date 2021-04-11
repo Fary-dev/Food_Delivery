@@ -23,6 +23,8 @@ class _PageResturantState extends State<PageResturant>
 
   bool likeBottumPress = false;
   TabController tabController;
+  String changeText = 'HINZUFÜGEN';
+
   @override
   void initState() {
     super.initState();
@@ -30,9 +32,16 @@ class _PageResturantState extends State<PageResturant>
         TabController(length: resturant.products.length, vsync: this);
   }
 
+  int showItemsCurrentOfProduct = 0;
+  int itemCurrent = 1;
+  double addPrice;
+  void subItems(int a, double b) {
+    // ignore: unused_local_variable
+    double c = a + b;
+  }
+
   @override
   Widget build(BuildContext context) {
-    // ignore: non_constant_identifier_names
     return Scaffold(
       body: NestedScrollView(
         headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
@@ -306,18 +315,14 @@ class _PageResturantState extends State<PageResturant>
                                           enableDrag: true,
                                           backgroundColor: Colors.transparent,
                                           context: context,
-                                          builder: (BuildContext ww) {
+                                          builder: (BuildContext context) {
                                             return StatefulBuilder(builder:
                                                 (BuildContext context,
                                                     StateSetter setState) {
                                               return Container(
-                                                constraints: BoxConstraints(
-                                                  maxHeight:
-                                                      MediaQuery.of(context)
-                                                              .size
-                                                              .height +
-                                                          6 / 2.5,
-                                                ),
+                                                height: MediaQuery.of(context)
+                                                    .size
+                                                    .height,
                                                 width: MediaQuery.of(context)
                                                     .size
                                                     .width,
@@ -557,12 +562,26 @@ class _PageResturantState extends State<PageResturant>
                                                             MainAxisAlignment
                                                                 .center,
                                                         children: [
-                                                          Icon(
-                                                            Icons
-                                                                .do_disturb_on_outlined,
-                                                            size: 50,
-                                                            color: Colors
-                                                                .grey[200],
+                                                          IconButton(
+                                                            onPressed: () {
+                                                              setState(() {
+                                                                itemCurrent > 1
+                                                                    ? itemCurrent--
+                                                                    : itemCurrent =
+                                                                        itemCurrent;
+                                                              });
+                                                            },
+                                                            icon: Icon(
+                                                              Icons
+                                                                  .do_disturb_on_outlined,
+                                                              size: 50,
+                                                              color: itemCurrent ==
+                                                                      1
+                                                                  ? Colors
+                                                                      .grey[200]
+                                                                  : Colors.redAccent[
+                                                                      400],
+                                                            ),
                                                           ),
                                                           Padding(
                                                             padding:
@@ -571,18 +590,31 @@ class _PageResturantState extends State<PageResturant>
                                                                     horizontal:
                                                                         20),
                                                             child: Text(
-                                                              '1',
+                                                              itemCurrent
+                                                                  .toString(),
                                                               style: TextStyle(
                                                                 fontSize: 20,
                                                               ),
                                                             ),
                                                           ),
-                                                          Icon(
-                                                            Icons
-                                                                .add_circle_outline_sharp,
-                                                            size: 50,
-                                                            color: Colors
-                                                                .redAccent[400],
+                                                          IconButton(
+                                                            onPressed: () {
+                                                              setState(() {
+                                                                itemCurrent++;
+                                                                subItems(
+                                                                    itemCurrent,
+                                                                    product
+                                                                        .price);
+                                                              });
+                                                            },
+                                                            icon: Icon(
+                                                              Icons
+                                                                  .add_circle_outline_sharp,
+                                                              size: 50,
+                                                              color: Colors
+                                                                      .redAccent[
+                                                                  400],
+                                                            ),
                                                           ),
                                                         ],
                                                       ),
@@ -596,7 +628,20 @@ class _PageResturantState extends State<PageResturant>
                                                       child: FlatButton(
                                                         color: Colors
                                                             .redAccent[400],
-                                                        onPressed: () {},
+                                                        onPressed: () {
+                                                          setState(() {
+                                                            showItemsCurrentOfProduct =
+                                                                (showItemsCurrentOfProduct +
+                                                                    itemCurrent);
+                                                            showItemsCurrentOfProduct !=
+                                                                    null
+                                                                ? changeText =
+                                                                    'WARENKORB ÖFFNEN'
+                                                                : changeText =
+                                                                    'HINZUFÜGEN';
+                                                            itemCurrent = 1;
+                                                          });
+                                                        },
                                                         child: Padding(
                                                           padding:
                                                               const EdgeInsets
@@ -614,12 +659,20 @@ class _PageResturantState extends State<PageResturant>
                                                                     BoxDecoration(
                                                                   shape: BoxShape
                                                                       .circle,
-                                                                  color: Colors
-                                                                      .white,
+                                                                  color: showItemsCurrentOfProduct ==
+                                                                          0
+                                                                      ? Colors.redAccent[
+                                                                          400]
+                                                                      : Colors
+                                                                          .white,
                                                                 ),
                                                                 child: Center(
                                                                   child: Text(
-                                                                    '1',
+                                                                    showItemsCurrentOfProduct ==
+                                                                            0
+                                                                        ? ''
+                                                                        : showItemsCurrentOfProduct
+                                                                            .toString(),
                                                                     style:
                                                                         TextStyle(
                                                                       fontSize:
@@ -632,7 +685,7 @@ class _PageResturantState extends State<PageResturant>
                                                                 ),
                                                               ),
                                                               Text(
-                                                                'HINZUFÜGEN',
+                                                                changeText,
                                                                 style:
                                                                     TextStyle(
                                                                   fontSize: 15,
@@ -641,7 +694,15 @@ class _PageResturantState extends State<PageResturant>
                                                                 ),
                                                               ),
                                                               Text(
-                                                                '\€ ${product.price.toString().padRight(4, "0")}',
+                                                                itemCurrent == 1
+                                                                    ? '\€ ${product.price.toString().padRight(4, "0")}'
+                                                                    : (itemCurrent *
+                                                                            product
+                                                                                .price)
+                                                                        .toString()
+                                                                        .padRight(
+                                                                            5,
+                                                                            '0'),
                                                                 style:
                                                                     TextStyle(
                                                                   fontSize: 15,
@@ -677,71 +738,3 @@ class _PageResturantState extends State<PageResturant>
     );
   }
 }
-
-// void addProductToSchoppingList(context) {
-//   showModalBottomSheet(
-//     backgroundColor: Colors.transparent,
-//     context: context,
-//     builder: (BuildContext ww) {
-//       return StatefulBuilder(
-//         builder: (BuildContext context, StateSetter setState) {
-//           return Container(
-//             height: MediaQuery.of(context).size.height * 0.70,
-//             width: MediaQuery.of(context).size.width,
-//             decoration: BoxDecoration(
-//               color: Colors.white,
-//               borderRadius: BorderRadius.only(
-//                 topRight: Radius.circular(
-//                   40,
-//                 ),
-//                 topLeft: Radius.circular(
-//                   40,
-//                 ),
-//               ),
-//             ),
-//             child: Column(
-//               children: [
-//                 Container(
-//                   padding: const EdgeInsets.symmetric(
-//                     horizontal: 20,
-//                   ),
-//                   child: Column(
-//                     crossAxisAlignment: CrossAxisAlignment.start,
-//                     children: [
-//                       SizedBox(
-//                         height: 20,
-//                       ),
-//                       Text('nameProduct'),
-//                       Text('subTitle'),
-//                       SizedBox(
-//                         height: 20,
-//                       ),
-//                       Row(
-//                         children: [
-//                           TextButton(
-//                             onPressed: () {},
-//                             child: Text(
-//                               'Allergene & Zusatzstoffe',
-//                               style: TextStyle(
-//                                 color: Colors.redAccent[400],
-//                               ),
-//                             ),
-//                           ),
-//                         ],
-//                       ),
-//                     ],
-//                   ),
-//                 ),
-//                 Container(
-//                   width: double.infinity,
-//                   height: 10,
-//                   color: Colors.grey[200],
-//                 ),
-//               ],
-//             ),
-//           );
-//         },
-//       );
-//     },
-//   );
-// }

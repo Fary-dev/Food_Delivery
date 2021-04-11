@@ -17,7 +17,7 @@ class Menu extends StatefulWidget {
 class _MenuState extends State<Menu> {
   @override
   Widget build(BuildContext context) {
-    UserLocation userLocation = Provider.of<UserLocation>(context);
+    MyBlock userLocation = Provider.of<MyBlock>(context);
     return SafeArea(
       child: Scaffold(
         appBar: AppBar(

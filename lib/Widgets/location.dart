@@ -33,7 +33,7 @@ class _LocationSetState extends State<LocationSet> {
       add7 = address.first.postalCode;
       add10 = address.first.subThoroughfare;
       add11 = address.first.thoroughfare;
-      UserLocation myBloc = Provider.of(context, listen: false);
+      MyBlock myBloc = Provider.of(context, listen: false);
       myBloc.setLocation('$add11 $add10, $add6 $add7');
     });
   }

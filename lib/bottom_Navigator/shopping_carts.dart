@@ -15,7 +15,6 @@ class _ShoppingCartsState extends State<ShoppingCarts> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     setState(() {
       isEmpty = true;
