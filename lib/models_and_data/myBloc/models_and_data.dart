@@ -263,7 +263,7 @@ class Product extends Products {
     @required this.id,
     @required this.nameProduct,
     this.price,
-    @required this.isNoVeg,
+    this.isNoVeg,
     this.allergy,
   });
 }

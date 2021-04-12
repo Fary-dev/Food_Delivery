@@ -1,3 +1,4 @@
+import 'dart:core';
 import 'package:flutter/cupertino.dart';
 
 class MyBloc extends ChangeNotifier {
@@ -8,6 +9,4 @@ class MyBloc extends ChangeNotifier {
   void setLocation(String value) {
     _location = value;
   }
-//======================== shopping Cart  model ================================
-
 }
