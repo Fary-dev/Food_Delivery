@@ -24,9 +24,8 @@ class _PageResturantState extends State<PageResturant>
 
   bool likeBottumPress = false;
   TabController tabController;
-
-  int showItemsCurrentOfProduct = 0;
-  int itemCurrent = 1;
+  int totalProduct = 0;
+  int itemCunt = 1;
   double addPrice = 0;
   String changeText;
   void subItems(int a, double b) {
@@ -508,17 +507,17 @@ class _PageResturantState extends State<PageResturant>
                                                   IconButton(
                                                     onPressed: () {
                                                       setState(() {
-                                                        itemCurrent > 1
-                                                            ? itemCurrent--
-                                                            : itemCurrent =
-                                                                itemCurrent;
+                                                        itemCunt > 1
+                                                            ? itemCunt--
+                                                            : itemCunt =
+                                                                itemCunt;
                                                       });
                                                     },
                                                     icon: Icon(
                                                       Icons
                                                           .do_disturb_on_outlined,
                                                       size: 40,
-                                                      color: itemCurrent == 1
+                                                      color: itemCunt == 1
                                                           ? Colors.grey[200]
                                                           : Colors
                                                               .redAccent[400],
@@ -529,7 +528,7 @@ class _PageResturantState extends State<PageResturant>
                                                             .symmetric(
                                                         horizontal: 20),
                                                     child: Text(
-                                                      itemCurrent.toString(),
+                                                      itemCunt.toString(),
                                                       style: TextStyle(
                                                         fontSize: 20,
                                                       ),
@@ -538,8 +537,8 @@ class _PageResturantState extends State<PageResturant>
                                                   IconButton(
                                                     onPressed: () {
                                                       setState(() {
-                                                        itemCurrent++;
-                                                        subItems(itemCurrent,
+                                                        itemCunt++;
+                                                        subItems(itemCunt,
                                                             product.price);
                                                       });
                                                     },
@@ -564,19 +563,18 @@ class _PageResturantState extends State<PageResturant>
                                                 color: Colors.redAccent[400],
                                                 onPressed: () {
                                                   setState(() {
-                                                    showItemsCurrentOfProduct =
-                                                        (showItemsCurrentOfProduct +
-                                                            itemCurrent);
-                                                    showItemsCurrentOfProduct !=
-                                                            null
+                                                    totalProduct =
+                                                        (totalProduct +
+                                                            itemCunt);
+                                                    totalProduct != null
                                                         ? changeText =
                                                             'WARENKORB ÖFFNEN'
                                                         : changeText =
                                                             'HINZUFÜGEN';
-                                                    malItem(itemCurrent,
+                                                    malItem(itemCunt,
                                                         product.price);
 
-                                                    itemCurrent = 1;
+                                                    itemCunt = 1;
                                                     Navigator.pop(context);
                                                   });
                                                 },
@@ -618,9 +616,9 @@ class _PageResturantState extends State<PageResturant>
                                                         ),
                                                       ),
                                                       Text(
-                                                        itemCurrent == 1
+                                                        itemCunt == 1
                                                             ? '\€ ${product.price.toString().padRight(4, "0")}'
-                                                            : (itemCurrent *
+                                                            : (itemCunt *
                                                                     product
                                                                         .price)
                                                                 .toString()
@@ -697,7 +695,7 @@ class _PageResturantState extends State<PageResturant>
             ),
         ]),
       ),
-      bottomSheet: showItemsCurrentOfProduct >= 1
+      bottomSheet: totalProduct >= 1
           ? Container(
               height: 74,
               width: MediaQuery.of(context).size.width,
@@ -725,13 +723,13 @@ class _PageResturantState extends State<PageResturant>
                         width: 40,
                         decoration: BoxDecoration(
                           shape: BoxShape.circle,
-                          color: showItemsCurrentOfProduct == 0
+                          color: totalProduct == 0
                               ? Colors.redAccent[400]
                               : Colors.white,
                         ),
                         child: Center(
                           child: Text(
-                            showItemsCurrentOfProduct.toString(),
+                            totalProduct.toString(),
                             style: TextStyle(
                               fontSize: 18,
                               color: Colors.redAccent[400],
