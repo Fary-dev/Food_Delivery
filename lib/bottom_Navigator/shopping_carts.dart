@@ -1,7 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
-import 'package:mjam/Screens/HomePage.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:mjam/models_and_data/myBloc/models_and_data.dart';
+import 'package:mjam/models_and_data/myBloc/productBloc.dart';
 
 class ShoppingCarts extends StatefulWidget {
   ShoppingCarts({
@@ -13,16 +15,6 @@ class ShoppingCarts extends StatefulWidget {
 }
 
 class _ShoppingCartsState extends State<ShoppingCarts> {
-  bool isEmpty;
-
-  @override
-  void initState() {
-    super.initState();
-    setState(() {
-      isEmpty = true;
-    });
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -58,97 +50,128 @@ class _ShoppingCartsState extends State<ShoppingCarts> {
               )
             ],
           )),
-      body: isEmpty == false
-          ? Center(
-              child: Column(
-                children: <Widget>[
-                  Container(
-                    margin: EdgeInsets.all(60),
-                    child: Text('Bitte lege etwas in den Warenkorb.'),
-                  ),
-                  Container(
-                    height: 80,
-                    width: 80,
-                    margin: EdgeInsets.all(0),
-                    child: Image.asset('assets/korb.png'),
-                  ),
-                  Container(
-                      child: CupertinoButton(
-                    child: new Text(
-                      "Zur Resturantliste",
-                      textAlign: TextAlign.center,
-                      style: new TextStyle(color: Colors.red[700]),
-                    ),
-                    onPressed: () {
-                      Navigator.push(context,
-                          MaterialPageRoute(builder: (context) {
-                        return HomePage();
-                      }));
-                    },
-                  )),
-                ],
-              ),
-            )
-          : ListView(
-              children: [
-                Container(
-                  padding: EdgeInsets.only(top: 10),
-                  color: Colors.white,
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: 15,
-                    ),
-                    child: Text(
-                      'Name Resturant',
-                      style: TextStyle(
-                        fontSize: 13,
-                        fontWeight: FontWeight.w500,
-                      ),
-                    ),
-                  ),
-                ),
-
-                Container(
-                  padding: EdgeInsets.symmetric(
-                    vertical: 10,
-                  ),
-                  color: Colors.white,
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: 15,
-                    ),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Text(
-                          'Pizza Salami',
-                        ),
-                        Text('\€ 19.50'),
-                      ],
-                    ),
-                  ),
-                ),
-                Container(
-                  width: MediaQuery.of(context).size.width,
-                  height: 0.5,
-                  color: Colors.grey[400],
-                ),
-                // ignore: deprecated_member_use
-                FlatButton(
-                    color: Colors.white,
-                    onPressed: () {},
-                    child: Padding(
-                      padding: const EdgeInsets.all(15),
-                      child: Text(
-                        'WARENKORB ANZEIGEN',
-                        style: TextStyle(
-                          color: Colors.redAccent[400],
-                          fontSize: 13,
-                        ),
-                      ),
-                    ))
-              ],
+      body: Column(
+        children: [
+          Expanded(
+            child: BlocBuilder<ProductBloc, BlocState>(
+              builder: (context, state) => state is LodingState
+                  ? CupertinoActivityIndicator()
+                  : state is FailState
+                      ? Center(
+                          child: Text('${state.fail}'),
+                        )
+                      : state is SuccessState
+                          ? Column(
+                              children: [
+                                Expanded(
+                                  child: ListView.builder(
+                                    scrollDirection: Axis.vertical,
+                                    shrinkWrap: true,
+                                    itemCount: state.prod.length,
+                                    itemBuilder: (context, index) {
+                                      Product _prd = state.prod[index];
+                                      return Column(
+                                        children: [
+                                          Card(
+                                            child: Container(
+                                              height: 80,
+                                              padding: EdgeInsets.symmetric(
+                                                vertical: 10,
+                                              ),
+                                              color: Colors.white,
+                                              child: Padding(
+                                                padding:
+                                                    const EdgeInsets.symmetric(
+                                                  horizontal: 15,
+                                                ),
+                                                child: Row(
+                                                  children: [
+                                                    Column(
+                                                      mainAxisAlignment:
+                                                          MainAxisAlignment
+                                                              .spaceBetween,
+                                                      children: [
+                                                        Text(
+                                                          _prd.nameProduct,
+                                                        ),
+                                                        Text('\€ ${_prd.price}'
+                                                            .padRight(5, '0')),
+                                                      ],
+                                                    ),
+                                                    IconButton(
+                                                      icon: Icon(
+                                                        CupertinoIcons.trash,
+                                                        color: Colors.red,
+                                                      ),
+                                                      onPressed: () {
+                                                        BlocProvider.of<
+                                                                    ProductBloc>(
+                                                                context)
+                                                            .add(DeleteFromCart(
+                                                                pro: _prd));
+                                                      },
+                                                    )
+                                                  ],
+                                                ),
+                                              ),
+                                            ),
+                                          ),
+                                        ],
+                                      );
+                                    },
+                                  ),
+                                ),
+                                Padding(
+                                  padding: const EdgeInsets.all(20),
+                                  child: Container(
+                                    child: Text(
+                                      'Total : ${(state.prod.reduce((x, y) => Product(id: 1, nameProduct: '', price: x.price + y.price)).price)}'
+                                          .padRight(5, '0'),
+                                      style: TextStyle(
+                                          color: Colors.red, fontSize: 30),
+                                    ),
+                                  ),
+                                )
+                              ],
+                            )
+                          : Container(),
             ),
+          ),
+        ],
+      ),
     );
   }
 }
+
+// Center(
+
+//                           child: Column(
+//                             children: <Widget>[
+//                               Container(
+//                                 margin: EdgeInsets.all(60),
+//                                 child:
+//                                     Text('Bitte lege etwas in den Warenkorb.'),
+//                               ),
+//                               Container(
+//                                 height: 80,
+//                                 width: 80,
+//                                 margin: EdgeInsets.all(0),
+//                                 child: Image.asset('assets/korb.png'),
+//                               ),
+//                               Container(
+//                                   child: CupertinoButton(
+//                                 child: new Text(
+//                                   "Zur Resturantliste",
+//                                   textAlign: TextAlign.center,
+//                                   style: new TextStyle(color: Colors.red[700]),
+//                                 ),
+//                                 onPressed: () {
+//                                   Navigator.push(context,
+//                                       MaterialPageRoute(builder: (context) {
+//                                     return HomePage();
+//                                   }));
+//                                 },
+//                               )),
+//                             ],
+//                           ),
+//                         )

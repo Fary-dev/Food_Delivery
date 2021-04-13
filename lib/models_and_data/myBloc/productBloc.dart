@@ -18,8 +18,8 @@ class DeleteFromCart extends BlocEvent {
 class LodingState extends BlocState {}
 
 class SuccessState extends BlocState {
-  int cunt;
-  SuccessState({this.cunt});
+  List<Product> prod;
+  SuccessState({this.prod});
 }
 
 class FailState extends BlocState {
@@ -28,7 +28,7 @@ class FailState extends BlocState {
 }
 
 class ProductBloc extends Bloc<BlocEvent, BlocState> {
-  ProductBloc() : super(null);
+  ProductBloc() : super(SuccessState(prod: []));
   List<Product> cartProduct = [];
   @override
   Stream<BlocState> mapEventToState(BlocEvent event) async* {
@@ -40,7 +40,7 @@ class ProductBloc extends Bloc<BlocEvent, BlocState> {
       if (event is DeleteFromCart) {
         cartProduct.remove(event.pro);
       }
-      yield SuccessState(cunt: cartProduct.length);
+      yield SuccessState(prod: cartProduct);
     } catch (e) {
       yield FailState(fail: e);
     }
