@@ -508,11 +508,11 @@ class _PageResturantState extends State<PageResturant>
                                                 children: [
                                                   IconButton(
                                                     onPressed: () {
-                                                      BlocProvider.of<
-                                                                  ProductBloc>(
-                                                              context)
-                                                          .add(DeleteFromCart(
-                                                              pro: product));
+                                                      // BlocProvider.of<
+                                                      //             ProductBloc>(
+                                                      //         context)
+                                                      //     .add(DeleteFromCart(
+                                                      //         pro: product));
                                                       setState(() {
                                                         itemCunt > 0
                                                             ? itemCunt--
@@ -543,11 +543,6 @@ class _PageResturantState extends State<PageResturant>
                                                   ),
                                                   IconButton(
                                                     onPressed: () {
-                                                      BlocProvider.of<
-                                                                  ProductBloc>(
-                                                              context)
-                                                          .add(AddToCart(
-                                                              pro: product));
                                                       setState(() {
                                                         itemCunt++;
                                                         subItems(itemCunt,
@@ -575,6 +570,11 @@ class _PageResturantState extends State<PageResturant>
                                                 color: Colors.redAccent[400],
                                                 onPressed: () {
                                                   setState(() {
+                                                    BlocProvider.of<
+                                                                ProductBloc>(
+                                                            context)
+                                                        .add(AddToCart(
+                                                            pro: product));
                                                     totalProduct =
                                                         (totalProduct +
                                                             itemCunt);
@@ -746,9 +746,7 @@ class _PageResturantState extends State<PageResturant>
                                       width: 40,
                                       decoration: BoxDecoration(
                                         shape: BoxShape.circle,
-                                        color: itemCunt == 0
-                                            ? Colors.redAccent[400]
-                                            : Colors.white,
+                                        color: Colors.white,
                                       ),
                                       child: Center(
                                         child: Text(
