@@ -27,18 +27,13 @@ class _ShoppingCartsState extends State<ShoppingCarts> {
         appBar: AppBar(
           centerTitle: true,
           backgroundColor: Colors.white,
-          leading: TextButton(
-              onPressed: () {
-                Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => BottomNavBarWidget()));
-              },
-              child: Text(
-                'Menu',
-                style:
-                    new TextStyle(color: Colors.redAccent[400], fontSize: 13),
-              )),
+          leading: IconButton(
+            icon: Icon(
+              Icons.menu,
+              color: Colors.red[400],
+            ),
+            onPressed: () {},
+          ),
           title: Text(
             "Deine Warenkörbe",
             style: TextStyle(
