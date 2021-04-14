@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:geocoder/geocoder.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:mjam/Widgets/BottomNavBarWidget.dart';
-import 'package:mjam/models_and_data/myBloc/myBloc.dart';
+import 'package:mjam/bloc/firstLocation.dart';
 import 'package:provider/provider.dart';
 
 class LocationSet extends StatefulWidget {
@@ -33,7 +33,7 @@ class _LocationSetState extends State<LocationSet> {
       add7 = address.first.postalCode;
       add10 = address.first.subThoroughfare;
       add11 = address.first.thoroughfare;
-      MyBloc myBloc = Provider.of(context, listen: false);
+      DefultLocation myBloc = Provider.of(context, listen: false);
       myBloc.setLocation('$add11 $add10, $add6 $add7');
     });
   }

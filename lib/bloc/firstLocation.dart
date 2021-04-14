@@ -1,7 +1,7 @@
 import 'dart:core';
 import 'package:flutter/cupertino.dart';
 
-class MyBloc extends ChangeNotifier {
+class DefultLocation extends ChangeNotifier {
 //==================================== location ================================
 
   String _location = '';

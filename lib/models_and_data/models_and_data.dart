@@ -5,9 +5,9 @@ class Resturant {
   int id;
   String nameResturant;
   String description;
-  var photoResturant;
-  var logoResturant;
-  var photoInfoPage;
+  String photoResturant;
+  String logoResturant;
+  String photoInfoPage;
   var ratingResturant;
   double deliveryPrice;
   double minimumOrder;
