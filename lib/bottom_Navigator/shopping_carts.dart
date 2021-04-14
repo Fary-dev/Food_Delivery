@@ -67,17 +67,18 @@ class _ShoppingCartsState extends State<ShoppingCarts> {
                                       children: [
                                         Padding(
                                           padding: const EdgeInsets.symmetric(
-                                              vertical: 5),
-                                          child: Center(
-                                              child: Text('Resturant Name')),
+                                              vertical: 10),
+                                          child: Text('Resturant Name'),
                                         ),
                                         Expanded(
                                           child: ListView.builder(
                                             scrollDirection: Axis.vertical,
                                             shrinkWrap: true,
-                                            itemCount: state.prod.length,
+                                            itemCount:
+                                                state.productsList.length,
                                             itemBuilder: (context, index) {
-                                              Product _prd = state.prod[index];
+                                              Product _prd =
+                                                  state.productsList[index];
                                               return Column(
                                                 children: [
                                                   Container(
@@ -87,11 +88,11 @@ class _ShoppingCartsState extends State<ShoppingCarts> {
                                                                 .width -
                                                             30,
                                                     child: Column(
-                                                      crossAxisAlignment:
-                                                          CrossAxisAlignment
-                                                              .start,
                                                       children: [
                                                         Row(
+                                                          crossAxisAlignment:
+                                                              CrossAxisAlignment
+                                                                  .start,
                                                           mainAxisAlignment:
                                                               MainAxisAlignment
                                                                   .start,
@@ -122,7 +123,7 @@ class _ShoppingCartsState extends State<ShoppingCarts> {
                                                                                 false;
                                                                         itemCunt ==
                                                                                 1
-                                                                            ? BlocProvider.of<ProductBloc>(context).add(DeleteFromCart(pro: _prd))
+                                                                            ? BlocProvider.of<ProductBloc>(context).add(DeleteFromCart(product: _prd))
                                                                             : itemCunt--;
                                                                       });
                                                                     }),
@@ -174,34 +175,33 @@ class _ShoppingCartsState extends State<ShoppingCarts> {
                                                                           left:
                                                                               0.0),
                                                                       child: Text(
-                                                                          '+ souce')),
+                                                                          '+ souce',
+                                                                          style:
+                                                                              TextStyle(color: Colors.black26))),
+                                                                  Container(
+                                                                    padding: EdgeInsets
+                                                                        .only(
+                                                                            left:
+                                                                                0.0),
+                                                                    child: TextButton(
+                                                                        onPressed: () {
+                                                                          setState(
+                                                                              () {
+                                                                            commentIsEmpty == false
+                                                                                ? commentIsEmpty = true
+                                                                                : commentIsEmpty = false;
+                                                                          });
+                                                                        },
+                                                                        child: Text(
+                                                                          'Kommentar hinzufügen',
+                                                                          style:
+                                                                              TextStyle(color: Colors.redAccent[400]),
+                                                                        )),
+                                                                  ),
                                                                 ],
                                                               ),
                                                             )
                                                           ],
-                                                        ),
-                                                        Container(
-                                                          padding:
-                                                              EdgeInsets.only(
-                                                                  left: 100.0),
-                                                          child: TextButton(
-                                                              onPressed: () {
-                                                                setState(() {
-                                                                  commentIsEmpty ==
-                                                                          false
-                                                                      ? commentIsEmpty =
-                                                                          true
-                                                                      : commentIsEmpty =
-                                                                          false;
-                                                                });
-                                                              },
-                                                              child: Text(
-                                                                'Kommentar hinzufügen',
-                                                                style: TextStyle(
-                                                                    color: Colors
-                                                                            .redAccent[
-                                                                        400]),
-                                                              )),
                                                         ),
                                                         commentIsEmpty == false
                                                             ? TextField()
@@ -217,20 +217,21 @@ class _ShoppingCartsState extends State<ShoppingCarts> {
                                         Padding(
                                           padding: const EdgeInsets.all(20),
                                           child: Container(
-                                            child: state.prod.length == 0
-                                                ? Text(
-                                                    'Total : 0.00',
-                                                    style: TextStyle(
-                                                        color: Colors.red,
-                                                        fontSize: 30),
-                                                  )
-                                                : Text(
-                                                    'Total : ${(state.prod.reduce((x, y) => Product(id: 1, nameProduct: '', price: x.price + y.price)).price)}'
-                                                        .padRight(5, '0'),
-                                                    style: TextStyle(
-                                                        color: Colors.red,
-                                                        fontSize: 30),
-                                                  ),
+                                            child:
+                                                state.productsList.length == 0
+                                                    ? Text(
+                                                        'Total : 0.00',
+                                                        style: TextStyle(
+                                                            color: Colors.red,
+                                                            fontSize: 30),
+                                                      )
+                                                    : Text(
+                                                        'Total : ${(state.productsList.reduce((x, y) => Product(id: 1, nameProduct: '', price: x.price + y.price)).price)}'
+                                                            .padRight(5, '0'),
+                                                        style: TextStyle(
+                                                            color: Colors.red,
+                                                            fontSize: 30),
+                                                      ),
                                           ),
                                         )
                                       ],

@@ -407,3 +407,16 @@ final f = Product(
   nameProduct: 'F',
   isNoVeg: true,
 );
+
+class Order {
+  final Resturant resturant;
+  final Product product;
+  final String date;
+  final int quantity;
+  Order({this.resturant, this.product, this.quantity, this.date});
+}
+
+class Current {
+  int cunter = 1;
+  Current({this.cunter});
+}

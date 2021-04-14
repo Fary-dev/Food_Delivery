@@ -5,8 +5,9 @@ abstract class BlocState {}
 class LodingState extends BlocState {}
 
 class SuccessState extends BlocState {
-  List<Product> prod;
-  SuccessState({this.prod});
+  List<Product> productsList;
+  List<Current> cunterList;
+  SuccessState({this.productsList, this.cunterList});
 }
 
 class FailState extends BlocState {

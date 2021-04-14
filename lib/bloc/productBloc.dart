@@ -5,19 +5,26 @@ import 'blocEvents/events.dart';
 import 'blocStates/states.dart';
 
 class ProductBloc extends Bloc<BlocEvent, BlocState> {
-  ProductBloc() : super(SuccessState(prod: []));
+  ProductBloc()
+      : super(SuccessState(
+          productsList: [],
+        ));
   List<Product> cartProduct = [];
+  List<Current> cuntersList = [];
+
   @override
   Stream<BlocState> mapEventToState(BlocEvent event) async* {
     yield LodingState();
     try {
       if (event is AddToCart) {
-        cartProduct.add(event.pro);
+        cartProduct.add(event.product);
+        cuntersList.add(event.current);
       }
       if (event is DeleteFromCart) {
-        cartProduct.remove(event.pro);
+        cartProduct.remove(event.product);
+        cuntersList.remove(event.current);
       }
-      yield SuccessState(prod: cartProduct);
+      yield SuccessState(productsList: cartProduct);
     } catch (e) {
       yield FailState(fail: e);
     }

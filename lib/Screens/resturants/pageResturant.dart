@@ -576,7 +576,7 @@ class _PageResturantState extends State<PageResturant>
                                                                 ProductBloc>(
                                                             context)
                                                         .add(AddToCart(
-                                                            pro: product));
+                                                            product: product));
                                                     totalProduct =
                                                         (totalProduct +
                                                             itemCunt);
@@ -752,7 +752,7 @@ class _PageResturantState extends State<PageResturant>
                                       ),
                                       child: Center(
                                         child: Text(
-                                          state.prod.length.toString(),
+                                          state.productsList.length.toString(),
                                           style: TextStyle(
                                             fontSize: 18,
                                             color: Colors.redAccent[400],
