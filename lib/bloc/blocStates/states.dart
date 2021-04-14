@@ -6,8 +6,8 @@ class LodingState extends BlocState {}
 
 class SuccessState extends BlocState {
   List<Product> productsList;
-  List<Current> cunterList;
-  SuccessState({this.productsList, this.cunterList});
+  List<int> currentList;
+  SuccessState({this.productsList, this.currentList});
 }
 
 class FailState extends BlocState {

@@ -5,7 +5,7 @@ abstract class BlocEvent {}
 
 class AddToCart extends BlocEvent {
   Product product;
-  Current current;
+  int current;
   AddToCart({this.product, this.current});
 }
 
@@ -15,4 +15,4 @@ class DeleteFromCart extends BlocEvent {
   DeleteFromCart({this.product, this.current});
 }
 
-//TODO: Counter Select Product
+class ClearAllCart extends BlocEvent {}

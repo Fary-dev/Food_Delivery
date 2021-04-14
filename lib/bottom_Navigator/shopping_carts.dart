@@ -18,7 +18,8 @@ class ShoppingCarts extends StatefulWidget {
 }
 
 class _ShoppingCartsState extends State<ShoppingCarts> {
-  int itemCunt = 1;
+  int cunterEnd = 0;
+  int cunter = 0;
   bool commentIsEmpty = true;
   bool listOrderIsEmpty = false;
   @override
@@ -48,7 +49,12 @@ class _ShoppingCartsState extends State<ShoppingCarts> {
                   CupertinoIcons.delete,
                   color: Colors.redAccent[400],
                 ),
-                onPressed: () {})
+                onPressed: () {
+                  BlocProvider.of<ProductBloc>(context).add(ClearAllCart());
+                  setState(() {
+                    listOrderIsEmpty = true;
+                  });
+                })
           ],
         ),
         body: listOrderIsEmpty == false
@@ -79,6 +85,9 @@ class _ShoppingCartsState extends State<ShoppingCarts> {
                                             itemBuilder: (context, index) {
                                               Product _prd =
                                                   state.productsList[index];
+                                              int current =
+                                                  state.currentList[index];
+                                              cunterEnd = current + cunter;
                                               return Column(
                                                 children: [
                                                   Container(
@@ -115,20 +124,23 @@ class _ShoppingCartsState extends State<ShoppingCarts> {
                                                                         () {
                                                                       setState(
                                                                           () {
-                                                                        itemCunt ==
+                                                                        cunterEnd =
+                                                                            current +
+                                                                                cunter;
+                                                                        cunterEnd ==
                                                                                 1
                                                                             ? listOrderIsEmpty =
                                                                                 true
                                                                             : listOrderIsEmpty =
                                                                                 false;
-                                                                        itemCunt ==
+                                                                        cunterEnd ==
                                                                                 1
                                                                             ? BlocProvider.of<ProductBloc>(context).add(DeleteFromCart(product: _prd))
-                                                                            : itemCunt--;
+                                                                            : cunter--;
                                                                       });
                                                                     }),
-                                                                Text(itemCunt
-                                                                    .toString()),
+                                                                Text(
+                                                                    '$cunterEnd'),
                                                                 IconButton(
                                                                     icon: Icon(
                                                                       CupertinoIcons
@@ -142,7 +154,10 @@ class _ShoppingCartsState extends State<ShoppingCarts> {
                                                                         () {
                                                                       setState(
                                                                           () {
-                                                                        itemCunt++;
+                                                                        cunterEnd =
+                                                                            current +
+                                                                                cunter;
+                                                                        current++;
                                                                       });
                                                                     }),
                                                               ],
@@ -162,12 +177,13 @@ class _ShoppingCartsState extends State<ShoppingCarts> {
                                                                       Text(
                                                                         _prd.nameProduct,
                                                                       ),
-                                                                      Text(_prd
-                                                                          .price
-                                                                          .toString()
-                                                                          .padRight(
-                                                                              5,
-                                                                              '0'))
+                                                                      Text(_prd.price ==
+                                                                              null
+                                                                          ? ''
+                                                                          : _prd
+                                                                              .price
+                                                                              .toString()
+                                                                              .padRight(5, '0'))
                                                                     ],
                                                                   ),
                                                                   Container(
@@ -226,7 +242,7 @@ class _ShoppingCartsState extends State<ShoppingCarts> {
                                                             fontSize: 30),
                                                       )
                                                     : Text(
-                                                        'Total : ${(state.productsList.reduce((x, y) => Product(id: 1, nameProduct: '', price: x.price + y.price)).price)}'
+                                                        "Total : ${(state.productsList.reduce((x, y) => Product(id: 1, nameProduct: '', price: x.price + y.price)).price)}"
                                                             .padRight(5, '0'),
                                                         style: TextStyle(
                                                             color: Colors.red,
@@ -275,5 +291,3 @@ class _ShoppingCartsState extends State<ShoppingCarts> {
 }
 
 //
-
-//------------------------------------------------------------------

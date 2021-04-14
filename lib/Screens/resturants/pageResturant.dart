@@ -28,8 +28,8 @@ class _PageResturantState extends State<PageResturant>
 
   bool likeBottumPress = false;
   TabController tabController;
-  int totalProduct = 0;
-  int itemCunt = 0;
+  int current = 0;
+  int itemCunt = 1;
   double addPrice = 0;
   String changeText;
   void subItems(int a, double b) {
@@ -516,7 +516,7 @@ class _PageResturantState extends State<PageResturant>
                                                       //     .add(DeleteFromCart(
                                                       //         pro: product));
                                                       setState(() {
-                                                        itemCunt > 0
+                                                        itemCunt > 1
                                                             ? itemCunt--
                                                             : itemCunt =
                                                                 itemCunt;
@@ -526,7 +526,7 @@ class _PageResturantState extends State<PageResturant>
                                                       Icons
                                                           .do_disturb_on_outlined,
                                                       size: 40,
-                                                      color: itemCunt == 0
+                                                      color: itemCunt < 1
                                                           ? Colors.grey[200]
                                                           : Colors
                                                               .redAccent[400],
@@ -571,16 +571,16 @@ class _PageResturantState extends State<PageResturant>
                                               child: FlatButton(
                                                 color: Colors.redAccent[400],
                                                 onPressed: () {
+                                                  BlocProvider.of<ProductBloc>(
+                                                          context)
+                                                      .add(AddToCart(
+                                                          product: product,
+                                                          current: itemCunt));
+
                                                   setState(() {
-                                                    BlocProvider.of<
-                                                                ProductBloc>(
-                                                            context)
-                                                        .add(AddToCart(
-                                                            product: product));
-                                                    totalProduct =
-                                                        (totalProduct +
-                                                            itemCunt);
-                                                    totalProduct != null
+                                                    current =
+                                                        (current + itemCunt);
+                                                    current != null
                                                         ? changeText =
                                                             'WARENKORB ÖFFNEN'
                                                         : changeText =
@@ -588,7 +588,7 @@ class _PageResturantState extends State<PageResturant>
                                                     malItem(itemCunt,
                                                         product.price);
 
-                                                    itemCunt = 0;
+                                                    itemCunt = 1;
                                                     Navigator.pop(context);
                                                   });
                                                 },
@@ -611,8 +611,7 @@ class _PageResturantState extends State<PageResturant>
                                                                 400]),
                                                         child: Center(
                                                           child: Text(
-                                                            totalProduct
-                                                                .toString(),
+                                                            current.toString(),
                                                             style: TextStyle(
                                                               fontSize: 18,
                                                               color: Colors
@@ -639,12 +638,6 @@ class _PageResturantState extends State<PageResturant>
                                                                 .toString()
                                                                 .padRight(
                                                                     5, '0'),
-                                                        // (itemCunt *
-                                                        //         product
-                                                        //             .price)
-                                                        //     .toString()
-                                                        //     .padRight(
-                                                        //         5, '0'),
                                                         style: TextStyle(
                                                           fontSize: 15,
                                                           color: Colors.white,
@@ -716,7 +709,7 @@ class _PageResturantState extends State<PageResturant>
             ),
         ]),
       ),
-      bottomSheet: totalProduct >= 1
+      bottomSheet: current > 0
           ? Container(
               height: 74,
               width: MediaQuery.of(context).size.width,
@@ -752,7 +745,9 @@ class _PageResturantState extends State<PageResturant>
                                       ),
                                       child: Center(
                                         child: Text(
-                                          state.productsList.length.toString(),
+                                          current == 0
+                                              ? ''
+                                              : current.toString(),
                                           style: TextStyle(
                                             fontSize: 18,
                                             color: Colors.redAccent[400],
