@@ -79,9 +79,8 @@ class _ShoppingCartsState extends State<ShoppingCarts> {
                                           padding: const EdgeInsets.symmetric(
                                               vertical: 10, horizontal: 15),
                                           child: Text(
-                                            '',
-                                            // state.orderList[0].resturant
-                                            //     .nameResturant,
+                                            state.orderList[0].resturant
+                                                .nameResturant,
                                             style: TextStyle(
                                                 fontWeight: FontWeight.w500),
                                           ),
@@ -135,6 +134,9 @@ class _ShoppingCartsState extends State<ShoppingCarts> {
                                                                           .isEmpty) {
                                                                         BlocProvider.of<ProductBloc>(context)
                                                                             .add(ClearAllCart());
+
+                                                                        listOrderIsEmpty =
+                                                                            true;
                                                                       }
                                                                       _order.quantity ==
                                                                               1
