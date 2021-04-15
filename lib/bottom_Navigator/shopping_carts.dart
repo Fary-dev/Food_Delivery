@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:mjam/Screens/HomePage.dart';
-import 'package:mjam/Widgets/BottomNavBarWidget.dart';
 import 'package:mjam/bloc/blocEvents/events.dart';
 import 'package:mjam/bloc/blocStates/states.dart';
 import 'package:mjam/models_and_data/models_and_data.dart';
@@ -19,8 +18,8 @@ class ShoppingCarts extends StatefulWidget {
 }
 
 class _ShoppingCartsState extends State<ShoppingCarts> {
-  int cunterEnd = 0;
-  int cunter = 0;
+  double totalPrice = 1;
+
   bool commentIsEmpty = true;
   bool listOrderIsEmpty = false;
   @override
@@ -36,10 +35,7 @@ class _ShoppingCartsState extends State<ShoppingCarts> {
               color: Colors.red[400],
             ),
             onPressed: () {
-              Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) => BottomNavBarWidget()));
+              Navigator.pop(context);
             },
           ),
           title: Text(
@@ -76,24 +72,30 @@ class _ShoppingCartsState extends State<ShoppingCarts> {
                                 )
                               : state is SuccessState
                                   ? Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
                                       children: [
                                         Padding(
                                           padding: const EdgeInsets.symmetric(
-                                              vertical: 10),
-                                          child: Text('Resturant Name'),
+                                              vertical: 10, horizontal: 15),
+                                          child: Text(
+                                            state.orderList[0].resturant
+                                                .nameResturant,
+                                            style: TextStyle(
+                                                fontWeight: FontWeight.w500),
+                                          ),
                                         ),
                                         Expanded(
                                           child: ListView.builder(
                                             scrollDirection: Axis.vertical,
                                             shrinkWrap: true,
-                                            itemCount:
-                                                state.productsList.length,
+                                            itemCount: state.orderList.length,
                                             itemBuilder: (context, index) {
-                                              Product _prd =
-                                                  state.productsList[index];
-                                              int current =
-                                                  state.currentList[index];
-                                              cunterEnd = current + cunter;
+                                              Order _order =
+                                                  state.orderList[index];
+                                              double totalPrice =
+                                                  _order.quantity *
+                                                      _order.product.price;
                                               return Column(
                                                 children: [
                                                   Container(
@@ -128,25 +130,15 @@ class _ShoppingCartsState extends State<ShoppingCarts> {
                                                                     ),
                                                                     onPressed:
                                                                         () {
+                                                                      BlocProvider.of<ProductBloc>(
+                                                                              context)
+                                                                          .add(DeleteFromCart(
+                                                                              order: Order(quantity: _order.quantity - 1)));
                                                                       setState(
-                                                                          () {
-                                                                        state.productsList.length ==
-                                                                                0
-                                                                            ? listOrderIsEmpty =
-                                                                                true
-                                                                            : listOrderIsEmpty =
-                                                                                false;
-                                                                        cunterEnd ==
-                                                                                1
-                                                                            ? BlocProvider.of<ProductBloc>(context).add(DeleteFromCart(product: _prd))
-                                                                            : cunter--;
-                                                                        cunterEnd =
-                                                                            current +
-                                                                                cunter;
-                                                                      });
+                                                                          () {});
                                                                     }),
                                                                 Text(
-                                                                    '$cunterEnd'),
+                                                                    '${_order.quantity}'),
                                                                 IconButton(
                                                                     icon: Icon(
                                                                       CupertinoIcons
@@ -158,13 +150,10 @@ class _ShoppingCartsState extends State<ShoppingCarts> {
                                                                     ),
                                                                     onPressed:
                                                                         () {
-                                                                      setState(
-                                                                          () {
-                                                                        cunter++;
-                                                                        cunterEnd =
-                                                                            current +
-                                                                                cunter;
-                                                                      });
+                                                                      BlocProvider.of<ProductBloc>(
+                                                                              context)
+                                                                          .add(AddToCart(
+                                                                              order: Order(quantity: _order.quantity + 1)));
                                                                     }),
                                                               ],
                                                             ),
@@ -181,15 +170,14 @@ class _ShoppingCartsState extends State<ShoppingCarts> {
                                                                             .spaceBetween,
                                                                     children: [
                                                                       Text(
-                                                                        _prd.nameProduct,
+                                                                        _order
+                                                                            .product
+                                                                            .nameProduct,
                                                                       ),
-                                                                      Text(_prd.price ==
-                                                                              null
-                                                                          ? ''
-                                                                          : _prd
-                                                                              .price
-                                                                              .toString()
-                                                                              .padRight(5, '0'))
+                                                                      Text(
+                                                                        totalPrice
+                                                                            .toStringAsFixed(2),
+                                                                      )
                                                                     ],
                                                                   ),
                                                                   Container(
@@ -239,21 +227,20 @@ class _ShoppingCartsState extends State<ShoppingCarts> {
                                         Padding(
                                           padding: const EdgeInsets.all(20),
                                           child: Container(
-                                            child:
-                                                state.productsList.length == 0
-                                                    ? Text(
-                                                        'Total : 0.00',
-                                                        style: TextStyle(
-                                                            color: Colors.red,
-                                                            fontSize: 30),
-                                                      )
-                                                    : Text(
-                                                        "Total : ${(state.productsList.reduce((x, y) => Product(id: 1, nameProduct: '', price: x.price + y.price)).price)}"
-                                                            .padRight(5, '0'),
-                                                        style: TextStyle(
-                                                            color: Colors.red,
-                                                            fontSize: 30),
-                                                      ),
+                                            child: state.orderList.length == 0
+                                                ? Text(
+                                                    '',
+                                                    style: TextStyle(
+                                                        color: Colors.red,
+                                                        fontSize: 30),
+                                                  )
+                                                : Text(
+                                                    '',
+                                                    // state.orderList.reduce((x, y) => Order( product: x.product.price + y.product.price)).product.price.toString(),
+                                                    style: TextStyle(
+                                                        color: Colors.red,
+                                                        fontSize: 30),
+                                                  ),
                                           ),
                                         )
                                       ],
@@ -295,5 +282,3 @@ class _ShoppingCartsState extends State<ShoppingCarts> {
               ));
   }
 }
-
-//

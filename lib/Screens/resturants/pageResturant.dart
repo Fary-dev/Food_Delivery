@@ -510,11 +510,6 @@ class _PageResturantState extends State<PageResturant>
                                                 children: [
                                                   IconButton(
                                                     onPressed: () {
-                                                      // BlocProvider.of<
-                                                      //             ProductBloc>(
-                                                      //         context)
-                                                      //     .add(DeleteFromCart(
-                                                      //         pro: product));
                                                       setState(() {
                                                         itemCunt > 1
                                                             ? itemCunt--
@@ -574,8 +569,12 @@ class _PageResturantState extends State<PageResturant>
                                                   BlocProvider.of<ProductBloc>(
                                                           context)
                                                       .add(AddToCart(
-                                                          product: product,
-                                                          current: itemCunt));
+                                                          order: Order(
+                                                              resturant:
+                                                                  resturant,
+                                                              product: product,
+                                                              quantity:
+                                                                  itemCunt)));
 
                                                   setState(() {
                                                     current =
