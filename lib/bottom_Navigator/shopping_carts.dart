@@ -19,9 +19,10 @@ class ShoppingCarts extends StatefulWidget {
 
 class _ShoppingCartsState extends State<ShoppingCarts> {
   double totalPrice;
-
+  double t = 0;
   bool commentIsEmpty = true;
   bool listOrderIsEmpty = false;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -95,6 +96,7 @@ class _ShoppingCartsState extends State<ShoppingCarts> {
                                                   state.orderList[index];
                                               totalPrice = _order.quantity *
                                                   _order.product.price;
+
                                               return Column(
                                                 children: [
                                                   Container(
@@ -239,25 +241,24 @@ class _ShoppingCartsState extends State<ShoppingCarts> {
                                             },
                                           ),
                                         ),
-                                        // Padding(
-                                        //   padding: const EdgeInsets.all(20),
-                                        //   child: Container(
-                                        //     child: state.orderList.length == 0
-                                        //         ? Text(
-                                        //             '',
-                                        //             style: TextStyle(
-                                        //                 color: Colors.red,
-                                        //                 fontSize: 30),
-                                        //           )
-                                        //         : Text(
-                                        //             '',
-                                        //             // state.orderList.reduce((x, y) => Order( product: x.product.price + y.product.price)).product.price.toString(),
-                                        //             style: TextStyle(
-                                        //                 color: Colors.red,
-                                        //                 fontSize: 30),
-                                        //           ),
-                                        //   ),
-                                        // )
+                                        Padding(
+                                          padding: const EdgeInsets.all(20),
+                                          child: Container(
+                                            child: state.orderList.length == 0
+                                                ? Text(
+                                                    '',
+                                                    style: TextStyle(
+                                                        color: Colors.red,
+                                                        fontSize: 30),
+                                                  )
+                                                : Text(
+                                                    '$t',
+                                                    style: TextStyle(
+                                                        color: Colors.red,
+                                                        fontSize: 30),
+                                                  ),
+                                          ),
+                                        )
                                       ],
                                     )
                                   : Container(),

@@ -413,5 +413,11 @@ class Order {
   Product product;
   final String date;
   int quantity;
-  Order({this.resturant, this.product, this.quantity, this.date});
+  double totalPrise;
+  Order(
+      {this.resturant,
+      this.product,
+      this.quantity,
+      this.date,
+      this.totalPrise});
 }
