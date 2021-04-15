@@ -18,7 +18,7 @@ class ShoppingCarts extends StatefulWidget {
 }
 
 class _ShoppingCartsState extends State<ShoppingCarts> {
-  double totalPrice = 1;
+  double totalPrice;
 
   bool commentIsEmpty = true;
   bool listOrderIsEmpty = false;
@@ -79,8 +79,9 @@ class _ShoppingCartsState extends State<ShoppingCarts> {
                                           padding: const EdgeInsets.symmetric(
                                               vertical: 10, horizontal: 15),
                                           child: Text(
-                                            state.orderList[0].resturant
-                                                .nameResturant,
+                                            '',
+                                            // state.orderList[0].resturant
+                                            //     .nameResturant,
                                             style: TextStyle(
                                                 fontWeight: FontWeight.w500),
                                           ),
@@ -93,9 +94,8 @@ class _ShoppingCartsState extends State<ShoppingCarts> {
                                             itemBuilder: (context, index) {
                                               Order _order =
                                                   state.orderList[index];
-                                              double totalPrice =
-                                                  _order.quantity *
-                                                      _order.product.price;
+                                              totalPrice = _order.quantity *
+                                                  _order.product.price;
                                               return Column(
                                                 children: [
                                                   Container(
@@ -123,17 +123,27 @@ class _ShoppingCartsState extends State<ShoppingCarts> {
                                                                     icon: Icon(
                                                                       CupertinoIcons
                                                                           .minus,
-                                                                      size: 20,
+                                                                      size: 25,
                                                                       color: Colors
                                                                               .redAccent[
                                                                           400],
                                                                     ),
                                                                     onPressed:
                                                                         () {
-                                                                      BlocProvider.of<ProductBloc>(
-                                                                              context)
-                                                                          .add(DeleteFromCart(
-                                                                              order: Order(quantity: _order.quantity - 1)));
+                                                                      if (state
+                                                                          .orderList
+                                                                          .isEmpty) {
+                                                                        BlocProvider.of<ProductBloc>(context)
+                                                                            .add(ClearAllCart());
+                                                                      }
+                                                                      _order.quantity ==
+                                                                              1
+                                                                          ? BlocProvider.of<ProductBloc>(context).add(DeleteFromCart(
+                                                                              order:
+                                                                                  _order))
+                                                                          : BlocProvider.of<ProductBloc>(context)
+                                                                              .add(DeleteFromCart(order: Order(quantity: _order.quantity--)));
+
                                                                       setState(
                                                                           () {});
                                                                     }),
@@ -143,7 +153,7 @@ class _ShoppingCartsState extends State<ShoppingCarts> {
                                                                     icon: Icon(
                                                                       CupertinoIcons
                                                                           .add,
-                                                                      size: 20,
+                                                                      size: 25,
                                                                       color: Colors
                                                                               .redAccent[
                                                                           400],
@@ -153,7 +163,10 @@ class _ShoppingCartsState extends State<ShoppingCarts> {
                                                                       BlocProvider.of<ProductBloc>(
                                                                               context)
                                                                           .add(AddToCart(
-                                                                              order: Order(quantity: _order.quantity + 1)));
+                                                                              order: Order(quantity: _order.quantity++)));
+
+                                                                      setState(
+                                                                          () {});
                                                                     }),
                                                               ],
                                                             ),
@@ -224,25 +237,25 @@ class _ShoppingCartsState extends State<ShoppingCarts> {
                                             },
                                           ),
                                         ),
-                                        Padding(
-                                          padding: const EdgeInsets.all(20),
-                                          child: Container(
-                                            child: state.orderList.length == 0
-                                                ? Text(
-                                                    '',
-                                                    style: TextStyle(
-                                                        color: Colors.red,
-                                                        fontSize: 30),
-                                                  )
-                                                : Text(
-                                                    '',
-                                                    // state.orderList.reduce((x, y) => Order( product: x.product.price + y.product.price)).product.price.toString(),
-                                                    style: TextStyle(
-                                                        color: Colors.red,
-                                                        fontSize: 30),
-                                                  ),
-                                          ),
-                                        )
+                                        // Padding(
+                                        //   padding: const EdgeInsets.all(20),
+                                        //   child: Container(
+                                        //     child: state.orderList.length == 0
+                                        //         ? Text(
+                                        //             '',
+                                        //             style: TextStyle(
+                                        //                 color: Colors.red,
+                                        //                 fontSize: 30),
+                                        //           )
+                                        //         : Text(
+                                        //             '',
+                                        //             // state.orderList.reduce((x, y) => Order( product: x.product.price + y.product.price)).product.price.toString(),
+                                        //             style: TextStyle(
+                                        //                 color: Colors.red,
+                                        //                 fontSize: 30),
+                                        //           ),
+                                        //   ),
+                                        // )
                                       ],
                                     )
                                   : Container(),

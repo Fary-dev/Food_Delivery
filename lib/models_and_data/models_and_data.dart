@@ -410,13 +410,8 @@ final f = Product(
 
 class Order {
   final Resturant resturant;
-  final Product product;
+  Product product;
   final String date;
-  final int quantity;
+  int quantity;
   Order({this.resturant, this.product, this.quantity, this.date});
-}
-
-class Current {
-  int cunter = 1;
-  Current({this.cunter});
 }

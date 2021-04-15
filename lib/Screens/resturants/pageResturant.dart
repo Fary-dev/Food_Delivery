@@ -575,7 +575,6 @@ class _PageResturantState extends State<PageResturant>
                                                               product: product,
                                                               quantity:
                                                                   itemCunt)));
-
                                                   setState(() {
                                                     current =
                                                         (current + itemCunt);
