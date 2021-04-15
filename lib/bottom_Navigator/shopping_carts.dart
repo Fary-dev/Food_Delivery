@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:mjam/Screens/HomePage.dart';
+import 'package:mjam/Widgets/BottomNavBarWidget.dart';
 import 'package:mjam/bloc/blocEvents/events.dart';
 import 'package:mjam/bloc/blocStates/states.dart';
 import 'package:mjam/models_and_data/models_and_data.dart';
@@ -34,7 +35,12 @@ class _ShoppingCartsState extends State<ShoppingCarts> {
               Icons.menu,
               color: Colors.red[400],
             ),
-            onPressed: () {},
+            onPressed: () {
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => BottomNavBarWidget()));
+            },
           ),
           title: Text(
             "Deine Warenkörbe",
@@ -124,11 +130,8 @@ class _ShoppingCartsState extends State<ShoppingCarts> {
                                                                         () {
                                                                       setState(
                                                                           () {
-                                                                        cunterEnd =
-                                                                            current +
-                                                                                cunter;
-                                                                        cunterEnd ==
-                                                                                1
+                                                                        state.productsList.length ==
+                                                                                0
                                                                             ? listOrderIsEmpty =
                                                                                 true
                                                                             : listOrderIsEmpty =
@@ -137,6 +140,9 @@ class _ShoppingCartsState extends State<ShoppingCarts> {
                                                                                 1
                                                                             ? BlocProvider.of<ProductBloc>(context).add(DeleteFromCart(product: _prd))
                                                                             : cunter--;
+                                                                        cunterEnd =
+                                                                            current +
+                                                                                cunter;
                                                                       });
                                                                     }),
                                                                 Text(
@@ -154,10 +160,10 @@ class _ShoppingCartsState extends State<ShoppingCarts> {
                                                                         () {
                                                                       setState(
                                                                           () {
+                                                                        cunter++;
                                                                         cunterEnd =
                                                                             current +
                                                                                 cunter;
-                                                                        current++;
                                                                       });
                                                                     }),
                                                               ],

@@ -1,6 +1,5 @@
 import '../../models_and_data/models_and_data.dart';
 
-//TODO: Product Bloc
 abstract class BlocEvent {}
 
 class AddToCart extends BlocEvent {
