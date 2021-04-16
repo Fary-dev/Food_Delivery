@@ -131,25 +131,17 @@ class _ShoppingCartsState extends State<ShoppingCarts> {
                                                                     ),
                                                                     onPressed:
                                                                         () {
-                                                                      if (state
-                                                                          .orderList
-                                                                          .isEmpty) {
-                                                                        BlocProvider.of<ProductBloc>(context)
-                                                                            .add(ClearAllCart());
-
-                                                                        listOrderIsEmpty =
-                                                                            true;
-                                                                      }
-                                                                      _order.quantity ==
-                                                                              1
-                                                                          ? BlocProvider.of<ProductBloc>(context).add(DeleteFromCart(
-                                                                              order:
-                                                                                  _order))
-                                                                          : BlocProvider.of<ProductBloc>(context)
-                                                                              .add(DeleteFromCart(order: Order(quantity: _order.quantity--)));
-
                                                                       setState(
-                                                                          () {});
+                                                                          () {
+                                                                        _order.quantity ==
+                                                                                1
+                                                                            ? BlocProvider.of<ProductBloc>(context).add(DeleteFromCart(order: _order))
+                                                                            : BlocProvider.of<ProductBloc>(context).add(DeleteFromCart(order: Order(quantity: _order.quantity--, totalPrise: _order.totalPrise--)));
+                                                                      });
+                                                                      print(_order
+                                                                          .totalPrise
+                                                                          .toStringAsFixed(
+                                                                              2));
                                                                     }),
                                                                 Text(
                                                                     '${_order.quantity}'),
@@ -164,10 +156,10 @@ class _ShoppingCartsState extends State<ShoppingCarts> {
                                                                     ),
                                                                     onPressed:
                                                                         () {
-                                                                      BlocProvider.of<ProductBloc>(
-                                                                              context)
-                                                                          .add(AddToCart(
-                                                                              order: Order(quantity: _order.quantity++)));
+                                                                      BlocProvider.of<ProductBloc>(context).add(AddToCart(
+                                                                          order: Order(
+                                                                              quantity: _order.quantity++,
+                                                                              totalPrise: _order.totalPrise++)));
 
                                                                       setState(
                                                                           () {});
@@ -252,7 +244,13 @@ class _ShoppingCartsState extends State<ShoppingCarts> {
                                                         fontSize: 30),
                                                   )
                                                 : Text(
-                                                    '$t',
+                                                    state.orderList
+                                                        .reduce((a, b) => Order(
+                                                            totalPrise: a
+                                                                    .totalPrise +
+                                                                b.totalPrise))
+                                                        .totalPrise
+                                                        .toStringAsFixed(2),
                                                     style: TextStyle(
                                                         color: Colors.red,
                                                         fontSize: 30),
