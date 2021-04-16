@@ -414,10 +414,12 @@ class Order {
   final String date;
   int quantity;
   double totalPrise;
+  double totalSumPrice;
   Order(
       {this.resturant,
       this.product,
       this.quantity,
       this.date,
-      this.totalPrise});
+      this.totalPrise,
+      this.totalSumPrice});
 }

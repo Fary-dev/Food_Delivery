@@ -521,7 +521,7 @@ class _PageResturantState extends State<PageResturant>
                                                       Icons
                                                           .do_disturb_on_outlined,
                                                       size: 40,
-                                                      color: itemCunt < 1
+                                                      color: itemCunt < 2
                                                           ? Colors.grey[200]
                                                           : Colors
                                                               .redAccent[400],
@@ -575,9 +575,9 @@ class _PageResturantState extends State<PageResturant>
                                                               product: product,
                                                               quantity:
                                                                   itemCunt,
-                                                              totalPrise:
-                                                                  product
-                                                                      .price)));
+                                                              totalPrise: product
+                                                                      .price *
+                                                                  itemCunt)));
                                                   setState(() {
                                                     current =
                                                         (current + itemCunt);
@@ -719,6 +719,8 @@ class _PageResturantState extends State<PageResturant>
               child: FlatButton(
                 color: Colors.redAccent[400],
                 onPressed: () {
+                  BlocProvider.of<ProductBloc>(context)
+                      .add(AddToCart(order: Order(totalSumPrice: addPrice)));
                   setState(() {
                     Navigator.push(
                       context,
