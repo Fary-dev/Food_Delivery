@@ -18,9 +18,6 @@ class ShoppingCarts extends StatefulWidget {
 }
 
 class _ShoppingCartsState extends State<ShoppingCarts> {
-  // final ProductBloc productBloc = BlocProvider.of<ProductBloc>(context);
-  double totalPrice;
-  double t = 0;
   bool commentIsEmpty = true;
   bool listOrderIsEmpty = false;
 
@@ -93,8 +90,9 @@ class _ShoppingCartsState extends State<ShoppingCarts> {
                                           itemBuilder: (context, index) {
                                             Order _order =
                                                 state.orderList[index];
-                                            totalPrice = _order.quantity *
-                                                _order.product.price;
+                                            double totalPrice =
+                                                _order.quantity *
+                                                    _order.product.price;
 
                                             return Column(
                                               children: [
@@ -247,17 +245,17 @@ class _ShoppingCartsState extends State<ShoppingCarts> {
                                                       fontSize: 30),
                                                 )
                                               : Text(
-                                                  '',
-                                                  // productBloc
+                                                  '0.00',
+                                                  // _productBloc
                                                   //     .order.totalSumPrice
                                                   //     .toStringAsFixed(2),
 
                                                   // state.orderList
                                                   //     .reduce((a, b) => Order(
-                                                  //         totalPrise: (a
-                                                  //                 .totalPrise +
-                                                  //             b.totalPrise)))
-                                                  //     .totalPrise
+                                                  //         totalSumPrice: a
+                                                  //                 .totalSumPrice +
+                                                  //             b.totalSumPrice))
+                                                  //     .totalSumPrice
                                                   //     .toStringAsFixed(2),
                                                   style: TextStyle(
                                                       color: Colors.red,
