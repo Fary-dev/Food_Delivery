@@ -28,6 +28,8 @@ class _PageResturantState extends State<PageResturant>
 
   bool likeBottumPress = false;
   TabController tabController;
+
+  double sum = 0;
   int current = 0;
   int itemCunt = 1;
   double addPrice = 0;
@@ -566,32 +568,40 @@ class _PageResturantState extends State<PageResturant>
                                               child: FlatButton(
                                                 color: Colors.redAccent[400],
                                                 onPressed: () {
-                                                  BlocProvider.of<ProductBloc>(
-                                                          context)
-                                                      .add(AddToCart(
-                                                          order: Order(
-                                                              resturant:
-                                                                  resturant,
-                                                              product: product,
-                                                              quantity:
-                                                                  itemCunt,
-                                                              totalPrise: product
-                                                                      .price *
-                                                                  itemCunt)));
-                                                  setState(() {
-                                                    current =
-                                                        (current + itemCunt);
-                                                    current != null
-                                                        ? changeText =
-                                                            'WARENKORB ÖFFNEN'
-                                                        : changeText =
-                                                            'HINZUFÜGEN';
-                                                    malItem(itemCunt,
-                                                        product.price);
+                                                  setState(
+                                                    () {
+                                                      current =
+                                                          (current + itemCunt);
+                                                      current != null
+                                                          ? changeText =
+                                                              'WARENKORB ÖFFNEN'
+                                                          : changeText =
+                                                              'HINZUFÜGEN';
+                                                      malItem(itemCunt,
+                                                          product.price);
+                                                      sum = sum + current;
 
-                                                    itemCunt = 1;
-                                                    Navigator.pop(context);
-                                                  });
+                                                      BlocProvider.of<
+                                                                  ProductBloc>(
+                                                              context)
+                                                          .add(AddToCart(
+                                                              order: Order(
+                                                                  resturant:
+                                                                      resturant,
+                                                                  product:
+                                                                      product,
+                                                                  quantity:
+                                                                      itemCunt,
+                                                                  totalPrise: product
+                                                                          .price *
+                                                                      itemCunt,
+                                                                  totalSumPrice:
+                                                                      sum)));
+//TODO:ADD TO CART
+                                                      itemCunt = 1;
+                                                      Navigator.pop(context);
+                                                    },
+                                                  );
                                                 },
                                                 child: Padding(
                                                   padding: const EdgeInsets
@@ -719,8 +729,6 @@ class _PageResturantState extends State<PageResturant>
               child: FlatButton(
                 color: Colors.redAccent[400],
                 onPressed: () {
-                  BlocProvider.of<ProductBloc>(context)
-                      .add(AddToCart(order: Order(totalSumPrice: addPrice)));
                   setState(() {
                     Navigator.push(
                       context,

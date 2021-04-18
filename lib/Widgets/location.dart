@@ -21,9 +21,7 @@ class _LocationSetState extends State<LocationSet> {
     isLoading = false;
     final position = await Geolocator.getCurrentPosition(
         desiredAccuracy: LocationAccuracy.high);
-    var lat = position.latitude;
-    var long = position.longitude;
-    final coordinates = new Coordinates(lat, long);
+    final coordinates = Coordinates(position.latitude, position.longitude);
     var address =
         await Geocoder.local.findAddressesFromCoordinates(coordinates);
 
