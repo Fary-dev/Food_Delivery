@@ -131,8 +131,10 @@ class _ShoppingCartsState extends State<ShoppingCarts> {
                                                                         () {
                                                                       _order.quantity >
                                                                               1
-                                                                          ? BlocProvider.of<ProductBloc>(context)
-                                                                              .add(DeleteFromCart(order: Order(quantity: _order.quantity--, totalPrise: totalPrice - _order.product.price)))
+                                                                          ? BlocProvider.of<ProductBloc>(context).add(DeleteFromCart(
+                                                                              order: Order(
+                                                                              quantity: _order.quantity--,
+                                                                            )))
                                                                           : BlocProvider.of<ProductBloc>(context).add(DeleteFromCart(order: _order));
                                                                     });
                                                                     print(_order
@@ -153,11 +155,14 @@ class _ShoppingCartsState extends State<ShoppingCarts> {
                                                                   ),
                                                                   onPressed:
                                                                       () {
-                                                                    BlocProvider.of<ProductBloc>(context).add(AddToCart(
-                                                                        order: Order(
-                                                                            quantity:
-                                                                                _order.quantity++,
-                                                                            totalPrise: _order.totalPrise++)));
+                                                                    BlocProvider.of<ProductBloc>(
+                                                                            context)
+                                                                        .add(DeleteFromCart(
+                                                                            order: Order(
+                                                                      quantity:
+                                                                          _order
+                                                                              .quantity++,
+                                                                    )));
 
                                                                     setState(
                                                                         () {});
@@ -252,9 +257,9 @@ class _ShoppingCartsState extends State<ShoppingCarts> {
 
                                                   // state.orderList
                                                   //     .reduce((a, b) => Order(
-                                                  //         totalSumPrice: a
-                                                  //                 .totalSumPrice +
-                                                  //             b.totalSumPrice))
+                                                  //         totalSumPrice:
+                                                  //             a.totalPrise +
+                                                  //                 b.totalPrise))
                                                   //     .totalSumPrice
                                                   //     .toStringAsFixed(2),
                                                   style: TextStyle(
