@@ -1,8 +1,7 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:mjam/models_and_data/models_and_data.dart';
-
-import 'blocEvents/events.dart';
-import 'blocStates/states.dart';
+import 'events.dart';
+import 'states.dart';
 
 class ProductBloc extends Bloc<BlocEvent, BlocState> {
   Order order;

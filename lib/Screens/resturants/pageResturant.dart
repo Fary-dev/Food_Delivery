@@ -4,11 +4,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:mjam/Widgets/search.dart';
 import 'package:mjam/Widgets/Rating.dart';
-import 'package:mjam/bloc/blocEvents/events.dart';
-import 'package:mjam/bloc/blocStates/states.dart';
+import 'package:mjam/bloc/MyBloc/events.dart';
+import 'package:mjam/bloc/MyBloc/states.dart';
 import 'package:mjam/bottom_Navigator/shopping_carts.dart';
 import 'package:mjam/models_and_data/models_and_data.dart';
-import 'package:mjam/bloc/productBloc.dart';
+import 'package:mjam/bloc/MyBloc/productBloc.dart';
 
 import 'info_resturant.dart';
 

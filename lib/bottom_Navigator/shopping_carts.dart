@@ -3,10 +3,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:mjam/Screens/HomePage.dart';
-import 'package:mjam/bloc/blocEvents/events.dart';
-import 'package:mjam/bloc/blocStates/states.dart';
+import 'package:mjam/bloc/MyBloc/events.dart';
+import 'package:mjam/bloc/MyBloc/states.dart';
 import 'package:mjam/models_and_data/models_and_data.dart';
-import 'package:mjam/bloc/productBloc.dart';
+import 'package:mjam/bloc/MyBloc/productBloc.dart';
 
 class ShoppingCarts extends StatefulWidget {
   ShoppingCarts({
@@ -76,8 +76,10 @@ class _ShoppingCartsState extends State<ShoppingCarts> {
                                         padding: const EdgeInsets.symmetric(
                                             vertical: 10, horizontal: 15),
                                         child: Text(
-                                          state.orderList[0].resturant
-                                              .nameResturant,
+                                          state.orderList.length > 0
+                                              ? state.orderList[0].resturant
+                                                  .nameResturant
+                                              : '',
                                           style: TextStyle(
                                               fontWeight: FontWeight.w500),
                                         ),

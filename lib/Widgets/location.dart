@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:geocoder/geocoder.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:mjam/Widgets/BottomNavBarWidget.dart';
-import 'package:mjam/bloc/firstLocation.dart';
+import 'package:mjam/bloc/MyBloc/firstLocation.dart';
 import 'package:provider/provider.dart';
 
 class LocationSet extends StatefulWidget {
