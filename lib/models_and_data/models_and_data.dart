@@ -414,7 +414,7 @@ class Order {
   final String date;
   int quantity;
   double totalPrise;
-  double totalSumPrice;
+  List<double> totalSumPrice = [];
   Order(
       {this.resturant,
       this.product,

@@ -13,3 +13,4 @@ class DeleteFromCart extends BlocEvent {
 }
 
 class ClearAllCart extends BlocEvent {}
+//_______________________________ Counter _________________________________
