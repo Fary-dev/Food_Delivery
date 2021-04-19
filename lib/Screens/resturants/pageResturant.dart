@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:mjam/Widgets/search.dart';
 import 'package:mjam/Widgets/Rating.dart';
+import 'package:mjam/bloc/MyBloc/counter_select_product.dart';
 import 'package:mjam/bloc/MyBloc/events.dart';
 import 'package:mjam/bloc/MyBloc/states.dart';
 import 'package:mjam/bottom_Navigator/shopping_carts.dart';
@@ -23,28 +24,12 @@ class PageResturant extends StatefulWidget {
 class _PageResturantState extends State<PageResturant>
     with SingleTickerProviderStateMixin {
   final Resturant resturant;
-
   _PageResturantState(this.resturant);
 
   bool likeBottumPress = false;
   TabController tabController;
-
-  double sum = 0;
-  int current = 0;
-  int itemCunt = 1;
-  double addPrice = 0;
   String changeText;
-  void subItems(int a, double b) {
-    // ignore: unused_local_variable
-    double c = a + b;
-    setState(() {});
-  }
-
-  void malItem(int a, double b) {
-    double d = a * b;
-    addPrice = addPrice + d;
-    setState(() {});
-  }
+  bool showBottomSheet = false;
 
   @override
   void initState() {
@@ -55,6 +40,8 @@ class _PageResturantState extends State<PageResturant>
 
   @override
   Widget build(BuildContext context) {
+    ProductBloc productBloc = BlocProvider.of<ProductBloc>(context);
+    CounterBloc counterBloc = BlocProvider.of<CounterBloc>(context);
     return Scaffold(
       body: NestedScrollView(
         headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
@@ -266,461 +253,529 @@ class _PageResturantState extends State<PageResturant>
         },
 //==================================== TabBarView ==============================
 
-        body: TabBarView(controller: tabController, children: [
-          for (int index = 0; index < resturant.products.length; index++)
-            ListView(
-              shrinkWrap: true,
-              children: [
-                Card(
-                  child: Container(
-                      height: 100,
-                      child: Image.asset(
-                        resturant.photoResturant,
-                        fit: BoxFit.fitWidth,
-                      )),
-                ),
-                for (Product product in resturant.product)
-                  if (resturant.products[index].id == product.id)
-                    Card(
-                      child: Container(
-                        padding: EdgeInsets.only(left: 15, right: 15),
-                        height: 50,
-                        // ignore: deprecated_member_use
-                        child: FlatButton(
-                          onPressed: () {
-                            setState(
-                              () {
-                                showModalBottomSheet(
-                                  enableDrag: true,
-                                  backgroundColor: Colors.transparent,
-                                  context: context,
-                                  builder: (BuildContext context) {
-                                    return StatefulBuilder(builder:
-                                        (BuildContext context,
-                                            StateSetter setState) {
-                                      return Container(
-                                        height:
-                                            MediaQuery.of(context).size.height,
-                                        width:
-                                            MediaQuery.of(context).size.width,
-                                        decoration: BoxDecoration(
-                                          color: Colors.white,
-                                          borderRadius: BorderRadius.only(
-                                            topRight: Radius.circular(
-                                              20,
-                                            ),
-                                            topLeft: Radius.circular(
-                                              20,
-                                            ),
-                                          ),
-                                        ),
-                                        child: Column(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.start,
-                                          children: [
-//==================================================================================== Product Name =======================
-                                            Expanded(
-                                              flex: 1,
-                                              child: Container(
-                                                padding:
-                                                    const EdgeInsets.symmetric(
-                                                  horizontal: 20,
+        body: TabBarView(
+          controller: tabController,
+          children: [
+            for (int index = 0; index < resturant.products.length; index++)
+              ListView(
+                shrinkWrap: true,
+                children: [
+                  Card(
+                    child: Container(
+                        height: 100,
+                        child: Image.asset(
+                          resturant.photoResturant,
+                          fit: BoxFit.fitWidth,
+                        )),
+                  ),
+                  for (Product product in resturant.product)
+                    if (resturant.products[index].id == product.id)
+                      Card(
+                        child: Container(
+                          padding: EdgeInsets.only(left: 15, right: 15),
+                          height: 50,
+                          // ignore: deprecated_member_use
+                          child: FlatButton(
+                            onPressed: () {
+                              counterBloc.add(CounterEvent(
+                                  value: 1, status: EventStatus.clearState));
+                              setState(
+                                () {
+                                  showModalBottomSheet(
+                                    enableDrag: true,
+                                    backgroundColor: Colors.transparent,
+                                    context: context,
+                                    builder: (BuildContext context) {
+                                      return StatefulBuilder(builder:
+                                          (BuildContext context,
+                                              StateSetter setState) {
+                                        return Container(
+                                            height: MediaQuery.of(context)
+                                                .size
+                                                .height,
+                                            width: MediaQuery.of(context)
+                                                .size
+                                                .width,
+                                            decoration: BoxDecoration(
+                                              color: Colors.white,
+                                              borderRadius: BorderRadius.only(
+                                                topRight: Radius.circular(
+                                                  20,
                                                 ),
-                                                child: Column(
-                                                  crossAxisAlignment:
-                                                      CrossAxisAlignment.start,
-                                                  children: [
-                                                    SizedBox(
-                                                      height: 5,
-                                                    ),
-                                                    Row(
-                                                      mainAxisAlignment:
-                                                          MainAxisAlignment
-                                                              .spaceBetween,
-                                                      children: [
-                                                        Text(
-                                                          product.nameProduct,
-                                                          style: TextStyle(
-                                                            fontSize: 15,
-                                                            fontWeight:
-                                                                FontWeight.w500,
-                                                          ),
-                                                        ),
-                                                        IconButton(
-                                                          icon: Icon(
-                                                            Icons.cancel,
-                                                          ),
-                                                          onPressed: () {
-                                                            Navigator.pop(
-                                                                context);
-                                                          },
-                                                        ),
-                                                      ],
-                                                    ),
-                                                    Text(
-                                                      'subTitle',
-                                                      style: TextStyle(
-                                                        fontSize: 12,
-                                                        color: Colors.black45,
-                                                      ),
-                                                    ),
-                                                    SizedBox(
-                                                      height: 5,
-                                                    ),
-                                                  ],
+                                                topLeft: Radius.circular(
+                                                  20,
                                                 ),
                                               ),
                                             ),
+                                            child:
+                                                BlocBuilder<CounterBloc, int>(
+                                              builder: (context, state) {
+                                                return Column(
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment.start,
+                                                  children: [
+//==================================================================================== Product Name =======================
+                                                    Expanded(
+                                                      flex: 1,
+                                                      child: Container(
+                                                        padding:
+                                                            const EdgeInsets
+                                                                .symmetric(
+                                                          horizontal: 20,
+                                                        ),
+                                                        child: Column(
+                                                          crossAxisAlignment:
+                                                              CrossAxisAlignment
+                                                                  .start,
+                                                          children: [
+                                                            SizedBox(
+                                                              height: 5,
+                                                            ),
+                                                            Row(
+                                                              mainAxisAlignment:
+                                                                  MainAxisAlignment
+                                                                      .spaceBetween,
+                                                              children: [
+                                                                Text(
+                                                                  product
+                                                                      .nameProduct,
+                                                                  style:
+                                                                      TextStyle(
+                                                                    fontSize:
+                                                                        15,
+                                                                    fontWeight:
+                                                                        FontWeight
+                                                                            .w500,
+                                                                  ),
+                                                                ),
+                                                                IconButton(
+                                                                  icon: Icon(
+                                                                    Icons
+                                                                        .cancel,
+                                                                  ),
+                                                                  onPressed:
+                                                                      () {
+                                                                    Navigator.pop(
+                                                                        context);
+                                                                  },
+                                                                ),
+                                                              ],
+                                                            ),
+                                                            Text(
+                                                              'subTitle',
+                                                              style: TextStyle(
+                                                                fontSize: 12,
+                                                                color: Colors
+                                                                    .black45,
+                                                              ),
+                                                            ),
+                                                            SizedBox(
+                                                              height: 5,
+                                                            ),
+                                                          ],
+                                                        ),
+                                                      ),
+                                                    ),
 
 //======================================================================== Allergene & Zusatzstoffe =======================
-                                            Expanded(
-                                              flex: 1,
-                                              child: Padding(
-                                                padding:
-                                                    const EdgeInsets.symmetric(
-                                                  horizontal: 20,
-                                                ),
-                                                child: Row(
-                                                  children: [
-                                                    Icon(
-                                                      Icons.error_outline_sharp,
-                                                      color:
-                                                          Colors.redAccent[400],
-                                                    ),
-                                                    TextButton(
-                                                      onPressed: () {},
-                                                      child: Text(
-                                                        'Allergene & Zusatzstoffe',
-                                                        style: TextStyle(
-                                                          color: Colors
-                                                              .redAccent[400],
+                                                    Expanded(
+                                                      flex: 1,
+                                                      child: Padding(
+                                                        padding:
+                                                            const EdgeInsets
+                                                                .symmetric(
+                                                          horizontal: 20,
+                                                        ),
+                                                        child: Row(
+                                                          children: [
+                                                            Icon(
+                                                              Icons
+                                                                  .error_outline_sharp,
+                                                              color: Colors
+                                                                      .redAccent[
+                                                                  400],
+                                                            ),
+                                                            TextButton(
+                                                              onPressed: () {},
+                                                              child: Text(
+                                                                'Allergene & Zusatzstoffe',
+                                                                style:
+                                                                    TextStyle(
+                                                                  color: Colors
+                                                                          .redAccent[
+                                                                      400],
+                                                                ),
+                                                              ),
+                                                            ),
+                                                          ],
                                                         ),
                                                       ),
                                                     ),
-                                                  ],
-                                                ),
-                                              ),
-                                            ),
-                                            Container(
-                                              width: double.infinity,
-                                              height: 10,
-                                              color: Colors.grey[200],
-                                            ),
+                                                    Container(
+                                                      width: double.infinity,
+                                                      height: 10,
+                                                      color: Colors.grey[200],
+                                                    ),
 //=================================================================================== Extraauflagen =======================
-                                            Expanded(
-                                              flex: 1,
-                                              child: Padding(
-                                                padding:
-                                                    const EdgeInsets.symmetric(
-                                                  vertical: 8,
-                                                ),
-                                                // ignore: deprecated_member_use
-                                                child: FlatButton(
-                                                  onPressed: () {},
-                                                  child: Row(
-                                                    mainAxisAlignment:
-                                                        MainAxisAlignment
-                                                            .spaceBetween,
-                                                    children: [
-                                                      Column(
-                                                        crossAxisAlignment:
-                                                            CrossAxisAlignment
-                                                                .start,
-                                                        children: [
-                                                          Text(
-                                                            '1. Extraauflagen',
-                                                            style: TextStyle(
-                                                              fontSize: 14,
-                                                            ),
+                                                    Expanded(
+                                                      flex: 1,
+                                                      child: Padding(
+                                                        padding:
+                                                            const EdgeInsets
+                                                                .symmetric(
+                                                          vertical: 8,
+                                                        ),
+                                                        // ignore: deprecated_member_use
+                                                        child: FlatButton(
+                                                          onPressed: () {},
+                                                          child: Row(
+                                                            mainAxisAlignment:
+                                                                MainAxisAlignment
+                                                                    .spaceBetween,
+                                                            children: [
+                                                              Column(
+                                                                crossAxisAlignment:
+                                                                    CrossAxisAlignment
+                                                                        .start,
+                                                                children: [
+                                                                  Text(
+                                                                    '1. Extraauflagen',
+                                                                    style:
+                                                                        TextStyle(
+                                                                      fontSize:
+                                                                          14,
+                                                                    ),
+                                                                  ),
+                                                                  Text(
+                                                                    'Optional',
+                                                                    style:
+                                                                        TextStyle(
+                                                                      fontSize:
+                                                                          12,
+                                                                      color: Colors
+                                                                          .black26,
+                                                                    ),
+                                                                  ),
+                                                                ],
+                                                              ),
+                                                              Icon(
+                                                                Icons
+                                                                    .keyboard_arrow_down_outlined,
+                                                                color: Colors
+                                                                        .redAccent[
+                                                                    400],
+                                                                size: 50,
+                                                              )
+                                                            ],
                                                           ),
-                                                          Text(
-                                                            'Optional',
-                                                            style: TextStyle(
-                                                              fontSize: 12,
-                                                              color: Colors
-                                                                  .black26,
-                                                            ),
-                                                          ),
-                                                        ],
+                                                        ),
                                                       ),
-                                                      Icon(
-                                                        Icons
-                                                            .keyboard_arrow_down_outlined,
-                                                        color: Colors
-                                                            .redAccent[400],
-                                                        size: 50,
-                                                      )
-                                                    ],
-                                                  ),
-                                                ),
-                                              ),
-                                            ),
+                                                    ),
 
-                                            Container(
-                                              color: Colors.grey[200],
-                                              height: 2,
-                                              width: MediaQuery.of(context)
-                                                  .size
-                                                  .width,
-                                            ),
+                                                    Container(
+                                                      color: Colors.grey[200],
+                                                      height: 2,
+                                                      width:
+                                                          MediaQuery.of(context)
+                                                              .size
+                                                              .width,
+                                                    ),
 
 //============================================================================ Kommentare hinzufügen =======================
-                                            Expanded(
-                                              flex: 1,
-                                              child: Padding(
-                                                padding:
-                                                    const EdgeInsets.symmetric(
-                                                  vertical: 10,
-                                                ),
-                                                // ignore: deprecated_member_use
-                                                child: FlatButton(
-                                                  onPressed: () {},
-                                                  child: Row(
-                                                    children: [
-                                                      Icon(
-                                                        Icons.comment_rounded,
-                                                        size: 25,
-                                                        color: Colors
-                                                            .redAccent[400],
-                                                      ),
-                                                      Text(
-                                                        'Kommentar hinzufügen',
-                                                        style: TextStyle(
-                                                          color: Colors
-                                                              .redAccent[400],
-                                                          fontSize: 14,
+                                                    Expanded(
+                                                      flex: 1,
+                                                      child: Padding(
+                                                        padding:
+                                                            const EdgeInsets
+                                                                .symmetric(
+                                                          vertical: 10,
+                                                        ),
+                                                        // ignore: deprecated_member_use
+                                                        child: FlatButton(
+                                                          onPressed: () {},
+                                                          child: Row(
+                                                            children: [
+                                                              Icon(
+                                                                Icons
+                                                                    .comment_rounded,
+                                                                size: 25,
+                                                                color: Colors
+                                                                        .redAccent[
+                                                                    400],
+                                                              ),
+                                                              Text(
+                                                                'Kommentar hinzufügen',
+                                                                style:
+                                                                    TextStyle(
+                                                                  color: Colors
+                                                                          .redAccent[
+                                                                      400],
+                                                                  fontSize: 14,
+                                                                ),
+                                                              ),
+                                                            ],
+                                                          ),
                                                         ),
                                                       ),
-                                                    ],
-                                                  ),
-                                                ),
-                                              ),
-                                            ),
-                                            Container(
-                                              color: Colors.grey[200],
-                                              height: 2,
-                                              width: MediaQuery.of(context)
-                                                  .size
-                                                  .width,
-                                            ),
+                                                    ),
+                                                    Container(
+                                                      color: Colors.grey[200],
+                                                      height: 2,
+                                                      width:
+                                                          MediaQuery.of(context)
+                                                              .size
+                                                              .width,
+                                                    ),
 //========================================================================================= - and + =======================
-                                            Expanded(
-                                              flex: 1,
-                                              child: Row(
-                                                mainAxisAlignment:
-                                                    MainAxisAlignment.center,
-                                                children: [
-                                                  IconButton(
-                                                    onPressed: () {
-                                                      setState(() {
-                                                        itemCunt > 1
-                                                            ? itemCunt--
-                                                            : itemCunt =
-                                                                itemCunt;
-                                                      });
-                                                    },
-                                                    icon: Icon(
-                                                      Icons
-                                                          .do_disturb_on_outlined,
-                                                      size: 40,
-                                                      color: itemCunt < 2
-                                                          ? Colors.grey[200]
-                                                          : Colors
-                                                              .redAccent[400],
-                                                    ),
-                                                  ),
-                                                  Padding(
-                                                    padding: const EdgeInsets
-                                                            .symmetric(
-                                                        horizontal: 20),
-                                                    child: Text(
-                                                      itemCunt.toString(),
-                                                      style: TextStyle(
-                                                        fontSize: 20,
-                                                      ),
-                                                    ),
-                                                  ),
-                                                  IconButton(
-                                                    onPressed: () {
-                                                      setState(() {
-                                                        itemCunt++;
-                                                        subItems(itemCunt,
-                                                            product.price);
-                                                      });
-                                                    },
-                                                    icon: Icon(
-                                                      Icons
-                                                          .add_circle_outline_sharp,
-                                                      size: 40,
-                                                      color:
-                                                          Colors.redAccent[400],
-                                                    ),
-                                                  ),
-                                                ],
-                                              ),
-                                            ),
+                                                    Expanded(
+                                                      flex: 1,
+                                                      child: Row(
+                                                        mainAxisAlignment:
+                                                            MainAxisAlignment
+                                                                .center,
+                                                        children: [
+                                                          IconButton(
+                                                            onPressed:
+                                                                () async {
+                                                              counterBloc.state >
+                                                                      1
+                                                                  ? counterBloc.add(
+                                                                      CounterEvent(
+                                                                          value:
+                                                                              1,
+                                                                          status: EventStatus
+                                                                              .decrement))
+                                                                  : counterBloc
+                                                                      .state;
 
-//==================================================================================== HINZUFÜGEN =========================
+                                                              // addPrice -=
+                                                              //     product.price;
+                                                            },
+                                                            icon: Icon(
+                                                              Icons
+                                                                  .do_disturb_on_outlined,
+                                                              size: 40,
+                                                              color: counterBloc
+                                                                          .state <
+                                                                      2
+                                                                  ? Colors
+                                                                      .grey[200]
+                                                                  : Colors.redAccent[
+                                                                      400],
+                                                            ),
+                                                          ),
+                                                          Padding(
+                                                            padding:
+                                                                const EdgeInsets
+                                                                        .symmetric(
+                                                                    horizontal:
+                                                                        20),
+                                                            child: Text(
+                                                              '$state',
+                                                              style: TextStyle(
+                                                                fontSize: 20,
+                                                              ),
+                                                            ),
+                                                          ),
+                                                          IconButton(
+                                                            onPressed:
+                                                                () async {
+                                                              counterBloc.add(
+                                                                  CounterEvent(
+                                                                      value: 1,
+                                                                      status: EventStatus
+                                                                          .increment));
 
-                                            Expanded(
-                                              flex: 1,
-                                              // ignore: deprecated_member_use
-                                              child: FlatButton(
-                                                color: Colors.redAccent[400],
-                                                onPressed: () {
-                                                  setState(
-                                                    () {
-                                                      current =
-                                                          (current + itemCunt);
-                                                      current != null
-                                                          ? changeText =
-                                                              'WARENKORB ÖFFNEN'
-                                                          : changeText =
-                                                              'HINZUFÜGEN';
-                                                      malItem(itemCunt,
-                                                          product.price);
-                                                      sum = sum + current;
-
-                                                      BlocProvider.of<
-                                                                  ProductBloc>(
-                                                              context)
-                                                          .add(AddToCart(
-                                                              order: Order(
-                                                                  resturant:
-                                                                      resturant,
-                                                                  product:
-                                                                      product,
-                                                                  quantity:
-                                                                      itemCunt,
-                                                                  totalPrise: product
-                                                                          .price *
-                                                                      itemCunt,
-                                                                  totalSumPrice:
-                                                                      sum)));
-//TODO:ADD TO CART
-                                                      itemCunt = 1;
-                                                      Navigator.pop(context);
-                                                    },
-                                                  );
-                                                },
-                                                child: Padding(
-                                                  padding: const EdgeInsets
-                                                      .symmetric(vertical: 15),
-                                                  child: Row(
-                                                    mainAxisAlignment:
-                                                        MainAxisAlignment
-                                                            .spaceBetween,
-                                                    children: [
-                                                      Container(
-                                                        height: 40,
-                                                        width: 40,
-                                                        decoration: BoxDecoration(
-                                                            shape:
-                                                                BoxShape.circle,
-                                                            color: Colors
-                                                                    .redAccent[
-                                                                400]),
-                                                        child: Center(
-                                                          child: Text(
-                                                            current.toString(),
-                                                            style: TextStyle(
-                                                              fontSize: 18,
+                                                              // setState(() {
+                                                              //   subItems(
+                                                              //       counterBloc
+                                                              //           .state,
+                                                              //       product
+                                                              //           .price);
+                                                              // });
+                                                            },
+                                                            icon: Icon(
+                                                              Icons
+                                                                  .add_circle_outline_sharp,
+                                                              size: 40,
                                                               color: Colors
                                                                       .redAccent[
                                                                   400],
                                                             ),
                                                           ),
+                                                        ],
+                                                      ),
+                                                    ),
+
+//==================================================================================== HINZUFÜGEN =========================
+
+                                                    Expanded(
+                                                      flex: 1,
+                                                      // ignore: deprecated_member_use
+                                                      child: FlatButton(
+                                                        color: Colors
+                                                            .redAccent[400],
+                                                        onPressed: () {
+                                                          setState(() {
+                                                            showBottomSheet =
+                                                                true;
+                                                            counterBloc.itemCart !=
+                                                                    null
+                                                                ? changeText =
+                                                                    'WARENKORB ÖFFNEN'
+                                                                : changeText =
+                                                                    'HINZUFÜGEN';
+                                                          });
+                                                          BlocProvider.of<
+                                                                      ProductBloc>(
+                                                                  context)
+                                                              .add(AddToCart(
+                                                                  order: Order(
+                                                            resturant:
+                                                                resturant,
+                                                            product: product,
+                                                            quantity:
+                                                                counterBloc
+                                                                    .state,
+                                                            totalPrise: product
+                                                                    .price *
+                                                                counterBloc
+                                                                    .itemCart,
+                                                          )));
+                                                          //TODO:ADD TO CART
+
+                                                          counterBloc.add(CounterEvent(
+                                                              value: 1,
+                                                              status: EventStatus
+                                                                  .clearState));
+                                                          Navigator.pop(
+                                                              context);
+                                                        },
+                                                        child: Padding(
+                                                          padding:
+                                                              const EdgeInsets
+                                                                      .symmetric(
+                                                                  vertical: 15),
+                                                          child: Row(
+                                                            mainAxisAlignment:
+                                                                MainAxisAlignment
+                                                                    .spaceBetween,
+                                                            children: [
+                                                              Container(
+                                                                height: 40,
+                                                                width: 40,
+                                                                decoration: BoxDecoration(
+                                                                    shape: BoxShape
+                                                                        .circle,
+                                                                    color: Colors
+                                                                            .redAccent[
+                                                                        400]),
+                                                                child: Center(
+                                                                  child: Text(
+                                                                    '${counterBloc.itemCart}',
+                                                                    style:
+                                                                        TextStyle(
+                                                                      fontSize:
+                                                                          18,
+                                                                      color: Colors
+                                                                              .redAccent[
+                                                                          400],
+                                                                    ),
+                                                                  ),
+                                                                ),
+                                                              ),
+                                                              Text(
+                                                                changeText =
+                                                                    'HINZUFÜGEN',
+                                                                style:
+                                                                    TextStyle(
+                                                                  fontSize: 15,
+                                                                  color: Colors
+                                                                      .white,
+                                                                ),
+                                                              ),
+                                                              Text(
+                                                                (counterBloc.state *
+                                                                        product
+                                                                            .price)
+                                                                    .toStringAsFixed(
+                                                                        2),
+                                                                style:
+                                                                    TextStyle(
+                                                                  fontSize: 15,
+                                                                  color: Colors
+                                                                      .white,
+                                                                ),
+                                                              ),
+                                                            ],
+                                                          ),
                                                         ),
                                                       ),
-                                                      Text(
-                                                        changeText =
-                                                            'HINZUFÜGEN',
-                                                        style: TextStyle(
-                                                          fontSize: 15,
-                                                          color: Colors.white,
-                                                        ),
-                                                      ),
-                                                      Text(
-                                                        itemCunt == 1
-                                                            ? '\€ ${product.price.toString().padRight(4, "0")}'
-                                                            : (itemCunt *
-                                                                    product
-                                                                        .price)
-                                                                .toString()
-                                                                .padRight(
-                                                                    5, '0'),
-                                                        style: TextStyle(
-                                                          fontSize: 15,
-                                                          color: Colors.white,
-                                                        ),
-                                                      ),
-                                                    ],
-                                                  ),
-                                                ),
+                                                    ),
+                                                  ],
+                                                );
+                                              },
+                                            ));
+                                      });
+                                    },
+                                  );
+                                },
+                              );
+                            },
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Row(
+                                  children: [
+                                    Text(
+                                      product.nameProduct,
+                                      style: TextStyle(
+                                          fontWeight: FontWeight.w400),
+                                    ),
+                                  ],
+                                ),
+                                Row(
+                                  children: [
+                                    Text(
+                                      '\€ ${product.price.toString().padRight(4, "0")}',
+                                      style: TextStyle(
+                                          fontWeight: FontWeight.w400),
+                                    ),
+                                    SizedBox(width: 10),
+                                    Stack(
+                                      alignment: Alignment.center,
+                                      children: [
+                                        Container(
+                                          height: 20,
+                                          width: 20,
+                                          decoration: BoxDecoration(
+                                              border: Border.all(
+                                                color: Colors.grey,
                                               ),
-                                            ),
-                                          ],
+                                              // color: Colors.green[700],
+                                              borderRadius:
+                                                  BorderRadius.circular(3)),
                                         ),
-                                      );
-                                    });
-                                  },
-                                );
-                              },
-                            );
-                          },
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Row(
-                                children: [
-                                  Text(
-                                    product.nameProduct,
-                                    style:
-                                        TextStyle(fontWeight: FontWeight.w400),
-                                  ),
-                                ],
-                              ),
-                              Row(
-                                children: [
-                                  Text(
-                                    '\€ ${product.price.toString().padRight(4, "0")}',
-                                    style:
-                                        TextStyle(fontWeight: FontWeight.w400),
-                                  ),
-                                  SizedBox(width: 10),
-                                  Stack(
-                                    alignment: Alignment.center,
-                                    children: [
-                                      Container(
-                                        height: 20,
-                                        width: 20,
-                                        decoration: BoxDecoration(
-                                            border: Border.all(
-                                              color: Colors.grey,
-                                            ),
-                                            // color: Colors.green[700],
-                                            borderRadius:
-                                                BorderRadius.circular(3)),
-                                      ),
-                                      Icon(
-                                        Icons.add_sharp,
-                                        color: Colors.red[700],
-                                        size: 20,
-                                      ),
-                                    ],
-                                  ),
-                                ],
-                              )
-                            ],
+                                        Icon(
+                                          Icons.add_sharp,
+                                          color: Colors.red[700],
+                                          size: 20,
+                                        ),
+                                      ],
+                                    ),
+                                  ],
+                                )
+                              ],
+                            ),
                           ),
                         ),
                       ),
-                    ),
-              ],
-            ),
-        ]),
+                ],
+              ),
+          ],
+        ),
       ),
-      bottomSheet: current > 0
+      bottomSheet: counterBloc.show == true
           ? Container(
               height: 74,
               width: MediaQuery.of(context).size.width,
@@ -729,14 +784,16 @@ class _PageResturantState extends State<PageResturant>
               child: FlatButton(
                 color: Colors.redAccent[400],
                 onPressed: () {
-                  setState(() {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => ShoppingCarts(),
-                      ),
-                    );
-                  });
+                  counterBloc.add(CounterEvent(
+                    value: 1,
+                    status: EventStatus.clearState,
+                  ));
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => ShoppingCarts(),
+                    ),
+                  );
                 },
                 child: Padding(
                   padding: const EdgeInsets.symmetric(vertical: 15),
@@ -756,9 +813,14 @@ class _PageResturantState extends State<PageResturant>
                                       ),
                                       child: Center(
                                         child: Text(
-                                          current == 0
+                                          productBloc.cartOrder.isEmpty
                                               ? ''
-                                              : current.toString(),
+                                              : productBloc.cartOrder
+                                                  .reduce((x, y) => Order(
+                                                      quantity: x.quantity +
+                                                          y.quantity))
+                                                  .quantity
+                                                  .toString(),
                                           style: TextStyle(
                                             fontSize: 18,
                                             color: Colors.redAccent[400],
@@ -780,9 +842,7 @@ class _PageResturantState extends State<PageResturant>
                         ),
                       ),
                       Text(
-                        addPrice == null
-                            ? ''
-                            : addPrice.toString().padRight(5, '0'),
+                        'sum',
                         style: TextStyle(
                           fontSize: 15,
                           color: Colors.white,
