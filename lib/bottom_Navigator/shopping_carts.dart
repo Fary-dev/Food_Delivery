@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:mjam/Screens/HomePage.dart';
+import 'package:mjam/bloc/MyBloc/counter_select_product.dart';
 import 'package:mjam/bloc/MyBloc/events.dart';
 import 'package:mjam/bloc/MyBloc/states.dart';
 import 'package:mjam/models_and_data/models_and_data.dart';
@@ -23,6 +24,8 @@ class _ShoppingCartsState extends State<ShoppingCarts> {
 
   @override
   Widget build(BuildContext context) {
+    CounterBloc counterBloc = BlocProvider.of<CounterBloc>(context);
+    ProductBloc productBloc = BlocProvider.of<ProductBloc>(context);
     return Scaffold(
       backgroundColor: Colors.grey[100],
       appBar: AppBar(
@@ -49,7 +52,10 @@ class _ShoppingCartsState extends State<ShoppingCarts> {
                 color: Colors.redAccent[400],
               ),
               onPressed: () {
-                BlocProvider.of<ProductBloc>(context).add(ClearAllCart());
+                productBloc.add(ClearAllCart());
+                counterBloc
+                    .add(CounterEvent(value: 1, status: EventStatus.clearAll));
+
                 setState(() {
                   listOrderIsEmpty = true;
                 });
@@ -129,20 +135,15 @@ class _ShoppingCartsState extends State<ShoppingCarts> {
                                                                   ),
                                                                   onPressed:
                                                                       () {
-                                                                    setState(
-                                                                        () {
-                                                                      _order.quantity >
-                                                                              1
-                                                                          ? BlocProvider.of<ProductBloc>(context).add(DeleteFromCart(
-                                                                              order: Order(
-                                                                              quantity: _order.quantity--,
-                                                                            )))
-                                                                          : BlocProvider.of<ProductBloc>(context).add(DeleteFromCart(order: _order));
-                                                                    });
-                                                                    print(_order
-                                                                        .totalPrise
-                                                                        .toStringAsFixed(
-                                                                            2));
+                                                                    _order.quantity >
+                                                                            1
+                                                                        ? productBloc.add(DeleteFromCart(
+                                                                            order:
+                                                                                Order(quantity: _order.quantity--)))
+                                                                        : productBloc.add(DeleteFromCart(
+                                                                            order:
+                                                                                _order,
+                                                                          ));
                                                                   }),
                                                               Text(
                                                                   '${_order.quantity}'),

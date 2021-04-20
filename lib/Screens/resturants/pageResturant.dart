@@ -38,6 +38,10 @@ class _PageResturantState extends State<PageResturant>
         TabController(length: resturant.products.length, vsync: this);
   }
 
+  void updateScreen() {
+    setState(() {});
+  }
+
   @override
   Widget build(BuildContext context) {
     ProductBloc productBloc = BlocProvider.of<ProductBloc>(context);
@@ -141,8 +145,6 @@ class _PageResturantState extends State<PageResturant>
                       child: Row(
                         children: [
                           Container(
-                            //padding: EdgeInsets.all(0),
-                            //alignment: Alignment.topLeft,
                             height: 20,
                             width: 100,
                             child: Rating(),
@@ -277,8 +279,6 @@ class _PageResturantState extends State<PageResturant>
                           // ignore: deprecated_member_use
                           child: FlatButton(
                             onPressed: () {
-                              counterBloc.add(CounterEvent(
-                                  value: 1, status: EventStatus.clearState));
                               setState(
                                 () {
                                   showModalBottomSheet(
@@ -585,14 +585,6 @@ class _PageResturantState extends State<PageResturant>
                                                                       value: 1,
                                                                       status: EventStatus
                                                                           .increment));
-
-                                                              // setState(() {
-                                                              //   subItems(
-                                                              //       counterBloc
-                                                              //           .state,
-                                                              //       product
-                                                              //           .price);
-                                                              // });
                                                             },
                                                             icon: Icon(
                                                               Icons
@@ -642,7 +634,6 @@ class _PageResturantState extends State<PageResturant>
                                                                 counterBloc
                                                                     .itemCart,
                                                           )));
-                                                          //TODO:ADD TO CART
 
                                                           counterBloc.add(CounterEvent(
                                                               value: 1,
@@ -650,6 +641,7 @@ class _PageResturantState extends State<PageResturant>
                                                                   .clearState));
                                                           Navigator.pop(
                                                               context);
+                                                          updateScreen();
                                                         },
                                                         child: Padding(
                                                           padding:
@@ -842,7 +834,13 @@ class _PageResturantState extends State<PageResturant>
                         ),
                       ),
                       Text(
-                        'sum',
+                        productBloc.cartOrder.isEmpty
+                            ? ''
+                            : productBloc.cartOrder
+                                .reduce((x, y) => Order(
+                                    totalPrise: x.totalPrise + y.totalPrise))
+                                .totalPrise
+                                .toStringAsFixed(2),
                         style: TextStyle(
                           fontSize: 15,
                           color: Colors.white,
