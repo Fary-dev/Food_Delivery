@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:mjam/bottom_Navigator/FavoritScreen.dart';
 import 'package:mjam/bottom_Navigator/Profil.dart';
-import 'package:mjam/Screens/Menu.dart';
+import 'package:mjam/Screens/Menu_Screen/Menu.dart';
 import 'package:mjam/bottom_Navigator/shopping_carts.dart';
 import 'package:mjam/bottom_Navigator/searching.dart';
 import 'package:mjam/models_and_data/Icons_Fonts/font1.dart';
@@ -40,8 +40,6 @@ class _BottomNavBarWidgetState extends State<BottomNavBarWidget> {
   Widget build(BuildContext context) {
     return Container(
       child: Scaffold(
-        //height: 675,
-        //width: MediaQuery.of(context).size.width,
         body: PageView(
           controller: _pageController,
           children: _screens,
@@ -58,6 +56,7 @@ class _BottomNavBarWidgetState extends State<BottomNavBarWidget> {
               // ignore: deprecated_member_use
               title: Padding(
                 padding: EdgeInsets.all(0),
+                child: Text(''),
               ),
               icon: Icon(
                 Iconsss.room_service,

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'file:///C:/Users/Fary/AndroidStudioProjects/mjam/lib/Widgets/BottomNavBarWidget.dart';
-import 'file:///C:/Users/Fary/AndroidStudioProjects/mjam/lib/Screens/Menu.dart';
+import 'package:mjam/Screens/Menu_Screen/Menu.dart';
+import 'package:mjam/Widgets/BottomNavBarWidget.dart';
 
 class HomePage extends StatefulWidget {
   HomePage({Key key}) : super(key: key);
@@ -22,5 +22,4 @@ class _HomePageState extends State<HomePage> {
       ),
     );
   }
-
 }

@@ -2,12 +2,12 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:mjam/Screens/HomePage.dart';
-import 'package:mjam/bloc/MyBloc/counter_select_product.dart';
-import 'package:mjam/bloc/MyBloc/events.dart';
-import 'package:mjam/bloc/MyBloc/states.dart';
-import 'package:mjam/models_and_data/models_and_data.dart';
-import 'package:mjam/bloc/MyBloc/productBloc.dart';
+import 'package:mjam/Screens/Home_Page/HomePage.dart';
+import 'package:mjam/bloc/Counter_Bloc/counter_select_product.dart';
+import 'package:mjam/bloc/Order_Bloc/events.dart';
+import 'package:mjam/bloc/Order_Bloc/states.dart';
+import 'package:mjam/models_and_data/Class/models_and_data.dart';
+import 'package:mjam/bloc/Order_Bloc/productBloc.dart';
 
 class ShoppingCarts extends StatefulWidget {
   ShoppingCarts({

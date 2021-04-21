@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:mjam/models_and_data/models_and_data.dart';
+import 'package:mjam/models_and_data/Class/models_and_data.dart';
 import 'package:mjam/Widgets/Rating.dart';
 
 import 'pageResturant.dart';

@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:carousel_slider/carousel_slider.dart';
-import 'package:mjam/Screens/banner_Screen_1.dart';
+import 'package:mjam/Screens/Banner/banner_Screen_1.dart';
 
 class Banr extends StatefulWidget {
   Banr({Key key}) : super(key: key);

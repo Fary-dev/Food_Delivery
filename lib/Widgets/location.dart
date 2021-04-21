@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:geocoder/geocoder.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:mjam/Widgets/BottomNavBarWidget.dart';
-import 'package:mjam/bloc/MyBloc/firstLocation.dart';
+import 'package:mjam/bloc/Location_Bloc/firstLocation.dart';
 import 'package:provider/provider.dart';
 
 class LocationSet extends StatefulWidget {
@@ -19,6 +19,7 @@ class _LocationSetState extends State<LocationSet> {
 
   void getCurrentLocation() async {
     isLoading = false;
+
     final position = await Geolocator.getCurrentPosition(
         desiredAccuracy: LocationAccuracy.high);
     final coordinates = Coordinates(position.latitude, position.longitude);

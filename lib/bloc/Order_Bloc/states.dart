@@ -1,4 +1,4 @@
-import '../../models_and_data/models_and_data.dart';
+import '../../models_and_data/Class/models_and_data.dart';
 
 abstract class BlocState {}
 
