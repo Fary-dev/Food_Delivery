@@ -547,9 +547,6 @@ class _PageResturantState extends State<PageResturant>
                                                                               .decrement))
                                                                   : counterBloc
                                                                       .state;
-
-                                                              // addPrice -=
-                                                              //     product.price;
                                                             },
                                                             icon: Icon(
                                                               Icons
@@ -629,10 +626,10 @@ class _PageResturantState extends State<PageResturant>
                                                             quantity:
                                                                 counterBloc
                                                                     .state,
-                                                            totalPrise: product
-                                                                    .price *
-                                                                counterBloc
-                                                                    .itemCart,
+                                                            totalPrise:
+                                                                product.price *
+                                                                    counterBloc
+                                                                        .state,
                                                           )));
 
                                                           counterBloc.add(CounterEvent(
