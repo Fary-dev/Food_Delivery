@@ -411,15 +411,15 @@ final f = Product(
 class Order {
   final Resturant resturant;
   Product product;
-  final String date;
+  String date;
   int quantity;
-  double totalPriseAll;
-  double totalPriceItem;
-  Order(
-      {this.resturant,
-      this.product,
-      this.quantity,
-      this.date,
-      this.totalPriseAll,
-      this.totalPriceItem});
+  double totalPrise;
+
+  Order({
+    this.resturant,
+    this.product,
+    this.quantity,
+    this.date,
+    this.totalPrise,
+  });
 }

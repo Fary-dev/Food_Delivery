@@ -625,7 +625,7 @@ class _PageResturantState extends State<PageResturant>
                                                             quantity:
                                                                 counterBloc
                                                                     .state,
-                                                            totalPriseAll:
+                                                            totalPrise:
                                                                 product.price *
                                                                     counterBloc
                                                                         .state,
@@ -834,9 +834,8 @@ class _PageResturantState extends State<PageResturant>
                             ? ''
                             : productBloc.cartOrder
                                 .reduce((x, y) => Order(
-                                    totalPriseAll:
-                                        x.totalPriseAll + y.totalPriseAll))
-                                .totalPriseAll
+                                    totalPrise: x.totalPrise + y.totalPrise))
+                                .totalPrise
                                 .toStringAsFixed(2),
                         style: TextStyle(
                           fontSize: 15,

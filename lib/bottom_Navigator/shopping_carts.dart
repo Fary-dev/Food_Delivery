@@ -19,6 +19,7 @@ class ShoppingCarts extends StatefulWidget {
 }
 
 class _ShoppingCartsState extends State<ShoppingCarts> {
+  final TextEditingController textFildController = TextEditingController();
   bool commentIsEmpty = true;
   bool listOrderIsEmpty = false;
 
@@ -99,10 +100,6 @@ class _ShoppingCartsState extends State<ShoppingCarts> {
                                           itemBuilder: (context, index) {
                                             Order _order =
                                                 state.orderList[index];
-                                            // ignore: unused_local_variable
-                                            double totalPrice =
-                                                _order.quantity *
-                                                    _order.product.price;
 
                                             return Column(
                                               children: [
@@ -141,11 +138,13 @@ class _ShoppingCartsState extends State<ShoppingCarts> {
                                                                             1
                                                                         ? productBloc.add(DeleteFromCart(
                                                                             order:
-                                                                                Order(quantity: _order.quantity--, totalPriseAll: _order.totalPriseAll - _order.product.price)))
+                                                                                Order(quantity: _order.quantity--, totalPrise: _order.product.price.abs())))
                                                                         : productBloc.add(DeleteFromCart(
                                                                             order:
                                                                                 _order,
                                                                           ));
+                                                                    setState(
+                                                                        () {});
                                                                   }),
                                                               Text(
                                                                   '${_order.quantity}'),
@@ -193,7 +192,7 @@ class _ShoppingCartsState extends State<ShoppingCarts> {
                                                                     ),
                                                                     Text(
                                                                       _order
-                                                                          .totalPriseAll
+                                                                          .totalPrise
                                                                           .toStringAsFixed(
                                                                               2),
                                                                     )
@@ -235,7 +234,10 @@ class _ShoppingCartsState extends State<ShoppingCarts> {
                                                         ],
                                                       ),
                                                       commentIsEmpty == false
-                                                          ? TextField()
+                                                          ? TextField(
+                                                              controller:
+                                                                  textFildController,
+                                                            )
                                                           : Text('')
                                                     ],
                                                   ),
@@ -250,22 +252,18 @@ class _ShoppingCartsState extends State<ShoppingCarts> {
                                         child: Container(
                                           child: state.orderList.length == 0
                                               ? Text(
-                                                  '',
+                                                  '0.00',
                                                   style: TextStyle(
                                                       color: Colors.red,
                                                       fontSize: 30),
                                                 )
-                                              : Text(
-                                                  productBloc.cartOrder
-                                                      .reduce((x, y) => Order(
-                                                          totalPriseAll: x
-                                                                  .totalPriseAll +
-                                                              y.totalPriseAll))
-                                                      .totalPriseAll
-                                                      .toStringAsFixed(2),
-                                                  style: TextStyle(
-                                                      color: Colors.red,
-                                                      fontSize: 30),
+                                              : Center(
+                                                  child: Text(
+                                                    '\€ ${productBloc.cartOrder.reduce((x, y) => Order(totalPrise: x.totalPrise + y.totalPrise)).totalPrise.toStringAsFixed(2)}',
+                                                    style: TextStyle(
+                                                        color: Colors.red,
+                                                        fontSize: 30),
+                                                  ),
                                                 ),
                                         ),
                                       )
