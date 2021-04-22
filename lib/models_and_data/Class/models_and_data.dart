@@ -210,7 +210,7 @@ final resturant5 = Resturant(
   ],
 );
 
-final List resturants = [
+final List<Resturant> resturants = [
   resturant1,
   resturant2,
   resturant3,
@@ -413,13 +413,13 @@ class Order {
   Product product;
   final String date;
   int quantity;
-  double totalPrise;
-  List<double> totalSumPrice = [];
+  double totalPriseAll;
+  double totalPriceItem;
   Order(
       {this.resturant,
       this.product,
       this.quantity,
       this.date,
-      this.totalPrise,
-      this.totalSumPrice});
+      this.totalPriseAll,
+      this.totalPriceItem});
 }

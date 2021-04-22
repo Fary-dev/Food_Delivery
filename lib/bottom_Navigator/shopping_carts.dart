@@ -71,7 +71,8 @@ class _ShoppingCartsState extends State<ShoppingCarts> {
                         ? CupertinoActivityIndicator()
                         : state is FailState
                             ? Center(
-                                child: Text('${state.fail}'),
+                                // ignore: unnecessary_string_interpolations
+                                child: Text('${state.massage}'),
                               )
                             : state is SuccessState
                                 ? Column(
@@ -98,6 +99,7 @@ class _ShoppingCartsState extends State<ShoppingCarts> {
                                           itemBuilder: (context, index) {
                                             Order _order =
                                                 state.orderList[index];
+                                            // ignore: unused_local_variable
                                             double totalPrice =
                                                 _order.quantity *
                                                     _order.product.price;
@@ -139,7 +141,7 @@ class _ShoppingCartsState extends State<ShoppingCarts> {
                                                                             1
                                                                         ? productBloc.add(DeleteFromCart(
                                                                             order:
-                                                                                Order(quantity: _order.quantity--)))
+                                                                                Order(quantity: _order.quantity--, totalPriseAll: _order.totalPriseAll - _order.product.price)))
                                                                         : productBloc.add(DeleteFromCart(
                                                                             order:
                                                                                 _order,
@@ -190,7 +192,8 @@ class _ShoppingCartsState extends State<ShoppingCarts> {
                                                                           .nameProduct,
                                                                     ),
                                                                     Text(
-                                                                      totalPrice
+                                                                      _order
+                                                                          .totalPriseAll
                                                                           .toStringAsFixed(
                                                                               2),
                                                                     )
@@ -253,18 +256,13 @@ class _ShoppingCartsState extends State<ShoppingCarts> {
                                                       fontSize: 30),
                                                 )
                                               : Text(
-                                                  '0.00',
-                                                  // _productBloc
-                                                  //     .order.totalSumPrice
-                                                  //     .toStringAsFixed(2),
-
-                                                  // state.orderList
-                                                  //     .reduce((a, b) => Order(
-                                                  //         totalSumPrice:
-                                                  //             a.totalPrise +
-                                                  //                 b.totalPrise))
-                                                  //     .totalSumPrice
-                                                  //     .toStringAsFixed(2),
+                                                  productBloc.cartOrder
+                                                      .reduce((x, y) => Order(
+                                                          totalPriseAll: x
+                                                                  .totalPriseAll +
+                                                              y.totalPriseAll))
+                                                      .totalPriseAll
+                                                      .toStringAsFixed(2),
                                                   style: TextStyle(
                                                       color: Colors.red,
                                                       fontSize: 30),

@@ -16,16 +16,16 @@ class _ResturantListeState extends State<ResturantListe> {
     return new Container(
       child: new ListView.builder(
         shrinkWrap: true,
-        physics: NeverScrollableScrollPhysics(),
+        physics: const NeverScrollableScrollPhysics(),
         itemCount: resturants.length,
         itemBuilder: (context, index) {
-          Resturant resturant = resturants[index];
+          final Resturant _resturant = resturants[index];
           return GestureDetector(
             onTap: () {
               Navigator.push(
                   context,
                   MaterialPageRoute(
-                      builder: (context) => PageResturant(resturant)));
+                      builder: (context) => PageResturant(_resturant)));
             },
             child: Container(
               color: Colors.white,
@@ -33,16 +33,16 @@ class _ResturantListeState extends State<ResturantListe> {
                 children: [
                   /////__________________ List Resturant _________/////////////////////////////7////
                   Container(
-                    margin: EdgeInsets.fromLTRB(15, 15, 15, 5),
-                    decoration: BoxDecoration(
+                    margin: const EdgeInsets.fromLTRB(15, 15, 15, 5),
+                    decoration: const BoxDecoration(
                         borderRadius: BorderRadius.all(Radius.circular(20))),
-                    child: Image.asset(resturant.photoResturant,
+                    child: Image.asset(_resturant.photoResturant,
                         height: 140,
                         width: MediaQuery.of(context).size.width,
                         fit: BoxFit.fitWidth),
                   ),
                   Container(
-                    margin: EdgeInsets.only(top: 8),
+                    margin: const EdgeInsets.only(top: 8),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
@@ -52,12 +52,12 @@ class _ResturantListeState extends State<ResturantListe> {
                             Container(
                               height: 20,
                               alignment: Alignment.topLeft,
-                              margin: EdgeInsets.only(left: 15),
+                              margin: const EdgeInsets.only(left: 15),
                               child: Text(
-                                resturant.nameResturant,
+                                _resturant.nameResturant,
                                 textAlign: TextAlign.center,
                                 textScaleFactor: 1.5,
-                                style: TextStyle(
+                                style: const TextStyle(
                                     color: Colors.black87,
                                     fontSize: 12,
                                     fontWeight: FontWeight.w600),
@@ -66,12 +66,12 @@ class _ResturantListeState extends State<ResturantListe> {
                             Container(
                               height: 15,
                               alignment: Alignment.topLeft,
-                              margin: EdgeInsets.only(left: 15, top: 3),
+                              margin: const EdgeInsets.only(left: 15, top: 3),
                               child: Text(
-                                resturant.description,
+                                _resturant.description,
                                 textAlign: TextAlign.center,
                                 textScaleFactor: 1.0,
-                                style: TextStyle(
+                                style: const TextStyle(
                                     color: Colors.black38, fontSize: 11),
                               ),
                             )
@@ -79,10 +79,10 @@ class _ResturantListeState extends State<ResturantListe> {
                         ),
                         FittedBox(
                           child: Container(
-                            margin: EdgeInsets.only(right: 15),
+                            margin: const EdgeInsets.only(right: 15),
                             height: 40,
                             width: 80,
-                            child: Image.asset(resturant.logoResturant,
+                            child: Image.asset(_resturant.logoResturant,
                                 height: 20,
                                 width: MediaQuery.of(context).size.width,
                                 fit: BoxFit.contain),
@@ -92,7 +92,7 @@ class _ResturantListeState extends State<ResturantListe> {
                     ),
                   ),
                   Container(
-                    margin: EdgeInsets.only(bottom: 15, top: 15),
+                    margin: const EdgeInsets.only(bottom: 15, top: 15),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
@@ -103,18 +103,19 @@ class _ResturantListeState extends State<ResturantListe> {
                               Container(
                                 height: 15,
                                 alignment: Alignment.topLeft,
-                                margin: EdgeInsets.only(left: 15, top: 7),
+                                margin: const EdgeInsets.only(left: 15, top: 7),
                                 child: Text(
-                                  resturant.ratingResturant.toString(),
+                                  _resturant.ratingResturant.toString(),
                                   textAlign: TextAlign.center,
                                   textScaleFactor: 1.0,
-                                  style: TextStyle(
+                                  style: const TextStyle(
                                       color: Colors.black38, fontSize: 11),
                                 ),
                               ),
                               Container(
+                                // ignore: sort_child_properties_last
                                 child: Rating(),
-                                margin: EdgeInsets.only(left: 15),
+                                margin: const EdgeInsets.only(left: 15),
                                 height: 20,
                                 width: 100,
                               ),
@@ -127,8 +128,9 @@ class _ResturantListeState extends State<ResturantListe> {
                               Container(
                                 height: 15,
                                 alignment: Alignment.topLeft,
-                                margin: EdgeInsets.only(left: 15, top: 11),
-                                child: Text(
+                                margin:
+                                    const EdgeInsets.only(left: 15, top: 11),
+                                child: const Text(
                                   "Liefergebühr",
                                   textAlign: TextAlign.center,
                                   textScaleFactor: 1.0,
@@ -138,10 +140,11 @@ class _ResturantListeState extends State<ResturantListe> {
                               ),
                               Container(
                                 child: Text(
-                                  "\€ ${resturant.deliveryPrice.toString().padRight(4, '0')}",
+                                  // ignore: unnecessary_string_escapes
+                                  "\€ ${_resturant.deliveryPrice.toString().padRight(4, '0')}",
                                   textAlign: TextAlign.center,
                                   textScaleFactor: 1.0,
-                                  style: TextStyle(color: Colors.black),
+                                  style: const TextStyle(color: Colors.black),
                                 ),
                               )
                             ],
@@ -153,9 +156,9 @@ class _ResturantListeState extends State<ResturantListe> {
                               Container(
                                 height: 15,
                                 alignment: Alignment.topLeft,
-                                margin: EdgeInsets.only(
+                                margin: const EdgeInsets.only(
                                     left: 15, top: 11, right: 15),
-                                child: Text(
+                                child: const Text(
                                   "Minimum",
                                   textAlign: TextAlign.center,
                                   textScaleFactor: 1.0,
@@ -165,10 +168,11 @@ class _ResturantListeState extends State<ResturantListe> {
                               ),
                               Container(
                                 child: Text(
-                                  "\€ ${resturant.minimumOrder.toString().padRight(5, '0')}",
+                                  // ignore: unnecessary_string_escapes
+                                  "\€ ${_resturant.minimumOrder.toString().padRight(5, '0')}",
                                   textAlign: TextAlign.center,
                                   textScaleFactor: 1.0,
-                                  style: TextStyle(color: Colors.black),
+                                  style: const TextStyle(color: Colors.black),
                                 ),
                               )
                             ],

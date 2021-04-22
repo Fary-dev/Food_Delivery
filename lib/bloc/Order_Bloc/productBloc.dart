@@ -23,8 +23,8 @@ class ProductBloc extends Bloc<BlocEvent, BlocState> {
         cartOrder = [];
       }
       yield SuccessState(orderList: cartOrder);
-    } catch (e) {
-      yield FailState(fail: e);
+    } catch (a) {
+      yield FailState(massage: 'Error');
     }
   }
 }

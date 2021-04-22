@@ -12,6 +12,6 @@ class SuccessState extends BlocState {
 }
 
 class FailState extends BlocState {
-  Error fail;
-  FailState({this.fail});
+  String massage;
+  FailState({this.massage});
 }

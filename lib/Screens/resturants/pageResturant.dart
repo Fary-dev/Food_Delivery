@@ -615,9 +615,8 @@ class _PageResturantState extends State<PageResturant>
                                                                 : changeText =
                                                                     'HINZUFÜGEN';
                                                           });
-                                                          BlocProvider.of<
-                                                                      ProductBloc>(
-                                                                  context)
+
+                                                          productBloc
                                                               .add(AddToCart(
                                                                   order: Order(
                                                             resturant:
@@ -626,12 +625,11 @@ class _PageResturantState extends State<PageResturant>
                                                             quantity:
                                                                 counterBloc
                                                                     .state,
-                                                            totalPrise:
+                                                            totalPriseAll:
                                                                 product.price *
                                                                     counterBloc
                                                                         .state,
                                                           )));
-
                                                           counterBloc.add(CounterEvent(
                                                               value: 1,
                                                               status: EventStatus
@@ -819,7 +817,8 @@ class _PageResturantState extends State<PageResturant>
                                     )
                                   : state is FailState
                                       ? Tooltip(
-                                          message: '${state.fail}',
+                                          // ignore: unnecessary_string_interpolations
+                                          message: '${state.massage}',
                                           child: Text('0'),
                                         )
                                       : Text('')),
@@ -835,8 +834,9 @@ class _PageResturantState extends State<PageResturant>
                             ? ''
                             : productBloc.cartOrder
                                 .reduce((x, y) => Order(
-                                    totalPrise: x.totalPrise + y.totalPrise))
-                                .totalPrise
+                                    totalPriseAll:
+                                        x.totalPriseAll + y.totalPriseAll))
+                                .totalPriseAll
                                 .toStringAsFixed(2),
                         style: TextStyle(
                           fontSize: 15,
