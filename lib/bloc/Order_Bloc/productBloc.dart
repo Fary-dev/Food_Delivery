@@ -9,6 +9,7 @@ class ProductBloc extends Bloc<BlocEvent, BlocState> {
   ProductBloc() : super(SuccessState(orderList: []));
 
   List<Order> cartOrder = [];
+
   @override
   Stream<BlocState> mapEventToState(BlocEvent event) async* {
     yield LodingState();

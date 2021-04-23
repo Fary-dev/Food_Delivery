@@ -535,6 +535,18 @@ class _PageResturantState extends State<PageResturant>
                                                                 .center,
                                                         children: [
                                                           IconButton(
+                                                            icon: Icon(
+                                                              Icons
+                                                                  .do_disturb_on_outlined,
+                                                              size: 40,
+                                                              color: counterBloc
+                                                                          .state <
+                                                                      2
+                                                                  ? Colors
+                                                                      .grey[200]
+                                                                  : Colors.redAccent[
+                                                                      400],
+                                                            ),
                                                             onPressed:
                                                                 () async {
                                                               counterBloc.state >
@@ -548,18 +560,6 @@ class _PageResturantState extends State<PageResturant>
                                                                   : counterBloc
                                                                       .state;
                                                             },
-                                                            icon: Icon(
-                                                              Icons
-                                                                  .do_disturb_on_outlined,
-                                                              size: 40,
-                                                              color: counterBloc
-                                                                          .state <
-                                                                      2
-                                                                  ? Colors
-                                                                      .grey[200]
-                                                                  : Colors.redAccent[
-                                                                      400],
-                                                            ),
                                                           ),
                                                           Padding(
                                                             padding:
@@ -575,14 +575,6 @@ class _PageResturantState extends State<PageResturant>
                                                             ),
                                                           ),
                                                           IconButton(
-                                                            onPressed:
-                                                                () async {
-                                                              counterBloc.add(
-                                                                  CounterEvent(
-                                                                      value: 1,
-                                                                      status: EventStatus
-                                                                          .increment));
-                                                            },
                                                             icon: Icon(
                                                               Icons
                                                                   .add_circle_outline_sharp,
@@ -591,6 +583,14 @@ class _PageResturantState extends State<PageResturant>
                                                                       .redAccent[
                                                                   400],
                                                             ),
+                                                            onPressed:
+                                                                () async {
+                                                              counterBloc.add(
+                                                                  CounterEvent(
+                                                                      value: 1,
+                                                                      status: EventStatus
+                                                                          .increment));
+                                                            },
                                                           ),
                                                         ],
                                                       ),
