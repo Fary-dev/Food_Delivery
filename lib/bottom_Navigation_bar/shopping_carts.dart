@@ -138,7 +138,7 @@ class _ShoppingCartsState extends State<ShoppingCarts> {
                                                                             1
                                                                         ? productBloc.add(DeleteFromCart(
                                                                             order:
-                                                                                Order(quantity: _order.quantity--, totalPrise: _order.product.price.abs())))
+                                                                                Order(quantity: _order.quantity--, totalPrise: _order.product.price)))
                                                                         : productBloc.add(DeleteFromCart(
                                                                             order:
                                                                                 _order,
@@ -191,10 +191,9 @@ class _ShoppingCartsState extends State<ShoppingCarts> {
                                                                           .nameProduct,
                                                                     ),
                                                                     Text(
-                                                                      _order
-                                                                          .totalPrise
-                                                                          .toStringAsFixed(
-                                                                              2),
+                                                                      (_order.product.price *
+                                                                              _order.quantity)
+                                                                          .toStringAsFixed(2),
                                                                     )
                                                                   ],
                                                                 ),
