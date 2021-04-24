@@ -411,7 +411,6 @@ final f = Product(
 class Order {
   final Resturant resturant;
   Product product;
-  String date;
   int quantity;
   double totalPrise;
 
@@ -419,7 +418,6 @@ class Order {
     this.resturant,
     this.product,
     this.quantity,
-    this.date,
     this.totalPrise,
   });
 }

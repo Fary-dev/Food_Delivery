@@ -27,6 +27,7 @@ class _ShoppingCartsState extends State<ShoppingCarts> {
   Widget build(BuildContext context) {
     CounterBloc counterBloc = BlocProvider.of<CounterBloc>(context);
     ProductBloc productBloc = BlocProvider.of<ProductBloc>(context);
+
     return Scaffold(
       backgroundColor: Colors.grey[100],
       appBar: AppBar(
@@ -161,15 +162,21 @@ class _ShoppingCartsState extends State<ShoppingCarts> {
                                                                       () {
                                                                     BlocProvider.of<ProductBloc>(
                                                                             context)
-                                                                        .add(DeleteFromCart(
+                                                                        .add(AddToCart(
                                                                             order: Order(
-                                                                      quantity:
+                                                                      totalPrise: _order
+                                                                              .product
+                                                                              .price *
                                                                           _order
-                                                                              .quantity++,
+                                                                              .quantity,
+                                                                      quantity:
+                                                                          _order.quantity +=
+                                                                              1,
                                                                     )));
-
-                                                                    setState(
-                                                                        () {});
+                                                                    print(state
+                                                                        .orderList
+                                                                        .length
+                                                                        .toString());
                                                                   }),
                                                             ],
                                                           ),

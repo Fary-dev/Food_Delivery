@@ -7,7 +7,6 @@ class ProductBloc extends Bloc<BlocEvent, BlocState> {
   Order order;
 
   ProductBloc() : super(SuccessState(orderList: []));
-
   List<Order> cartOrder = [];
 
   @override
@@ -25,7 +24,7 @@ class ProductBloc extends Bloc<BlocEvent, BlocState> {
       }
       yield SuccessState(orderList: cartOrder);
     } catch (a) {
-      yield FailState(massage: 'Error');
+      yield FailState(massage: 'Versuche Es bitte nochmal !!');
     }
   }
 }
