@@ -21,7 +21,8 @@ class _LocationSetState extends State<LocationSet> {
     isLoading = false;
 
     final position = await Geolocator.getCurrentPosition(
-        desiredAccuracy: LocationAccuracy.high);
+        desiredAccuracy: LocationAccuracy.high,
+        forceAndroidLocationManager: true);
 
     final coordinates = Coordinates(position.latitude, position.longitude);
     final address =

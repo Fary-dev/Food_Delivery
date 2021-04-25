@@ -29,6 +29,7 @@ class BanrState extends State<Banr> {
     return result;
   }
 
+  final CarouselController _buttonCarouselController = CarouselController();
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -38,7 +39,13 @@ class BanrState extends State<Banr> {
         crossAxisAlignment: CrossAxisAlignment.center,
         children: <Widget>[
           CarouselSlider(
+            carouselController: _buttonCarouselController ,
             options: CarouselOptions(
+              onPageChanged: (i, imgeUrl) {
+                setState(() {
+                  _current = i;
+                });
+              },
               viewportFraction: 0.999,
               height: 160,
               initialPage: 0,
@@ -49,15 +56,9 @@ class BanrState extends State<Banr> {
               aspectRatio: 16 / 9,
               autoPlayInterval: Duration(seconds: 5),
               autoPlayAnimationDuration: Duration(milliseconds: 100),
-              //pauseAutoPlayOnTouch: Duration(seconds: 3),
+              pauseAutoPlayOnTouch: true,
               scrollDirection: Axis.horizontal,
             ),
-
-            // onPageChanged: (index) {
-            //   setState(() {
-            //     _current = index;
-            //   });
-            // },
             items: imgList.map((imgUrl) {
               return Builder(builder: (BuildContext context) {
                 return Container(
@@ -92,14 +93,14 @@ class BanrState extends State<Banr> {
           ),
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
-            children: map<Widget>(imgList, (index, url) {
+            children: map<Widget>(imgList, (i, imagurl) {
               return Container(
                 width: 8,
                 height: 8,
                 margin: EdgeInsets.symmetric(horizontal: 4, vertical: 2),
                 decoration: BoxDecoration(
                   shape: BoxShape.circle,
-                  color: _current == index ? Colors.red[700] : Colors.grey,
+                  color: _current == i ? Colors.red[700] : Colors.grey,
                 ),
               );
             }),
