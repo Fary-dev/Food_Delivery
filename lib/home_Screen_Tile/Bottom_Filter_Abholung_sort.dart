@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:mjam/Screens/google_Maps/map_screen.dart';
 import 'package:mjam/models_and_data/Icons_Fonts/font1.dart';
 
 class BottomFilterAbholungSort extends StatefulWidget {
@@ -74,7 +75,8 @@ class _BottomFilterAbholungSortState extends State<BottomFilterAbholungSort> {
               // ignore: deprecated_member_use
               child: RaisedButton.icon(
                 onPressed: () {
-                  print('Abholung Button Clicked.');
+                  Navigator.push(context,
+                      MaterialPageRoute(builder: (context) => MapScreen()));
                 },
                 shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.all(Radius.circular(5.0))),

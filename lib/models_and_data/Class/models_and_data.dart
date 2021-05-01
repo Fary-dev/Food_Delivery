@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 //================================ Resturants ==========================
 class Resturant {
   int id;
+  double lattut;
+  double longtut;
   String nameResturant;
   String description;
   String photoResturant;
@@ -22,6 +24,8 @@ class Resturant {
 
   Resturant({
     @required this.id,
+    @required this.longtut,
+    @required this.lattut,
     @required this.nameResturant,
     @required this.description,
     @required this.photoResturant,
@@ -43,6 +47,8 @@ class Resturant {
 
 final resturant1 = Resturant(
   id: 1,
+  lattut: 48.66507923548689,
+  longtut: 15.63873216469989,
   nameResturant: 'Horner Pizzaservice',
   description: 'Beste Pizza & Schnizel',
   photoResturant: 'assets/HornerPizzaa.jpg',
@@ -78,6 +84,8 @@ final resturant1 = Resturant(
 );
 final resturant2 = Resturant(
   id: 2,
+  lattut: 48.665538925380226,
+  longtut: 15.633648444305498,
   nameResturant: 'Mcdonald\'s',
   description: 'MCDONALD\'S ÖSTERREICH',
   photoResturant: 'assets/mc2.jpg',
@@ -97,6 +105,8 @@ final resturant2 = Resturant(
 );
 final resturant3 = Resturant(
   id: 3,
+  lattut: 48.66207965750285,
+  longtut: 15.654308480654059,
   nameResturant: 'Resturant Milano',
   description: 'Pizza Pasta Schnizel',
   photoResturant: 'assets/Milano.jpg',
@@ -131,6 +141,8 @@ final resturant3 = Resturant(
 );
 final resturant4 = Resturant(
   id: 4,
+  lattut: 48.664687222651246,
+  longtut: 15.633361206578444,
   nameResturant: 'Schnitzelpalast',
   description: 'Schnitzel für immer',
   photoResturant: 'assets/Schnitzel.jpg',
@@ -164,6 +176,8 @@ final resturant4 = Resturant(
 );
 final resturant5 = Resturant(
   id: 5,
+  lattut: 48.66432424932352,
+  longtut: 15.662778866146501,
   nameResturant: 'Restaurant Arian',
   description: 'Mittagessen, Abendessen',
   photoResturant: 'assets/Ariana.jpg',

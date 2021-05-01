@@ -17,6 +17,12 @@ class _LocationSetState extends State<LocationSet> {
   var add11 = '';
   bool isLoading = true;
 
+  @override
+  void initState() {
+    super.initState();
+    getCurrentLocation();
+  }
+
   void getCurrentLocation() async {
     isLoading = false;
 
@@ -37,12 +43,6 @@ class _LocationSetState extends State<LocationSet> {
       DefultLocation myBloc = Provider.of(context, listen: false);
       myBloc.setLocation('$add11 $add10, $add6 $add7');
     });
-  }
-
-  @override
-  void initState() {
-    super.initState();
-    getCurrentLocation();
   }
 
   @override
