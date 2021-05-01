@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 //================================ Resturants ==========================
 class Resturant {
   int id;
   double lattut;
   double longtut;
+  LatLng latlong;
   String nameResturant;
   String description;
   String photoResturant;
@@ -24,6 +26,7 @@ class Resturant {
 
   Resturant({
     @required this.id,
+    @required this.latlong,
     @required this.longtut,
     @required this.lattut,
     @required this.nameResturant,
@@ -47,6 +50,7 @@ class Resturant {
 
 final resturant1 = Resturant(
   id: 1,
+  latlong: LatLng(48.66507923548689, 15.63873216469989),
   lattut: 48.66507923548689,
   longtut: 15.63873216469989,
   nameResturant: 'Horner Pizzaservice',
@@ -84,6 +88,7 @@ final resturant1 = Resturant(
 );
 final resturant2 = Resturant(
   id: 2,
+  latlong: LatLng(48.665538925380226, 15.633648444305498),
   lattut: 48.665538925380226,
   longtut: 15.633648444305498,
   nameResturant: 'Mcdonald\'s',
@@ -105,6 +110,7 @@ final resturant2 = Resturant(
 );
 final resturant3 = Resturant(
   id: 3,
+  latlong: LatLng(48.66207965750285, 15.654308480654059),
   lattut: 48.66207965750285,
   longtut: 15.654308480654059,
   nameResturant: 'Resturant Milano',
@@ -141,6 +147,7 @@ final resturant3 = Resturant(
 );
 final resturant4 = Resturant(
   id: 4,
+  latlong: LatLng(48.664687222651246, 15.633361206578444),
   lattut: 48.664687222651246,
   longtut: 15.633361206578444,
   nameResturant: 'Schnitzelpalast',
@@ -176,6 +183,7 @@ final resturant4 = Resturant(
 );
 final resturant5 = Resturant(
   id: 5,
+  latlong: LatLng(48.66432424932352, 15.662778866146501),
   lattut: 48.66432424932352,
   longtut: 15.662778866146501,
   nameResturant: 'Restaurant Arian',

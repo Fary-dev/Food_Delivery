@@ -14,22 +14,34 @@ class MapScreen extends StatefulWidget {
 }
 
 class _MapScreenState extends State<MapScreen> {
+  int prevPage;
   Set<Marker> _list = {};
-  Completer<GoogleMapController> _controller = Completer();
+  GoogleMapController _controller;
+  // Completer<GoogleMapController> _controller = Completer();
   PageController _pageController;
 
-  void onCompleter(GoogleMapController controller) {
+  void onCompleter(controller) {
     setState(() {
-      _controller.complete();
+      _controller = controller;
     });
+  }
+
+  void moveCamera() async {
+    _controller.animateCamera(CameraUpdate.newCameraPosition(CameraPosition(
+        target: resturants[_pageController.page.toInt()].latlong,
+        zoom: 17.0,
+        bearing: 45.0,
+        tilt: 45.0)));
   }
 
   void listPoins() {
     setState(() {
       for (var d in resturants) {
         Marker marker = Marker(
+          draggable: false,
+          infoWindow: InfoWindow(title: d.nameResturant),
           markerId: MarkerId('${d.id}'),
-          position: LatLng(d.lattut, d.longtut),
+          position: d.latlong,
         );
         _list.add(marker);
       }
@@ -82,14 +94,15 @@ class _MapScreenState extends State<MapScreen> {
                           left: 10,
                           child: Text(
                             resturants[index].nameResturant,
-                            style: TextStyle(fontWeight: FontWeight.bold),
+                            style: TextStyle(
+                                fontWeight: FontWeight.bold, fontSize: 12),
                           )),
                       Positioned(
                           top: 35,
                           left: 10,
                           child: Text(
                             resturants[index].description,
-                            style: TextStyle(fontSize: 12, color: Colors.grey),
+                            style: TextStyle(fontSize: 10, color: Colors.grey),
                           )),
                       Positioned(
                           top: 70,
@@ -99,12 +112,12 @@ class _MapScreenState extends State<MapScreen> {
                               Icon(
                                 Icons.location_on_outlined,
                                 color: Colors.redAccent[400],
-                                size: 20,
+                                size: 15,
                               ),
                               Text(
                                 resturants[index].address,
                                 style: TextStyle(
-                                    color: Colors.redAccent[400], fontSize: 12),
+                                    color: Colors.redAccent[400], fontSize: 10),
                               ),
                             ],
                           )),
@@ -112,8 +125,8 @@ class _MapScreenState extends State<MapScreen> {
                         top: 15,
                         right: 15,
                         child: Container(
-                          height: 40,
-                          width: 80,
+                          height: 30,
+                          width: 60,
                           decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(5),
                               image: DecorationImage(
@@ -124,50 +137,67 @@ class _MapScreenState extends State<MapScreen> {
                         ),
                       ),
                       Positioned(
-                          bottom: 40,
-                          right: 25,
-                          child: Text(
-                            'AbholZeit',
-                            style: TextStyle(color: Colors.grey, fontSize: 12),
+                          bottom: 10,
+                          child: Padding(
+                            padding: EdgeInsets.symmetric(horizontal: 10),
+                            child: Container(
+                              width: 255,
+                              child: Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Column(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      Text(
+                                        '${resturants[index].ratingResturant} Bewertungen',
+                                        style: TextStyle(
+                                            color: Colors.grey, fontSize: 10),
+                                      ),
+                                      Container(
+                                        height: 20,
+                                        width: 85,
+                                        child: rating(20.0, 80.0, 15.0),
+                                      )
+                                    ],
+                                  ),
+                                  Column(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      Text(
+                                        'Distanz',
+                                        style: TextStyle(
+                                            color: Colors.grey, fontSize: 10),
+                                      ),
+                                      Text(
+                                        '${resturants[index].distance} km',
+                                        style: TextStyle(
+                                            fontSize: 11,
+                                            fontWeight: FontWeight.bold),
+                                      )
+                                    ],
+                                  ),
+                                  Column(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      Text(
+                                        'AbholZeit',
+                                        style: TextStyle(
+                                            color: Colors.grey, fontSize: 10),
+                                      ),
+                                      Text(
+                                        'ca.${resturants[index].deliveryDuration} min',
+                                        style: TextStyle(
+                                            fontSize: 11,
+                                            fontWeight: FontWeight.bold),
+                                      )
+                                    ],
+                                  )
+                                ],
+                              ),
+                            ),
                           )),
-                      Positioned(
-                          bottom: 40,
-                          right: 100,
-                          child: Text(
-                            'Distanz',
-                            style: TextStyle(color: Colors.grey, fontSize: 12),
-                          )),
-                      Positioned(
-                          bottom: 40,
-                          left: 10,
-                          child: Text(
-                            '${resturants[index].ratingResturant} Bewertungen',
-                            style: TextStyle(color: Colors.grey, fontSize: 12),
-                          )),
-                      Positioned(
-                          bottom: 20,
-                          right: 20,
-                          child: Text(
-                            'ca.${resturants[index].deliveryDuration} min',
-                            style: TextStyle(
-                                fontSize: 13, fontWeight: FontWeight.bold),
-                          )),
-                      Positioned(
-                          bottom: 20,
-                          right: 100,
-                          child: Text(
-                            '${resturants[index].distance} km',
-                            style: TextStyle(
-                                fontSize: 13, fontWeight: FontWeight.bold),
-                          )),
-                      Positioned(
-                          bottom: 20,
-                          left: 10,
-                          child: Container(
-                            height: 20,
-                            width: 85,
-                            child: rating(20.0, 80.0, 16.0),
-                          ))
                     ],
                   ),
                 ),
@@ -183,7 +213,15 @@ class _MapScreenState extends State<MapScreen> {
   void initState() {
     super.initState();
     this.listPoins();
-    _pageController = PageController(initialPage: 1, viewportFraction: 0.8);
+    _pageController = PageController(initialPage: 1, viewportFraction: 0.8)
+      ..addListener(_onScroll);
+  }
+
+  void _onScroll() {
+    if (_pageController.page.toInt() != prevPage) {
+      prevPage = _pageController.page.toInt();
+      moveCamera();
+    }
   }
 
   @override
