@@ -11,10 +11,7 @@ class LocationSet extends StatefulWidget {
 }
 
 class _LocationSetState extends State<LocationSet> {
-  var add6 = '';
-  var add7 = '';
-  var add10 = '';
-  var add11 = '';
+  String add11, add10, add7, add6;
   bool isLoading = false;
 
   @override

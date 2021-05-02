@@ -16,28 +16,30 @@ class MapScreen extends StatefulWidget {
 class _MapScreenState extends State<MapScreen> {
   int prevPage;
   Set<Marker> _list = {};
-  GoogleMapController _controller;
+  GoogleMapController _googleMapController;
   // Completer<GoogleMapController> _controller = Completer();
   PageController _pageController;
 
-  void onCompleter(controller) {
+  void mapCreate(controller) {
     setState(() {
-      _controller = controller;
+      _googleMapController = controller;
     });
   }
 
   void moveCamera() async {
-    _controller.animateCamera(CameraUpdate.newCameraPosition(CameraPosition(
-        target: resturants[_pageController.page.toInt()].latlong,
-        zoom: 17.0,
-        bearing: 45.0,
-        tilt: 45.0)));
+    _googleMapController.animateCamera(CameraUpdate.newCameraPosition(
+        CameraPosition(
+            target: resturants[_pageController.page.toInt()].latlong,
+            zoom: 17.0,
+            bearing: 45.0,
+            tilt: 45.0)));
   }
 
   void listPoins() {
     setState(() {
       for (var d in resturants) {
         Marker marker = Marker(
+          icon: BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueRose),
           draggable: false,
           infoWindow: InfoWindow(title: d.nameResturant),
           markerId: MarkerId('${d.id}'),
@@ -225,6 +227,12 @@ class _MapScreenState extends State<MapScreen> {
   }
 
   @override
+  void dispose() {
+    _googleMapController.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     DefultLocation userLocation = Provider.of<DefultLocation>(context);
     return Scaffold(
@@ -236,7 +244,7 @@ class _MapScreenState extends State<MapScreen> {
               myLocationButtonEnabled: false,
               zoomControlsEnabled: false,
               markers: _list,
-              onMapCreated: onCompleter,
+              onMapCreated: mapCreate,
               initialCameraPosition: CameraPosition(
                 bearing: 30,
                 tilt: 80,
@@ -257,7 +265,7 @@ class _MapScreenState extends State<MapScreen> {
                       borderRadius: BorderRadius.circular(10),
                       boxShadow: [
                         BoxShadow(
-                            color: Colors.black.withOpacity(0.2),
+                            color: Colors.black.withOpacity(0.4),
                             blurRadius: 10,
                             offset: Offset.zero)
                       ]),
@@ -275,10 +283,14 @@ class _MapScreenState extends State<MapScreen> {
                         text: TextSpan(children: [
                           TextSpan(
                               text: 'Abholen ',
-                              style: TextStyle(color: Colors.black)),
+                              style: TextStyle(
+                                  color: Colors.black,
+                                  fontWeight: FontWeight.bold)),
                           TextSpan(
                             text: userLocation.location.toString(),
-                            style: TextStyle(color: Colors.redAccent[400]),
+                            style: TextStyle(
+                                color: Colors.redAccent[400],
+                                fontWeight: FontWeight.bold),
                           ),
                         ]),
                       ),
@@ -288,7 +300,7 @@ class _MapScreenState extends State<MapScreen> {
                             CupertinoIcons.location_solid,
                             color: Colors.redAccent[400],
                           ),
-                          onPressed: () => Navigator.pop(context)),
+                          onPressed: () {}),
                     ],
                   ),
                 ),
