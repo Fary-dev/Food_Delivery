@@ -15,7 +15,7 @@ class _LocationSetState extends State<LocationSet> {
   var add7 = '';
   var add10 = '';
   var add11 = '';
-  bool isLoading = true;
+  bool isLoading = false;
 
   @override
   void initState() {
@@ -25,17 +25,16 @@ class _LocationSetState extends State<LocationSet> {
 
   void getCurrentLocation() async {
     isLoading = false;
-
     final position = await Geolocator.getCurrentPosition(
         desiredAccuracy: LocationAccuracy.high,
         forceAndroidLocationManager: true);
 
     final coordinates = Coordinates(position.latitude, position.longitude);
+
     final address =
         await Geocoder.local.findAddressesFromCoordinates(coordinates);
-
+    isLoading = true;
     setState(() {
-      isLoading = true;
       add6 = address.first.locality;
       add7 = address.first.postalCode;
       add10 = address.first.subThoroughfare;
