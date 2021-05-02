@@ -12,7 +12,7 @@ class Resturant {
   String photoResturant;
   String logoResturant;
   String photoInfoPage;
-  var ratingResturant;
+  double ratingResturant;
   double deliveryPrice;
   double minimumOrder;
   int deliveryDuration;

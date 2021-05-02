@@ -1,5 +1,4 @@
-import 'dart:async';
-
+import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
@@ -17,7 +16,6 @@ class _MapScreenState extends State<MapScreen> {
   int prevPage;
   Set<Marker> _list = {};
   GoogleMapController _googleMapController;
-  // Completer<GoogleMapController> _controller = Completer();
   PageController _pageController;
 
   void mapCreate(controller) {
@@ -300,7 +298,15 @@ class _MapScreenState extends State<MapScreen> {
                             CupertinoIcons.location_solid,
                             color: Colors.redAccent[400],
                           ),
-                          onPressed: () {}),
+                          onPressed: () {
+                            setState(() {
+                              DatabaseReference testRef = FirebaseDatabase
+                                  .instance
+                                  .reference()
+                                  .child('Fary');
+                              testRef.set('Hello Fary {}');
+                            });
+                          }),
                     ],
                   ),
                 ),
