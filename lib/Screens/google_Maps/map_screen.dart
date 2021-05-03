@@ -1,4 +1,4 @@
-import 'package:firebase_database/firebase_database.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
@@ -300,17 +300,11 @@ class _MapScreenState extends State<MapScreen> {
                         CupertinoIcons.location_solid,
                         color: Colors.redAccent[400],
                       ),
-                      onPressed: () {
-                        setState(
-                          () {
-                            DatabaseReference testRef = FirebaseDatabase
-                                .instance
-                                .reference()
-                                .child('Fary');
-                            testRef.set('Hello Fary {}');
-                          },
-                        );
-                      },
+                      onPressed: () => FirebaseFirestore.instance
+                          .collection('Testing')
+                          .add({
+                        'Timestamp': Timestamp.fromDate(DateTime.now())
+                      }),
                     ),
                   ],
                 ),
