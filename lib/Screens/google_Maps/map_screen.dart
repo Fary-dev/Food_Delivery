@@ -252,33 +252,34 @@ class _MapScreenState extends State<MapScreen> {
             ),
           ),
           Positioned(
-              top: 60,
-              left: 0,
-              right: 0,
-              child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 15),
-                child: Container(
-                  decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.circular(10),
-                      boxShadow: [
-                        BoxShadow(
-                            color: Colors.black.withOpacity(0.4),
-                            blurRadius: 10,
-                            offset: Offset.zero)
-                      ]),
-                  child: Row(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      IconButton(
-                          icon: Icon(
-                            CupertinoIcons.back,
-                            color: Colors.black,
-                          ),
-                          onPressed: () => Navigator.pop(context)),
-                      Spacer(),
-                      RichText(
-                        text: TextSpan(children: [
+            top: 60,
+            left: 0,
+            right: 0,
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 15),
+              child: Container(
+                decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(10),
+                    boxShadow: [
+                      BoxShadow(
+                          color: Colors.black.withOpacity(0.4),
+                          blurRadius: 10,
+                          offset: Offset.zero)
+                    ]),
+                child: Row(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    IconButton(
+                        icon: Icon(
+                          CupertinoIcons.back,
+                          color: Colors.black,
+                        ),
+                        onPressed: () => Navigator.pop(context)),
+                    Spacer(),
+                    RichText(
+                      text: TextSpan(
+                        children: [
                           TextSpan(
                               text: 'Abholen ',
                               style: TextStyle(
@@ -290,40 +291,46 @@ class _MapScreenState extends State<MapScreen> {
                                 color: Colors.redAccent[400],
                                 fontWeight: FontWeight.bold),
                           ),
-                        ]),
+                        ],
                       ),
-                      Spacer(),
-                      IconButton(
-                          icon: Icon(
-                            CupertinoIcons.location_solid,
-                            color: Colors.redAccent[400],
-                          ),
-                          onPressed: () {
-                            setState(() {
-                              DatabaseReference testRef = FirebaseDatabase
-                                  .instance
-                                  .reference()
-                                  .child('Fary');
-                              testRef.set('Hello Fary {}');
-                            });
-                          }),
-                    ],
-                  ),
+                    ),
+                    Spacer(),
+                    IconButton(
+                      icon: Icon(
+                        CupertinoIcons.location_solid,
+                        color: Colors.redAccent[400],
+                      ),
+                      onPressed: () {
+                        setState(
+                          () {
+                            DatabaseReference testRef = FirebaseDatabase
+                                .instance
+                                .reference()
+                                .child('Fary');
+                            testRef.set('Hello Fary {}');
+                          },
+                        );
+                      },
+                    ),
+                  ],
                 ),
-              )),
+              ),
+            ),
+          ),
           Positioned(
-              bottom: 10,
-              child: Container(
-                height: 200,
-                width: MediaQuery.of(context).size.width,
-                child: PageView.builder(
-                  controller: _pageController,
-                  itemCount: resturants.length,
-                  itemBuilder: (BuildContext context, int index) {
-                    return _resturantListe(index);
-                  },
-                ),
-              )),
+            bottom: 10,
+            child: Container(
+              height: 200,
+              width: MediaQuery.of(context).size.width,
+              child: PageView.builder(
+                controller: _pageController,
+                itemCount: resturants.length,
+                itemBuilder: (BuildContext context, int index) {
+                  return _resturantListe(index);
+                },
+              ),
+            ),
+          ),
         ],
       ),
     );
