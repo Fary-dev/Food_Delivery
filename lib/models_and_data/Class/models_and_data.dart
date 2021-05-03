@@ -443,3 +443,20 @@ class Order {
     this.totalPrise,
   });
 }
+
+class User {
+  final Order order;
+  String firstName;
+  String lastName;
+  String nicName;
+  String email;
+  String password;
+  User({
+    this.order,
+    this.firstName,
+    this.lastName,
+    this.nicName,
+    this.email,
+    this.password,
+  });
+}

@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:mjam/models_and_data/Class/Authentication.dart';
+import 'package:provider/provider.dart';
 
 class SignUpScreen extends StatefulWidget {
   @override
@@ -6,6 +8,22 @@ class SignUpScreen extends StatefulWidget {
 }
 
 class _SignUpScreenState extends State<SignUpScreen> {
+  TextEditingController _nameController = TextEditingController();
+  TextEditingController _emailController = TextEditingController();
+  TextEditingController _passController = TextEditingController();
+  final GlobalKey<FormState> _formKey = GlobalKey();
+
+  Map<String, String> _authData = {'email': '', 'password': ''};
+
+  Future<void> _submit() async {
+    if (!_formKey.currentState.validate()) {
+      return;
+    }
+    _formKey.currentState.save();
+    await Provider.of<Authentication>(context, listen: false)
+        .signUp(_authData['email'], _authData['password']);
+  }
+
   TextStyle txtBtnStyle = TextStyle(color: Colors.black, fontSize: 16);
   @override
   Widget build(BuildContext context) {
@@ -238,61 +256,86 @@ class _SignUpScreenState extends State<SignUpScreen> {
                   height: 40,
                 ),
                 //_____________________Name_E-Mail_Password________
-                Container(
-                  child: Column(
-                    children: [
-                      Container(
-                        margin: EdgeInsets.symmetric(horizontal: 20),
-                        decoration: BoxDecoration(
-                            color: Colors.grey[400],
-                            borderRadius: BorderRadius.circular(12)),
-                        child: TextField(
-                          style: txtBtnStyle,
-                          decoration: InputDecoration(
-                              contentPadding:
-                                  EdgeInsets.symmetric(horizontal: 15),
-                              border: InputBorder.none,
-                              hintText: 'Name',
-                              hintStyle:
-                                  TextStyle(color: Colors.white, fontSize: 12)),
+                Form(
+                  key: _formKey,
+                  child: Container(
+                    child: Column(
+                      children: [
+                        Container(
+                          margin: EdgeInsets.symmetric(horizontal: 20),
+                          decoration: BoxDecoration(
+                              color: Colors.grey[400],
+                              borderRadius: BorderRadius.circular(12)),
+                          child: TextFormField(
+                            controller: _nameController,
+                            style: txtBtnStyle,
+                            decoration: InputDecoration(
+                                contentPadding:
+                                    EdgeInsets.symmetric(horizontal: 15),
+                                border: InputBorder.none,
+                                hintText: 'Name',
+                                hintStyle: TextStyle(
+                                    color: Colors.white, fontSize: 12)),
+                          ),
                         ),
-                      ),
-                      SizedBox(height: 10),
-                      Container(
-                        margin: EdgeInsets.symmetric(horizontal: 20),
-                        decoration: BoxDecoration(
-                            color: Colors.grey[400],
-                            borderRadius: BorderRadius.circular(12)),
-                        child: TextField(
-                          style: txtBtnStyle,
-                          decoration: InputDecoration(
-                              contentPadding:
-                                  EdgeInsets.symmetric(horizontal: 15),
-                              border: InputBorder.none,
-                              hintText: 'E-Mail',
-                              hintStyle:
-                                  TextStyle(color: Colors.white, fontSize: 12)),
+                        SizedBox(height: 10),
+                        Container(
+                          margin: EdgeInsets.symmetric(horizontal: 20),
+                          decoration: BoxDecoration(
+                              color: Colors.grey[400],
+                              borderRadius: BorderRadius.circular(12)),
+                          child: TextFormField(
+                            controller: _emailController,
+                            style: txtBtnStyle,
+                            keyboardType: TextInputType.emailAddress,
+                            validator: (value) {
+                              if (value.isEmpty || !value.contains('@')) {
+                                return 'Invalid email';
+                              }
+                              return null;
+                            },
+                            onSaved: (value) {
+                              _authData['email'] = value;
+                            },
+                            decoration: InputDecoration(
+                                contentPadding:
+                                    EdgeInsets.symmetric(horizontal: 15),
+                                border: InputBorder.none,
+                                hintText: 'E-Mail',
+                                hintStyle: TextStyle(
+                                    color: Colors.white, fontSize: 12)),
+                          ),
                         ),
-                      ),
-                      SizedBox(height: 10),
-                      Container(
-                        margin: EdgeInsets.symmetric(horizontal: 20),
-                        decoration: BoxDecoration(
-                            color: Colors.grey[400],
-                            borderRadius: BorderRadius.circular(12)),
-                        child: TextField(
-                          obscureText: true,
-                          style: txtBtnStyle,
-                          decoration: InputDecoration(
-                              contentPadding:
-                                  EdgeInsets.symmetric(horizontal: 15),
-                              border: InputBorder.none,
-                              hintText: 'Password',
-                              hintStyle:
-                                  TextStyle(color: Colors.white, fontSize: 12)),
+                        SizedBox(height: 10),
+                        Container(
+                          margin: EdgeInsets.symmetric(horizontal: 20),
+                          decoration: BoxDecoration(
+                              color: Colors.grey[400],
+                              borderRadius: BorderRadius.circular(12)),
+                          child: TextFormField(
+                            controller: _passController,
+                            obscureText: true,
+                            style: txtBtnStyle,
+                            validator: (value) {
+                              if (value.isEmpty || value.length < 8) {
+                                return 'Inwalid password';
+                              }
+                              return null;
+                            },
+                            onSaved: (value) {
+                              _authData['password'] = value;
+                            },
+                            decoration: InputDecoration(
+                                contentPadding:
+                                    EdgeInsets.symmetric(horizontal: 15),
+                                border: InputBorder.none,
+                                hintText: 'Password',
+                                hintStyle: TextStyle(
+                                    color: Colors.white, fontSize: 12)),
+                          ),
                         ),
-                      ),
-                    ],
+                      ],
+                    ),
                   ),
                 ),
                 SizedBox(
@@ -337,6 +380,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                   child: RaisedButton(
                     color: Colors.white,
                     onPressed: () {
+                      _submit();
                       print('KUNDENKONTO  ERSTELLE'.toLowerCase());
                     },
                     child: Text(
