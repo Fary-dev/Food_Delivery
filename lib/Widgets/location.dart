@@ -23,7 +23,7 @@ class _LocationSetState extends State<LocationSet> {
   }
 
   void getCurrentLocation() async {
-    isLoading = false;
+    // isLoading = false;
     final position = await Geolocator.getCurrentPosition(
         desiredAccuracy: LocationAccuracy.high,
         forceAndroidLocationManager: true);
@@ -32,7 +32,7 @@ class _LocationSetState extends State<LocationSet> {
 
     final address =
         await Geocoder.local.findAddressesFromCoordinates(coordinates);
-    isLoading = true;
+    // isLoading = true;
     setState(() {
       add6 = address.first.locality;
       add7 = address.first.postalCode;
