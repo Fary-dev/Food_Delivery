@@ -13,6 +13,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
   TextEditingController _emailController = TextEditingController();
   TextEditingController _passController = TextEditingController();
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+  // ignore: unused_field
   String _email, _password, _name;
 
   @override

@@ -3,9 +3,10 @@ import 'package:flutter/material.dart';
 import 'package:mjam/Screens/Login_and_SignIn/login_screen.dart';
 import 'package:mjam/Screens/Login_and_SignIn/sign_up_screen.dart';
 
+// ignore: must_be_immutable
 class Profil extends StatefulWidget {
-  String title = 'Profil';
-  Profil(this.title, {Key key}) : super(key: key);
+  String title;
+  Profil({Key key, this.title}) : super(key: key);
   @override
   _ProfilState createState() => _ProfilState();
 }
@@ -23,7 +24,7 @@ class _ProfilState extends State<Profil> {
               backgroundColor: Colors.white,
               elevation: 0,
               title: Text(
-                widget.title,
+                widget.title == null ?? 'Profil',
                 style: TextStyle(
                     color: Colors.black, fontSize: 13, letterSpacing: 0.5),
               ),
