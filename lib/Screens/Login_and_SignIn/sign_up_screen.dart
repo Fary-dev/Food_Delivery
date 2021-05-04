@@ -13,7 +13,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
   TextEditingController _emailController = TextEditingController();
   TextEditingController _passController = TextEditingController();
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
-  String _email, _password;
+  String _email, _password, _name;
 
   @override
   Widget build(BuildContext context) {
@@ -258,6 +258,10 @@ class _SignUpScreenState extends State<SignUpScreen> {
                           child: TextFormField(
                             controller: _nameController,
                             style: txtBtnStyle,
+                            validator: validateName,
+                            onSaved: (String value) {
+                              _name = value;
+                            },
                             decoration: InputDecoration(
                                 contentPadding:
                                     EdgeInsets.symmetric(horizontal: 15),
@@ -277,13 +281,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
                             controller: _emailController,
                             style: txtBtnStyle,
                             keyboardType: TextInputType.emailAddress,
-                            validator: (value) {
-                              if (value.isEmpty || !value.contains('@')) {
-                                return 'Invalid email';
-                              }
-                              return null;
-                            },
-                            onSaved: (value) {
+                            validator: validateEmail,
+                            onSaved: (String value) {
                               _email = value;
                             },
                             decoration: InputDecoration(
@@ -305,13 +304,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
                             controller: _passController,
                             obscureText: true,
                             style: txtBtnStyle,
-                            validator: (value) {
-                              if (value.isEmpty || value.length < 8) {
-                                return 'Inwalid password';
-                              }
-                              return null;
-                            },
-                            onSaved: (value) {
+                            validator: validatePassword,
+                            onSaved: (String value) {
                               _password = value;
                             },
                             decoration: InputDecoration(
@@ -385,6 +379,38 @@ class _SignUpScreenState extends State<SignUpScreen> {
         )
       ],
     );
+  }
+
+  String validateName(String value) {
+    if (value.length < 3)
+      return 'Name must be more than 2 charater';
+    else
+      return null;
+  }
+
+  String validateEmail(String value) {
+    Pattern pattern =
+        r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$';
+    RegExp regex = new RegExp(pattern);
+    if (!regex.hasMatch(value))
+      return 'Enter Valid Email';
+    else
+      return null;
+  }
+
+  String validatePassword(String value) {
+    Pattern pattern =
+        r'^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[!@#\$&*~]).{8,}$';
+    RegExp regex = new RegExp(pattern);
+    print(value);
+    if (value.isEmpty) {
+      return 'Please enter password';
+    } else {
+      if (!regex.hasMatch(value))
+        return 'Enter valid password';
+      else
+        return null;
+    }
   }
 
   void signUp() async {

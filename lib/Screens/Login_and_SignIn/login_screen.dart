@@ -246,11 +246,7 @@ class _LoginScreenState extends State<LoginScreen> {
                               borderRadius: BorderRadius.circular(12)),
                           child: TextFormField(
                             // ignore: missing_return
-                            validator: (input) {
-                              if (input.length < 8) {
-                                return 'Please insert your email';
-                              }
-                            },
+                            validator: validateEmail,
                             onSaved: (input) => _email = input,
                             controller: _emailController,
                             style: txtBtnStyle,
@@ -271,7 +267,7 @@ class _LoginScreenState extends State<LoginScreen> {
                               borderRadius: BorderRadius.circular(12)),
                           child: TextFormField(
                             // ignore: missing_return
-                            validator: validateEmail,
+                            validator: validatePassword,
                             onSaved: (input) => _password = input,
                             controller: _passwordController,
                             obscureText: true,
@@ -335,6 +331,21 @@ class _LoginScreenState extends State<LoginScreen> {
       return 'Enter Valid Email';
     else
       return null;
+  }
+
+  String validatePassword(String value) {
+    Pattern pattern =
+        r'^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[!@#\$&*~]).{8,}$';
+    RegExp regex = new RegExp(pattern);
+    print(value);
+    if (value.isEmpty) {
+      return 'Please enter password';
+    } else {
+      if (!regex.hasMatch(value))
+        return 'Enter valid password';
+      else
+        return null;
+    }
   }
 
   Future<void> signin() async {
