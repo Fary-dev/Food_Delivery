@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
@@ -17,6 +18,7 @@ class BottomNavBarWidget extends StatefulWidget {
 
 // ignore: camel_case_types
 class _BottomNavBarWidgetState extends State<BottomNavBarWidget> {
+  User user;
   PageController _pageController = PageController();
   int _selectedIndex = 0;
   List<Widget> _screens = [
@@ -24,7 +26,7 @@ class _BottomNavBarWidgetState extends State<BottomNavBarWidget> {
     Searching(),
     FavoritScreen(),
     ShoppingCarts(),
-    Profil(),
+    Profil(''),
   ];
   void _onPageChanged(int index) {
     setState(() {

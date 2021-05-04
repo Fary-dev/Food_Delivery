@@ -30,7 +30,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
             leading: IconButton(
               icon: Icon(
                 Icons.arrow_back_ios,
-                color: Colors.red[700],
+                color: Colors.redAccent[400],
               ),
               onPressed: () {
                 Navigator.pop(context);
@@ -53,7 +53,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         'Foodo',
                         style: TextStyle(
                             fontSize: 15,
-                            color: Colors.red[700],
+                            color: Colors.redAccent[400],
                             fontWeight: FontWeight.bold,
                             letterSpacing: 0.5),
                       ),
@@ -153,45 +153,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                     ],
                   ),
                 ),
-                SizedBox(
-                  height: 15,
-                ),
-                //____________________Mit Apple anmelden___________
-                Container(
-                  height: 45,
-                  padding: const EdgeInsets.symmetric(horizontal: 20),
-                  // ignore: deprecated_member_use
-                  child: RaisedButton(
-                    color: Colors.white,
-                    onPressed: () {
-                      print('Mit Apple anmelden');
-                    },
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Container(
-                          margin: EdgeInsets.symmetric(vertical: 7),
-                          decoration: BoxDecoration(
-                              image: DecorationImage(
-                            image: AssetImage('assets/apple.png'),
-                          )),
-                          height: 15,
-                          width: 15,
-                        ),
-                        SizedBox(
-                          width: 5,
-                        ),
-                        Text(
-                          'Mit Apple anmelden',
-                          style: TextStyle(
-                              color: Colors.black,
-                              letterSpacing: 0.5,
-                              fontSize: 16),
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
+
                 //____________________________Oder_________________
                 Container(
                   padding: EdgeInsets.only(top: 25),
@@ -235,7 +197,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                   child: Text(
                     'Mit E-Mail registrieren',
                     style: TextStyle(
-                        fontSize: 16,
+                        fontSize: 13,
                         color: Colors.black,
                         letterSpacing: 0.5,
                         fontWeight: FontWeight.bold),
@@ -254,7 +216,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                           margin: EdgeInsets.symmetric(horizontal: 20),
                           decoration: BoxDecoration(
                               color: Colors.grey[400],
-                              borderRadius: BorderRadius.circular(12)),
+                              borderRadius: BorderRadius.circular(0)),
                           child: TextFormField(
                             controller: _nameController,
                             style: txtBtnStyle,
@@ -276,7 +238,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                           margin: EdgeInsets.symmetric(horizontal: 20),
                           decoration: BoxDecoration(
                               color: Colors.grey[400],
-                              borderRadius: BorderRadius.circular(12)),
+                              borderRadius: BorderRadius.circular(0)),
                           child: TextFormField(
                             controller: _emailController,
                             style: txtBtnStyle,
@@ -299,7 +261,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                           margin: EdgeInsets.symmetric(horizontal: 20),
                           decoration: BoxDecoration(
                               color: Colors.grey[400],
-                              borderRadius: BorderRadius.circular(12)),
+                              borderRadius: BorderRadius.circular(0)),
                           child: TextFormField(
                             controller: _passController,
                             obscureText: true,
@@ -361,15 +323,15 @@ class _SignUpScreenState extends State<SignUpScreen> {
                   padding: const EdgeInsets.symmetric(horizontal: 20),
                   // ignore: deprecated_member_use
                   child: RaisedButton(
-                    color: Colors.white,
+                    color: Colors.redAccent[400],
                     onPressed: signUp,
                     child: Text(
                       'KUNDENKONTO  ERSTELLE',
                       style: TextStyle(
-                          color: Colors.black,
+                          color: Colors.white,
                           letterSpacing: 0.5,
                           fontWeight: FontWeight.bold,
-                          fontSize: 16),
+                          fontSize: 13),
                     ),
                   ),
                 ),
@@ -399,8 +361,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
   }
 
   String validatePassword(String value) {
-    Pattern pattern =
-        r'^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[!@#\$&*~]).{8,}$';
+    Pattern pattern = r'^(?=.*\d)(?=.*[a-zA-Z])[a-zA-Z0-9!@#$%&*]{6,20}$';
     RegExp regex = new RegExp(pattern);
     print(value);
     if (value.isEmpty) {

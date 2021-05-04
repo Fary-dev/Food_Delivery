@@ -1,6 +1,10 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:mjam/Screens/Login_and_SignIn/reset_password.dart';
 import 'package:mjam/Widgets/BottomNavBarWidget.dart';
+import 'package:mjam/bottom_Navigation_bar/Profil.dart';
+
+import 'auch_with_Google.dart';
 
 class LoginScreen extends StatefulWidget {
   @override
@@ -12,8 +16,22 @@ class _LoginScreenState extends State<LoginScreen> {
   TextEditingController _emailController = TextEditingController();
   TextEditingController _passwordController = TextEditingController();
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
-
   String _email, _password;
+  User user;
+
+  @override
+  void initState() {
+    super.initState();
+    signAutGoogle();
+  }
+
+  void click() {
+    signInWithGoogle().then((value) => {
+          this.user = user,
+          Navigator.push(context,
+              MaterialPageRoute(builder: (context) => Profil(user.displayName)))
+        });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -113,7 +131,9 @@ class _LoginScreenState extends State<LoginScreen> {
                         child: RaisedButton(
                           color: Colors.white,
                           onPressed: () {
-                            print('Google');
+                            setState(() {
+                              click();
+                            });
                           },
                           child: Row(
                             crossAxisAlignment: CrossAxisAlignment.center,
@@ -142,45 +162,45 @@ class _LoginScreenState extends State<LoginScreen> {
                     ],
                   ),
                 ),
-                SizedBox(
-                  height: 15,
-                ),
-                //____________________Mit Apple anmelden___________
-                Container(
-                  height: 45,
-                  padding: const EdgeInsets.symmetric(horizontal: 20),
-                  // ignore: deprecated_member_use
-                  child: RaisedButton(
-                    color: Colors.white,
-                    onPressed: () {
-                      print('Mit Apple anmelden');
-                    },
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Container(
-                          margin: EdgeInsets.symmetric(vertical: 7),
-                          decoration: BoxDecoration(
-                              image: DecorationImage(
-                            image: AssetImage('assets/apple.png'),
-                          )),
-                          height: 15,
-                          width: 15,
-                        ),
-                        SizedBox(
-                          width: 5,
-                        ),
-                        Text(
-                          'Mit Apple anmelden',
-                          style: TextStyle(
-                              color: Colors.black,
-                              letterSpacing: 0.5,
-                              fontSize: 16),
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
+                // SizedBox(
+                //   height: 15,
+                // ),
+                // //____________________Mit Apple anmelden___________
+                // Container(
+                //   height: 45,
+                //   padding: const EdgeInsets.symmetric(horizontal: 20),
+                //   // ignore: deprecated_member_use
+                //   child: RaisedButton(
+                //     color: Colors.white,
+                //     onPressed: () {
+                //       print('Mit Apple anmelden');
+                //     },
+                //     child: Row(
+                //       mainAxisAlignment: MainAxisAlignment.center,
+                //       children: [
+                //         Container(
+                //           margin: EdgeInsets.symmetric(vertical: 7),
+                //           decoration: BoxDecoration(
+                //               image: DecorationImage(
+                //             image: AssetImage('assets/apple.png'),
+                //           )),
+                //           height: 15,
+                //           width: 15,
+                //         ),
+                //         SizedBox(
+                //           width: 5,
+                //         ),
+                //         Text(
+                //           'Mit Apple anmelden',
+                //           style: TextStyle(
+                //               color: Colors.black,
+                //               letterSpacing: 0.5,
+                //               fontSize: 16),
+                //         ),
+                //       ],
+                //     ),
+                //   ),
+                // ),
                 //____________________________Oder_________________
                 Container(
                   padding: EdgeInsets.only(top: 25),
@@ -224,7 +244,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   child: Text(
                     'Mit E-Mail einloggen',
                     style: TextStyle(
-                        fontSize: 16,
+                        fontSize: 13,
                         color: Colors.black,
                         letterSpacing: 0.5,
                         fontWeight: FontWeight.bold),
@@ -243,7 +263,7 @@ class _LoginScreenState extends State<LoginScreen> {
                           margin: EdgeInsets.symmetric(horizontal: 20),
                           decoration: BoxDecoration(
                               color: Colors.grey[400],
-                              borderRadius: BorderRadius.circular(12)),
+                              borderRadius: BorderRadius.circular(0)),
                           child: TextFormField(
                             // ignore: missing_return
                             validator: validateEmail,
@@ -264,7 +284,7 @@ class _LoginScreenState extends State<LoginScreen> {
                           margin: EdgeInsets.symmetric(horizontal: 20),
                           decoration: BoxDecoration(
                               color: Colors.grey[400],
-                              borderRadius: BorderRadius.circular(12)),
+                              borderRadius: BorderRadius.circular(0)),
                           child: TextFormField(
                             // ignore: missing_return
                             validator: validatePassword,
@@ -294,15 +314,15 @@ class _LoginScreenState extends State<LoginScreen> {
                   padding: const EdgeInsets.symmetric(horizontal: 20),
                   // ignore: deprecated_member_use
                   child: RaisedButton(
-                    color: Colors.white,
+                    color: Colors.redAccent[400],
                     onPressed: signin,
                     child: Text(
                       'KUNDENKONTO  ERSTELLE',
                       style: TextStyle(
-                          color: Colors.black,
+                          color: Colors.white,
                           letterSpacing: 0.5,
                           fontWeight: FontWeight.bold,
-                          fontSize: 16),
+                          fontSize: 13),
                     ),
                   ),
                 ),
@@ -310,9 +330,16 @@ class _LoginScreenState extends State<LoginScreen> {
                   height: 15,
                 ),
                 Center(
-                  child: Text(
-                    'Password vergessen?',
-                    style: TextStyle(color: Colors.red[700], fontSize: 15),
+                  child: TextButton(
+                    onPressed: () => Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => ResetPasswordScreen())),
+                    child: Text(
+                      'Password vergessen?',
+                      style:
+                          TextStyle(color: Colors.redAccent[400], fontSize: 11),
+                    ),
                   ),
                 )
               ],
@@ -334,8 +361,7 @@ class _LoginScreenState extends State<LoginScreen> {
   }
 
   String validatePassword(String value) {
-    Pattern pattern =
-        r'^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[!@#\$&*~]).{8,}$';
+    Pattern pattern = r'^(?=.*\d)(?=.*[a-zA-Z])[a-zA-Z0-9!@#$%&*]{6,20}$';
     RegExp regex = new RegExp(pattern);
     print(value);
     if (value.isEmpty) {

@@ -4,7 +4,8 @@ import 'package:mjam/Screens/Login_and_SignIn/login_screen.dart';
 import 'package:mjam/Screens/Login_and_SignIn/sign_up_screen.dart';
 
 class Profil extends StatefulWidget {
-  Profil({Key key}) : super(key: key);
+  String title = 'Profil';
+  Profil(this.title, {Key key}) : super(key: key);
   @override
   _ProfilState createState() => _ProfilState();
 }
@@ -22,7 +23,7 @@ class _ProfilState extends State<Profil> {
               backgroundColor: Colors.white,
               elevation: 0,
               title: Text(
-                "Profil",
+                widget.title,
                 style: TextStyle(
                     color: Colors.black, fontSize: 13, letterSpacing: 0.5),
               ),
