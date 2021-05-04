@@ -1,4 +1,6 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:mjam/Widgets/BottomNavBarWidget.dart';
 
 class LoginScreen extends StatefulWidget {
   @override
@@ -7,6 +9,12 @@ class LoginScreen extends StatefulWidget {
 
 class _LoginScreenState extends State<LoginScreen> {
   TextStyle txtBtnStyle = TextStyle(color: Colors.black, fontSize: 16);
+  TextEditingController _emailController = TextEditingController();
+  TextEditingController _passwordController = TextEditingController();
+  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+
+  String _email, _password;
+
   @override
   Widget build(BuildContext context) {
     return Stack(
@@ -227,43 +235,58 @@ class _LoginScreenState extends State<LoginScreen> {
                 ),
                 //_____________________Name_E-Mail_Password________
                 Container(
-                  child: Column(
-                    children: [
-                      Container(
-                        margin: EdgeInsets.symmetric(horizontal: 20),
-                        decoration: BoxDecoration(
-                            color: Colors.grey[400],
-                            borderRadius: BorderRadius.circular(12)),
-                        child: TextField(
-                          style: txtBtnStyle,
-                          decoration: InputDecoration(
-                              contentPadding:
-                                  EdgeInsets.symmetric(horizontal: 15),
-                              border: InputBorder.none,
-                              hintText: 'E-Mail',
-                              hintStyle:
-                                  TextStyle(color: Colors.white, fontSize: 12)),
+                  child: Form(
+                    key: _formKey,
+                    child: Column(
+                      children: [
+                        Container(
+                          margin: EdgeInsets.symmetric(horizontal: 20),
+                          decoration: BoxDecoration(
+                              color: Colors.grey[400],
+                              borderRadius: BorderRadius.circular(12)),
+                          child: TextFormField(
+                            // ignore: missing_return
+                            validator: (input) {
+                              if (input.length < 8) {
+                                return 'Please insert your email';
+                              }
+                            },
+                            onSaved: (input) => _email = input,
+                            controller: _emailController,
+                            style: txtBtnStyle,
+                            decoration: InputDecoration(
+                                contentPadding:
+                                    EdgeInsets.symmetric(horizontal: 15),
+                                border: InputBorder.none,
+                                hintText: 'E-Mail',
+                                hintStyle: TextStyle(
+                                    color: Colors.white, fontSize: 12)),
+                          ),
                         ),
-                      ),
-                      SizedBox(height: 10),
-                      Container(
-                        margin: EdgeInsets.symmetric(horizontal: 20),
-                        decoration: BoxDecoration(
-                            color: Colors.grey[400],
-                            borderRadius: BorderRadius.circular(12)),
-                        child: TextField(
-                          obscureText: true,
-                          style: txtBtnStyle,
-                          decoration: InputDecoration(
-                              contentPadding:
-                                  EdgeInsets.symmetric(horizontal: 15),
-                              border: InputBorder.none,
-                              hintText: 'Password',
-                              hintStyle:
-                                  TextStyle(color: Colors.white, fontSize: 12)),
+                        SizedBox(height: 10),
+                        Container(
+                          margin: EdgeInsets.symmetric(horizontal: 20),
+                          decoration: BoxDecoration(
+                              color: Colors.grey[400],
+                              borderRadius: BorderRadius.circular(12)),
+                          child: TextFormField(
+                            // ignore: missing_return
+                            validator: validateEmail,
+                            onSaved: (input) => _password = input,
+                            controller: _passwordController,
+                            obscureText: true,
+                            style: txtBtnStyle,
+                            decoration: InputDecoration(
+                                contentPadding:
+                                    EdgeInsets.symmetric(horizontal: 15),
+                                border: InputBorder.none,
+                                hintText: 'Password',
+                                hintStyle: TextStyle(
+                                    color: Colors.white, fontSize: 12)),
+                          ),
                         ),
-                      ),
-                    ],
+                      ],
+                    ),
                   ),
                 ),
                 SizedBox(
@@ -276,9 +299,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   // ignore: deprecated_member_use
                   child: RaisedButton(
                     color: Colors.white,
-                    onPressed: () {
-                      print('KUNDENKONTO  ERSTELLE'.toLowerCase());
-                    },
+                    onPressed: signin,
                     child: Text(
                       'KUNDENKONTO  ERSTELLE',
                       style: TextStyle(
@@ -304,5 +325,34 @@ class _LoginScreenState extends State<LoginScreen> {
         )
       ],
     );
+  }
+
+  String validateEmail(String value) {
+    Pattern pattern =
+        r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$';
+    RegExp regex = new RegExp(pattern);
+    if (!regex.hasMatch(value))
+      return 'Enter Valid Email';
+    else
+      return null;
+  }
+
+  Future<void> signin() async {
+    final formState = _formKey.currentState;
+    if (formState.validate()) {
+      formState.save();
+      try {
+        print(_email);
+        final User user = (await FirebaseAuth.instance
+                .signInWithEmailAndPassword(email: _email, password: _password))
+            .user;
+        Navigator.push(context,
+            MaterialPageRoute(builder: (context) => BottomNavBarWidget()));
+
+        print(user.email);
+      } catch (e) {
+        print(e.message);
+      }
+    }
   }
 }

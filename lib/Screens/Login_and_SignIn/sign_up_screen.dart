@@ -1,6 +1,6 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:mjam/models_and_data/Class/Authentication.dart';
-import 'package:provider/provider.dart';
+import 'package:mjam/Screens/Login_and_SignIn/login_screen.dart';
 
 class SignUpScreen extends StatefulWidget {
   @override
@@ -8,28 +8,17 @@ class SignUpScreen extends StatefulWidget {
 }
 
 class _SignUpScreenState extends State<SignUpScreen> {
+  TextStyle txtBtnStyle = TextStyle(color: Colors.black, fontSize: 16);
   TextEditingController _nameController = TextEditingController();
   TextEditingController _emailController = TextEditingController();
   TextEditingController _passController = TextEditingController();
-  final GlobalKey<FormState> _formKey = GlobalKey();
+  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+  String _email, _password;
 
-  Map<String, String> _authData = {'email': '', 'password': ''};
-
-  Future<void> _submit() async {
-    if (!_formKey.currentState.validate()) {
-      return;
-    }
-    _formKey.currentState.save();
-    await Provider.of<Authentication>(context, listen: false)
-        .signUp(_authData['email'], _authData['password']);
-  }
-
-  TextStyle txtBtnStyle = TextStyle(color: Colors.black, fontSize: 16);
   @override
   Widget build(BuildContext context) {
     return Stack(
       children: [
-        //WidgetLogin(),
         Scaffold(
           appBar: AppBar(
             backgroundColor: Colors.grey[200],
@@ -295,7 +284,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                               return null;
                             },
                             onSaved: (value) {
-                              _authData['email'] = value;
+                              _email = value;
                             },
                             decoration: InputDecoration(
                                 contentPadding:
@@ -323,7 +312,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                               return null;
                             },
                             onSaved: (value) {
-                              _authData['password'] = value;
+                              _password = value;
                             },
                             decoration: InputDecoration(
                                 contentPadding:
@@ -379,10 +368,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                   // ignore: deprecated_member_use
                   child: RaisedButton(
                     color: Colors.white,
-                    onPressed: () {
-                      _submit();
-                      print('KUNDENKONTO  ERSTELLE'.toLowerCase());
-                    },
+                    onPressed: signUp,
                     child: Text(
                       'KUNDENKONTO  ERSTELLE',
                       style: TextStyle(
@@ -400,27 +386,23 @@ class _SignUpScreenState extends State<SignUpScreen> {
       ],
     );
   }
-}
 
-// class WidgetLogin extends StatelessWidget {
-//   @override
-//   Widget build(BuildContext context) {
-//     return ShaderMask(
-//       shaderCallback: (bounds) => LinearGradient(
-//         colors: [Colors.black, Colors.black12],
-//         begin: Alignment.bottomCenter,
-//         end: Alignment.center,
-//       ).createShader(bounds),
-//       blendMode: BlendMode.darken,
-//       child: Container(
-//         color: Colors.white,
-//         // decoration: BoxDecoration(
-//         //     image: DecorationImage(
-//         //         image: AssetImage('assets/login.jpg'),
-//         //         fit: BoxFit.cover,
-//         //         colorFilter:
-//         //             ColorFilter.mode(Colors.black38, BlendMode.darken))),
-//       ),
-//     );
-//   }
-// }
+  void signUp() async {
+    final formState = _formKey.currentState;
+    if (formState.validate()) {
+      formState.save();
+      try {
+        print(_email);
+        final User user = (await FirebaseAuth.instance
+                .createUserWithEmailAndPassword(
+                    email: _email, password: _password))
+            .user;
+        user.sendEmailVerification();
+        Navigator.push(
+            context, MaterialPageRoute(builder: (context) => LoginScreen()));
+      } catch (e) {
+        print(e.message);
+      }
+    }
+  }
+}
