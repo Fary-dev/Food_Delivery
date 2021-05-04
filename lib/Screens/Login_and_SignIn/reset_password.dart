@@ -1,6 +1,5 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:mjam/Widgets/BottomNavBarWidget.dart';
 
 import 'login_screen.dart';
 
