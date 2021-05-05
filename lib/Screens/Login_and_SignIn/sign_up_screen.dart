@@ -1,6 +1,9 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:mjam/Screens/Login_and_SignIn/login_screen.dart';
+import 'package:mjam/Widgets/BottomNavBarWidget.dart';
+
+import 'auch_with_Google.dart';
 
 class SignUpScreen extends StatefulWidget {
   @override
@@ -15,6 +18,20 @@ class _SignUpScreenState extends State<SignUpScreen> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   // ignore: unused_field
   String _email, _password, _name;
+
+  void click() {
+    setState(() {
+      signInWithGoogle().whenComplete(() {
+        Navigator.of(context).push(
+          MaterialPageRoute(
+            builder: (context) {
+              return BottomNavBarWidget();
+            },
+          ),
+        );
+      });
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -125,7 +142,9 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         child: RaisedButton(
                           color: Colors.white,
                           onPressed: () {
-                            print('Google');
+                            setState(() {
+                              click();
+                            });
                           },
                           child: Row(
                             crossAxisAlignment: CrossAxisAlignment.center,
