@@ -13,33 +13,32 @@ class LocationSet extends StatefulWidget {
 
 class _LocationSetState extends State<LocationSet> {
   final Future<FirebaseApp> _fba = Firebase.initializeApp();
-  String add11, add10, add7, add6;
+  String strasse, hausNummer, bzirck, plz;
   bool isLoading = false;
 
   @override
   void initState() {
     super.initState();
     getCurrentLocation();
+    isLoading = false;
   }
 
   void getCurrentLocation() async {
-    isLoading = false;
     final position = await Geolocator.getCurrentPosition(
-        desiredAccuracy: LocationAccuracy.high,
-        forceAndroidLocationManager: true);
+        desiredAccuracy: LocationAccuracy.high);
 
     final coordinates = Coordinates(position.latitude, position.longitude);
 
     final address =
         await Geocoder.local.findAddressesFromCoordinates(coordinates);
-    isLoading = true;
+    address.isNotEmpty ? isLoading = true : isLoading = false;
     setState(() {
-      add6 = address.first.locality;
-      add7 = address.first.postalCode;
-      add10 = address.first.subThoroughfare;
-      add11 = address.first.thoroughfare;
+      plz = address.first.locality;
+      bzirck = address.first.postalCode;
+      hausNummer = address.first.subThoroughfare;
+      strasse = address.first.thoroughfare;
       DefultLocation myBloc = Provider.of(context, listen: false);
-      myBloc.setLocation('$add11 $add10, $add6 $add7');
+      myBloc.setLocation('$strasse $hausNummer, $plz $bzirck');
     });
   }
 

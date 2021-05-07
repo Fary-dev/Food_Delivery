@@ -24,6 +24,11 @@ class _ProfilState extends State<Profil> {
   }
 
   @override
+  void dispose() {
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Container(
       child: DefaultTabController(

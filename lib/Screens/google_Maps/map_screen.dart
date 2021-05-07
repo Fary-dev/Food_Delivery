@@ -256,7 +256,7 @@ class _MapScreenState extends State<MapScreen> {
             left: 0,
             right: 0,
             child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 15),
+              padding: const EdgeInsets.symmetric(horizontal: 30),
               child: Container(
                 decoration: BoxDecoration(
                     color: Colors.white,
@@ -277,21 +277,26 @@ class _MapScreenState extends State<MapScreen> {
                         ),
                         onPressed: () => Navigator.pop(context)),
                     Spacer(),
-                    RichText(
-                      text: TextSpan(
-                        children: [
-                          TextSpan(
-                              text: 'Abholen ',
+                    SizedBox(
+                      width: MediaQuery.of(context).size.width * 0.60,
+                      child: RichText(
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                        text: TextSpan(
+                          children: [
+                            TextSpan(
+                                text: 'Abholen ',
+                                style: TextStyle(
+                                    color: Colors.black,
+                                    fontWeight: FontWeight.bold)),
+                            TextSpan(
+                              text: userLocation.location.toString(),
                               style: TextStyle(
-                                  color: Colors.black,
-                                  fontWeight: FontWeight.bold)),
-                          TextSpan(
-                            text: userLocation.location.toString(),
-                            style: TextStyle(
-                                color: Colors.redAccent[400],
-                                fontWeight: FontWeight.bold),
-                          ),
-                        ],
+                                  color: Colors.redAccent[400],
+                                  fontWeight: FontWeight.bold),
+                            ),
+                          ],
+                        ),
                       ),
                     ),
                     Spacer(),

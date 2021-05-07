@@ -27,27 +27,28 @@ class _MenuState extends State<Menu> {
           centerTitle: true,
           title: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 15),
-            child: FittedBox(
-              fit: BoxFit.fitWidth,
+            child: SizedBox(
               child: RichText(
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
                   text: TextSpan(children: [
-                TextSpan(
-                  text: "Sofort zu ",
-                  style: TextStyle(
-                    color: Colors.black,
-                    fontSize: 15,
-                    letterSpacing: 0.5,
-                    fontWeight: FontWeight.w500,
-                  ),
-                ),
-                TextSpan(
-                    text: userLocation.location.toString(),
-                    style: TextStyle(
-                      fontSize: 15,
-                      color: Colors.red,
-                      fontWeight: FontWeight.w500,
-                    )),
-              ])),
+                    TextSpan(
+                      text: "Sofort zu ",
+                      style: TextStyle(
+                        color: Colors.black,
+                        fontSize: 15,
+                        letterSpacing: 0.5,
+                        fontWeight: FontWeight.w500,
+                      ),
+                    ),
+                    TextSpan(
+                        text: userLocation.location.toString(),
+                        style: TextStyle(
+                          fontSize: 15,
+                          color: Colors.red,
+                          fontWeight: FontWeight.w500,
+                        )),
+                  ])),
             ),
           ),
         ),
