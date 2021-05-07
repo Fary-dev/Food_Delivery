@@ -2,7 +2,6 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:mjam/Screens/Login_and_SignIn/reset_password.dart';
 import 'package:mjam/Widgets/BottomNavBarWidget.dart';
-import 'package:mjam/bottom_Navigation_bar/Profil.dart';
 
 import 'auch_with_Google.dart';
 
@@ -17,20 +16,19 @@ class _LoginScreenState extends State<LoginScreen> {
   TextEditingController _passwordController = TextEditingController();
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   String _email, _password;
-  User user;
-
-  @override
-  void initState() {
-    super.initState();
-    signAutGoogle();
-  }
 
   void click() {
-    signInWithGoogle().then((value) => {
-          this.user = user,
-          Navigator.push(context,
-              MaterialPageRoute(builder: (context) => Profil(user.displayName)))
-        });
+    setState(() {
+      signInWithGoogle().whenComplete(() {
+        Navigator.of(context).push(
+          MaterialPageRoute(
+            builder: (context) {
+              return BottomNavBarWidget();
+            },
+          ),
+        );
+      });
+    });
   }
 
   @override
@@ -162,45 +160,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     ],
                   ),
                 ),
-                // SizedBox(
-                //   height: 15,
-                // ),
-                // //____________________Mit Apple anmelden___________
-                // Container(
-                //   height: 45,
-                //   padding: const EdgeInsets.symmetric(horizontal: 20),
-                //   // ignore: deprecated_member_use
-                //   child: RaisedButton(
-                //     color: Colors.white,
-                //     onPressed: () {
-                //       print('Mit Apple anmelden');
-                //     },
-                //     child: Row(
-                //       mainAxisAlignment: MainAxisAlignment.center,
-                //       children: [
-                //         Container(
-                //           margin: EdgeInsets.symmetric(vertical: 7),
-                //           decoration: BoxDecoration(
-                //               image: DecorationImage(
-                //             image: AssetImage('assets/apple.png'),
-                //           )),
-                //           height: 15,
-                //           width: 15,
-                //         ),
-                //         SizedBox(
-                //           width: 5,
-                //         ),
-                //         Text(
-                //           'Mit Apple anmelden',
-                //           style: TextStyle(
-                //               color: Colors.black,
-                //               letterSpacing: 0.5,
-                //               fontSize: 16),
-                //         ),
-                //       ],
-                //     ),
-                //   ),
-                // ),
+
                 //____________________________Oder_________________
                 Container(
                   padding: EdgeInsets.only(top: 25),
