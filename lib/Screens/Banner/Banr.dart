@@ -46,7 +46,7 @@ class BanrState extends State<Banr> {
                   _current = i;
                 });
               },
-              viewportFraction: 0.999,
+              viewportFraction: 1.0,
               height: 160,
               initialPage: 0,
               enlargeCenterPage: false,

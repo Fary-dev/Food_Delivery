@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:mjam/Contants/Color.dart';
 import 'package:mjam/Screens/Login_and_SignIn/auch_with_Google.dart';
 import 'package:mjam/Screens/Login_and_SignIn/login_screen.dart';
 import 'package:mjam/Screens/Login_and_SignIn/sign_up_screen.dart';
@@ -18,6 +19,7 @@ class _ProfilState extends State<Profil> {
 
   logOut() async {
     await _auth.signOut().then((_) {});
+    // ignore: deprecated_member_use
     Scaffold.of(context).showSnackBar(SnackBar(
       content: Text(' has successfully signed out.'),
     ));
@@ -39,7 +41,7 @@ class _ProfilState extends State<Profil> {
                 leading: IconButton(
                   icon: Icon(
                     Icons.arrow_back_ios,
-                    color: Colors.redAccent[400],
+                    color: primaryColor,
                   ),
                   onPressed: () => Navigator.pop(context),
                 ),
@@ -57,29 +59,28 @@ class _ProfilState extends State<Profil> {
                           },
                           child: Text(
                             'Abmelden',
-                            style: TextStyle(
-                                color: Colors.redAccent[400], fontSize: 12),
+                            style: TextStyle(color: primaryColor, fontSize: 12),
                           ),
                         )
                       ]
                     : null,
                 centerTitle: true,
-                backgroundColor: Colors.white,
+                backgroundColor: whiteColor,
                 elevation: 0,
                 title: Text(
                   googleUserName == null ? 'Profil' : googleUserName,
                   style: TextStyle(
-                      color: Colors.black, fontSize: 13, letterSpacing: 0.5),
+                      color: blackColor, fontSize: 13, letterSpacing: 0.5),
                 ),
                 bottom: TabBar(
                   labelStyle: TextStyle(
                       fontSize: 12,
                       fontWeight: FontWeight.bold,
                       letterSpacing: 0.4),
-                  unselectedLabelColor: Colors.black,
-                  labelColor: Colors.red[700],
-                  indicatorColor: Colors.red[700],
-                  indicatorWeight: 5,
+                  unselectedLabelColor: blackColor,
+                  labelColor: primaryColor,
+                  indicatorColor: primaryColor,
+                  indicatorWeight: 3,
                   tabs: [
                     Tab(
                       text: 'PROFIL',
@@ -118,7 +119,7 @@ class _ProfilState extends State<Profil> {
                                 style: TextStyle(
                                     fontSize: 24,
                                     fontWeight: FontWeight.w900,
-                                    color: Colors.black38),
+                                    color: greyColor),
                               ),
                             ),
                             //_________Du musst angemeldet sein_____________
@@ -131,23 +132,22 @@ class _ProfilState extends State<Profil> {
                                 style: TextStyle(
                                     fontSize: 12,
                                     fontWeight: FontWeight.w900,
-                                    color: Colors.black38),
+                                    color: greyColor),
                                 textAlign: TextAlign.center,
                               ),
                             ),
                             //______________KUNDENKONTO ERSTELLEN__________
                             Container(
-                              // ignore: deprecated_member_use
-                              child: FlatButton(
+                              child: MaterialButton(
                                 minWidth: 340,
                                 shape: RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(5.0),
-                                  side: BorderSide(color: Colors.red[700]),
+                                  side: BorderSide(color: primaryColor),
                                 ),
                                 child: Text(
                                   'KUNDENKONTO ERSTELLEN',
                                   style: TextStyle(
-                                      fontSize: 12, color: Colors.red[700]),
+                                      fontSize: 12, color: primaryColor),
                                 ),
                                 onPressed: () {
                                   Navigator.push(
@@ -170,7 +170,7 @@ class _ProfilState extends State<Profil> {
                                       margin:
                                           EdgeInsets.only(left: 45, right: 15),
                                       child: Divider(
-                                        color: Colors.black38,
+                                        color: greyColor,
                                         height: 25,
                                       ),
                                     ),
@@ -178,14 +178,14 @@ class _ProfilState extends State<Profil> {
                                   Text(
                                     'oder',
                                     style: TextStyle(
-                                        fontSize: 11, color: Colors.black38),
+                                        fontSize: 11, color: greyColor),
                                   ),
                                   Expanded(
                                     child: Container(
                                       margin:
                                           EdgeInsets.only(left: 10, right: 45),
                                       child: Divider(
-                                        color: Colors.black38,
+                                        color: greyColor,
                                         height: 25,
                                       ),
                                     ),
@@ -198,13 +198,12 @@ class _ProfilState extends State<Profil> {
                             ),
                             //______________________ANMELDEN________________
                             Container(
-                              // ignore: deprecated_member_use
-                              child: FlatButton(
-                                color: Colors.red[700],
+                              child: MaterialButton(
+                                color: primaryColor,
                                 minWidth: 340,
                                 shape: RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(5.0),
-                                  side: BorderSide(color: Colors.red[700]),
+                                  side: BorderSide(color: primaryColor),
                                 ),
                                 onPressed: () {
                                   Navigator.push(
@@ -215,7 +214,7 @@ class _ProfilState extends State<Profil> {
                                 child: Text(
                                   'ANMELDEN',
                                   style: TextStyle(
-                                      fontSize: 12, color: Colors.white),
+                                      fontSize: 12, color: whiteColor),
                                 ),
                               ),
                             ),
@@ -225,89 +224,18 @@ class _ProfilState extends State<Profil> {
                     : Center(
                         child: Text(
                           'Wilkommen',
-                          style: TextStyle(
-                              fontSize: 18, color: Colors.redAccent[400]),
+                          style: TextStyle(fontSize: 18, color: primaryColor),
                         ),
                       ),
                 Container(
                   color: Colors.grey[100],
                   child: Column(
                     children: [
-                      Container(
-                        height: 50,
-                        width: MediaQuery.of(context).size.width,
-                        margin: EdgeInsets.only(top: 10),
-                        // ignore: deprecated_member_use
-                        child: FlatButton(
-                          padding: EdgeInsets.only(right: 285),
-                          color: Colors.white,
-                          child: Text(
-                            'Hilfe Center',
-                            style: TextStyle(fontSize: 13, color: Colors.black),
-                          ),
-                          onPressed: () {},
-                        ),
-                      ),
-                      Container(
-                        margin: EdgeInsets.only(top: 10),
-                        // ignore: deprecated_member_use
-                        child: FlatButton(
-                          height: 50,
-                          padding: EdgeInsets.only(right: 300),
-                          color: Colors.white,
-                          minWidth: 450,
-                          child: Text(
-                            'Allergene',
-                            style: TextStyle(fontSize: 13, color: Colors.black),
-                          ),
-                          onPressed: () {},
-                        ),
-                      ),
-                      Container(
-                        margin: EdgeInsets.only(top: 10),
-                        // ignore: deprecated_member_use
-                        child: FlatButton(
-                          height: 50,
-                          padding: EdgeInsets.only(right: 288),
-                          color: Colors.white,
-                          minWidth: 450,
-                          child: Text(
-                            'Impressum',
-                            style: TextStyle(fontSize: 13, color: Colors.black),
-                          ),
-                          onPressed: () {},
-                        ),
-                      ),
-                      Container(
-                        margin: EdgeInsets.only(top: 10),
-                        // ignore: deprecated_member_use
-                        child: FlatButton(
-                          height: 50,
-                          padding: EdgeInsets.only(right: 333),
-                          color: Colors.white,
-                          minWidth: 450,
-                          child: Text(
-                            'AGB',
-                            style: TextStyle(fontSize: 13, color: Colors.black),
-                          ),
-                          onPressed: () {},
-                        ),
-                      ),
-                      Container(
-                        margin: EdgeInsets.only(top: 10),
-                        // ignore: deprecated_member_use
-                        child: FlatButton(
-                          height: 50,
-                          padding: EdgeInsets.only(right: 280),
-                          color: Colors.white,
-                          minWidth: 450,
-                          child: Text(
-                            'Datenschutz',
-                            style: TextStyle(fontSize: 13, color: Colors.black),
-                          ),
-                          onPressed: () {},
-                        ),
-                      ),
+                      buildContainer('Hilfe Center', () {}),
+                      buildContainer('Allergene', () {}),
+                      buildContainer('Impressum', () {}),
+                      buildContainer('AGB', () {}),
+                      buildContainer('Datenschutz', () {}),
                     ],
                   ),
                 ),
@@ -323,6 +251,26 @@ class _ProfilState extends State<Profil> {
                 ),
               ])),
         ),
+      ),
+    );
+  }
+
+  Container buildContainer(String text, Function function) {
+    return Container(
+      margin: EdgeInsets.only(top: 10),
+      width: MediaQuery.of(context).size.width,
+      child: MaterialButton(
+        elevation: 0,
+        height: 50,
+        color: whiteColor,
+        child: Align(
+          alignment: Alignment.centerLeft,
+          child: Text(
+            text,
+            style: TextStyle(fontSize: 13, color: blackColor),
+          ),
+        ),
+        onPressed: function,
       ),
     );
   }
