@@ -12,18 +12,19 @@ class _FoodGrupeState extends State<FoodGrupe> {
   final Color disabelColor = Colors.grey[100];
   int selectIndex;
 
-  Container foodTitle(String imageVal, String heading, int index,
-      Color colorCategury, bool isActive) {
-    return Container(
-      margin: EdgeInsets.symmetric(horizontal: 10),
+  foodTitle(String imageVal, String heading, int index, Color colorCategury,
+      bool isActive) {
+    return Padding(
+      padding: const EdgeInsets.all(10),
       child: Column(
+        mainAxisSize: MainAxisSize.min,
         mainAxisAlignment: MainAxisAlignment.spaceAround,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: <Widget>[
           ClipOval(
             child: Container(
               padding: EdgeInsets.all(0),
-              margin: EdgeInsets.all(2),
+              margin: EdgeInsets.all(3),
               height: 62,
               width: 62,
               decoration: BoxDecoration(
@@ -58,6 +59,9 @@ class _FoodGrupeState extends State<FoodGrupe> {
                   child: null),
             ),
           ),
+          SizedBox(
+            height: 5,
+          ),
           Container(
             child: Text(
               heading,
@@ -72,10 +76,11 @@ class _FoodGrupeState extends State<FoodGrupe> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Container(
-        padding: EdgeInsets.symmetric(horizontal: 0, vertical: 0),
-        height: 100,
+    return Container(
+      height: 105,
+      width: MediaQuery.of(context).size.width,
+      color: Theme.of(context).primaryColor,
+      child: Center(
         child: ListView(
           scrollDirection: Axis.horizontal,
           reverse: false,
@@ -92,7 +97,6 @@ class _FoodGrupeState extends State<FoodGrupe> {
           addAutomaticKeepAlives: true,
         ),
       ),
-      backgroundColor: Colors.white,
     );
   }
 }
