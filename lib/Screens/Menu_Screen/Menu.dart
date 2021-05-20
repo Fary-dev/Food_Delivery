@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:mjam/Contants/Color.dart';
 import 'package:mjam/Widgets/listFoodGrupe.dart';
 import 'package:mjam/bloc/Location_Bloc/firstLocation.dart';
 import 'package:mjam/home_Screen_Tile/Bottom_Filter_Abholung_sort.dart';
@@ -22,7 +23,7 @@ class _MenuState extends State<Menu> {
       child: Scaffold(
         appBar: AppBar(
           automaticallyImplyLeading: false,
-          backgroundColor: Colors.white,
+          backgroundColor: Theme.of(context).appBarTheme.backgroundColor,
           elevation: 0,
           centerTitle: true,
           title: Padding(
@@ -56,12 +57,11 @@ class _MenuState extends State<Menu> {
           child: Column(
             children: [
               Container(
-                margin: EdgeInsets.only(top: 7),
-                color: Colors.white,
+                // color: greyLightColor,
                 width: MediaQuery.of(context).size.width,
-                height: 100,
-                child: FoodGrupe(),
+                height: 10,
               ),
+              FoodGrupe(),
               ////////////////___________________ Bottom  ____________////////////
               BottomFilterAbholungSort(),
               SizedBox(height: 5),
