@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:mjam/Contants/Color.dart';
 import 'package:mjam/Screens/google_Maps/map_screen.dart';
 import 'package:mjam/models_and_data/Icons_Fonts/font1.dart';
 
@@ -29,17 +30,17 @@ class _BottomFilterAbholungSortState extends State<BottomFilterAbholungSort> {
               label: Text(
                 'Sortierung',
                 style: TextStyle(
-                    color: Colors.black87,
+                    color: blackColor,
                     fontSize: 10,
                     fontWeight: FontWeight.w600,
                     letterSpacing: 0.5),
               ),
               icon: Icon(
                 Icons.sort,
-                color: Colors.red[700],
+                color: primaryColor,
               ),
-              textColor: Colors.black,
-              color: Colors.white,
+              textColor: blackColor,
+              color: whiteColor,
             ),
           ),
           //____________________________Filter________________________________
@@ -54,7 +55,7 @@ class _BottomFilterAbholungSortState extends State<BottomFilterAbholungSort> {
               label: Text(
                 'Filter',
                 style: TextStyle(
-                    color: Colors.black87,
+                    color: blackColor,
                     fontSize: 10,
                     letterSpacing: 0.5,
                     fontWeight: FontWeight.w600),
@@ -62,10 +63,10 @@ class _BottomFilterAbholungSortState extends State<BottomFilterAbholungSort> {
               icon: Icon(
                 Iconsss.equalizer,
                 size: 20,
-                color: Colors.red[700],
+                color: primaryColor,
               ),
-              textColor: Colors.black,
-              color: Colors.white,
+              textColor: blackColor,
+              color: whiteColor,
             ),
           ),
           //__________________________Abholung________________________________
@@ -81,7 +82,7 @@ class _BottomFilterAbholungSortState extends State<BottomFilterAbholungSort> {
               label: Text(
                 'Abholung',
                 style: TextStyle(
-                    color: Colors.black87,
+                    color: blackColor,
                     fontSize: 10,
                     letterSpacing: 0.5,
                     fontWeight: FontWeight.w600),
@@ -89,10 +90,10 @@ class _BottomFilterAbholungSortState extends State<BottomFilterAbholungSort> {
               icon: Icon(
                 Iconsss.walking,
                 size: 20,
-                color: Colors.red[700],
+                color: primaryColor,
               ),
-              textColor: Colors.black,
-              color: Colors.white,
+              textColor: blackColor,
+              color: whiteColor,
             ),
           ),
         ],
@@ -104,8 +105,8 @@ class _BottomFilterAbholungSortState extends State<BottomFilterAbholungSort> {
 //______________________showModalBottomSheet_____Sortierung_____________________
 void containerSortirung(context) {
   Widget btnSort(Icon iconn, String txt, int index) {
-    Color colorIcon = Colors.redAccent[400];
-    Color colorBtn = Colors.grey[200];
+    Color colorIcon = primaryColor;
+    Color colorBtn = greyLightColor;
     int selectIndex;
     return StatefulBuilder(
         builder: (BuildContext context, StateSetter setState) {
@@ -238,19 +239,19 @@ void containerSortirung(context) {
 void containerFilter(context) {
   Widget buttomFilter(String btnName, Color colorTxt, Color colorBtn, int index,
       bool isActive) {
-    Color colorBtn = Colors.grey[200];
+    Color colorBtn = greyLightColor;
     return StatefulBuilder(
         builder: (BuildContext context, StateSetter setState) {
       // ignore: deprecated_member_use
-      return RaisedButton(
+      return MaterialButton(
         onPressed: () {
           setState(() {
-            colorBtn == Colors.grey[200]
-                ? colorBtn = Colors.redAccent[400]
-                : colorBtn = Colors.grey[200];
-            colorTxt == Colors.black
-                ? colorTxt = Colors.white
-                : colorTxt = Colors.black;
+            colorBtn == greyLightColor
+                ? colorBtn = primaryColor
+                : colorBtn = greyLightColor;
+            colorTxt == blackColor
+                ? colorTxt = whiteColor
+                : colorTxt = blackColor;
           });
         },
         shape: StadiumBorder(),
@@ -279,28 +280,28 @@ void containerFilter(context) {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  SizedBox(
-                    height: 10,
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 20),
-                        child: Text(
-                          'Filtern nach...',
-                          style: TextStyle(
-                              fontSize: 14,
-                              fontWeight: FontWeight.w500,
-                              letterSpacing: 0.5),
+                  Container(
+                    color: whiteColor,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 20),
+                          child: Text(
+                            'Filtern nach...',
+                            style: TextStyle(
+                                fontSize: 14,
+                                fontWeight: FontWeight.w500,
+                                letterSpacing: 0.5),
+                          ),
                         ),
-                      ),
-                      IconButton(
-                          icon: Icon(Icons.cancel),
-                          onPressed: () {
-                            Navigator.pop(context);
-                          })
-                    ],
+                        IconButton(
+                            icon: Icon(Icons.cancel),
+                            onPressed: () {
+                              Navigator.pop(context);
+                            })
+                      ],
+                    ),
                   ),
                   SizedBox(
                     height: 37,
@@ -323,18 +324,18 @@ void containerFilter(context) {
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.start,
                       children: [
-                        buttomFilter('bis 10\€', Colors.black, Colors.grey[200],
-                            0, false),
-                        SizedBox(
-                          width: 15,
-                        ),
-                        buttomFilter('bis 15\€', Colors.black, Colors.grey[200],
-                            1, false),
+                        buttomFilter(
+                            'bis 10\€', blackColor, greyLightColor, 0, false),
                         SizedBox(
                           width: 15,
                         ),
                         buttomFilter(
-                            'Egal', Colors.black, Colors.grey[200], 2, false)
+                            'bis 15\€', blackColor, greyLightColor, 1, false),
+                        SizedBox(
+                          width: 15,
+                        ),
+                        buttomFilter(
+                            'Egal', blackColor, greyLightColor, 2, false)
                       ],
                     ),
                   ),
@@ -348,7 +349,7 @@ void containerFilter(context) {
                         },
                         child: Text(
                           'Zurücksetzen',
-                          style: TextStyle(color: Colors.grey[500]),
+                          style: TextStyle(color: greyColor),
                         )),
                   ),
                   SizedBox(
@@ -360,10 +361,10 @@ void containerFilter(context) {
                     // ignore: deprecated_member_use
                     child: RaisedButton(
                       elevation: 10,
-                      color: Colors.white,
+                      color: whiteColor,
                       child: Text(
                         'ZEIGE 3 RESTURANTS',
-                        style: TextStyle(color: Colors.redAccent[400]),
+                        style: TextStyle(color: primaryColor),
                       ),
                       onPressed: () {},
                     ),

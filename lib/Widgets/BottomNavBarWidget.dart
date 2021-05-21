@@ -45,7 +45,7 @@ class _BottomNavBarWidgetState extends State<BottomNavBarWidget> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
+    return SafeArea(
       child: Scaffold(
         body: PageView(
           controller: pageController,

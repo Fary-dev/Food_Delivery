@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 
 import 'package:mjam/Contants/Color.dart';
 import 'package:mjam/Screens/Resturants/pageResturant.dart';
-import 'package:mjam/Widgets/Rating.dart';
 import 'package:mjam/models_and_data/Class/models_and_data.dart';
 
 class Searching extends StatefulWidget {

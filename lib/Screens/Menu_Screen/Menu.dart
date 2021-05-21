@@ -36,7 +36,7 @@ class _MenuState extends State<Menu> {
                     TextSpan(
                       text: "Sofort zu ",
                       style: TextStyle(
-                        color: Colors.black,
+                        color: blackColor,
                         fontSize: 15,
                         letterSpacing: 0.5,
                         fontWeight: FontWeight.w500,
@@ -46,7 +46,7 @@ class _MenuState extends State<Menu> {
                         text: userLocation.location.toString(),
                         style: TextStyle(
                           fontSize: 15,
-                          color: Colors.red,
+                          color: primaryColor,
                           fontWeight: FontWeight.w500,
                         )),
                   ])),
