@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:mjam/Contants/Color.dart';
 import 'package:mjam/models_and_data/Class/models_and_data.dart';
 import 'package:mjam/Widgets/Rating.dart';
 
@@ -28,7 +29,7 @@ class _ResturantListeState extends State<ResturantListe> {
                       builder: (context) => PageResturant(_resturant)));
             },
             child: Container(
-              color: Colors.white,
+              color: whiteColor,
               child: Column(
                 children: [
                   /////__________________ List Resturant _________/////////////////////////////7////
@@ -77,16 +78,14 @@ class _ResturantListeState extends State<ResturantListe> {
                             )
                           ],
                         ),
-                        FittedBox(
-                          child: Container(
-                            margin: const EdgeInsets.only(right: 15),
-                            height: 40,
-                            width: 80,
-                            child: Image.asset(_resturant.logoResturant,
-                                height: 20,
-                                width: MediaQuery.of(context).size.width,
-                                fit: BoxFit.contain),
-                          ),
+                        Container(
+                          margin: const EdgeInsets.only(right: 15),
+                          height: 40,
+                          width: 80,
+                          child: Image.asset(_resturant.logoResturant,
+                              height: 20,
+                              width: MediaQuery.of(context).size.width,
+                              fit: BoxFit.contain),
                         ),
                       ],
                     ),

@@ -11,94 +11,91 @@ class BottomFilterAbholungSort extends StatefulWidget {
 class _BottomFilterAbholungSortState extends State<BottomFilterAbholungSort> {
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: Container(
-        margin: EdgeInsets.only(bottom: 5),
-        height: 50,
-        color: Colors.grey[100],
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          children: <Widget>[
-            //__________________________Sortierung______________________________
-            Container(
-              // ignore: deprecated_member_use
-              child: RaisedButton.icon(
-                onPressed: () {
-                  containerSortirung(context);
-                },
-                shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.all(Radius.circular(5.0))),
-                label: Text(
-                  'Sortierung',
-                  style: TextStyle(
-                      color: Colors.black87,
-                      fontSize: 10,
-                      fontWeight: FontWeight.w600,
-                      letterSpacing: 0.5),
-                ),
-                icon: Icon(
-                  Icons.sort,
-                  color: Colors.red[700],
-                ),
-                textColor: Colors.black,
-                color: Colors.white,
+    return Container(
+      margin: EdgeInsets.only(bottom: 10),
+      height: 50,
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        children: <Widget>[
+          //__________________________Sortierung______________________________
+          Container(
+            // ignore: deprecated_member_use
+            child: RaisedButton.icon(
+              onPressed: () {
+                containerSortirung(context);
+              },
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.all(Radius.circular(5.0))),
+              label: Text(
+                'Sortierung',
+                style: TextStyle(
+                    color: Colors.black87,
+                    fontSize: 10,
+                    fontWeight: FontWeight.w600,
+                    letterSpacing: 0.5),
               ),
-            ),
-            //____________________________Filter________________________________
-            Container(
-              // ignore: deprecated_member_use
-              child: RaisedButton.icon(
-                onPressed: () {
-                  containerFilter(context);
-                },
-                shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.all(Radius.circular(5.0))),
-                label: Text(
-                  'Filter',
-                  style: TextStyle(
-                      color: Colors.black87,
-                      fontSize: 10,
-                      letterSpacing: 0.5,
-                      fontWeight: FontWeight.w600),
-                ),
-                icon: Icon(
-                  Iconsss.equalizer,
-                  size: 20,
-                  color: Colors.red[700],
-                ),
-                textColor: Colors.black,
-                color: Colors.white,
+              icon: Icon(
+                Icons.sort,
+                color: Colors.red[700],
               ),
+              textColor: Colors.black,
+              color: Colors.white,
             ),
-            //__________________________Abholung________________________________
-            Container(
-              // ignore: deprecated_member_use
-              child: RaisedButton.icon(
-                onPressed: () {
-                  Navigator.push(context,
-                      MaterialPageRoute(builder: (context) => MapScreen()));
-                },
-                shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.all(Radius.circular(5.0))),
-                label: Text(
-                  'Abholung',
-                  style: TextStyle(
-                      color: Colors.black87,
-                      fontSize: 10,
-                      letterSpacing: 0.5,
-                      fontWeight: FontWeight.w600),
-                ),
-                icon: Icon(
-                  Iconsss.walking,
-                  size: 20,
-                  color: Colors.red[700],
-                ),
-                textColor: Colors.black,
-                color: Colors.white,
+          ),
+          //____________________________Filter________________________________
+          Container(
+            // ignore: deprecated_member_use
+            child: RaisedButton.icon(
+              onPressed: () {
+                containerFilter(context);
+              },
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.all(Radius.circular(5.0))),
+              label: Text(
+                'Filter',
+                style: TextStyle(
+                    color: Colors.black87,
+                    fontSize: 10,
+                    letterSpacing: 0.5,
+                    fontWeight: FontWeight.w600),
               ),
+              icon: Icon(
+                Iconsss.equalizer,
+                size: 20,
+                color: Colors.red[700],
+              ),
+              textColor: Colors.black,
+              color: Colors.white,
             ),
-          ],
-        ),
+          ),
+          //__________________________Abholung________________________________
+          Container(
+            // ignore: deprecated_member_use
+            child: RaisedButton.icon(
+              onPressed: () {
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (context) => MapScreen()));
+              },
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.all(Radius.circular(5.0))),
+              label: Text(
+                'Abholung',
+                style: TextStyle(
+                    color: Colors.black87,
+                    fontSize: 10,
+                    letterSpacing: 0.5,
+                    fontWeight: FontWeight.w600),
+              ),
+              icon: Icon(
+                Iconsss.walking,
+                size: 20,
+                color: Colors.red[700],
+              ),
+              textColor: Colors.black,
+              color: Colors.white,
+            ),
+          ),
+        ],
       ),
     );
   }

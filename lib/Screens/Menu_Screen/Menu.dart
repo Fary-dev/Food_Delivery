@@ -23,7 +23,7 @@ class _MenuState extends State<Menu> {
       child: Scaffold(
         appBar: AppBar(
           automaticallyImplyLeading: false,
-          backgroundColor: Theme.of(context).appBarTheme.backgroundColor,
+          // backgroundColor: Theme.of(context).appBarTheme.backgroundColor,
           elevation: 0,
           centerTitle: true,
           title: Padding(
@@ -59,19 +59,11 @@ class _MenuState extends State<Menu> {
               Container(
                 color: greyLightColor,
                 width: MediaQuery.of(context).size.width,
-                height: 10,
+                height: 7,
               ),
               FoodGrupe(),
-              ////////////////___________________ Bottom  ____________////////////
               BottomFilterAbholungSort(),
-              SizedBox(height: 5),
-              ///////////////____________________ Banner _____________////////////
-              Container(
-                  padding: EdgeInsets.only(bottom: 0),
-                  color: Colors.grey[100],
-                  child: Banr()),
-
-              //////______________________ Resturant List ____________////////////
+              Banr(),
               ResturantListe(),
             ],
           ),

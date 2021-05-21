@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:mjam/Contants/Color.dart';
 
 class Search extends StatelessWidget {
   @override
@@ -25,7 +26,7 @@ class Search extends StatelessWidget {
         icon: Icon(
           Icons.search,
           size: 40,
-          color: Colors.red[700],
+          color: primaryColor,
         ),
         onPressed: () {
           print('Buttom OnPressed!!');

@@ -4,7 +4,7 @@ import 'package:flutter/widgets.dart';
 import 'package:mjam/Screens/Menu_Screen/Menu.dart';
 import 'package:mjam/bottom_Navigation_bar/FavoritScreen.dart';
 import 'package:mjam/bottom_Navigation_bar/Profil.dart';
-import 'package:mjam/bottom_Navigation_bar/searching.dart';
+import 'package:mjam/bottom_Navigation_bar/search_Screen.dart';
 import 'package:mjam/bottom_Navigation_bar/shopping_carts.dart';
 import 'package:mjam/models_and_data/Icons_Fonts/font1.dart';
 
@@ -17,7 +17,7 @@ class BottomNavBarWidget extends StatefulWidget {
 
 // ignore: camel_case_types
 class _BottomNavBarWidgetState extends State<BottomNavBarWidget> {
-  PageController _pageController = PageController();
+  PageController pageController = PageController();
   int _selectedIndex = 0;
   List<Widget> _screens = [
     Menu(),
@@ -26,14 +26,21 @@ class _BottomNavBarWidgetState extends State<BottomNavBarWidget> {
     ShoppingCarts(),
     Profil(),
   ];
-  void _onPageChanged(int index) {
+
+  _onPageChanged(int index) {
     setState(() {
       _selectedIndex = index;
     });
   }
 
   _itemTapped(int selectedIndex) {
-    _pageController.jumpToPage(selectedIndex);
+    pageController.jumpToPage(selectedIndex);
+  }
+
+  @override
+  void dispose() {
+    pageController.dispose();
+    super.dispose();
   }
 
   @override
@@ -41,7 +48,7 @@ class _BottomNavBarWidgetState extends State<BottomNavBarWidget> {
     return Container(
       child: Scaffold(
         body: PageView(
-          controller: _pageController,
+          controller: pageController,
           children: _screens,
           onPageChanged: _onPageChanged,
           physics: NeverScrollableScrollPhysics(),
