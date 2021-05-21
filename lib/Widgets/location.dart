@@ -46,108 +46,114 @@ class _LocationSetState extends State<LocationSet> {
   @override
   Widget build(BuildContext context) {
     return FutureBuilder(
-        future: _fba,
-        builder: (context, snapshot) {
-          if (snapshot.hasError) {
-            print("you have an error!${snapshot.error}");
-            return Text('Something went wrong!');
-          } else if (snapshot.hasData) {
-            return Scaffold(
-              body: Container(
-                constraints: BoxConstraints.expand(),
-                decoration: BoxDecoration(
-                  image: DecorationImage(
-                    image: AssetImage("assets/willkommen.jpg"),
-                    fit: BoxFit.cover,
-                  ),
+      future: _fba,
+      builder: (context, snapshot) {
+        if (snapshot.hasError) {
+          print("you have an error!${snapshot.error}");
+          return Scaffold(body: Center(child: Text('Something went wrong!')));
+        } else if (snapshot.hasData) {
+          return Scaffold(
+            body: Container(
+              constraints: BoxConstraints.expand(),
+              decoration: BoxDecoration(
+                image: DecorationImage(
+                  image: AssetImage("assets/willkommen.jpg"),
+                  fit: BoxFit.cover,
                 ),
-                child: Visibility(
-                  visible: isLoading,
-                  replacement: Container(
-                    child: Center(
-                      child: CircularProgressIndicator(
-                        valueColor: new AlwaysStoppedAnimation<Color>(
-                          Colors.white,
-                        ),
+              ),
+              child: Visibility(
+                visible: isLoading,
+                replacement: Container(
+                  child: Center(
+                    child: CircularProgressIndicator(
+                      valueColor: new AlwaysStoppedAnimation<Color>(
+                        whiteColor,
                       ),
                     ),
                   ),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      SizedBox(
-                        height: 120,
+                ),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    SizedBox(
+                      height: 120,
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 20),
+                      child: FittedBox(
+                        fit: BoxFit.fitWidth,
+                        child: Text(
+                          'Herzlich Willkommen',
+                          style: TextStyle(
+                            fontSize: 19,
+                            color: whiteColor,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
                       ),
-                      Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 20),
-                        child: FittedBox(
-                          fit: BoxFit.fitWidth,
+                    ),
+                    SizedBox(
+                      height: 50,
+                    ),
+                    Text(
+                      'FOODO',
+                      style: TextStyle(
+                        fontSize: 23,
+                        color: whiteColor,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    Spacer(),
+                    Padding(
+                      padding: const EdgeInsets.only(
+                        bottom: 50.0,
+                      ),
+                      child: MaterialButton(
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(50.0),
+                        ),
+                        color: primaryColor.withOpacity(0.80),
+                        onPressed: () => Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => BottomNavBarWidget(),
+                          ),
+                        ),
+                        child: Container(
+                          padding: const EdgeInsets.all(10.0),
                           child: Text(
-                            'Herzlich Willkommen',
+                            'Los geht\'s',
                             style: TextStyle(
-                              fontSize: 19,
+                              fontSize: 15,
                               color: Colors.white,
-                              fontWeight: FontWeight.bold,
                             ),
                           ),
                         ),
                       ),
-                      SizedBox(
-                        height: 50,
-                      ),
-                      Text(
-                        'FOODO',
-                        style: TextStyle(
-                          fontSize: 23,
-                          color: Colors.white,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                      Spacer(),
-                      Padding(
-                        padding: const EdgeInsets.only(
-                          bottom: 50.0,
-                        ),
-                        // ignore: deprecated_member_use
-                        child: RaisedButton(
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(50.0),
-                          ),
-                          color: Colors.redAccent[400].withOpacity(0.80),
-                          onPressed: () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => BottomNavBarWidget(),
-                              ),
-                            );
-                          },
-                          child: Padding(
-                            padding: const EdgeInsets.all(10.0),
-                            child: Text(
-                              'Los geht\'s',
-                              style: TextStyle(
-                                fontSize: 15,
-                                color: Colors.white,
-                              ),
-                            ),
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
+                    ),
+                  ],
                 ),
               ),
-            );
-          } else {
-            return Scaffold(
-              backgroundColor: blackColor,
-              body: Center(
+            ),
+          );
+        } else {
+          return Scaffold(
+            body: Container(
+              constraints: BoxConstraints.expand(),
+              decoration: BoxDecoration(
+                image: DecorationImage(
+                  image: AssetImage("assets/willkommen.jpg"),
+                  fit: BoxFit.cover,
+                ),
+              ),
+              child: Center(
                 child: CircularProgressIndicator(),
               ),
-            );
-          }
-        });
+            ),
+          );
+        }
+      },
+    );
   }
 }
