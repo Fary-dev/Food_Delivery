@@ -5,7 +5,6 @@ class BannerScreen1 extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          backgroundColor: Colors.grey[200],
           elevation: 0,
         ),
         body: SafeArea(
@@ -15,7 +14,6 @@ class BannerScreen1 extends StatelessWidget {
             ),
             height: double.infinity,
             width: double.infinity,
-            color: Colors.grey[200],
           ),
         ));
   }

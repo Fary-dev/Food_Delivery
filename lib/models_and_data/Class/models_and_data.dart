@@ -7,7 +7,7 @@ class Resturant {
   double lattut;
   double longtut;
   LatLng latlong;
-  String nameResturant;
+  String nameResturant = '';
   String description;
   String photoResturant;
   String logoResturant;
@@ -243,7 +243,7 @@ final List<Resturant> resturants = [
 //================================ Products ==========================
 class Products {
   int id;
-  String nameProducts;
+  String nameProducts = '';
   Products({
     @required this.id,
     @required this.nameProducts,
@@ -275,7 +275,7 @@ final List<Products> listProducts = [
 
 class Product extends Products {
   int id;
-  String nameProduct;
+  String nameProduct = '';
   double price;
   bool isNoVeg;
   List<String> allergy;

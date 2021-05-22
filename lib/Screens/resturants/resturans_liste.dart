@@ -59,7 +59,7 @@ class _ResturantListeState extends State<ResturantListe> {
                                 textAlign: TextAlign.center,
                                 textScaleFactor: 1.5,
                                 style: const TextStyle(
-                                    color: Colors.black87,
+                                    color: blackColor,
                                     fontSize: 12,
                                     fontWeight: FontWeight.w600),
                               ),
@@ -73,7 +73,7 @@ class _ResturantListeState extends State<ResturantListe> {
                                 textAlign: TextAlign.center,
                                 textScaleFactor: 1.0,
                                 style: const TextStyle(
-                                    color: Colors.black38, fontSize: 11),
+                                    color: blackColor, fontSize: 11),
                               ),
                             )
                           ],
@@ -108,11 +108,10 @@ class _ResturantListeState extends State<ResturantListe> {
                                   textAlign: TextAlign.center,
                                   textScaleFactor: 1.0,
                                   style: const TextStyle(
-                                      color: Colors.black38, fontSize: 11),
+                                      color: blackColor, fontSize: 11),
                                 ),
                               ),
                               Container(
-                                // ignore: sort_child_properties_last
                                 child: Rating(),
                                 margin: const EdgeInsets.only(left: 15),
                                 height: 20,
@@ -134,16 +133,15 @@ class _ResturantListeState extends State<ResturantListe> {
                                   textAlign: TextAlign.center,
                                   textScaleFactor: 1.0,
                                   style: TextStyle(
-                                      color: Colors.black38, fontSize: 11),
+                                      color: blackColor, fontSize: 11),
                                 ),
                               ),
                               Container(
                                 child: Text(
-                                  // ignore: unnecessary_string_escapes
                                   "\€ ${_resturant.deliveryPrice.toString().padRight(4, '0')}",
                                   textAlign: TextAlign.center,
                                   textScaleFactor: 1.0,
-                                  style: const TextStyle(color: Colors.black),
+                                  style: const TextStyle(color: blackColor),
                                 ),
                               )
                             ],
@@ -162,16 +160,15 @@ class _ResturantListeState extends State<ResturantListe> {
                                   textAlign: TextAlign.center,
                                   textScaleFactor: 1.0,
                                   style: TextStyle(
-                                      color: Colors.black38, fontSize: 11),
+                                      color: blackColor, fontSize: 11),
                                 ),
                               ),
                               Container(
                                 child: Text(
-                                  // ignore: unnecessary_string_escapes
                                   "\€ ${_resturant.minimumOrder.toString().padRight(5, '0')}",
                                   textAlign: TextAlign.center,
                                   textScaleFactor: 1.0,
-                                  style: const TextStyle(color: Colors.black),
+                                  style: const TextStyle(color: blackColor),
                                 ),
                               )
                             ],
@@ -183,7 +180,7 @@ class _ResturantListeState extends State<ResturantListe> {
                   SizedBox(
                     height: 10,
                     child: Container(
-                      color: Colors.grey[100],
+                      color: greyLightColor,
                     ),
                   ),
                 ],

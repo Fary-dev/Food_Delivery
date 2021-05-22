@@ -12,13 +12,10 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
-    return Container(
-      color: Colors.white,
-      child: SafeArea(
-        child: Scaffold(
-          body: Menu(),
-          bottomNavigationBar: BottomNavBarWidget(),
-        ),
+    return SafeArea(
+      child: Scaffold(
+        body: Menu(),
+        bottomNavigationBar: BottomNavBarWidget(),
       ),
     );
   }

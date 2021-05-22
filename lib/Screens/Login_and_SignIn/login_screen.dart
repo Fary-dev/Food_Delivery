@@ -1,5 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:mjam/Contants/Color.dart';
 import 'package:mjam/Screens/Login_and_SignIn/reset_password.dart';
 import 'package:mjam/Widgets/BottomNavBarWidget.dart';
 
@@ -38,7 +39,7 @@ class _LoginScreenState extends State<LoginScreen> {
         //WidgetLogin(),
         Scaffold(
           appBar: AppBar(
-            backgroundColor: Colors.grey[200],
+            backgroundColor: greyColor,
             elevation: 0,
             title: Text(
               '',
@@ -47,14 +48,14 @@ class _LoginScreenState extends State<LoginScreen> {
             leading: IconButton(
               icon: Icon(
                 Icons.arrow_back_ios,
-                color: Colors.red[700],
+                color: primaryColor,
               ),
               onPressed: () {
                 Navigator.pop(context);
               },
             ),
           ),
-          backgroundColor: Colors.grey[200],
+          backgroundColor: greyColor,
           body: SafeArea(
             child: ListView(
               children: [
@@ -68,7 +69,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     'Anmelden',
                     style: TextStyle(
                         fontSize: 13,
-                        color: Colors.black,
+                        color: blackColor,
                         fontWeight: FontWeight.bold,
                         letterSpacing: 0.5),
                   ),
@@ -87,7 +88,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         flex: 25,
                         // ignore: deprecated_member_use
                         child: RaisedButton(
-                          color: Colors.white,
+                          color: whiteColor,
                           onPressed: () {
                             print('Facebook');
                           },
@@ -110,7 +111,7 @@ class _LoginScreenState extends State<LoginScreen> {
                               Text(
                                 'Facebook',
                                 style: TextStyle(
-                                    color: Colors.black, letterSpacing: 0.5),
+                                    color: blackColor, letterSpacing: 0.5),
                               ),
                             ],
                           ),
@@ -127,7 +128,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         flex: 25,
                         // ignore: deprecated_member_use
                         child: RaisedButton(
-                          color: Colors.white,
+                          color: whiteColor,
                           onPressed: () {
                             setState(() {
                               click();
@@ -151,7 +152,7 @@ class _LoginScreenState extends State<LoginScreen> {
                               Text(
                                 'Google',
                                 style: TextStyle(
-                                    color: Colors.black, letterSpacing: 0.5),
+                                    color: blackColor, letterSpacing: 0.5),
                               ),
                             ],
                           ),
@@ -172,22 +173,22 @@ class _LoginScreenState extends State<LoginScreen> {
                           color: Colors.black26,
                           margin: EdgeInsets.only(left: 20, right: 15),
                           child: Divider(
-                            color: Colors.black26,
+                            color: blackColor,
                             height: 25,
                           ),
                         ),
                       ),
                       Text(
                         'oder',
-                        style: TextStyle(fontSize: 13, color: Colors.black26),
+                        style: TextStyle(fontSize: 13, color: blackColor),
                       ),
                       Expanded(
                         child: Container(
                           height: 2,
-                          color: Colors.black26,
+                          color: blackColor,
                           margin: EdgeInsets.only(left: 10, right: 20),
                           child: Divider(
-                            color: Colors.black26,
+                            color: blackColor,
                             height: 30,
                           ),
                         ),
@@ -205,7 +206,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     'Mit E-Mail einloggen',
                     style: TextStyle(
                         fontSize: 13,
-                        color: Colors.black,
+                        color: blackColor,
                         letterSpacing: 0.5,
                         fontWeight: FontWeight.bold),
                   ),
@@ -222,10 +223,9 @@ class _LoginScreenState extends State<LoginScreen> {
                         Container(
                           margin: EdgeInsets.symmetric(horizontal: 20),
                           decoration: BoxDecoration(
-                              color: Colors.grey[400],
+                              color: primaryColor,
                               borderRadius: BorderRadius.circular(0)),
                           child: TextFormField(
-                            // ignore: missing_return
                             validator: validateEmail,
                             onSaved: (input) => _email = input,
                             controller: _emailController,
@@ -235,18 +235,17 @@ class _LoginScreenState extends State<LoginScreen> {
                                     EdgeInsets.symmetric(horizontal: 15),
                                 border: InputBorder.none,
                                 hintText: 'E-Mail',
-                                hintStyle: TextStyle(
-                                    color: Colors.white, fontSize: 12)),
+                                hintStyle:
+                                    TextStyle(color: whiteColor, fontSize: 12)),
                           ),
                         ),
                         SizedBox(height: 10),
                         Container(
                           margin: EdgeInsets.symmetric(horizontal: 20),
                           decoration: BoxDecoration(
-                              color: Colors.grey[400],
+                              color: primaryColor,
                               borderRadius: BorderRadius.circular(0)),
                           child: TextFormField(
-                            // ignore: missing_return
                             validator: validatePassword,
                             onSaved: (input) => _password = input,
                             controller: _passwordController,
@@ -257,8 +256,8 @@ class _LoginScreenState extends State<LoginScreen> {
                                     EdgeInsets.symmetric(horizontal: 15),
                                 border: InputBorder.none,
                                 hintText: 'Password',
-                                hintStyle: TextStyle(
-                                    color: Colors.white, fontSize: 12)),
+                                hintStyle:
+                                    TextStyle(color: whiteColor, fontSize: 12)),
                           ),
                         ),
                       ],
@@ -272,14 +271,13 @@ class _LoginScreenState extends State<LoginScreen> {
                 Container(
                   height: 50,
                   padding: const EdgeInsets.symmetric(horizontal: 20),
-                  // ignore: deprecated_member_use
-                  child: RaisedButton(
-                    color: Colors.redAccent[400],
+                  child: MaterialButton(
+                    color: primaryColor,
                     onPressed: signin,
                     child: Text(
                       'KUNDENKONTO  ERSTELLE',
                       style: TextStyle(
-                          color: Colors.white,
+                          color: whiteColor,
                           letterSpacing: 0.5,
                           fontWeight: FontWeight.bold,
                           fontSize: 13),
@@ -297,8 +295,7 @@ class _LoginScreenState extends State<LoginScreen> {
                             builder: (context) => ResetPasswordScreen())),
                     child: Text(
                       'Password vergessen?',
-                      style:
-                          TextStyle(color: Colors.redAccent[400], fontSize: 11),
+                      style: TextStyle(color: primaryColor, fontSize: 11),
                     ),
                   ),
                 )

@@ -45,15 +45,15 @@ class _LocationSetState extends State<LocationSet> {
 
   @override
   Widget build(BuildContext context) {
-    return FutureBuilder(
-      future: _fba,
-      builder: (context, snapshot) {
-        if (snapshot.hasError) {
-          print("you have an error!${snapshot.error}");
-          return Scaffold(body: Center(child: Text('Something went wrong!')));
-        } else if (snapshot.hasData) {
-          return Scaffold(
-            body: Container(
+    return Scaffold(
+      body: FutureBuilder(
+        future: _fba,
+        builder: (context, snapshot) {
+          if (snapshot.hasError) {
+            print("you have an error!${snapshot.error}");
+            return Center(child: Text('Something went wrong!'));
+          } else if (snapshot.hasData) {
+            return Container(
               constraints: BoxConstraints.expand(),
               decoration: BoxDecoration(
                 image: DecorationImage(
@@ -104,29 +104,30 @@ class _LocationSetState extends State<LocationSet> {
                         fontWeight: FontWeight.bold,
                       ),
                     ),
-                    Spacer(),
-                    Padding(
-                      padding: const EdgeInsets.only(
-                        bottom: 50.0,
+                    SizedBox(
+                      height: 400,
+                    ),
+                    InkWell(
+                      onTap: () => Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => BottomNavBarWidget(),
+                        ),
                       ),
-                      child: MaterialButton(
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(50.0),
+                      child: Container(
+                        height: 100,
+                        width: 100,
+                        padding: const EdgeInsets.all(15.0),
+                        decoration: BoxDecoration(
+                          shape: BoxShape.circle,
+                          color: primaryColor.withOpacity(0.80),
                         ),
-                        color: primaryColor.withOpacity(0.80),
-                        onPressed: () => Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => BottomNavBarWidget(),
-                          ),
-                        ),
-                        child: Container(
-                          padding: const EdgeInsets.all(10.0),
+                        child: Center(
                           child: Text(
-                            'Los geht\'s',
+                            "Los geht's",
                             style: TextStyle(
                               fontSize: 15,
-                              color: Colors.white,
+                              color: whiteColor,
                             ),
                           ),
                         ),
@@ -135,11 +136,9 @@ class _LocationSetState extends State<LocationSet> {
                   ],
                 ),
               ),
-            ),
-          );
-        } else {
-          return Scaffold(
-            body: Container(
+            );
+          } else {
+            return Container(
               constraints: BoxConstraints.expand(),
               decoration: BoxDecoration(
                 image: DecorationImage(
@@ -150,10 +149,10 @@ class _LocationSetState extends State<LocationSet> {
               child: Center(
                 child: CircularProgressIndicator(),
               ),
-            ),
-          );
-        }
-      },
+            );
+          }
+        },
+      ),
     );
   }
 }

@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:mjam/Contants/Color.dart';
 import 'package:mjam/Widgets/Rating.dart';
 import 'package:mjam/bloc/Location_Bloc/firstLocation.dart';
 import 'package:mjam/models_and_data/Class/models_and_data.dart';
@@ -78,7 +79,7 @@ class _MapScreenState extends State<MapScreen> {
                   borderRadius: BorderRadius.circular(10.0),
                   boxShadow: [
                     BoxShadow(
-                        color: Colors.black,
+                        color: blackColor,
                         blurRadius: 10,
                         offset: Offset(0.0, 4.0))
                   ],
@@ -86,7 +87,7 @@ class _MapScreenState extends State<MapScreen> {
                 child: Container(
                   decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(10),
-                      color: Colors.white),
+                      color: whiteColor),
                   child: Stack(
                     children: [
                       Positioned(
@@ -102,7 +103,7 @@ class _MapScreenState extends State<MapScreen> {
                           left: 10,
                           child: Text(
                             resturants[index].description,
-                            style: TextStyle(fontSize: 10, color: Colors.grey),
+                            style: TextStyle(fontSize: 10, color: greyColor),
                           )),
                       Positioned(
                           top: 70,
@@ -111,13 +112,13 @@ class _MapScreenState extends State<MapScreen> {
                             children: [
                               Icon(
                                 Icons.location_on_outlined,
-                                color: Colors.redAccent[400],
+                                color: primaryColor,
                                 size: 15,
                               ),
                               Text(
                                 resturants[index].address,
                                 style: TextStyle(
-                                    color: Colors.redAccent[400], fontSize: 10),
+                                    color: primaryColor, fontSize: 10),
                               ),
                             ],
                           )),
@@ -153,7 +154,7 @@ class _MapScreenState extends State<MapScreen> {
                                       Text(
                                         '${resturants[index].ratingResturant} Bewertungen',
                                         style: TextStyle(
-                                            color: Colors.grey, fontSize: 10),
+                                            color: greyColor, fontSize: 10),
                                       ),
                                       Container(
                                         height: 20,
@@ -168,7 +169,7 @@ class _MapScreenState extends State<MapScreen> {
                                       Text(
                                         'Distanz',
                                         style: TextStyle(
-                                            color: Colors.grey, fontSize: 10),
+                                            color: greyColor, fontSize: 10),
                                       ),
                                       Text(
                                         '${resturants[index].distance} km',
@@ -184,7 +185,7 @@ class _MapScreenState extends State<MapScreen> {
                                       Text(
                                         'AbholZeit',
                                         style: TextStyle(
-                                            color: Colors.grey, fontSize: 10),
+                                            color: greyColor, fontSize: 10),
                                       ),
                                       Text(
                                         'ca.${resturants[index].deliveryDuration} min',
@@ -259,11 +260,11 @@ class _MapScreenState extends State<MapScreen> {
               padding: const EdgeInsets.symmetric(horizontal: 30),
               child: Container(
                 decoration: BoxDecoration(
-                    color: Colors.white,
+                    color: whiteColor,
                     borderRadius: BorderRadius.circular(10),
                     boxShadow: [
                       BoxShadow(
-                          color: Colors.black.withOpacity(0.4),
+                          color: blackColor.withOpacity(0.4),
                           blurRadius: 10,
                           offset: Offset.zero)
                     ]),
@@ -273,7 +274,7 @@ class _MapScreenState extends State<MapScreen> {
                     IconButton(
                         icon: Icon(
                           CupertinoIcons.back,
-                          color: Colors.black,
+                          color: blackColor,
                         ),
                         onPressed: () => Navigator.pop(context)),
                     Spacer(),
@@ -287,12 +288,12 @@ class _MapScreenState extends State<MapScreen> {
                             TextSpan(
                                 text: 'Abholen ',
                                 style: TextStyle(
-                                    color: Colors.black,
+                                    color: blackColor,
                                     fontWeight: FontWeight.bold)),
                             TextSpan(
                               text: userLocation.location.toString(),
                               style: TextStyle(
-                                  color: Colors.redAccent[400],
+                                  color: primaryColor,
                                   fontWeight: FontWeight.bold),
                             ),
                           ],
@@ -303,7 +304,7 @@ class _MapScreenState extends State<MapScreen> {
                     IconButton(
                       icon: Icon(
                         CupertinoIcons.location_solid,
-                        color: Colors.redAccent[400],
+                        color: primaryColor,
                       ),
                       onPressed: () => FirebaseFirestore.instance
                           .collection('Testing')

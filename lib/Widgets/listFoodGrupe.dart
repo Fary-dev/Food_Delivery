@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:mjam/Contants/Color.dart';
 
 // ignore: camel_case_types
 class FoodGrupe extends StatefulWidget {
@@ -9,7 +10,7 @@ class FoodGrupe extends StatefulWidget {
 }
 
 class _FoodGrupeState extends State<FoodGrupe> {
-  final Color disabelColor = Colors.grey[100];
+  final Color disabelColor = greyLightColor;
   int selectIndex;
 
   foodTitle(String imageVal, String heading, int index, Color colorCategury,
@@ -49,8 +50,7 @@ class _FoodGrupeState extends State<FoodGrupe> {
                       blurRadius: 1)
                 ],
               ),
-              // ignore: deprecated_member_use
-              child: FlatButton(
+              child: MaterialButton(
                   onPressed: () {
                     selectIndex = index;
 

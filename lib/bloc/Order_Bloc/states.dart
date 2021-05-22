@@ -6,8 +6,9 @@ class LodingState extends BlocState {}
 
 class SuccessState extends BlocState {
   List<Order> orderList;
+  Set<Order> myOrderList;
 
-  SuccessState({this.orderList});
+  SuccessState({this.orderList, this.myOrderList});
 }
 
 class FailState extends BlocState {

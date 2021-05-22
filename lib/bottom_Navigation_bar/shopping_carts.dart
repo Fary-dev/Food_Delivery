@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:mjam/Contants/Color.dart';
 import 'package:mjam/Screens/Home_Page/HomePage.dart';
 import 'package:mjam/bloc/Counter_Bloc/counter_select_product.dart';
 import 'package:mjam/bloc/Order_Bloc/events.dart';
@@ -21,7 +22,7 @@ class ShoppingCarts extends StatefulWidget {
 class _ShoppingCartsState extends State<ShoppingCarts> {
   final TextEditingController textFildController = TextEditingController();
   bool commentIsEmpty = true;
-  bool listOrderIsEmpty = false;
+  bool listOrderIsEmpty;
 
   @override
   Widget build(BuildContext context) {
@@ -29,14 +30,12 @@ class _ShoppingCartsState extends State<ShoppingCarts> {
     ProductBloc productBloc = BlocProvider.of<ProductBloc>(context);
 
     return Scaffold(
-      backgroundColor: Colors.grey[100],
       appBar: AppBar(
         centerTitle: true,
-        backgroundColor: Colors.white,
         leading: IconButton(
           icon: Icon(
             Icons.menu,
-            color: Colors.red[400],
+            color: primaryColor,
           ),
           onPressed: () {
             Navigator.pop(context);
@@ -45,26 +44,24 @@ class _ShoppingCartsState extends State<ShoppingCarts> {
         title: Text(
           "Deine Warenkörbe",
           style: TextStyle(
-              fontSize: 13, fontWeight: FontWeight.w500, color: Colors.black87),
+              fontSize: 13, fontWeight: FontWeight.w500, color: blackColor),
         ),
         actions: [
           IconButton(
               icon: Icon(
                 CupertinoIcons.delete,
-                color: Colors.redAccent[400],
+                color: primaryColor,
               ),
               onPressed: () {
                 productBloc.add(ClearAllCart());
                 counterBloc
                     .add(CounterEvent(value: 1, status: EventStatus.clearAll));
 
-                setState(() {
-                  listOrderIsEmpty = true;
-                });
+                setState(() {});
               })
         ],
       ),
-      body: listOrderIsEmpty == false
+      body: productBloc.cartOrder.isNotEmpty
           ? Column(
               children: [
                 Expanded(
@@ -73,7 +70,6 @@ class _ShoppingCartsState extends State<ShoppingCarts> {
                         ? CupertinoActivityIndicator()
                         : state is FailState
                             ? Center(
-                                // ignore: unnecessary_string_interpolations
                                 child: Text('${state.massage}'),
                               )
                             : state is SuccessState
@@ -86,8 +82,7 @@ class _ShoppingCartsState extends State<ShoppingCarts> {
                                             vertical: 10, horizontal: 15),
                                         child: Text(
                                           state.orderList.length > 0
-                                              ? state.orderList[0].resturant
-                                                  .nameResturant
+                                              ? 'state.orderList[0].resturant.nameResturant'
                                               : '',
                                           style: TextStyle(
                                               fontWeight: FontWeight.w500),
@@ -97,10 +92,10 @@ class _ShoppingCartsState extends State<ShoppingCarts> {
                                         child: ListView.builder(
                                           scrollDirection: Axis.vertical,
                                           shrinkWrap: true,
-                                          itemCount: state.orderList.length,
+                                          itemCount:
+                                              state.orderList.length.toInt(),
                                           itemBuilder: (context, index) {
-                                            Order _order =
-                                                state.orderList[index];
+                                            var _order = state.orderList[index];
 
                                             return Column(
                                               children: [
@@ -129,55 +124,75 @@ class _ShoppingCartsState extends State<ShoppingCarts> {
                                                                     CupertinoIcons
                                                                         .minus,
                                                                     size: 25,
-                                                                    color: Colors
-                                                                            .redAccent[
-                                                                        400],
+                                                                    color:
+                                                                        primaryColor,
                                                                   ),
                                                                   onPressed:
                                                                       () {
-                                                                    _order.quantity >
-                                                                            1
-                                                                        ? productBloc.add(DeleteFromCart(
-                                                                            order:
-                                                                                Order(quantity: _order.quantity--, totalPrise: _order.product.price)))
-                                                                        : productBloc.add(DeleteFromCart(
-                                                                            order:
-                                                                                _order,
-                                                                          ));
+                                                                    if (_order
+                                                                            .quantity >
+                                                                        1) {
+                                                                      productBloc.add(DeleteFromCart(
+                                                                          order: Order(
+                                                                              quantity: _order.quantity--,
+                                                                              totalPrise: -_order.product.price,
+                                                                              product: _order.product,
+                                                                              resturant: _order.resturant)));
+                                                                    } else if (productBloc
+                                                                            .cartOrder
+                                                                            .length ==
+                                                                        1) {
+                                                                      productBloc
+                                                                          .add(
+                                                                              ClearAllCart());
+                                                                      counterBloc.add(CounterEvent(
+                                                                          value:
+                                                                              1,
+                                                                          status:
+                                                                              EventStatus.clearAll));
+                                                                    } else {
+                                                                      productBloc
+                                                                          .add(
+                                                                              DeleteFromCart(
+                                                                        order:
+                                                                            _order,
+                                                                      ));
+                                                                      print(state
+                                                                          .orderList
+                                                                          .length);
+                                                                    }
                                                                     setState(
                                                                         () {});
                                                                   }),
                                                               Text(
                                                                   '${_order.quantity}'),
                                                               IconButton(
-                                                                  icon: Icon(
-                                                                    CupertinoIcons
-                                                                        .add,
-                                                                    size: 25,
-                                                                    color: Colors
-                                                                            .redAccent[
-                                                                        400],
-                                                                  ),
-                                                                  onPressed:
-                                                                      () {
-                                                                    BlocProvider.of<ProductBloc>(
-                                                                            context)
-                                                                        .add(AddToCart(
-                                                                            order: Order(
-                                                                      totalPrise: _order
-                                                                              .product
-                                                                              .price *
-                                                                          _order
-                                                                              .quantity,
-                                                                      quantity:
-                                                                          _order.quantity +=
-                                                                              1,
-                                                                    )));
+                                                                icon: Icon(
+                                                                  CupertinoIcons
+                                                                      .add,
+                                                                  size: 25,
+                                                                  color:
+                                                                      primaryColor,
+                                                                ),
+                                                                onPressed: () {
+                                                                  setState(() {
+                                                                    productBloc.add(AddToCart(
+                                                                        order: Order(
+                                                                            totalPrise: _order
+                                                                                .product.price,
+                                                                            quantity:
+                                                                                1,
+                                                                            product:
+                                                                                _order.product,
+                                                                            resturant: _order.resturant)));
+
                                                                     print(state
                                                                         .orderList
                                                                         .length
                                                                         .toString());
-                                                                  }),
+                                                                  });
+                                                                },
+                                                              ),
                                                             ],
                                                           ),
                                                           Expanded(
@@ -213,7 +228,7 @@ class _ShoppingCartsState extends State<ShoppingCarts> {
                                                                         '+ souce',
                                                                         style: TextStyle(
                                                                             color:
-                                                                                Colors.black26))),
+                                                                                greyColor))),
                                                                 Container(
                                                                   padding: EdgeInsets
                                                                       .only(
@@ -231,7 +246,7 @@ class _ShoppingCartsState extends State<ShoppingCarts> {
                                                                               Text(
                                                                             'Kommentar hinzufügen',
                                                                             style:
-                                                                                TextStyle(color: Colors.redAccent[400]),
+                                                                                TextStyle(color: primaryColor),
                                                                           )),
                                                                 ),
                                                               ],
@@ -260,14 +275,14 @@ class _ShoppingCartsState extends State<ShoppingCarts> {
                                               ? Text(
                                                   '0.00',
                                                   style: TextStyle(
-                                                      color: Colors.red,
+                                                      color: primaryColor,
                                                       fontSize: 30),
                                                 )
                                               : Center(
                                                   child: Text(
                                                     '\€ ${productBloc.cartOrder.reduce((x, y) => Order(totalPrise: x.totalPrise + y.totalPrise)).totalPrise.toStringAsFixed(2)}',
                                                     style: TextStyle(
-                                                        color: Colors.red,
+                                                        color: primaryColor,
                                                         fontSize: 30),
                                                   ),
                                                 ),
@@ -298,7 +313,7 @@ class _ShoppingCartsState extends State<ShoppingCarts> {
                     child: new Text(
                       "Zur Resturantliste",
                       textAlign: TextAlign.center,
-                      style: new TextStyle(color: Colors.red[700]),
+                      style: new TextStyle(color: primaryColor),
                     ),
                     onPressed: () {
                       Navigator.push(context,

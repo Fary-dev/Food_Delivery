@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:carousel_slider/carousel_slider.dart';
+import 'package:mjam/Contants/Color.dart';
 import 'package:mjam/Screens/Banner/banner_Screen_1.dart';
 
 class Banr extends StatefulWidget {
@@ -39,7 +40,7 @@ class BanrState extends State<Banr> {
         crossAxisAlignment: CrossAxisAlignment.center,
         children: <Widget>[
           CarouselSlider(
-            carouselController: _buttonCarouselController ,
+            carouselController: _buttonCarouselController,
             options: CarouselOptions(
               onPageChanged: (i, imgeUrl) {
                 setState(() {
@@ -100,7 +101,7 @@ class BanrState extends State<Banr> {
                 margin: EdgeInsets.symmetric(horizontal: 4, vertical: 2),
                 decoration: BoxDecoration(
                   shape: BoxShape.circle,
-                  color: _current == i ? Colors.red[700] : Colors.grey,
+                  color: _current == i ? primaryColor : greyColor,
                 ),
               );
             }),

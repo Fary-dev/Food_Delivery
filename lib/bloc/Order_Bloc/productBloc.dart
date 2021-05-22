@@ -8,6 +8,7 @@ class ProductBloc extends Bloc<BlocEvent, BlocState> {
 
   ProductBloc() : super(SuccessState(orderList: []));
   List<Order> cartOrder = [];
+  Set<Order> myCart = {};
 
   @override
   Stream<BlocState> mapEventToState(BlocEvent event) async* {
@@ -15,14 +16,16 @@ class ProductBloc extends Bloc<BlocEvent, BlocState> {
     try {
       if (event is AddToCart) {
         cartOrder.add(event.order);
+        myCart = cartOrder.toList().toSet();
       }
       if (event is DeleteFromCart) {
         cartOrder.remove(event.order);
+        myCart.remove(event.order);
       }
       if (event is ClearAllCart) {
         cartOrder = [];
       }
-      yield SuccessState(orderList: cartOrder);
+      yield SuccessState(orderList: cartOrder, myOrderList: myCart);
     } catch (a) {
       yield FailState(massage: 'Versuche Es bitte nochmal !!');
     }

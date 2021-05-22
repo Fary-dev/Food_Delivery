@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:mjam/Contants/Color.dart';
 import 'package:mjam/Screens/Menu_Screen/Menu.dart';
 import 'package:mjam/bottom_Navigation_bar/FavoritScreen.dart';
 import 'package:mjam/bottom_Navigation_bar/Profil.dart';
@@ -55,9 +56,9 @@ class _BottomNavBarWidgetState extends State<BottomNavBarWidget> {
         ),
         bottomNavigationBar: BottomNavigationBar(
           type: BottomNavigationBarType.fixed,
-          backgroundColor: Colors.white,
-          selectedItemColor: Colors.red[700],
-          unselectedItemColor: Colors.black87,
+          backgroundColor: whiteColor,
+          selectedItemColor: primaryColor,
+          unselectedItemColor: blackColor,
           items: [
             BottomNavigationBarItem(
               // ignore: deprecated_member_use

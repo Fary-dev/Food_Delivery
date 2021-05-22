@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:mjam/Contants/Color.dart';
 import 'package:mjam/Widgets/search.dart';
 import 'package:mjam/Widgets/Rating.dart';
 import 'package:mjam/bloc/Counter_Bloc/counter_select_product.dart';
@@ -59,9 +60,7 @@ class _PageResturantState extends State<PageResturant>
                         likeBottumPress
                             ? Icons.favorite
                             : Icons.favorite_border,
-                        color: likeBottumPress
-                            ? Colors.red[700]
-                            : Colors.red[700]),
+                        color: likeBottumPress ? primaryColor : primaryColor),
                     onPressed: () {
                       setState(() {
                         likeBottumPress = !likeBottumPress;
@@ -78,14 +77,14 @@ class _PageResturantState extends State<PageResturant>
                     icon: Icon(
                       Icons.arrow_back,
                       size: 30,
-                      color: Colors.red[700],
+                      color: primaryColor,
                     ),
                     onPressed: () {
                       Navigator.of(context).pop();
                     }),
               ),
               pinned: true,
-              backgroundColor: Colors.white,
+              backgroundColor: whiteColor,
               flexibleSpace: FlexibleSpaceBar(
                 collapseMode: CollapseMode.pin,
                 background: Column(
@@ -94,7 +93,7 @@ class _PageResturantState extends State<PageResturant>
                     Container(
                       height: 180.0,
                       width: double.infinity,
-                      color: Colors.grey,
+                      color: greyColor,
                       child: Image.asset(
                         resturant.photoResturant.toString(),
                         width: double.infinity,
@@ -115,7 +114,7 @@ class _PageResturantState extends State<PageResturant>
                               style: TextStyle(
                                 decoration: TextDecoration.none,
                                 fontSize: 18,
-                                color: Colors.black,
+                                color: blackColor,
                                 fontWeight: FontWeight.w500,
                               ),
                             ),
@@ -158,7 +157,7 @@ class _PageResturantState extends State<PageResturant>
                             style: TextStyle(
                               decoration: TextDecoration.none,
                               fontSize: 10,
-                              color: Colors.black,
+                              color: blackColor,
                               fontWeight: FontWeight.w500,
                             ),
                           ),
@@ -188,7 +187,7 @@ class _PageResturantState extends State<PageResturant>
                                 letterSpacing: 0.4,
                                 decoration: TextDecoration.none,
                                 fontSize: 10,
-                                color: Colors.black,
+                                color: blackColor,
                                 fontWeight: FontWeight.w500,
                               ),
                             ),
@@ -209,7 +208,7 @@ class _PageResturantState extends State<PageResturant>
                                 letterSpacing: 0.4,
                                 decoration: TextDecoration.none,
                                 fontSize: 10,
-                                color: Colors.black,
+                                color: blackColor,
                                 fontWeight: FontWeight.w500,
                               ),
                             ),
@@ -222,11 +221,10 @@ class _PageResturantState extends State<PageResturant>
                       borderOnForeground: false,
                       margin: EdgeInsets.only(top: 10),
                       child: Container(
-                        color: Colors.grey[100],
+                        color: greyLightColor,
                         child: Container(
-                          color: Colors.white,
+                          color: whiteColor,
                           margin: EdgeInsets.only(top: 8, bottom: 8),
-                          //margin: EdgeInsets.only(left: 0),
                           child: Search(),
                         ),
                       ),
@@ -240,9 +238,9 @@ class _PageResturantState extends State<PageResturant>
                 labelStyle:
                     TextStyle(fontSize: 12, fontWeight: FontWeight.w500),
                 isScrollable: true,
-                indicatorColor: Colors.red[700],
-                labelColor: Colors.black,
-                unselectedLabelColor: Colors.black,
+                indicatorColor: primaryColor,
+                labelColor: blackColor,
+                unselectedLabelColor: blackColor,
                 indicatorWeight: 4,
                 tabs: [
                   for (int i = 0; i < resturant.products.length; i++)
@@ -276,8 +274,7 @@ class _PageResturantState extends State<PageResturant>
                         child: Container(
                           padding: EdgeInsets.only(left: 15, right: 15),
                           height: 50,
-                          // ignore: deprecated_member_use
-                          child: FlatButton(
+                          child: MaterialButton(
                             onPressed: () {
                               setState(
                                 () {
@@ -297,7 +294,7 @@ class _PageResturantState extends State<PageResturant>
                                                 .size
                                                 .width,
                                             decoration: BoxDecoration(
-                                              color: Colors.white,
+                                              color: whiteColor,
                                               borderRadius: BorderRadius.only(
                                                 topRight: Radius.circular(
                                                   20,
@@ -329,7 +326,7 @@ class _PageResturantState extends State<PageResturant>
                                                                   .start,
                                                           children: [
                                                             SizedBox(
-                                                              height: 5,
+                                                              height: 3,
                                                             ),
                                                             Row(
                                                               mainAxisAlignment:
@@ -365,12 +362,12 @@ class _PageResturantState extends State<PageResturant>
                                                               'subTitle',
                                                               style: TextStyle(
                                                                 fontSize: 12,
-                                                                color: Colors
-                                                                    .black45,
+                                                                color:
+                                                                    blackColor,
                                                               ),
                                                             ),
                                                             SizedBox(
-                                                              height: 5,
+                                                              height: 3,
                                                             ),
                                                           ],
                                                         ),
@@ -391,9 +388,8 @@ class _PageResturantState extends State<PageResturant>
                                                             Icon(
                                                               Icons
                                                                   .error_outline_sharp,
-                                                              color: Colors
-                                                                      .redAccent[
-                                                                  400],
+                                                              color:
+                                                                  primaryColor,
                                                             ),
                                                             TextButton(
                                                               onPressed: () {},
@@ -401,9 +397,8 @@ class _PageResturantState extends State<PageResturant>
                                                                 'Allergene & Zusatzstoffe',
                                                                 style:
                                                                     TextStyle(
-                                                                  color: Colors
-                                                                          .redAccent[
-                                                                      400],
+                                                                  color:
+                                                                      primaryColor,
                                                                 ),
                                                               ),
                                                             ),
@@ -414,7 +409,7 @@ class _PageResturantState extends State<PageResturant>
                                                     Container(
                                                       width: double.infinity,
                                                       height: 10,
-                                                      color: Colors.grey[200],
+                                                      color: greyColor,
                                                     ),
 //=================================================================================== Extraauflagen =======================
                                                     Expanded(
@@ -452,8 +447,8 @@ class _PageResturantState extends State<PageResturant>
                                                                         TextStyle(
                                                                       fontSize:
                                                                           12,
-                                                                      color: Colors
-                                                                          .black26,
+                                                                      color:
+                                                                          blackColor,
                                                                     ),
                                                                   ),
                                                                 ],
@@ -461,9 +456,8 @@ class _PageResturantState extends State<PageResturant>
                                                               Icon(
                                                                 Icons
                                                                     .keyboard_arrow_down_outlined,
-                                                                color: Colors
-                                                                        .redAccent[
-                                                                    400],
+                                                                color:
+                                                                    primaryColor,
                                                                 size: 50,
                                                               )
                                                             ],
@@ -473,7 +467,7 @@ class _PageResturantState extends State<PageResturant>
                                                     ),
 
                                                     Container(
-                                                      color: Colors.grey[200],
+                                                      color: greyColor,
                                                       height: 2,
                                                       width:
                                                           MediaQuery.of(context)
@@ -499,17 +493,15 @@ class _PageResturantState extends State<PageResturant>
                                                                 Icons
                                                                     .comment_rounded,
                                                                 size: 25,
-                                                                color: Colors
-                                                                        .redAccent[
-                                                                    400],
+                                                                color:
+                                                                    primaryColor,
                                                               ),
                                                               Text(
                                                                 'Kommentar hinzufügen',
                                                                 style:
                                                                     TextStyle(
-                                                                  color: Colors
-                                                                          .redAccent[
-                                                                      400],
+                                                                  color:
+                                                                      primaryColor,
                                                                   fontSize: 14,
                                                                 ),
                                                               ),
@@ -519,7 +511,7 @@ class _PageResturantState extends State<PageResturant>
                                                       ),
                                                     ),
                                                     Container(
-                                                      color: Colors.grey[200],
+                                                      color: greyColor,
                                                       height: 2,
                                                       width:
                                                           MediaQuery.of(context)
@@ -542,23 +534,34 @@ class _PageResturantState extends State<PageResturant>
                                                               color: counterBloc
                                                                           .state <
                                                                       2
-                                                                  ? Colors
-                                                                      .grey[200]
-                                                                  : Colors.redAccent[
-                                                                      400],
+                                                                  ? greyColor
+                                                                  : primaryColor,
                                                             ),
-                                                            onPressed:
-                                                                () async {
-                                                              counterBloc.state >
-                                                                      1
-                                                                  ? counterBloc.add(
-                                                                      CounterEvent(
-                                                                          value:
-                                                                              1,
-                                                                          status: EventStatus
-                                                                              .decrement))
-                                                                  : counterBloc
-                                                                      .state;
+                                                            onPressed: () {
+                                                              if (counterBloc
+                                                                      .state >
+                                                                  1) {
+                                                                counterBloc.add(
+                                                                    CounterEvent(
+                                                                        value:
+                                                                            1,
+                                                                        status:
+                                                                            EventStatus.decrement));
+                                                                productBloc.add(DeleteFromCart(
+                                                                    order: Order(
+                                                                        product:
+                                                                            product,
+                                                                        totalPrise:
+                                                                            product
+                                                                                .price,
+                                                                        quantity:
+                                                                            1,
+                                                                        resturant:
+                                                                            resturant)));
+                                                              } else {
+                                                                counterBloc
+                                                                    .state;
+                                                              }
                                                             },
                                                           ),
                                                           Padding(
@@ -579,17 +582,60 @@ class _PageResturantState extends State<PageResturant>
                                                               Icons
                                                                   .add_circle_outline_sharp,
                                                               size: 40,
-                                                              color: Colors
-                                                                      .redAccent[
-                                                                  400],
+                                                              color:
+                                                                  primaryColor,
                                                             ),
-                                                            onPressed:
-                                                                () async {
-                                                              counterBloc.add(
-                                                                  CounterEvent(
-                                                                      value: 1,
-                                                                      status: EventStatus
-                                                                          .increment));
+                                                            onPressed: () {
+                                                              if (counterBloc
+                                                                      .state ==
+                                                                  1) {
+                                                                productBloc.add(
+                                                                    AddToCart(
+                                                                        order:
+                                                                            Order(
+                                                                  product:
+                                                                      product,
+                                                                  totalPrise:
+                                                                      product
+                                                                          .price,
+                                                                  quantity: 1,
+                                                                )));
+                                                                productBloc.add(
+                                                                    AddToCart(
+                                                                        order:
+                                                                            Order(
+                                                                  product:
+                                                                      product,
+                                                                  totalPrise:
+                                                                      product
+                                                                          .price,
+                                                                  quantity: 1,
+                                                                )));
+                                                                counterBloc.add(
+                                                                    CounterEvent(
+                                                                        value:
+                                                                            1,
+                                                                        status:
+                                                                            EventStatus.increment));
+                                                              } else {
+                                                                productBloc.add(
+                                                                    AddToCart(
+                                                                        order:
+                                                                            Order(
+                                                                  product:
+                                                                      product,
+                                                                  totalPrise:
+                                                                      product
+                                                                          .price,
+                                                                  quantity: 1,
+                                                                )));
+                                                                counterBloc.add(
+                                                                    CounterEvent(
+                                                                        value:
+                                                                            1,
+                                                                        status:
+                                                                            EventStatus.increment));
+                                                              }
                                                             },
                                                           ),
                                                         ],
@@ -600,10 +646,8 @@ class _PageResturantState extends State<PageResturant>
 
                                                     Expanded(
                                                       flex: 1,
-                                                      // ignore: deprecated_member_use
-                                                      child: FlatButton(
-                                                        color: Colors
-                                                            .redAccent[400],
+                                                      child: MaterialButton(
+                                                        color: primaryColor,
                                                         onPressed: () {
                                                           setState(() {
                                                             showBottomSheet =
@@ -615,28 +659,42 @@ class _PageResturantState extends State<PageResturant>
                                                                 : changeText =
                                                                     'HINZUFÜGEN';
                                                           });
-
-                                                          productBloc
-                                                              .add(AddToCart(
-                                                                  order: Order(
-                                                            resturant:
-                                                                resturant,
-                                                            product: product,
-                                                            quantity:
-                                                                counterBloc
-                                                                    .state,
-                                                            totalPrise:
-                                                                product.price *
-                                                                    counterBloc
-                                                                        .state,
-                                                          )));
-                                                          counterBloc.add(CounterEvent(
-                                                              value: 1,
-                                                              status: EventStatus
-                                                                  .clearState));
-                                                          Navigator.pop(
-                                                              context);
-                                                          updateScreen();
+                                                          if (counterBloc
+                                                                  .state ==
+                                                              1) {
+                                                            productBloc.add(
+                                                                AddToCart(
+                                                                    order:
+                                                                        Order(
+                                                              resturant:
+                                                                  resturant,
+                                                              product: product,
+                                                              quantity:
+                                                                  counterBloc
+                                                                      .state,
+                                                              totalPrise: product
+                                                                      .price *
+                                                                  counterBloc
+                                                                      .state,
+                                                            )));
+                                                            counterBloc.add(
+                                                                CounterEvent(
+                                                                    value: 1,
+                                                                    status: EventStatus
+                                                                        .clearState));
+                                                            Navigator.pop(
+                                                                context);
+                                                            updateScreen();
+                                                          } else {
+                                                            counterBloc.add(
+                                                                CounterEvent(
+                                                                    value: 1,
+                                                                    status: EventStatus
+                                                                        .clearState));
+                                                            Navigator.pop(
+                                                                context);
+                                                            updateScreen();
+                                                          }
                                                         },
                                                         child: Padding(
                                                           padding:
@@ -654,9 +712,8 @@ class _PageResturantState extends State<PageResturant>
                                                                 decoration: BoxDecoration(
                                                                     shape: BoxShape
                                                                         .circle,
-                                                                    color: Colors
-                                                                            .redAccent[
-                                                                        400]),
+                                                                    color:
+                                                                        primaryColor),
                                                                 child: Center(
                                                                   child: Text(
                                                                     '${counterBloc.itemCart}',
@@ -664,9 +721,8 @@ class _PageResturantState extends State<PageResturant>
                                                                         TextStyle(
                                                                       fontSize:
                                                                           18,
-                                                                      color: Colors
-                                                                              .redAccent[
-                                                                          400],
+                                                                      color:
+                                                                          primaryColor,
                                                                     ),
                                                                   ),
                                                                 ),
@@ -677,8 +733,8 @@ class _PageResturantState extends State<PageResturant>
                                                                 style:
                                                                     TextStyle(
                                                                   fontSize: 15,
-                                                                  color: Colors
-                                                                      .white,
+                                                                  color:
+                                                                      whiteColor,
                                                                 ),
                                                               ),
                                                               Text(
@@ -690,8 +746,8 @@ class _PageResturantState extends State<PageResturant>
                                                                 style:
                                                                     TextStyle(
                                                                   fontSize: 15,
-                                                                  color: Colors
-                                                                      .white,
+                                                                  color:
+                                                                      whiteColor,
                                                                 ),
                                                               ),
                                                             ],
@@ -737,7 +793,7 @@ class _PageResturantState extends State<PageResturant>
                                           width: 20,
                                           decoration: BoxDecoration(
                                               border: Border.all(
-                                                color: Colors.grey,
+                                                color: greyColor,
                                               ),
                                               // color: Colors.green[700],
                                               borderRadius:
@@ -745,7 +801,7 @@ class _PageResturantState extends State<PageResturant>
                                         ),
                                         Icon(
                                           Icons.add_sharp,
-                                          color: Colors.red[700],
+                                          color: primaryColor,
                                           size: 20,
                                         ),
                                       ],
@@ -766,10 +822,9 @@ class _PageResturantState extends State<PageResturant>
           ? Container(
               height: 74,
               width: MediaQuery.of(context).size.width,
-              color: Colors.redAccent[400],
-              // ignore: deprecated_member_use
-              child: FlatButton(
-                color: Colors.redAccent[400],
+              color: primaryColor,
+              child: MaterialButton(
+                color: primaryColor,
                 onPressed: () {
                   counterBloc.add(CounterEvent(
                     value: 1,
@@ -796,28 +851,23 @@ class _PageResturantState extends State<PageResturant>
                                       width: 40,
                                       decoration: BoxDecoration(
                                         shape: BoxShape.circle,
-                                        color: Colors.white,
+                                        color: whiteColor,
                                       ),
                                       child: Center(
                                         child: Text(
                                           productBloc.cartOrder.isEmpty
                                               ? ''
-                                              : productBloc.cartOrder
-                                                  .reduce((x, y) => Order(
-                                                      quantity: x.quantity +
-                                                          y.quantity))
-                                                  .quantity
+                                              : state.orderList.length
                                                   .toString(),
                                           style: TextStyle(
                                             fontSize: 18,
-                                            color: Colors.redAccent[400],
+                                            color: primaryColor,
                                           ),
                                         ),
                                       ),
                                     )
                                   : state is FailState
                                       ? Tooltip(
-                                          // ignore: unnecessary_string_interpolations
                                           message: '${state.massage}',
                                           child: Text('0'),
                                         )
@@ -826,7 +876,7 @@ class _PageResturantState extends State<PageResturant>
                         changeText = 'WARENKORB ÖFFNEN',
                         style: TextStyle(
                           fontSize: 15,
-                          color: Colors.white,
+                          color: whiteColor,
                         ),
                       ),
                       Text(
@@ -839,7 +889,7 @@ class _PageResturantState extends State<PageResturant>
                                 .toStringAsFixed(2),
                         style: TextStyle(
                           fontSize: 15,
-                          color: Colors.white,
+                          color: whiteColor,
                         ),
                       ),
                     ],

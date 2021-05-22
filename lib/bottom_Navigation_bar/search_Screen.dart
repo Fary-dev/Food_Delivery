@@ -47,7 +47,7 @@ class _SearchingState extends State<Searching> {
                 prefixIcon: Icon(
                   Icons.search,
                   size: 25,
-                  color: Colors.red[700],
+                  color: primaryColor,
                 ),
                 border:
                     OutlineInputBorder(borderRadius: BorderRadius.circular(0)),
