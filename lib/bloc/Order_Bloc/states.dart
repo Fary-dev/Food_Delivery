@@ -5,10 +5,10 @@ abstract class BlocState {}
 class LodingState extends BlocState {}
 
 class SuccessState extends BlocState {
-  List<Order> orderList;
-  Set<Order> myOrderList;
+  List<Order> orderList = <Order>[];
+  Set<Order> setMyOrderList = <Order>{};
 
-  SuccessState({this.orderList, this.myOrderList});
+  SuccessState({this.orderList, this.setMyOrderList});
 }
 
 class FailState extends BlocState {

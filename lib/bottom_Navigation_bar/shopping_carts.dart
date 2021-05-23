@@ -92,8 +92,7 @@ class _ShoppingCartsState extends State<ShoppingCarts> {
                                         child: ListView.builder(
                                           scrollDirection: Axis.vertical,
                                           shrinkWrap: true,
-                                          itemCount:
-                                              state.orderList.length.toInt(),
+                                          itemCount: state.orderList.length,
                                           itemBuilder: (context, index) {
                                             var _order = state.orderList[index];
 
@@ -120,50 +119,52 @@ class _ShoppingCartsState extends State<ShoppingCarts> {
                                                                     .spaceEvenly,
                                                             children: [
                                                               IconButton(
-                                                                  icon: Icon(
-                                                                    CupertinoIcons
-                                                                        .minus,
-                                                                    size: 25,
-                                                                    color:
-                                                                        primaryColor,
-                                                                  ),
-                                                                  onPressed:
-                                                                      () {
-                                                                    if (_order
-                                                                            .quantity >
-                                                                        1) {
-                                                                      productBloc.add(DeleteFromCart(
-                                                                          order: Order(
-                                                                              quantity: _order.quantity--,
-                                                                              totalPrise: -_order.product.price,
-                                                                              product: _order.product,
-                                                                              resturant: _order.resturant)));
-                                                                    } else if (productBloc
-                                                                            .cartOrder
-                                                                            .length ==
-                                                                        1) {
-                                                                      productBloc
-                                                                          .add(
-                                                                              ClearAllCart());
-                                                                      counterBloc.add(CounterEvent(
-                                                                          value:
-                                                                              1,
-                                                                          status:
-                                                                              EventStatus.clearAll));
-                                                                    } else {
-                                                                      productBloc
-                                                                          .add(
-                                                                              DeleteFromCart(
-                                                                        order:
-                                                                            _order,
-                                                                      ));
-                                                                      print(state
-                                                                          .orderList
-                                                                          .length);
-                                                                    }
-                                                                    setState(
-                                                                        () {});
-                                                                  }),
+                                                                icon: Icon(
+                                                                  CupertinoIcons
+                                                                      .minus,
+                                                                  size: 25,
+                                                                  color:
+                                                                      primaryColor,
+                                                                ),
+                                                                onPressed: () {
+                                                                  print(state
+                                                                      .setMyOrderList
+                                                                      .length);
+                                                                  // if (_order
+                                                                  //         .quantity >
+                                                                  //     1) {
+                                                                  //   productBloc.add(DeleteFromCart(
+                                                                  //       order: Order(
+                                                                  //           quantity:
+                                                                  //               _order.quantity--,
+                                                                  //           totalPrise: -_order.product.price,
+                                                                  //           product: _order.product,
+                                                                  //           resturant: _order.resturant)));
+                                                                  // } else if (productBloc
+                                                                  //         .cartOrder
+                                                                  //         .length ==
+                                                                  //     1) {
+                                                                  //   productBloc.add(
+                                                                  //       ClearAllCart());
+                                                                  //   counterBloc.add(CounterEvent(
+                                                                  //       value:
+                                                                  //           1,
+                                                                  //       status:
+                                                                  //           EventStatus.clearAll));
+                                                                  // } else {
+                                                                  //   productBloc.add(
+                                                                  //       DeleteFromCart(
+                                                                  //     order:
+                                                                  //         _order,
+                                                                  //   ));
+                                                                  //   print(state
+                                                                  //       .orderList
+                                                                  //       .length);
+                                                                  // }
+                                                                  setState(
+                                                                      () {});
+                                                                },
+                                                              ),
                                                               Text(
                                                                   '${_order.quantity}'),
                                                               IconButton(

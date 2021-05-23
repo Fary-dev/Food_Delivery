@@ -409,7 +409,7 @@ class _PageResturantState extends State<PageResturant>
                                                     Container(
                                                       width: double.infinity,
                                                       height: 10,
-                                                      color: greyColor,
+                                                      color: greyLightColor,
                                                     ),
 //=================================================================================== Extraauflagen =======================
                                                     Expanded(
@@ -467,7 +467,7 @@ class _PageResturantState extends State<PageResturant>
                                                     ),
 
                                                     Container(
-                                                      color: greyColor,
+                                                      color: greyLightColor,
                                                       height: 2,
                                                       width:
                                                           MediaQuery.of(context)
@@ -511,7 +511,7 @@ class _PageResturantState extends State<PageResturant>
                                                       ),
                                                     ),
                                                     Container(
-                                                      color: greyColor,
+                                                      color: greyLightColor,
                                                       height: 2,
                                                       width:
                                                           MediaQuery.of(context)
