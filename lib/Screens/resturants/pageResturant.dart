@@ -547,7 +547,10 @@ class _PageResturantState extends State<PageResturant>
                                                                             1,
                                                                         status:
                                                                             EventStatus.decrement));
-                                                                productBloc.add(DeleteFromCart(
+                                                                productBloc.add(
+                                                                  DeleteFromCart(
+                                                                    product:
+                                                                        product,
                                                                     order: Order(
                                                                         product:
                                                                             product,
@@ -557,7 +560,9 @@ class _PageResturantState extends State<PageResturant>
                                                                         quantity:
                                                                             1,
                                                                         resturant:
-                                                                            resturant)));
+                                                                            resturant),
+                                                                  ),
+                                                                );
                                                               } else {
                                                                 counterBloc
                                                                     .state;
@@ -591,26 +596,30 @@ class _PageResturantState extends State<PageResturant>
                                                                   1) {
                                                                 productBloc.add(
                                                                     AddToCart(
+                                                                        product:
+                                                                            product,
                                                                         order:
                                                                             Order(
-                                                                  product:
-                                                                      product,
-                                                                  totalPrise:
-                                                                      product
-                                                                          .price,
-                                                                  quantity: 1,
-                                                                )));
+                                                                          product:
+                                                                              product,
+                                                                          totalPrise:
+                                                                              product.price,
+                                                                          quantity:
+                                                                              1,
+                                                                        )));
                                                                 productBloc.add(
                                                                     AddToCart(
+                                                                        product:
+                                                                            product,
                                                                         order:
                                                                             Order(
-                                                                  product:
-                                                                      product,
-                                                                  totalPrise:
-                                                                      product
-                                                                          .price,
-                                                                  quantity: 1,
-                                                                )));
+                                                                          product:
+                                                                              product,
+                                                                          totalPrise:
+                                                                              product.price,
+                                                                          quantity:
+                                                                              1,
+                                                                        )));
                                                                 counterBloc.add(
                                                                     CounterEvent(
                                                                         value:
@@ -620,15 +629,17 @@ class _PageResturantState extends State<PageResturant>
                                                               } else {
                                                                 productBloc.add(
                                                                     AddToCart(
+                                                                        product:
+                                                                            product,
                                                                         order:
                                                                             Order(
-                                                                  product:
-                                                                      product,
-                                                                  totalPrise:
-                                                                      product
-                                                                          .price,
-                                                                  quantity: 1,
-                                                                )));
+                                                                          product:
+                                                                              product,
+                                                                          totalPrise:
+                                                                              product.price,
+                                                                          quantity:
+                                                                              1,
+                                                                        )));
                                                                 counterBloc.add(
                                                                     CounterEvent(
                                                                         value:
@@ -664,19 +675,22 @@ class _PageResturantState extends State<PageResturant>
                                                               1) {
                                                             productBloc.add(
                                                                 AddToCart(
+                                                                    product:
+                                                                        product,
                                                                     order:
                                                                         Order(
-                                                              resturant:
-                                                                  resturant,
-                                                              product: product,
-                                                              quantity:
-                                                                  counterBloc
-                                                                      .state,
-                                                              totalPrise: product
-                                                                      .price *
-                                                                  counterBloc
-                                                                      .state,
-                                                            )));
+                                                                      resturant:
+                                                                          resturant,
+                                                                      product:
+                                                                          product,
+                                                                      quantity:
+                                                                          counterBloc
+                                                                              .state,
+                                                                      totalPrise: product
+                                                                              .price *
+                                                                          counterBloc
+                                                                              .state,
+                                                                    )));
                                                             counterBloc.add(
                                                                 CounterEvent(
                                                                     value: 1,

@@ -23,6 +23,8 @@ class _ShoppingCartsState extends State<ShoppingCarts> {
   final TextEditingController textFildController = TextEditingController();
   bool commentIsEmpty = true;
   bool listOrderIsEmpty;
+  List<int> countList = [];
+  List ff = [];
 
   @override
   Widget build(BuildContext context) {
@@ -77,24 +79,52 @@ class _ShoppingCartsState extends State<ShoppingCarts> {
                                     crossAxisAlignment:
                                         CrossAxisAlignment.start,
                                     children: [
-                                      Padding(
-                                        padding: const EdgeInsets.symmetric(
-                                            vertical: 10, horizontal: 15),
-                                        child: Text(
-                                          state.orderList.length > 0
-                                              ? 'state.orderList[0].resturant.nameResturant'
-                                              : '',
-                                          style: TextStyle(
-                                              fontWeight: FontWeight.w500),
-                                        ),
+                                      Row(
+                                        children: [
+                                          // IconButton(
+                                          //     onPressed: () {
+                                          //       setState(() {
+                                          //         var d = state
+                                          //             .setMyProductsList.length;
+                                          //         print(d);
+                                          //       });
+                                          //     },
+                                          //     icon: Icon(Icons.ac_unit)),
+                                          Padding(
+                                            padding: const EdgeInsets.symmetric(
+                                                vertical: 10, horizontal: 15),
+                                            child: Text(
+                                              state.orderList.length > 0
+                                                  ? ''
+                                                  : '',
+                                              style: TextStyle(
+                                                  fontWeight: FontWeight.w500),
+                                            ),
+                                          ),
+                                        ],
                                       ),
                                       Expanded(
                                         child: ListView.builder(
                                           scrollDirection: Axis.vertical,
                                           shrinkWrap: true,
-                                          itemCount: state.orderList.length,
+                                          itemCount: state.setMyProductsList
+                                              .toSet()
+                                              .length,
                                           itemBuilder: (context, index) {
-                                            var _order = state.orderList[index];
+                                            var _order = state.setMyProductsList
+                                                .elementAt(index);
+                                            var count = state.orderList
+                                                .where((element) =>
+                                                    element
+                                                        .product.nameProduct ==
+                                                    _order.nameProduct)
+                                                .toList()
+                                                .length;
+                                            countList.add(count);
+                                            var listCount =
+                                                state.orderList[index];
+                                            double geld =
+                                                countList[index] * _order.price;
 
                                             return Column(
                                               children: [
@@ -127,46 +157,58 @@ class _ShoppingCartsState extends State<ShoppingCarts> {
                                                                       primaryColor,
                                                                 ),
                                                                 onPressed: () {
-                                                                  print(state
-                                                                      .setMyOrderList
-                                                                      .length);
-                                                                  // if (_order
-                                                                  //         .quantity >
-                                                                  //     1) {
-                                                                  //   productBloc.add(DeleteFromCart(
-                                                                  //       order: Order(
-                                                                  //           quantity:
-                                                                  //               _order.quantity--,
-                                                                  //           totalPrise: -_order.product.price,
-                                                                  //           product: _order.product,
-                                                                  //           resturant: _order.resturant)));
-                                                                  // } else if (productBloc
-                                                                  //         .cartOrder
-                                                                  //         .length ==
-                                                                  //     1) {
-                                                                  //   productBloc.add(
-                                                                  //       ClearAllCart());
-                                                                  //   counterBloc.add(CounterEvent(
-                                                                  //       value:
-                                                                  //           1,
-                                                                  //       status:
-                                                                  //           EventStatus.clearAll));
-                                                                  // } else {
-                                                                  //   productBloc.add(
-                                                                  //       DeleteFromCart(
-                                                                  //     order:
-                                                                  //         _order,
-                                                                  //   ));
-                                                                  //   print(state
-                                                                  //       .orderList
-                                                                  //       .length);
-                                                                  // }
+                                                                  if (countList[
+                                                                          index] >
+                                                                      1) {
+                                                                    productBloc.add(DeleteFromCart(
+                                                                        order: Order(
+                                                                            quantity:
+                                                                                state.orderList[index].quantity--,
+                                                                            totalPrise: -(_order.price),
+                                                                            product: listCount.product,
+                                                                            resturant: state.orderList[index].resturant)));
+                                                                  } else if (state
+                                                                          .orderList
+                                                                          .length ==
+                                                                      1) {
+                                                                    productBloc.add(
+                                                                        ClearAllCart());
+                                                                    counterBloc.add(CounterEvent(
+                                                                        value:
+                                                                            1,
+                                                                        status:
+                                                                            EventStatus.clearAll));
+                                                                  } else {
+                                                                    productBloc.add(
+                                                                        DeleteFromCart(
+                                                                      product:
+                                                                          _order,
+                                                                      order: state
+                                                                              .orderList[
+                                                                          index],
+                                                                    ));
+                                                                  }
+
+                                                                  if (countList[
+                                                                          index] ==
+                                                                      1) {
+                                                                    countList
+                                                                        .remove(
+                                                                            index);
+                                                                  } else {
+                                                                    countList[
+                                                                            index] =
+                                                                        countList[index] -
+                                                                            1;
+                                                                  }
                                                                   setState(
                                                                       () {});
                                                                 },
                                                               ),
                                                               Text(
-                                                                  '${_order.quantity}'),
+                                                                countList[index]
+                                                                    .toString(),
+                                                              ),
                                                               IconButton(
                                                                 icon: Icon(
                                                                   CupertinoIcons
@@ -177,20 +219,20 @@ class _ShoppingCartsState extends State<ShoppingCarts> {
                                                                 ),
                                                                 onPressed: () {
                                                                   setState(() {
+                                                                    countList[
+                                                                        index] += 1;
                                                                     productBloc.add(AddToCart(
+                                                                        product:
+                                                                            _order,
                                                                         order: Order(
                                                                             totalPrise: _order
-                                                                                .product.price,
+                                                                                .price,
                                                                             quantity:
                                                                                 1,
                                                                             product:
-                                                                                _order.product,
-                                                                            resturant: _order.resturant)));
-
-                                                                    print(state
-                                                                        .orderList
-                                                                        .length
-                                                                        .toString());
+                                                                                _order,
+                                                                            resturant:
+                                                                                state.orderList[index].resturant)));
                                                                   });
                                                                 },
                                                               ),
@@ -210,12 +252,11 @@ class _ShoppingCartsState extends State<ShoppingCarts> {
                                                                   children: [
                                                                     Text(
                                                                       _order
-                                                                          .product
                                                                           .nameProduct,
                                                                     ),
                                                                     Text(
-                                                                      (_order.product.price *
-                                                                              _order.quantity)
+                                                                      (countList[index] *
+                                                                              _order.price)
                                                                           .toStringAsFixed(2),
                                                                     )
                                                                   ],
@@ -281,7 +322,13 @@ class _ShoppingCartsState extends State<ShoppingCarts> {
                                                 )
                                               : Center(
                                                   child: Text(
-                                                    '\€ ${productBloc.cartOrder.reduce((x, y) => Order(totalPrise: x.totalPrise + y.totalPrise)).totalPrise.toStringAsFixed(2)}',
+                                                    state.orderList
+                                                        .reduce((x, y) => Order(
+                                                            totalPrise: x
+                                                                    .totalPrise +
+                                                                y.totalPrise))
+                                                        .totalPrise
+                                                        .toStringAsFixed(2),
                                                     style: TextStyle(
                                                         color: primaryColor,
                                                         fontSize: 30),

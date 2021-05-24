@@ -430,6 +430,13 @@ final f = Product(
   isNoVeg: true,
 );
 
+class ShoppingCart {
+  final Order order;
+  final User user;
+
+  ShoppingCart({this.order, this.user});
+}
+
 class Order {
   final Resturant resturant;
   Product product;
