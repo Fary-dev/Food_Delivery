@@ -6,6 +6,9 @@ class LodingState extends BlocState {}
 
 class SuccessState extends BlocState {
   List<Order> orderList = <Order>[];
+
+  // var setOrder = orderList.toSet().toList();
+
   Set<Product> setMyProductsList = <Product>{};
 
   SuccessState({this.orderList, this.setMyProductsList});

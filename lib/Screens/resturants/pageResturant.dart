@@ -606,6 +606,8 @@ class _PageResturantState extends State<PageResturant>
                                                                               product.price,
                                                                           quantity:
                                                                               1,
+                                                                          resturant:
+                                                                              resturant,
                                                                         )));
                                                                 productBloc.add(
                                                                     AddToCart(
@@ -619,6 +621,8 @@ class _PageResturantState extends State<PageResturant>
                                                                               product.price,
                                                                           quantity:
                                                                               1,
+                                                                          resturant:
+                                                                              resturant,
                                                                         )));
                                                                 counterBloc.add(
                                                                     CounterEvent(
@@ -639,6 +643,8 @@ class _PageResturantState extends State<PageResturant>
                                                                               product.price,
                                                                           quantity:
                                                                               1,
+                                                                          resturant:
+                                                                              resturant,
                                                                         )));
                                                                 counterBloc.add(
                                                                     CounterEvent(

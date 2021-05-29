@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:geocoder/geocoder.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:mjam/Contants/Color.dart';
-import 'package:mjam/Widgets/BottomNavBarWidget.dart';
+import 'package:mjam/Screens/Home_Page/HomePage.dart';
 import 'package:mjam/bloc/Location_Bloc/firstLocation.dart';
 import 'package:provider/provider.dart';
 
@@ -110,9 +110,7 @@ class _LocationSetState extends State<LocationSet> {
                     InkWell(
                       onTap: () => Navigator.push(
                         context,
-                        MaterialPageRoute(
-                          builder: (context) => BottomNavBarWidget(),
-                        ),
+                        MaterialPageRoute(builder: (context) => HomePage()),
                       ),
                       child: Container(
                         height: 100,

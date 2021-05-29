@@ -293,13 +293,13 @@ class Product extends Products {
 final salami = Product(
   id: 2,
   nameProduct: 'Salami',
-  price: 6.50,
+  price: 7.00,
   isNoVeg: true,
 );
 final cardi = Product(
   id: 2,
   nameProduct: 'Cardinale',
-  price: 6.50,
+  price: 6.00,
   isNoVeg: true,
 );
 final margharita = Product(
@@ -341,7 +341,7 @@ final cheesburger = Product(
 final funghi = Product(
   id: 5,
   nameProduct: 'Funghi',
-  price: 6.50,
+  price: 5.00,
   isNoVeg: true,
 );
 final carbonara = Product(

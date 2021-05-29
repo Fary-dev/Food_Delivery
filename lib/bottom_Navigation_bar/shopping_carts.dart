@@ -30,7 +30,6 @@ class _ShoppingCartsState extends State<ShoppingCarts> {
   Widget build(BuildContext context) {
     CounterBloc counterBloc = BlocProvider.of<CounterBloc>(context);
     ProductBloc productBloc = BlocProvider.of<ProductBloc>(context);
-
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
@@ -58,8 +57,6 @@ class _ShoppingCartsState extends State<ShoppingCarts> {
                 productBloc.add(ClearAllCart());
                 counterBloc
                     .add(CounterEvent(value: 1, status: EventStatus.clearAll));
-
-                setState(() {});
               })
         ],
       ),
@@ -79,52 +76,46 @@ class _ShoppingCartsState extends State<ShoppingCarts> {
                                     crossAxisAlignment:
                                         CrossAxisAlignment.start,
                                     children: [
-                                      Row(
+                                      Column(
                                         children: [
-                                          // IconButton(
-                                          //     onPressed: () {
-                                          //       setState(() {
-                                          //         var d = state
-                                          //             .setMyProductsList.length;
-                                          //         print(d);
-                                          //       });
-                                          //     },
-                                          //     icon: Icon(Icons.ac_unit)),
                                           Padding(
                                             padding: const EdgeInsets.symmetric(
                                                 vertical: 10, horizontal: 15),
                                             child: Text(
                                               state.orderList.length > 0
-                                                  ? ''
+                                                  ? state.orderList[0].resturant
+                                                      .nameResturant
                                                   : '',
                                               style: TextStyle(
                                                   fontWeight: FontWeight.w500),
                                             ),
                                           ),
+                                          Container(
+                                            color: whiteColor,
+                                            height: 2,
+                                            width: MediaQuery.of(context)
+                                                .size
+                                                .width,
+                                          ),
+                                          SizedBox(
+                                            height: 10,
+                                          )
                                         ],
                                       ),
                                       Expanded(
                                         child: ListView.builder(
                                           scrollDirection: Axis.vertical,
                                           shrinkWrap: true,
-                                          itemCount: state.setMyProductsList
-                                              .toSet()
-                                              .length,
+                                          itemCount:
+                                              state.setMyProductsList.length,
                                           itemBuilder: (context, index) {
                                             var _order = state.setMyProductsList
                                                 .elementAt(index);
-                                            var count = state.orderList
+                                            int count = state.orderList
                                                 .where((element) =>
-                                                    element
-                                                        .product.nameProduct ==
-                                                    _order.nameProduct)
+                                                    element.product == _order)
                                                 .toList()
                                                 .length;
-                                            countList.add(count);
-                                            var listCount =
-                                                state.orderList[index];
-                                            double geld =
-                                                countList[index] * _order.price;
 
                                             return Column(
                                               children: [
@@ -157,16 +148,20 @@ class _ShoppingCartsState extends State<ShoppingCarts> {
                                                                       primaryColor,
                                                                 ),
                                                                 onPressed: () {
-                                                                  if (countList[
-                                                                          index] >
+                                                                  print(state
+                                                                      .orderList
+                                                                      .length);
+                                                                  if (count >
                                                                       1) {
-                                                                    productBloc.add(DeleteFromCart(
-                                                                        order: Order(
-                                                                            quantity:
-                                                                                state.orderList[index].quantity--,
-                                                                            totalPrise: -(_order.price),
-                                                                            product: listCount.product,
-                                                                            resturant: state.orderList[index].resturant)));
+                                                                    var selectProduct = state
+                                                                        .orderList
+                                                                        .firstWhere((order) =>
+                                                                            order.product ==
+                                                                            _order);
+                                                                    state
+                                                                        .orderList
+                                                                        .remove(
+                                                                            selectProduct);
                                                                   } else if (state
                                                                           .orderList
                                                                           .length ==
@@ -179,34 +174,47 @@ class _ShoppingCartsState extends State<ShoppingCarts> {
                                                                         status:
                                                                             EventStatus.clearAll));
                                                                   } else {
+                                                                    var selectProduct = state
+                                                                        .orderList
+                                                                        .firstWhere((order) =>
+                                                                            order.product ==
+                                                                            _order);
+                                                                    state
+                                                                        .orderList
+                                                                        .remove(
+                                                                            selectProduct);
+                                                                    state
+                                                                        .setMyProductsList
+                                                                        .remove(
+                                                                            _order);
+                                                                  }
+                                                                  if (state
+                                                                      .setMyProductsList
+                                                                      .isEmpty) {
                                                                     productBloc.add(
-                                                                        DeleteFromCart(
-                                                                      product:
-                                                                          _order,
-                                                                      order: state
-                                                                              .orderList[
-                                                                          index],
-                                                                    ));
+                                                                        ClearAllCart());
+                                                                    counterBloc.add(CounterEvent(
+                                                                        value:
+                                                                            1,
+                                                                        status:
+                                                                            EventStatus.clearAll));
                                                                   }
 
-                                                                  if (countList[
-                                                                          index] ==
-                                                                      1) {
-                                                                    countList
-                                                                        .remove(
-                                                                            index);
-                                                                  } else {
-                                                                    countList[
-                                                                            index] =
-                                                                        countList[index] -
-                                                                            1;
-                                                                  }
+                                                                  print(state
+                                                                      .orderList
+                                                                      .length);
                                                                   setState(
                                                                       () {});
                                                                 },
                                                               ),
                                                               Text(
-                                                                countList[index]
+                                                                state.orderList
+                                                                    .where((element) =>
+                                                                        element
+                                                                            .product ==
+                                                                        _order)
+                                                                    .toList()
+                                                                    .length
                                                                     .toString(),
                                                               ),
                                                               IconButton(
@@ -219,8 +227,6 @@ class _ShoppingCartsState extends State<ShoppingCarts> {
                                                                 ),
                                                                 onPressed: () {
                                                                   setState(() {
-                                                                    countList[
-                                                                        index] += 1;
                                                                     productBloc.add(AddToCart(
                                                                         product:
                                                                             _order,
@@ -255,9 +261,9 @@ class _ShoppingCartsState extends State<ShoppingCarts> {
                                                                           .nameProduct,
                                                                     ),
                                                                     Text(
-                                                                      (countList[index] *
-                                                                              _order.price)
-                                                                          .toStringAsFixed(2),
+                                                                      (count * _order.price)
+                                                                          .toStringAsFixed(
+                                                                              2),
                                                                     )
                                                                   ],
                                                                 ),
