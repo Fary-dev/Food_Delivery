@@ -23,7 +23,6 @@ class _MenuState extends State<Menu> {
       child: Scaffold(
         appBar: AppBar(
           automaticallyImplyLeading: false,
-          // backgroundColor: Theme.of(context).appBarTheme.backgroundColor,
           elevation: 0,
           centerTitle: true,
           title: Padding(

@@ -86,27 +86,16 @@ class _ShoppingCartsState extends State<ShoppingCarts> {
                                       Column(
                                         children: [
                                           Padding(
-                                            padding: const EdgeInsets.symmetric(
-                                                vertical: 10, horizontal: 15),
+                                            padding: const EdgeInsets.only(
+                                                top: 10, left: 10),
                                             child: Text(
                                               state.orderList.length > 0
-                                                  ? state.orderList[0].resturant
-                                                      .nameResturant
+                                                  ? 'Deine Bestellung bei ${state.orderList[0].resturant.nameResturant}'
                                                   : '',
                                               style: TextStyle(
-                                                  fontWeight: FontWeight.w500),
+                                                  fontWeight: FontWeight.bold),
                                             ),
                                           ),
-                                          Container(
-                                            color: whiteColor,
-                                            height: 2,
-                                            width: MediaQuery.of(context)
-                                                .size
-                                                .width,
-                                          ),
-                                          SizedBox(
-                                            height: 10,
-                                          )
                                         ],
                                       ),
                                       Expanded(
@@ -127,14 +116,6 @@ class _ShoppingCartsState extends State<ShoppingCarts> {
                                                 .length;
                                             commendSelect.add(false);
                                             buttonCheck.add(false);
-                                            // for (int i = 0;
-                                            //     i <
-                                            //         state.setMyProductsList
-                                            //             .length;
-                                            //     i++) {
-                                            //   commendSelect.add(false);
-                                            //   buttonCheck.add(false);
-                                            // }
 
                                             return buildColumn(
                                                 context,
@@ -176,7 +157,7 @@ class _ShoppingCartsState extends State<ShoppingCarts> {
                                       )
                                     ],
                                   )
-                                : Container(),
+                                : null,
                   ),
                 ),
               ],
@@ -214,7 +195,7 @@ class _ShoppingCartsState extends State<ShoppingCarts> {
     );
   }
 
-  Widget buildColumn(
+  buildColumn(
       BuildContext context,
       SuccessState state,
       int count,
@@ -224,7 +205,7 @@ class _ShoppingCartsState extends State<ShoppingCarts> {
       int index,
       listController) {
     return Container(
-      padding: EdgeInsets.all(10.0),
+      padding: EdgeInsets.only(right: 10.0),
       width: MediaQuery.of(context).size.width - 30,
       child: Column(
         children: [
@@ -239,7 +220,7 @@ class _ShoppingCartsState extends State<ShoppingCarts> {
                   IconButton(
                     icon: Icon(
                       CupertinoIcons.minus,
-                      size: 25,
+                      size: 20,
                       color: primaryColor,
                     ),
                     onPressed: () {
@@ -274,7 +255,7 @@ class _ShoppingCartsState extends State<ShoppingCarts> {
                   IconButton(
                     icon: Icon(
                       CupertinoIcons.add,
-                      size: 25,
+                      size: 20,
                       color: primaryColor,
                     ),
                     onPressed: () {
@@ -292,10 +273,10 @@ class _ShoppingCartsState extends State<ShoppingCarts> {
                 ],
               ),
               Expanded(
-                flex: 4,
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
+                    SizedBox(height: 15),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
@@ -303,7 +284,7 @@ class _ShoppingCartsState extends State<ShoppingCarts> {
                           _order.nameProduct,
                         ),
                         Text(
-                          (count * _order.price).toStringAsFixed(2),
+                          '\€ ${(count * _order.price).toStringAsFixed(2)}',
                         )
                       ],
                     ),
@@ -314,17 +295,20 @@ class _ShoppingCartsState extends State<ShoppingCarts> {
                     Container(
                       padding: EdgeInsets.only(left: 0.0),
                       child: commendSelect[index] == false
-                          ? TextButton(
-                              onPressed: () {
-                                setState(() {
-                                  commendSelect[index] = true;
-                                  buttonCheck[index] = false;
-                                });
-                              },
-                              child: Text(
-                                'Kommentar hinzufügen',
-                                style: TextStyle(color: primaryColor),
-                              ))
+                          ? SizedBox(
+                              height: 32,
+                              child: TextButton(
+                                  onPressed: () {
+                                    setState(() {
+                                      commendSelect[index] = true;
+                                      buttonCheck[index] = false;
+                                    });
+                                  },
+                                  child: Text(
+                                    'Kommentar hinzufügen',
+                                    style: TextStyle(color: primaryColor),
+                                  )),
+                            )
                           : null,
                     ),
                   ],
@@ -333,59 +317,62 @@ class _ShoppingCartsState extends State<ShoppingCarts> {
             ],
           ),
           commendSelect[index] == true
-              ? Row(
-                  children: [
-                    Expanded(
-                      child: Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 10.0),
-                        child: TextFormField(
-                          controller: listController[index],
-                          keyboardType: TextInputType.text,
-                          decoration: InputDecoration(
-                            hintText: 'Kommentare..',
+              ? SizedBox(
+                  height: 35,
+                  child: Row(
+                    children: [
+                      Expanded(
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 10.0),
+                          child: TextFormField(
+                            controller: listController[index],
+                            keyboardType: TextInputType.text,
+                            decoration: InputDecoration(
+                              hintText: 'Kommentare..',
+                            ),
+                            onSaved: (value) {
+                              setState(() {
+                                if (value != null) {
+                                  listController[index].text = value;
+                                }
+                              });
+                            },
+                            maxLines: 1,
+                            style: TextStyle(color: blackColor, fontSize: 14),
                           ),
-                          onSaved: (value) {
-                            setState(() {
-                              if (value != null) {
-                                listController[index].text = value;
-                              }
-                            });
-                          },
-                          maxLines: 1,
-                          style: TextStyle(color: blackColor, fontSize: 14),
                         ),
                       ),
-                    ),
-                    MaterialButton(
-                      padding: EdgeInsets.all(5),
-                      onPressed: () {
-                        if (listController[index].text != '' &&
-                            buttonCheck[index] == false) {
-                          buttonCheck[index] = true;
-                        } else {
-                          commendSelect[index] = false;
-                          listController[index].clear();
-                        }
-                        setState(() {});
-                      },
-                      child: Text(
-                        listController[index].text != '' &&
+                      MaterialButton(
+                        padding: EdgeInsets.all(5),
+                        onPressed: () {
+                          if (listController[index].text != '' &&
+                              buttonCheck[index] == false) {
+                            buttonCheck[index] = true;
+                          } else {
+                            commendSelect[index] = false;
+                            listController[index].clear();
+                          }
+                          setState(() {});
+                        },
+                        child: Text(
+                          listController[index].text != '' &&
+                                  buttonCheck[index] == true &&
+                                  listController[index].text != null
+                              ? 'Entfernen'.toUpperCase()
+                              : 'Hinzufügen'.toUpperCase(),
+                          style: TextStyle(
+                            fontSize: 12,
+                            color: Colors.white,
+                          ),
+                        ),
+                        color: listController[index].text != '' &&
                                 buttonCheck[index] == true &&
                                 listController[index].text != null
-                            ? 'Entfernen'.toUpperCase()
-                            : 'Hinzufügen'.toUpperCase(),
-                        style: TextStyle(
-                          fontSize: 12,
-                          color: Colors.white,
-                        ),
-                      ),
-                      color: listController[index].text != '' &&
-                              buttonCheck[index] == true &&
-                              listController[index].text != null
-                          ? Colors.red
-                          : Colors.green,
-                    )
-                  ],
+                            ? Colors.red
+                            : Colors.green,
+                      )
+                    ],
+                  ),
                 )
               : Text(''),
         ],

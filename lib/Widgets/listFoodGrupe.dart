@@ -10,7 +10,7 @@ class FoodGrupe extends StatefulWidget {
 }
 
 class _FoodGrupeState extends State<FoodGrupe> {
-  final Color disabelColor = greyLightColor;
+  Color disabelColor = greyLightColor;
   int selectIndex;
 
   foodTitle(String imageVal, String heading, int index, Color colorCategury,
@@ -53,7 +53,6 @@ class _FoodGrupeState extends State<FoodGrupe> {
               child: MaterialButton(
                   onPressed: () {
                     selectIndex = index;
-
                     setState(() {});
                   },
                   child: null),
