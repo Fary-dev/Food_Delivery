@@ -20,11 +20,17 @@ class ShoppingCarts extends StatefulWidget {
 }
 
 class _ShoppingCartsState extends State<ShoppingCarts> {
-  final TextEditingController textFildController = TextEditingController();
-  bool commentIsEmpty = true;
-  bool listOrderIsEmpty;
-  List<int> countList = [];
-  List ff = [];
+  List<TextEditingController> listController = [];
+  List<bool> commendSelect = [];
+  List<bool> buttonCheck = [];
+
+  @override
+  void dispose() {
+    super.dispose();
+    for (TextEditingController c in listController) {
+      c.dispose();
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -57,6 +63,7 @@ class _ShoppingCartsState extends State<ShoppingCarts> {
                 productBloc.add(ClearAllCart());
                 counterBloc
                     .add(CounterEvent(value: 1, status: EventStatus.clearAll));
+                setState(() {});
               })
         ],
       ),
@@ -109,6 +116,8 @@ class _ShoppingCartsState extends State<ShoppingCarts> {
                                           itemCount:
                                               state.setMyProductsList.length,
                                           itemBuilder: (context, index) {
+                                            listController.add(
+                                                new TextEditingController());
                                             var _order = state.setMyProductsList
                                                 .elementAt(index);
                                             int count = state.orderList
@@ -116,203 +125,26 @@ class _ShoppingCartsState extends State<ShoppingCarts> {
                                                     element.product == _order)
                                                 .toList()
                                                 .length;
+                                            commendSelect.add(false);
+                                            buttonCheck.add(false);
+                                            // for (int i = 0;
+                                            //     i <
+                                            //         state.setMyProductsList
+                                            //             .length;
+                                            //     i++) {
+                                            //   commendSelect.add(false);
+                                            //   buttonCheck.add(false);
+                                            // }
 
-                                            return Column(
-                                              children: [
-                                                Container(
-                                                  width: MediaQuery.of(context)
-                                                          .size
-                                                          .width -
-                                                      30,
-                                                  child: Column(
-                                                    children: [
-                                                      Row(
-                                                        crossAxisAlignment:
-                                                            CrossAxisAlignment
-                                                                .start,
-                                                        mainAxisAlignment:
-                                                            MainAxisAlignment
-                                                                .start,
-                                                        children: [
-                                                          Row(
-                                                            mainAxisAlignment:
-                                                                MainAxisAlignment
-                                                                    .spaceEvenly,
-                                                            children: [
-                                                              IconButton(
-                                                                icon: Icon(
-                                                                  CupertinoIcons
-                                                                      .minus,
-                                                                  size: 25,
-                                                                  color:
-                                                                      primaryColor,
-                                                                ),
-                                                                onPressed: () {
-                                                                  print(state
-                                                                      .orderList
-                                                                      .length);
-                                                                  if (count >
-                                                                      1) {
-                                                                    var selectProduct = state
-                                                                        .orderList
-                                                                        .firstWhere((order) =>
-                                                                            order.product ==
-                                                                            _order);
-                                                                    state
-                                                                        .orderList
-                                                                        .remove(
-                                                                            selectProduct);
-                                                                  } else if (state
-                                                                          .orderList
-                                                                          .length ==
-                                                                      1) {
-                                                                    productBloc.add(
-                                                                        ClearAllCart());
-                                                                    counterBloc.add(CounterEvent(
-                                                                        value:
-                                                                            1,
-                                                                        status:
-                                                                            EventStatus.clearAll));
-                                                                  } else {
-                                                                    var selectProduct = state
-                                                                        .orderList
-                                                                        .firstWhere((order) =>
-                                                                            order.product ==
-                                                                            _order);
-                                                                    state
-                                                                        .orderList
-                                                                        .remove(
-                                                                            selectProduct);
-                                                                    state
-                                                                        .setMyProductsList
-                                                                        .remove(
-                                                                            _order);
-                                                                  }
-                                                                  if (state
-                                                                      .setMyProductsList
-                                                                      .isEmpty) {
-                                                                    productBloc.add(
-                                                                        ClearAllCart());
-                                                                    counterBloc.add(CounterEvent(
-                                                                        value:
-                                                                            1,
-                                                                        status:
-                                                                            EventStatus.clearAll));
-                                                                  }
-
-                                                                  print(state
-                                                                      .orderList
-                                                                      .length);
-                                                                  setState(
-                                                                      () {});
-                                                                },
-                                                              ),
-                                                              Text(
-                                                                state.orderList
-                                                                    .where((element) =>
-                                                                        element
-                                                                            .product ==
-                                                                        _order)
-                                                                    .toList()
-                                                                    .length
-                                                                    .toString(),
-                                                              ),
-                                                              IconButton(
-                                                                icon: Icon(
-                                                                  CupertinoIcons
-                                                                      .add,
-                                                                  size: 25,
-                                                                  color:
-                                                                      primaryColor,
-                                                                ),
-                                                                onPressed: () {
-                                                                  setState(() {
-                                                                    productBloc.add(AddToCart(
-                                                                        product:
-                                                                            _order,
-                                                                        order: Order(
-                                                                            totalPrise: _order
-                                                                                .price,
-                                                                            quantity:
-                                                                                1,
-                                                                            product:
-                                                                                _order,
-                                                                            resturant:
-                                                                                state.orderList[index].resturant)));
-                                                                  });
-                                                                },
-                                                              ),
-                                                            ],
-                                                          ),
-                                                          Expanded(
-                                                            flex: 4,
-                                                            child: Column(
-                                                              crossAxisAlignment:
-                                                                  CrossAxisAlignment
-                                                                      .start,
-                                                              children: [
-                                                                Row(
-                                                                  mainAxisAlignment:
-                                                                      MainAxisAlignment
-                                                                          .spaceBetween,
-                                                                  children: [
-                                                                    Text(
-                                                                      _order
-                                                                          .nameProduct,
-                                                                    ),
-                                                                    Text(
-                                                                      (count * _order.price)
-                                                                          .toStringAsFixed(
-                                                                              2),
-                                                                    )
-                                                                  ],
-                                                                ),
-                                                                Container(
-                                                                    padding: EdgeInsets
-                                                                        .only(
-                                                                            left:
-                                                                                0.0),
-                                                                    child: Text(
-                                                                        '+ souce',
-                                                                        style: TextStyle(
-                                                                            color:
-                                                                                greyColor))),
-                                                                Container(
-                                                                  padding: EdgeInsets
-                                                                      .only(
-                                                                          left:
-                                                                              0.0),
-                                                                  child:
-                                                                      TextButton(
-                                                                          onPressed:
-                                                                              () {
-                                                                            setState(() {
-                                                                              commentIsEmpty == false ? commentIsEmpty = true : commentIsEmpty = false;
-                                                                            });
-                                                                          },
-                                                                          child:
-                                                                              Text(
-                                                                            'Kommentar hinzufügen',
-                                                                            style:
-                                                                                TextStyle(color: primaryColor),
-                                                                          )),
-                                                                ),
-                                                              ],
-                                                            ),
-                                                          )
-                                                        ],
-                                                      ),
-                                                      commentIsEmpty == false
-                                                          ? TextField(
-                                                              controller:
-                                                                  textFildController,
-                                                            )
-                                                          : Text('')
-                                                    ],
-                                                  ),
-                                                ),
-                                              ],
-                                            );
+                                            return buildColumn(
+                                                context,
+                                                state,
+                                                count,
+                                                _order,
+                                                productBloc,
+                                                counterBloc,
+                                                index,
+                                                listController);
                                           },
                                         ),
                                       ),
@@ -379,6 +211,185 @@ class _ShoppingCartsState extends State<ShoppingCarts> {
                 ],
               ),
             ),
+    );
+  }
+
+  Widget buildColumn(
+      BuildContext context,
+      SuccessState state,
+      int count,
+      Product _order,
+      ProductBloc productBloc,
+      CounterBloc counterBloc,
+      int index,
+      listController) {
+    return Container(
+      padding: EdgeInsets.all(10.0),
+      width: MediaQuery.of(context).size.width - 30,
+      child: Column(
+        children: [
+          Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: [
+              Row(
+                // crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  IconButton(
+                    icon: Icon(
+                      CupertinoIcons.minus,
+                      size: 25,
+                      color: primaryColor,
+                    ),
+                    onPressed: () {
+                      print(state.orderList.length);
+                      if (count > 1) {
+                        var selectProduct = state.orderList
+                            .firstWhere((order) => order.product == _order);
+                        state.orderList.remove(selectProduct);
+                      } else if (state.orderList.length == 1) {
+                        productBloc.add(ClearAllCart());
+                        counterBloc.add(CounterEvent(
+                            value: 1, status: EventStatus.clearAll));
+                      } else {
+                        var selectProduct = state.orderList
+                            .firstWhere((order) => order.product == _order);
+                        state.orderList.remove(selectProduct);
+                        state.setMyProductsList.remove(_order);
+                      }
+                      if (state.setMyProductsList.isEmpty) {
+                        productBloc.add(ClearAllCart());
+                        counterBloc.add(CounterEvent(
+                            value: 1, status: EventStatus.clearAll));
+                      }
+
+                      print(state.orderList.length);
+                      setState(() {});
+                    },
+                  ),
+                  Text(
+                    count.toString(),
+                  ),
+                  IconButton(
+                    icon: Icon(
+                      CupertinoIcons.add,
+                      size: 25,
+                      color: primaryColor,
+                    ),
+                    onPressed: () {
+                      setState(() {
+                        productBloc.add(AddToCart(
+                            product: _order,
+                            order: Order(
+                                totalPrise: _order.price,
+                                quantity: 1,
+                                product: _order,
+                                resturant: state.orderList[index].resturant)));
+                      });
+                    },
+                  ),
+                ],
+              ),
+              Expanded(
+                flex: 4,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(
+                          _order.nameProduct,
+                        ),
+                        Text(
+                          (count * _order.price).toStringAsFixed(2),
+                        )
+                      ],
+                    ),
+                    Container(
+                        padding: EdgeInsets.only(left: 0.0),
+                        child: Text('+ souce',
+                            style: TextStyle(color: greyColor))),
+                    Container(
+                      padding: EdgeInsets.only(left: 0.0),
+                      child: commendSelect[index] == false
+                          ? TextButton(
+                              onPressed: () {
+                                setState(() {
+                                  commendSelect[index] = true;
+                                  buttonCheck[index] = false;
+                                });
+                              },
+                              child: Text(
+                                'Kommentar hinzufügen',
+                                style: TextStyle(color: primaryColor),
+                              ))
+                          : null,
+                    ),
+                  ],
+                ),
+              )
+            ],
+          ),
+          commendSelect[index] == true
+              ? Row(
+                  children: [
+                    Expanded(
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 10.0),
+                        child: TextFormField(
+                          controller: listController[index],
+                          keyboardType: TextInputType.text,
+                          decoration: InputDecoration(
+                            hintText: 'Kommentare..',
+                          ),
+                          onSaved: (value) {
+                            setState(() {
+                              if (value != null) {
+                                listController[index].text = value;
+                              }
+                            });
+                          },
+                          maxLines: 1,
+                          style: TextStyle(color: blackColor, fontSize: 14),
+                        ),
+                      ),
+                    ),
+                    MaterialButton(
+                      padding: EdgeInsets.all(5),
+                      onPressed: () {
+                        if (listController[index].text != '' &&
+                            buttonCheck[index] == false) {
+                          buttonCheck[index] = true;
+                        } else {
+                          commendSelect[index] = false;
+                          listController[index].clear();
+                        }
+                        setState(() {});
+                      },
+                      child: Text(
+                        listController[index].text != '' &&
+                                buttonCheck[index] == true &&
+                                listController[index].text != null
+                            ? 'Entfernen'.toUpperCase()
+                            : 'Hinzufügen'.toUpperCase(),
+                        style: TextStyle(
+                          fontSize: 12,
+                          color: Colors.white,
+                        ),
+                      ),
+                      color: listController[index].text != '' &&
+                              buttonCheck[index] == true &&
+                              listController[index].text != null
+                          ? Colors.red
+                          : Colors.green,
+                    )
+                  ],
+                )
+              : Text(''),
+        ],
+      ),
     );
   }
 }
