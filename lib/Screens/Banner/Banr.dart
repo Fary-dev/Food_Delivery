@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:carousel_slider/carousel_slider.dart';
+import 'package:get/get.dart';
 import 'package:mjam/Contants/Color.dart';
 import 'package:mjam/Screens/Banner/banner_Screen_1.dart';
 
@@ -73,10 +74,7 @@ class BanrState extends State<Banr> {
                       borderRadius: BorderRadius.all(Radius.circular(10.0)),
                       child: InkWell(
                         onTap: () {
-                          Navigator.push(context,
-                              MaterialPageRoute(builder: (context) {
-                            return BannerScreen1();
-                          }));
+                          Get.to(BannerScreen1());
                         },
                         child: Image(
                           image: AssetImage(

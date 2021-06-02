@@ -45,6 +45,7 @@ dependencies:
   google_maps_flutter: ^2.0.3
   http: ^0.13.2
   google_sign_in: ^5.0.2
+  get: ^4.1.4
 
 
 dev_dependencies:

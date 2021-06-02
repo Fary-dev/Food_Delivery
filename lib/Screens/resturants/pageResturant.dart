@@ -279,6 +279,8 @@ class _PageResturantState extends State<PageResturant>
                               setState(
                                 () {
                                   showModalBottomSheet(
+                                    // isScrollControlled: true,
+
                                     enableDrag: true,
                                     backgroundColor: Colors.transparent,
                                     context: context,
@@ -308,6 +310,8 @@ class _PageResturantState extends State<PageResturant>
                                                 BlocBuilder<CounterBloc, int>(
                                               builder: (context, state) {
                                                 return Column(
+                                                  mainAxisSize:
+                                                      MainAxisSize.min,
                                                   mainAxisAlignment:
                                                       MainAxisAlignment.start,
                                                   children: [
@@ -420,8 +424,7 @@ class _PageResturantState extends State<PageResturant>
                                                                 .symmetric(
                                                           vertical: 8,
                                                         ),
-                                                        // ignore: deprecated_member_use
-                                                        child: FlatButton(
+                                                        child: MaterialButton(
                                                           onPressed: () {},
                                                           child: Row(
                                                             mainAxisAlignment:
