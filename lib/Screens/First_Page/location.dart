@@ -2,10 +2,10 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:geocoder/geocoder.dart';
 import 'package:geolocator/geolocator.dart';
+import 'package:get/get.dart';
 import 'package:mjam/Contants/Color.dart';
+import 'package:mjam/Screens/First_Page/controller.dart';
 import 'package:mjam/Screens/Home_Page/HomePage.dart';
-import 'package:mjam/bloc/Location_Bloc/firstLocation.dart';
-import 'package:provider/provider.dart';
 
 class LocationSet extends StatefulWidget {
   @override
@@ -13,6 +13,7 @@ class LocationSet extends StatefulWidget {
 }
 
 class _LocationSetState extends State<LocationSet> {
+  final firstAdress = Get.put(FirstPageController());
   final Future<FirebaseApp> _fba = Firebase.initializeApp();
   String strasse, hausNummer, bzirck, plz;
   bool isLoading = false;
@@ -38,8 +39,7 @@ class _LocationSetState extends State<LocationSet> {
       bzirck = address.first.postalCode;
       hausNummer = address.first.subThoroughfare;
       strasse = address.first.thoroughfare;
-      DefultLocation myBloc = Provider.of(context, listen: false);
-      myBloc.setLocation('$strasse $hausNummer, $plz $bzirck');
+      firstAdress.defaltAdress.value = '$strasse $hausNummer, $plz $bzirck';
     });
   }
 

@@ -1,12 +1,12 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:mjam/Contants/Color.dart';
+import 'package:mjam/Screens/First_Page/controller.dart';
 import 'package:mjam/Widgets/Rating.dart';
-import 'package:mjam/bloc/Location_Bloc/firstLocation.dart';
 import 'package:mjam/models_and_data/Class/models_and_data.dart';
-import 'package:provider/provider.dart';
 
 class MapScreen extends StatefulWidget {
   @override
@@ -14,6 +14,7 @@ class MapScreen extends StatefulWidget {
 }
 
 class _MapScreenState extends State<MapScreen> {
+  final adress = Get.find<FirstPageController>();
   int prevPage;
   Set<Marker> _list = {};
   GoogleMapController _googleMapController;
@@ -233,7 +234,6 @@ class _MapScreenState extends State<MapScreen> {
 
   @override
   Widget build(BuildContext context) {
-    DefultLocation userLocation = Provider.of<DefultLocation>(context);
     return Scaffold(
       body: Stack(
         children: [
@@ -291,7 +291,7 @@ class _MapScreenState extends State<MapScreen> {
                                     color: blackColor,
                                     fontWeight: FontWeight.bold)),
                             TextSpan(
-                              text: userLocation.location.toString(),
+                              text: adress.defaltAdress.value.toString(),
                               style: TextStyle(
                                   color: primaryColor,
                                   fontWeight: FontWeight.bold),

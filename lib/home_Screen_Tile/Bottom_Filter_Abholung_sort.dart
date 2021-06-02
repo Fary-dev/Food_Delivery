@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:mjam/Contants/Color.dart';
+import 'package:mjam/Screens/Home_Page/HomePage.dart';
 import 'package:mjam/Screens/google_Maps/map_screen.dart';
 import 'package:mjam/home_Screen_Tile/Sort_Controller.dart';
 import 'package:mjam/models_and_data/Icons_Fonts/font1.dart';
@@ -241,9 +242,7 @@ class _BottomFilterAbholungSortState extends State<BottomFilterAbholungSort> {
                                           : whiteColor),
                                 )),
                             onPressed: () {
-                              setState(() {
-                                print(selecter.selectSortItem.value);
-                              });
+                              Get.to(() => HomePage());
                             },
                           ),
                         ),
