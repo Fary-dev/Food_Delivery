@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:get/get.dart';
 import 'package:mjam/Contants/Color.dart';
 import 'package:mjam/Screens/Home_Page/HomePage.dart';
 import 'package:mjam/bloc/Counter_Bloc/counter_select_product.dart';
@@ -38,33 +39,45 @@ class _ShoppingCartsState extends State<ShoppingCarts> {
     ProductBloc productBloc = BlocProvider.of<ProductBloc>(context);
     return Scaffold(
       appBar: AppBar(
+        automaticallyImplyLeading: false,
         centerTitle: true,
-        leading: IconButton(
-          icon: Icon(
-            Icons.menu,
-            color: primaryColor,
-          ),
-          onPressed: () {
-            Navigator.pop(context);
-          },
-        ),
+        leading: productBloc.cartOrder.length != 0
+            ? IconButton(
+                icon: Icon(
+                  Icons.menu,
+                  color: primaryColor,
+                ),
+                onPressed: () {
+                  Get.back();
+                },
+              )
+            : null,
         title: Text(
           "Deine Warenkörbe",
           style: TextStyle(
               fontSize: 13, fontWeight: FontWeight.w500, color: blackColor),
         ),
         actions: [
-          IconButton(
-              icon: Icon(
-                CupertinoIcons.delete,
-                color: primaryColor,
-              ),
-              onPressed: () {
-                productBloc.add(ClearAllCart());
-                counterBloc
-                    .add(CounterEvent(value: 1, status: EventStatus.clearAll));
-                setState(() {});
-              })
+          productBloc.cartOrder.length != 0
+              ? IconButton(
+                  icon: Icon(
+                    CupertinoIcons.delete,
+                    color: primaryColor,
+                  ),
+                  onPressed: () {
+                    productBloc.add(ClearAllCart());
+                    counterBloc.add(
+                        CounterEvent(value: 1, status: EventStatus.clearAll));
+                    setState(() {});
+                  },
+                )
+              : IconButton(
+                  icon: Icon(
+                    CupertinoIcons.delete,
+                    color: greyColor,
+                  ),
+                  onPressed: () {},
+                ),
         ],
       ),
       body: productBloc.cartOrder.isNotEmpty

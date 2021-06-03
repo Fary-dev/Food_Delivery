@@ -16,7 +16,7 @@ import 'info_resturant.dart';
 
 class PageResturant extends StatefulWidget {
   final Resturant resturant;
-  PageResturant(this.resturant, {Key key}) : super(key: key);
+  PageResturant({Key key, this.resturant}) : super(key: key);
 
   @override
   _PageResturantState createState() => _PageResturantState(resturant);

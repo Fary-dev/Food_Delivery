@@ -1,9 +1,12 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:mjam/Contants/Color.dart';
+import 'package:mjam/Screens/Resturants/Resturant_List/Resturant_List_Controller.dart';
 import 'package:mjam/models_and_data/Class/models_and_data.dart';
 import 'package:mjam/Widgets/Rating.dart';
 
-import 'pageResturant.dart';
+import '../pageResturant.dart';
 
 class ResturantListe extends StatefulWidget {
   ResturantListe({Key key}) : super(key: key);
@@ -12,35 +15,131 @@ class ResturantListe extends StatefulWidget {
 }
 
 class _ResturantListeState extends State<ResturantListe> {
+  final ResturantListController sortList = Get.put(ResturantListController());
+  // String sort = '';
+  // List<Resturant> listOfQuality = resturants
+  //   ..sort((a, b) => b.ratingResturant.compareTo(a.ratingResturant));
+
+  // List<Resturant> listOfTime = resturants
+  //   ..sort((a, b) =>
+  //       a.deliveryDuration.toInt().compareTo(b.deliveryDuration.toInt()));
+
+  // List<Resturant> listOfDistance = resturants
+  //   ..sort((a, b) => a.deliveryDuration.compareTo(b.deliveryDuration));
+  // List<Resturant> listOfPopularity = resturants
+  //   ..sort((a, b) => b.distance.compareTo(a.distance));
+
+  // sorter() {
+  //   if (sort == sortList.sort.value && sortList.sort.value == 'Qualität') {
+  //     listOfQuality = resturants
+  //       ..sort((a, b) => b.ratingResturant.compareTo(a.ratingResturant));
+  //   } else if (sort == sortList.sort.value && sortList.sort.value == 'Zeit') {
+  //     listOfTime = resturants
+  //       ..sort((a, b) => a.deliveryDuration.compareTo(b.deliveryDuration));
+  //   } else if (sort == sortList.sort.value &&
+  //       sortList.sort.value == 'Enrfernung') {
+  //     listOfDistance = resturants
+  //       ..sort((a, b) => a.deliveryDuration.compareTo(b.deliveryDuration));
+  //   } else if (sort == sortList.sort.value &&
+  //       sortList.sort.value == 'Beliebtheit') {
+  //     listOfPopularity = resturants
+  //       ..sort((a, b) => b.distance.compareTo(a.distance));
+  //   } else {
+  //     return resturants;
+  //   }
+  // }
+
+  //  itemCount: sortList.sort.value == 'Qualität'
+  //           ? listOfQuality.length
+  //           : sortList.sort.value == 'Zeit'
+  //               ? listOfTime.length
+  //               : sortList.sort.value == 'Enrfernung'
+  //                   ? listOfDistance.length
+  //                   : sortList.sort.value == 'Beliebtheit'
+  //                       ? listOfPopularity.length
+  //                       : resturants.length,
+  //       itemBuilder: (context, index) {
+  //         final Resturant _resturant = sortList.sort.value == 'Qualität'
+  //             ? listOfQuality[index]
+  //             : sortList.sort.value == 'Zeit'
+  //                 ? listOfTime[index]
+  //                 : sortList.sort.value == 'Enrfernung'
+  //                     ? listOfDistance[index]
+  //                     : sortList.sort.value == 'Beliebtheit'
+  //                         ? listOfPopularity[index]
+  //                         : resturants[index];
+  @override
+  void initState() {
+    sortList.list.value = resturants;
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
-    return new Container(
-      child: new ListView.builder(
+    return Obx(
+      () => ListView.builder(
         shrinkWrap: true,
         physics: const NeverScrollableScrollPhysics(),
-        itemCount: resturants.length,
+        itemCount: sortList.list.length,
         itemBuilder: (context, index) {
-          final Resturant _resturant = resturants[index];
+          final Resturant _resturant = sortList.list[index];
           return GestureDetector(
             onTap: () {
-              Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) => PageResturant(_resturant)));
+              print(sortList.sort.value);
+              Get.to(PageResturant(
+                resturant: _resturant,
+              ));
+              // Navigator.push(
+              //     context,
+              //     MaterialPageRoute(
+              //         builder: (context) =>
+              //             PageResturant(resturant: _resturant)));
             },
             child: Container(
               color: whiteColor,
               child: Column(
                 children: [
                   /////__________________ List Resturant _________/////////////////////////////7////
-                  Container(
-                    margin: const EdgeInsets.fromLTRB(15, 15, 15, 5),
-                    decoration: const BoxDecoration(
-                        borderRadius: BorderRadius.all(Radius.circular(20))),
-                    child: Image.asset(_resturant.photoResturant,
-                        height: 140,
-                        width: MediaQuery.of(context).size.width,
-                        fit: BoxFit.fitWidth),
+                  Stack(
+                    children: [
+                      Container(
+                        margin: const EdgeInsets.fromLTRB(15, 15, 15, 5),
+                        decoration: const BoxDecoration(
+                            borderRadius:
+                                BorderRadius.all(Radius.circular(20))),
+                        child: Image.asset(_resturant.photoResturant,
+                            height: 140,
+                            width: MediaQuery.of(context).size.width,
+                            fit: BoxFit.fitWidth),
+                      ),
+                      Positioned(
+                        top: 25,
+                        left: 20,
+                        child: Container(
+                          height: 30,
+                          width: 60,
+                          decoration: BoxDecoration(
+                              color: Colors.black,
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(30))),
+                          child: Row(
+                            children: [
+                              Padding(
+                                padding: const EdgeInsets.all(5.0),
+                                child: Icon(
+                                  CupertinoIcons.timer,
+                                  color: Colors.white,
+                                  size: 20,
+                                ),
+                              ),
+                              Text('${_resturant.deliveryDuration}\'',
+                                  style: TextStyle(
+                                      color: whiteColor, fontSize: 15))
+                            ],
+                          ),
+                        ),
+                      )
+                    ],
                   ),
                   Container(
                     margin: const EdgeInsets.only(top: 8),
@@ -73,7 +172,7 @@ class _ResturantListeState extends State<ResturantListe> {
                                 textAlign: TextAlign.center,
                                 textScaleFactor: 1.0,
                                 style: const TextStyle(
-                                    color: blackColor, fontSize: 11),
+                                    color: greyColor, fontSize: 11),
                               ),
                             )
                           ],
@@ -180,7 +279,7 @@ class _ResturantListeState extends State<ResturantListe> {
                   SizedBox(
                     height: 10,
                     child: Container(
-                      color: greyLightColor,
+                      color: Theme.of(context).backgroundColor,
                     ),
                   ),
                 ],

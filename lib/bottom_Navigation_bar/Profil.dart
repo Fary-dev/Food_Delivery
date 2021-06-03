@@ -26,11 +26,6 @@ class _ProfilState extends State<Profil> {
   }
 
   @override
-  void dispose() {
-    super.dispose();
-  }
-
-  @override
   Widget build(BuildContext context) {
     return Container(
       child: DefaultTabController(
@@ -38,13 +33,7 @@ class _ProfilState extends State<Profil> {
         child: SafeArea(
           child: Scaffold(
               appBar: AppBar(
-                leading: IconButton(
-                  icon: Icon(
-                    Icons.arrow_back_ios,
-                    color: primaryColor,
-                  ),
-                  onPressed: () => Navigator.pop(context),
-                ),
+                automaticallyImplyLeading: false,
                 actions: signInOrNot == true
                     ? [
                         TextButton(

@@ -68,7 +68,8 @@ class _SearchingState extends State<Searching> {
                 Navigator.push(
                     context,
                     MaterialPageRoute(
-                        builder: (context) => PageResturant(listViewSearch)));
+                        builder: (context) =>
+                            PageResturant(resturant: listViewSearch)));
               },
               child: Card(
                 child: Row(

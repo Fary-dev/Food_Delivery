@@ -16,6 +16,7 @@ class _FavoritScreenState extends State<FavoritScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        automaticallyImplyLeading: false,
         centerTitle: true,
         backgroundColor: whiteColor,
         elevation: 0,
