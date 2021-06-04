@@ -16,58 +16,7 @@ class ResturantListe extends StatefulWidget {
 
 class _ResturantListeState extends State<ResturantListe> {
   final ResturantListController sortList = Get.put(ResturantListController());
-  // String sort = '';
-  // List<Resturant> listOfQuality = resturants
-  //   ..sort((a, b) => b.ratingResturant.compareTo(a.ratingResturant));
 
-  // List<Resturant> listOfTime = resturants
-  //   ..sort((a, b) =>
-  //       a.deliveryDuration.toInt().compareTo(b.deliveryDuration.toInt()));
-
-  // List<Resturant> listOfDistance = resturants
-  //   ..sort((a, b) => a.deliveryDuration.compareTo(b.deliveryDuration));
-  // List<Resturant> listOfPopularity = resturants
-  //   ..sort((a, b) => b.distance.compareTo(a.distance));
-
-  // sorter() {
-  //   if (sort == sortList.sort.value && sortList.sort.value == 'Qualität') {
-  //     listOfQuality = resturants
-  //       ..sort((a, b) => b.ratingResturant.compareTo(a.ratingResturant));
-  //   } else if (sort == sortList.sort.value && sortList.sort.value == 'Zeit') {
-  //     listOfTime = resturants
-  //       ..sort((a, b) => a.deliveryDuration.compareTo(b.deliveryDuration));
-  //   } else if (sort == sortList.sort.value &&
-  //       sortList.sort.value == 'Enrfernung') {
-  //     listOfDistance = resturants
-  //       ..sort((a, b) => a.deliveryDuration.compareTo(b.deliveryDuration));
-  //   } else if (sort == sortList.sort.value &&
-  //       sortList.sort.value == 'Beliebtheit') {
-  //     listOfPopularity = resturants
-  //       ..sort((a, b) => b.distance.compareTo(a.distance));
-  //   } else {
-  //     return resturants;
-  //   }
-  // }
-
-  //  itemCount: sortList.sort.value == 'Qualität'
-  //           ? listOfQuality.length
-  //           : sortList.sort.value == 'Zeit'
-  //               ? listOfTime.length
-  //               : sortList.sort.value == 'Enrfernung'
-  //                   ? listOfDistance.length
-  //                   : sortList.sort.value == 'Beliebtheit'
-  //                       ? listOfPopularity.length
-  //                       : resturants.length,
-  //       itemBuilder: (context, index) {
-  //         final Resturant _resturant = sortList.sort.value == 'Qualität'
-  //             ? listOfQuality[index]
-  //             : sortList.sort.value == 'Zeit'
-  //                 ? listOfTime[index]
-  //                 : sortList.sort.value == 'Enrfernung'
-  //                     ? listOfDistance[index]
-  //                     : sortList.sort.value == 'Beliebtheit'
-  //                         ? listOfPopularity[index]
-  //                         : resturants[index];
   @override
   void initState() {
     sortList.list.value = resturants;
@@ -86,14 +35,9 @@ class _ResturantListeState extends State<ResturantListe> {
           return GestureDetector(
             onTap: () {
               print(sortList.sort.value);
-              Get.to(PageResturant(
-                resturant: _resturant,
-              ));
-              // Navigator.push(
-              //     context,
-              //     MaterialPageRoute(
-              //         builder: (context) =>
-              //             PageResturant(resturant: _resturant)));
+              Get.to(() => PageResturant(
+                    resturant: _resturant,
+                  ));
             },
             child: Container(
               color: whiteColor,
@@ -102,41 +46,29 @@ class _ResturantListeState extends State<ResturantListe> {
                   /////__________________ List Resturant _________/////////////////////////////7////
                   Stack(
                     children: [
-                      Container(
-                        margin: const EdgeInsets.fromLTRB(15, 15, 15, 5),
-                        decoration: const BoxDecoration(
-                            borderRadius:
-                                BorderRadius.all(Radius.circular(20))),
-                        child: Image.asset(_resturant.photoResturant,
-                            height: 140,
-                            width: MediaQuery.of(context).size.width,
-                            fit: BoxFit.fitWidth),
+                      Padding(
+                        padding: const EdgeInsets.fromLTRB(15, 15, 15, 5),
+                        child: ClipRRect(
+                          borderRadius: BorderRadius.circular(8),
+                          child: Image.asset(_resturant.photoResturant,
+                              height: 140,
+                              width: MediaQuery.of(context).size.width,
+                              fit: BoxFit.fitWidth),
+                        ),
                       ),
                       Positioned(
-                        top: 25,
-                        left: 20,
+                        bottom: 15,
+                        left: 25,
                         child: Container(
-                          height: 30,
-                          width: 60,
+                          padding: EdgeInsets.all(5),
+                          alignment: Alignment.center,
                           decoration: BoxDecoration(
-                              color: Colors.black,
+                              color: whiteColor,
                               borderRadius:
-                                  BorderRadius.all(Radius.circular(30))),
-                          child: Row(
-                            children: [
-                              Padding(
-                                padding: const EdgeInsets.all(5.0),
-                                child: Icon(
-                                  CupertinoIcons.timer,
-                                  color: Colors.white,
-                                  size: 20,
-                                ),
-                              ),
-                              Text('${_resturant.deliveryDuration}\'',
-                                  style: TextStyle(
-                                      color: whiteColor, fontSize: 15))
-                            ],
-                          ),
+                                  BorderRadius.all(Radius.circular(20))),
+                          child: Text('${_resturant.deliveryDuration} min',
+                              style: TextStyle(
+                                  fontSize: 12, fontWeight: FontWeight.bold)),
                         ),
                       )
                     ],
@@ -157,10 +89,9 @@ class _ResturantListeState extends State<ResturantListe> {
                                 _resturant.nameResturant,
                                 textAlign: TextAlign.center,
                                 textScaleFactor: 1.5,
-                                style: const TextStyle(
-                                    color: blackColor,
-                                    fontSize: 12,
-                                    fontWeight: FontWeight.w600),
+                                style: Theme.of(context)
+                                    .primaryTextTheme
+                                    .headline2,
                               ),
                             ),
                             Container(
@@ -171,8 +102,9 @@ class _ResturantListeState extends State<ResturantListe> {
                                 _resturant.description,
                                 textAlign: TextAlign.center,
                                 textScaleFactor: 1.0,
-                                style: const TextStyle(
-                                    color: greyColor, fontSize: 11),
+                                style: Theme.of(context)
+                                    .primaryTextTheme
+                                    .subtitle1,
                               ),
                             )
                           ],

@@ -145,6 +145,17 @@ flutter:
     - family: Iconsss
       fonts:
         - asset: icons/Iconsss.ttf
+    
+    - family: Open_Sans
+      fonts:
+        - asset: Fonts/OpenSans-Bold.ttf
+          weight: 900
+        - asset: Fonts/OpenSans-LightItalic.ttf
+          weight: 300
+        - asset: Fonts/OpenSans-Regular.ttf
+          weight: 400
+        - asset: Fonts/OpenSans-SemiBold.ttf
+          weight: 600
 
 
   #

@@ -107,30 +107,24 @@ class _LocationSetState extends State<LocationSet> {
                     SizedBox(
                       height: 400,
                     ),
-                    InkWell(
-                      onTap: () => Navigator.push(
-                        context,
-                        MaterialPageRoute(builder: (context) => HomePage()),
-                      ),
-                      child: Container(
-                        height: 100,
-                        width: 100,
-                        padding: const EdgeInsets.all(15.0),
-                        decoration: BoxDecoration(
-                          shape: BoxShape.circle,
-                          color: primaryColor.withOpacity(0.80),
-                        ),
-                        child: Center(
-                          child: Text(
-                            "Los geht's",
-                            style: TextStyle(
-                              fontSize: 15,
-                              color: whiteColor,
-                            ),
-                          ),
+                    ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                          shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(15)),
+                          primary: primaryColor,
+                          textStyle: TextStyle(
+                              fontSize: 30, fontWeight: FontWeight.bold)),
+                      child: Text(
+                        "Los geht's",
+                        style: TextStyle(
+                          fontSize: 15,
+                          color: whiteColor,
                         ),
                       ),
-                    ),
+                      onPressed: () {
+                        Get.to(() => HomePage());
+                      },
+                    )
                   ],
                 ),
               ),

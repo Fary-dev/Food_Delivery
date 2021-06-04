@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:mjam/Contants/Color.dart';
 import 'package:mjam/Screens/Login_and_SignIn/auch_with_Google.dart';
 import 'package:mjam/Screens/Login_and_SignIn/login_screen.dart';
@@ -22,7 +23,7 @@ class _FavoritScreenState extends State<FavoritScreen> {
         elevation: 0,
         title: Text(
           "Mein Foodo",
-          style: TextStyle(color: blackColor, fontSize: 13, letterSpacing: 0.5),
+          style: Theme.of(context).primaryTextTheme.headline6,
         ),
       ),
       body: signInOrNot == false
@@ -68,17 +69,17 @@ class _FavoritScreenState extends State<FavoritScreen> {
                     minWidth: 340,
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(5.0),
-                      side: BorderSide(color: primaryColor),
+                      side: BorderSide(color: primaryColor, width: 2.0),
                     ),
                     child: Text(
                       'KUNDENKONTO ERSTELLEN',
-                      style: TextStyle(fontSize: 12, color: primaryColor),
+                      style: Theme.of(context)
+                          .primaryTextTheme
+                          .button
+                          .apply(color: primaryColor),
                     ),
                     onPressed: () {
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => SignUpScreen()));
+                      Get.to(() => SignUpScreen());
                     },
                   ),
                 ),
@@ -126,13 +127,13 @@ class _FavoritScreenState extends State<FavoritScreen> {
                     ),
                     child: Text(
                       'ANMELDEN',
-                      style: TextStyle(fontSize: 12, color: whiteColor),
+                      style: Theme.of(context)
+                          .primaryTextTheme
+                          .button
+                          .apply(color: whiteColor),
                     ),
                     onPressed: () {
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => LoginScreen()));
+                      Get.to(() => LoginScreen());
                     },
                   ),
                 ),

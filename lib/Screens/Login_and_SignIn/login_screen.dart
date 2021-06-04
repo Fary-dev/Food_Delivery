@@ -39,7 +39,7 @@ class _LoginScreenState extends State<LoginScreen> {
         //WidgetLogin(),
         Scaffold(
           appBar: AppBar(
-            backgroundColor: greyColor,
+            backgroundColor: greyLightColor,
             elevation: 0,
             title: Text(
               '',
@@ -55,7 +55,6 @@ class _LoginScreenState extends State<LoginScreen> {
               },
             ),
           ),
-          backgroundColor: greyColor,
           body: SafeArea(
             child: ListView(
               children: [
@@ -223,7 +222,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         Container(
                           margin: EdgeInsets.symmetric(horizontal: 20),
                           decoration: BoxDecoration(
-                              color: primaryColor,
+                              color: greyColor,
                               borderRadius: BorderRadius.circular(0)),
                           child: TextFormField(
                             validator: validateEmail,
@@ -243,7 +242,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         Container(
                           margin: EdgeInsets.symmetric(horizontal: 20),
                           decoration: BoxDecoration(
-                              color: primaryColor,
+                              color: greyColor,
                               borderRadius: BorderRadius.circular(0)),
                           child: TextFormField(
                             validator: validatePassword,

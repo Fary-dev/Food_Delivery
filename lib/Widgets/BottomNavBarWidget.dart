@@ -1,8 +1,11 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:mjam/Contants/Color.dart';
 import 'package:mjam/Screens/Menu_Screen/Menu.dart';
+import 'package:mjam/bloc/Order_Bloc/productBloc.dart';
+import 'package:mjam/bloc/Order_Bloc/states.dart';
 import 'package:mjam/bottom_Navigation_bar/FavoritScreen.dart';
 import 'package:mjam/bottom_Navigation_bar/Profil.dart';
 import 'package:mjam/bottom_Navigation_bar/search_Screen.dart';
@@ -64,7 +67,6 @@ class _BottomNavBarWidgetState extends State<BottomNavBarWidget> {
               // ignore: deprecated_member_use
               title: Padding(
                 padding: EdgeInsets.all(0),
-                child: Text(''),
               ),
               icon: Icon(
                 Iconsss.room_service,
@@ -96,9 +98,39 @@ class _BottomNavBarWidgetState extends State<BottomNavBarWidget> {
               title: Padding(
                 padding: EdgeInsets.all(0),
               ),
-              icon: Icon(
-                Icons.shopping_cart_outlined,
-                size: 25,
+              icon: Stack(
+                children: <Widget>[
+                  Icon(Icons.shopping_cart_outlined),
+                  BlocBuilder<ProductBloc, BlocState>(
+                      builder: (context, state) => state is SuccessState
+                          ? Positioned(
+                              right: 0,
+                              child: state.orderList.isNotEmpty
+                                  ? Container(
+                                      padding: EdgeInsets.all(1),
+                                      decoration: BoxDecoration(
+                                        color: Colors.red,
+                                        borderRadius: BorderRadius.circular(6),
+                                      ),
+                                      constraints: BoxConstraints(
+                                        minWidth: 7,
+                                        minHeight: 7,
+                                      ),
+                                    )
+                                  : Container(
+                                      padding: EdgeInsets.all(1),
+                                      decoration: BoxDecoration(
+                                        color: Colors.transparent,
+                                        borderRadius: BorderRadius.circular(6),
+                                      ),
+                                      constraints: BoxConstraints(
+                                        minWidth: 7,
+                                        minHeight: 7,
+                                      ),
+                                    ),
+                            )
+                          : Text('')),
+                ],
               ),
             ),
             BottomNavigationBarItem(

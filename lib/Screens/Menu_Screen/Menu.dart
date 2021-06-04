@@ -29,21 +29,14 @@ class Menu extends StatelessWidget {
                   text: TextSpan(
                     children: [
                       TextSpan(
-                        text: "Sofort zu ",
-                        style: TextStyle(
-                          color: blackColor,
-                          fontSize: 15,
-                          letterSpacing: 0.5,
-                          fontWeight: FontWeight.w500,
-                        ),
-                      ),
+                          text: "Sofort zu ",
+                          style: Theme.of(context).primaryTextTheme.headline6),
                       TextSpan(
                         text: adress.defaltAdress.value.toString(),
-                        style: TextStyle(
-                          fontSize: 15,
-                          color: primaryColor,
-                          fontWeight: FontWeight.w500,
-                        ),
+                        style: Theme.of(context)
+                            .primaryTextTheme
+                            .headline6
+                            .apply(color: primaryColor),
                       ),
                     ],
                   ),

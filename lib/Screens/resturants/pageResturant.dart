@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:get/get.dart';
 import 'package:mjam/Contants/Color.dart';
 import 'package:mjam/Widgets/search.dart';
 import 'package:mjam/Widgets/Rating.dart';
@@ -111,12 +112,10 @@ class _PageResturantState extends State<PageResturant>
                             child: Text(
                               resturant.nameResturant,
                               textAlign: TextAlign.left,
-                              style: TextStyle(
-                                decoration: TextDecoration.none,
-                                fontSize: 18,
-                                color: blackColor,
-                                fontWeight: FontWeight.w500,
-                              ),
+                              style: Theme.of(context)
+                                  .primaryTextTheme
+                                  .headline2
+                                  .apply(fontSizeDelta: 7),
                             ),
                           ),
                           Container(
@@ -729,36 +728,23 @@ class _PageResturantState extends State<PageResturant>
                                                                 MainAxisAlignment
                                                                     .spaceBetween,
                                                             children: [
-                                                              Container(
-                                                                height: 40,
-                                                                width: 40,
-                                                                decoration: BoxDecoration(
-                                                                    shape: BoxShape
-                                                                        .circle,
-                                                                    color:
-                                                                        primaryColor),
-                                                                child: Center(
-                                                                  child: Text(
-                                                                    '${counterBloc.itemCart}',
-                                                                    style:
-                                                                        TextStyle(
-                                                                      fontSize:
-                                                                          18,
-                                                                      color:
-                                                                          primaryColor,
-                                                                    ),
-                                                                  ),
-                                                                ),
+                                                              Icon(
+                                                                Icons
+                                                                    .shopping_bag,
+                                                                color:
+                                                                    whiteColor,
+                                                                size: 35,
                                                               ),
                                                               Text(
                                                                 changeText =
                                                                     'HINZUFÜGEN',
-                                                                style:
-                                                                    TextStyle(
-                                                                  fontSize: 15,
-                                                                  color:
-                                                                      whiteColor,
-                                                                ),
+                                                                style: Theme.of(
+                                                                        context)
+                                                                    .primaryTextTheme
+                                                                    .button
+                                                                    .apply(
+                                                                        color:
+                                                                            whiteColor),
                                                               ),
                                                               Text(
                                                                 (counterBloc.state *
@@ -766,12 +752,15 @@ class _PageResturantState extends State<PageResturant>
                                                                             .price)
                                                                     .toStringAsFixed(
                                                                         2),
-                                                                style:
-                                                                    TextStyle(
-                                                                  fontSize: 15,
-                                                                  color:
-                                                                      whiteColor,
-                                                                ),
+                                                                style: Theme.of(
+                                                                        context)
+                                                                    .primaryTextTheme
+                                                                    .button
+                                                                    .apply(
+                                                                        color:
+                                                                            whiteColor,
+                                                                        fontSizeDelta:
+                                                                            5),
                                                               ),
                                                             ],
                                                           ),
@@ -853,12 +842,7 @@ class _PageResturantState extends State<PageResturant>
                     value: 1,
                     status: EventStatus.clearState,
                   ));
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => ShoppingCarts(),
-                    ),
-                  );
+                  Get.to(() => ShoppingCarts());
                 },
                 child: Padding(
                   padding: const EdgeInsets.symmetric(vertical: 15),
@@ -882,10 +866,12 @@ class _PageResturantState extends State<PageResturant>
                                               ? ''
                                               : state.orderList.length
                                                   .toString(),
-                                          style: TextStyle(
-                                            fontSize: 18,
-                                            color: primaryColor,
-                                          ),
+                                          style: Theme.of(context)
+                                              .primaryTextTheme
+                                              .button
+                                              .apply(
+                                                  color: primaryColor,
+                                                  fontSizeDelta: 5),
                                         ),
                                       ),
                                     )
@@ -895,13 +881,11 @@ class _PageResturantState extends State<PageResturant>
                                           child: Text('0'),
                                         )
                                       : Text('')),
-                      Text(
-                        changeText = 'WARENKORB ÖFFNEN',
-                        style: TextStyle(
-                          fontSize: 15,
-                          color: whiteColor,
-                        ),
-                      ),
+                      Text(changeText = 'WARENKORB ÖFFNEN',
+                          style: Theme.of(context)
+                              .primaryTextTheme
+                              .button
+                              .apply(color: whiteColor)),
                       Text(
                         productBloc.cartOrder.isEmpty
                             ? ''
@@ -910,10 +894,10 @@ class _PageResturantState extends State<PageResturant>
                                     totalPrise: x.totalPrise + y.totalPrise))
                                 .totalPrise
                                 .toStringAsFixed(2),
-                        style: TextStyle(
-                          fontSize: 15,
-                          color: whiteColor,
-                        ),
+                        style: Theme.of(context)
+                            .primaryTextTheme
+                            .button
+                            .apply(color: whiteColor, fontSizeDelta: 5),
                       ),
                     ],
                   ),

@@ -54,8 +54,7 @@ class _ShoppingCartsState extends State<ShoppingCarts> {
             : null,
         title: Text(
           "Deine Warenkörbe",
-          style: TextStyle(
-              fontSize: 13, fontWeight: FontWeight.w500, color: blackColor),
+          style: Theme.of(context).primaryTextTheme.headline6,
         ),
         actions: [
           productBloc.cartOrder.length != 0
