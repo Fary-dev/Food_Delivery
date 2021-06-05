@@ -5,7 +5,6 @@ import 'package:mjam/Contants/Color.dart';
 import 'package:mjam/Screens/Resturants/Resturant_List/Resturant_List_Controller.dart';
 import 'package:mjam/models_and_data/Class/models_and_data.dart';
 import 'package:mjam/Widgets/Rating.dart';
-
 import '../pageResturant.dart';
 
 class ResturantListe extends StatefulWidget {

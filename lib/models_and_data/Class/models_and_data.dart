@@ -98,7 +98,7 @@ final resturant2 = Resturant(
   photoInfoPage: 'assets/mcinfo.jpeg',
   ratingResturant: 168,
   deliveryPrice: 3.50,
-  minimumOrder: 30,
+  minimumOrder: 10,
   deliveryDuration: 45,
   distance: 1.7,
   address: 'Wiener Straße 4, 3580 Horn',

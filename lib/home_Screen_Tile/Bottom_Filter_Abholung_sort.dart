@@ -5,7 +5,7 @@ import 'package:mjam/Screens/Home_Page/HomePage.dart';
 import 'package:mjam/Screens/Resturants/Resturant_List/Resturant_List_Controller.dart';
 import 'package:mjam/Screens/google_Maps/map_screen.dart';
 import 'package:mjam/models_and_data/Class/models_and_data.dart';
-import 'package:mjam/models_and_data/Icons_Fonts/font1.dart';
+import 'package:mjam/models_and_data/Icons/font1.dart';
 
 class BottomFilterAbholungSort extends StatelessWidget {
   @override
@@ -17,82 +17,80 @@ class BottomFilterAbholungSort extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: <Widget>[
           //__________________________Sortierung______________________________
-          Container(
-            // ignore: deprecated_member_use
-            child: RaisedButton.icon(
-              onPressed: () {
-                containerSortirung(context);
-              },
-              shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.all(Radius.circular(5.0))),
-              label: Text(
-                'Sortierung',
-                style: TextStyle(
-                    color: blackColor,
-                    fontSize: 10,
-                    fontWeight: FontWeight.w600,
-                    letterSpacing: 0.5),
-              ),
-              icon: Icon(
-                Icons.sort,
-                color: primaryColor,
-              ),
-              textColor: blackColor,
-              color: whiteColor,
+          ElevatedButton.icon(
+            onPressed: () {
+              containerSortirung(context);
+            },
+            icon: Icon(
+              Icons.sort,
+              color: primaryColor,
             ),
+            label: Text(
+              'Sortierung',
+              style: Theme.of(context)
+                  .primaryTextTheme
+                  .button
+                  .apply(fontSizeDelta: -3),
+            ),
+            style: ButtonStyle(
+                shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                  RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(10.0),
+                  ),
+                ),
+                backgroundColor: MaterialStateProperty.all(whiteColor)),
           ),
+
           //____________________________Filter________________________________
-          Container(
-            // ignore: deprecated_member_use
-            child: RaisedButton.icon(
-              onPressed: () {
-                containerFilter(context);
-              },
-              shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.all(Radius.circular(5.0))),
-              label: Text(
-                'Filter',
-                style: TextStyle(
-                    color: blackColor,
-                    fontSize: 10,
-                    letterSpacing: 0.5,
-                    fontWeight: FontWeight.w600),
-              ),
-              icon: Icon(
-                Iconsss.equalizer,
-                size: 20,
-                color: primaryColor,
-              ),
-              textColor: blackColor,
-              color: whiteColor,
+          ElevatedButton.icon(
+            onPressed: () {
+              containerFilter(context);
+            },
+            icon: Icon(
+              Iconsss.equalizer,
+              size: 20,
+              color: primaryColor,
             ),
+            label: Text(
+              'Filter',
+              style: Theme.of(context)
+                  .primaryTextTheme
+                  .button
+                  .apply(fontSizeDelta: -3),
+            ),
+            style: ButtonStyle(
+                shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                  RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(10.0),
+                  ),
+                ),
+                backgroundColor: MaterialStateProperty.all(whiteColor)),
           ),
+
           //__________________________Abholung________________________________
-          Container(
-            // ignore: deprecated_member_use
-            child: RaisedButton.icon(
-              onPressed: () {
-                Navigator.push(context,
-                    MaterialPageRoute(builder: (context) => MapScreen()));
-              },
-              shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.all(Radius.circular(5.0))),
-              label: Text(
-                'Abholung',
-                style: TextStyle(
-                    color: blackColor,
-                    fontSize: 10,
-                    letterSpacing: 0.5,
-                    fontWeight: FontWeight.w600),
-              ),
-              icon: Icon(
-                Iconsss.walking,
-                size: 20,
-                color: primaryColor,
-              ),
-              textColor: blackColor,
-              color: whiteColor,
+          ElevatedButton.icon(
+            onPressed: () {
+              Get.to(() => MapScreen());
+            },
+            icon: Icon(
+              Iconsss.walking,
+              size: 20,
+              color: primaryColor,
             ),
+            label: Text(
+              'Abholung',
+              style: Theme.of(context)
+                  .primaryTextTheme
+                  .button
+                  .apply(fontSizeDelta: -3),
+            ),
+            style: ButtonStyle(
+                shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                  RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(10.0),
+                  ),
+                ),
+                backgroundColor: MaterialStateProperty.all(whiteColor)),
           ),
         ],
       ),
@@ -235,13 +233,11 @@ void containerSortirung(context) {
                           onPressed: () {
                             sortList.sort = selectSortItem;
 
-
-                           if (selectSortItem.value == 'Qualität') {
+                            if (selectSortItem.value == 'Qualität') {
                               sortList.list.value = resturants
                                 ..sort((a, b) => b.ratingResturant
                                     .compareTo(a.ratingResturant));
-                            }
-                              else if (selectSortItem.value == 'Zeit') {
+                            } else if (selectSortItem.value == 'Zeit') {
                               sortList.list.value = resturants
                                 ..sort((a, b) => a.deliveryDuration
                                     .compareTo(b.deliveryDuration));
@@ -257,10 +253,11 @@ void containerSortirung(context) {
                               sortList.list.value = resturants;
                             }
 
-                              Navigator.push(context, MaterialPageRoute(builder: (context)=>HomePage()));
-                           // Get.to(HomePage() );
-                              setState((){});
-
+                            Get.off(() => HomePage());
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => HomePage()));
                           },
                         ),
                       ),
@@ -280,14 +277,19 @@ void containerSortirung(context) {
 //______________________showModalBottomSheet_____Filter_________________________
 
 void containerFilter(context) {
-  var selectFilterItem = 0.obs;
-  buttomFilter(String btnName, int index, bool isActive) {
+  final ResturantListController filterList = Get.find();
+
+  var selectFilterItem = ''.obs;
+  var listItemCount = 0.obs;
+  buttomFilter(String btnName, int index) {
     return StatefulBuilder(
         builder: (BuildContext context, StateSetter setState) {
       return Obx(
         () => MaterialButton(
           onPressed: () {
-            selectFilterItem.value = index;
+            selectFilterItem.value = btnName;
+
+            filterList.sort.value = btnName;
           },
           shape: StadiumBorder(),
           child: Padding(
@@ -297,12 +299,12 @@ void containerFilter(context) {
               style: TextStyle(
                 fontSize: 14,
                 color:
-                    selectFilterItem.value == index ? whiteColor : blackColor,
+                    selectFilterItem.value == btnName ? whiteColor : blackColor,
               ),
             ),
           ),
           color:
-              selectFilterItem.value == index ? primaryColor : greyLightColor,
+              selectFilterItem.value == btnName ? primaryColor : greyLightColor,
         ),
       );
     });
@@ -349,7 +351,8 @@ void containerFilter(context) {
                               icon: Icon(Icons.cancel),
                               onPressed: () {
                                 Get.back();
-                                selectFilterItem.value = 0;
+                                selectFilterItem.value = '';
+                                listItemCount.value = 0;
                               })
                         ],
                       ),
@@ -372,15 +375,15 @@ void containerFilter(context) {
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.start,
                         children: [
-                          buttomFilter('bis 10\€', 1, false),
+                          buttomFilter('\€', 1),
                           SizedBox(
                             width: 15,
                           ),
-                          buttomFilter('bis 15\€', 2, false),
+                          buttomFilter('\€\€', 2),
                           SizedBox(
                             width: 15,
                           ),
-                          buttomFilter('Egal', 3, false)
+                          buttomFilter('\€\€\€', 3)
                         ],
                       ),
                     ),
@@ -390,13 +393,14 @@ void containerFilter(context) {
                     Center(
                       child: TextButton(
                         onPressed: () {
-                          selectFilterItem.value = 0;
+                          selectFilterItem.value = '';
+                          listItemCount.value = 0;
                         },
                         child: Obx(
                           () => Text(
                             'Zurücksetzen',
                             style: TextStyle(
-                              color: selectFilterItem.value != 0
+                              color: selectFilterItem.value != ''
                                   ? primaryColor
                                   : greyColor,
                             ),
@@ -410,27 +414,48 @@ void containerFilter(context) {
                     Container(
                       width: MediaQuery.of(context).size.width,
                       height: 65,
-                      // ignore: deprecated_member_use
-                      child: Obx(
-                        () => MaterialButton(
-                          elevation: 10,
-                          color: selectFilterItem.value == 0
-                              ? whiteColor
-                              : primaryColor,
-                          child: Text(
-                            'ZEIGE 3 RESTURANTS',
+                      child: MaterialButton(
+                        elevation: 10,
+                        color: selectFilterItem.value == ''
+                            ? whiteColor
+                            : primaryColor,
+                        child: Obx(
+                          () => Text(
+                            'ZEIGE ${filterList.list.length} RESTURANTS',
                             style: TextStyle(
-                              color: selectFilterItem.value == 0
+                              color: selectFilterItem.value == ''
                                   ? primaryColor
                                   : whiteColor,
                             ),
                           ),
-                          onPressed: () {
-                            Get.back();
-                          },
                         ),
+                        onPressed: () {
+                          var sortList = resturants
+                            ..sort((a, b) =>
+                                a.minimumOrder.compareTo(b.minimumOrder));
+                          if (selectFilterItem.value == '\€') {
+                            filterList.list.value = sortList
+                              ..where((a) =>
+                                  a.minimumOrder <=
+                                  10.0.compareTo(a.minimumOrder)).toList();
+                            listItemCount.value = filterList.list.length;
+                          } else if (selectFilterItem.value == '\€\€') {
+                            filterList.list.value = sortList
+                              ..where((a) =>
+                                  a.minimumOrder <=
+                                  20.0.compareTo(a.minimumOrder)).toList();
+                            listItemCount.value = filterList.list.length;
+                          } else if (selectFilterItem.value == '\€\€\€') {
+                            filterList.list.value = sortList;
+                            listItemCount.value = filterList.list.length;
+                          } else {
+                            filterList.sort.value = '';
+                            listItemCount.value = filterList.list.length;
+                          }
+                          Get.off(() => HomePage());
+                        },
                       ),
-                    )
+                    ),
                   ],
                 ),
               ),

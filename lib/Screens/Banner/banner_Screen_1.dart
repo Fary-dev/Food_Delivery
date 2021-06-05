@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:mjam/Contants/Color.dart';
 
 class BannerScreen1 extends StatelessWidget {
   @override
@@ -22,22 +21,9 @@ class BannerScreen1 extends StatelessWidget {
                   Padding(
                     padding: const EdgeInsets.all(20.0),
                     child: Text(
-                      'Resturant Milano',
+                      'Loding...',
                       style: Theme.of(context).primaryTextTheme.bodyText1,
                     ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.all(20.0),
-                    child: Text(
-                      'Resturant Milano',
-                      style: Theme.of(context).primaryTextTheme.bodyText2,
-                    ),
-                  ),
-                  Text(
-                    'Resturant Milano',
-                    textAlign: TextAlign.center,
-                    style: TextStyle(
-                        color: blackColor, fontSize: 13, letterSpacing: 0.5),
                   ),
                 ],
               ),

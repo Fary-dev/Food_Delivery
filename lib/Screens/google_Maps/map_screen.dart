@@ -1,4 +1,3 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -252,71 +251,98 @@ class _MapScreenState extends State<MapScreen> {
               ),
             ),
           ),
+
           Positioned(
             top: 60,
-            left: 0,
-            right: 0,
-            child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 30),
-              child: Container(
-                decoration: BoxDecoration(
-                    color: whiteColor,
-                    borderRadius: BorderRadius.circular(10),
-                    boxShadow: [
-                      BoxShadow(
-                          color: blackColor.withOpacity(0.4),
-                          blurRadius: 10,
-                          offset: Offset.zero)
-                    ]),
-                child: Row(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    IconButton(
-                        icon: Icon(
-                          CupertinoIcons.back,
-                          color: blackColor,
-                        ),
-                        onPressed: () => Navigator.pop(context)),
-                    Spacer(),
-                    SizedBox(
-                      width: MediaQuery.of(context).size.width * 0.60,
-                      child: RichText(
-                        maxLines: 1,
-                        overflow: TextOverflow.ellipsis,
-                        text: TextSpan(
-                          children: [
-                            TextSpan(
-                                text: 'Abholen ',
-                                style: TextStyle(
-                                    color: blackColor,
-                                    fontWeight: FontWeight.bold)),
-                            TextSpan(
-                              text: adress.defaltAdress.value.toString(),
-                              style: TextStyle(
-                                  color: primaryColor,
-                                  fontWeight: FontWeight.bold),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ),
-                    Spacer(),
-                    IconButton(
-                      icon: Icon(
-                        CupertinoIcons.location_solid,
-                        color: primaryColor,
-                      ),
-                      onPressed: () => FirebaseFirestore.instance
-                          .collection('Testing')
-                          .add({
-                        'Timestamp': Timestamp.fromDate(DateTime.now())
-                      }),
-                    ),
-                  ],
-                ),
-              ),
+            left: 15,
+            child: Container(
+              padding: EdgeInsets.all(0),
+              decoration: BoxDecoration(
+                  color: whiteColor,
+                  shape: BoxShape.circle,
+                  boxShadow: [
+                    BoxShadow(
+                      color: blackColor.withOpacity(0.6),
+                      blurRadius: 10,
+                      offset: Offset.zero,
+                    )
+                  ]),
+              child: IconButton(
+                  icon: Icon(
+                    CupertinoIcons.back,
+                    color: blackColor,
+                  ),
+                  onPressed: () {
+                    Get.back();
+                  }),
             ),
           ),
+
+          // Positioned(
+          //   top: 60,
+          //   left: 0,
+          //   right: 0,
+          //   child: Padding(
+          //     padding: const EdgeInsets.symmetric(horizontal: 0),
+          //     child: Container(
+          //       decoration: BoxDecoration(
+          //           color: whiteColor,
+          //           borderRadius: BorderRadius.circular(10),
+          //           boxShadow: [
+          //             BoxShadow(
+          //                 color: blackColor.withOpacity(0.4),
+          //                 blurRadius: 10,
+          //                 offset: Offset.zero)
+          //           ]),
+          //       child: Row(
+          //         crossAxisAlignment: CrossAxisAlignment.center,
+          //         children: [
+          //           IconButton(
+          //               icon: Icon(
+          //                 CupertinoIcons.back,
+          //                 color: blackColor,
+          //               ),
+          //               onPressed: () => Navigator.pop(context)),
+          //           //   Spacer(),
+          //           //   SizedBox(
+          //           //     width: MediaQuery.of(context).size.width * 0.60,
+          //           //     child: RichText(
+          //           //       maxLines: 1,
+          //           //       overflow: TextOverflow.ellipsis,
+          //           //       text: TextSpan(
+          //           //         children: [
+          //           //           TextSpan(
+          //           //               text: 'Abholen ',
+          //           //               style: TextStyle(
+          //           //                   color: blackColor,
+          //           //                   fontWeight: FontWeight.bold)),
+          //           //           TextSpan(
+          //           //             text: adress.defaltAdress.value.toString(),
+          //           //             style: TextStyle(
+          //           //                 color: primaryColor,
+          //           //                 fontWeight: FontWeight.bold),
+          //           //           ),
+          //           //         ],
+          //           //       ),
+          //           //     ),
+          //           //   ),
+          //           //   Spacer(),
+          //           //   IconButton(
+          //           //     icon: Icon(
+          //           //       CupertinoIcons.location_solid,
+          //           //       color: primaryColor,
+          //           //     ),
+          //           //     onPressed: () => FirebaseFirestore.instance
+          //           //         .collection('Testing')
+          //           //         .add({
+          //           //       'Timestamp': Timestamp.fromDate(DateTime.now())
+          //           //     }),
+          //           //   ),
+          //         ],
+          //       ),
+          //     ),
+          //   ),
+          // ),
           Positioned(
             bottom: 10,
             child: Container(

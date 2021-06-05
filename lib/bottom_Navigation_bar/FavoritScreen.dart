@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:mjam/Contants/Color.dart';
-import 'package:mjam/Screens/Login_and_SignIn/auch_with_Google.dart';
-import 'package:mjam/Screens/Login_and_SignIn/login_screen.dart';
-import 'package:mjam/Screens/Login_and_SignIn/sign_up_screen.dart';
+import 'package:mjam/Screens/Login_and_SignUp/auch_with_Google.dart';
+import 'package:mjam/Screens/Login_and_SignUp/login_screen.dart';
+import 'package:mjam/Screens/Login_and_SignUp/sign_up_screen.dart';
 
 class FavoritScreen extends StatefulWidget {
   FavoritScreen({Key key}) : super(key: key);

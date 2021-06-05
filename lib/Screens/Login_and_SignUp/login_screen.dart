@@ -1,7 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:mjam/Contants/Color.dart';
-import 'package:mjam/Screens/Login_and_SignIn/reset_password.dart';
+import 'package:mjam/Screens/Login_and_SignUp/reset_password.dart';
 import 'package:mjam/Widgets/BottomNavBarWidget.dart';
 
 import 'auch_with_Google.dart';
