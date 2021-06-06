@@ -22,19 +22,20 @@ class ShoppingCarts extends StatefulWidget {
 }
 
 class _ShoppingCartsState extends State<ShoppingCarts> {
-  final ShoppingCartController shopController =
-      Get.put(ShoppingCartController());
-  List<TextEditingController> listController = [];
-  List<bool> commendSelect = [];
-  List<bool> buttonCheck = [];
+final ShoppingCartController shoppingCartController=Get.put(ShoppingCartController());
+   List<TextEditingController> listController=[];
+  List<bool> commendSelect =[];
+  List<bool> buttonCheck=[] ;
 
-  @override
+   @override
   void dispose() {
-    super.dispose();
-    for (TextEditingController c in listController) {
+
+
+   super.dispose();
+   for (TextEditingController c in listController) {
       c.dispose();
-    }
-  }
+     }
+   }
 
   @override
   Widget build(BuildContext context) {
@@ -71,6 +72,9 @@ class _ShoppingCartsState extends State<ShoppingCarts> {
                     counterBloc.add(
                         CounterEvent(value: 1, status: EventStatus.clearAll));
                     setState(() {});
+                    commendSelect.clear();
+                    buttonCheck.clear();
+                    shoppingCartController.listController.clear();
                   },
                 )
               : IconButton(
@@ -114,15 +118,14 @@ class _ShoppingCartsState extends State<ShoppingCarts> {
                                         ],
                                       ),
                                       Expanded(
-                                        child: Obx(
-                                          () => ListView.builder(
+                                        child:  ListView.builder(
                                             scrollDirection: Axis.vertical,
                                             shrinkWrap: true,
                                             itemCount:
                                                 state.setMyProductsList.length,
                                             itemBuilder: (context, index) {
-                                              shopController.listController.add(
-                                                  new TextEditingController());
+                                              shoppingCartController.listController
+                                                  .add(TextEditingController());
                                               var _order = state
                                                   .setMyProductsList
                                                   .elementAt(index);
@@ -134,7 +137,7 @@ class _ShoppingCartsState extends State<ShoppingCarts> {
                                               commendSelect.add(false);
                                               buttonCheck.add(false);
 
-                                              return buildColumn(
+                                              return  buildColumn(
                                                   context,
                                                   state,
                                                   count,
@@ -142,10 +145,10 @@ class _ShoppingCartsState extends State<ShoppingCarts> {
                                                   productBloc,
                                                   counterBloc,
                                                   index,
-                                                  listController);
+                                                  shoppingCartController.listController);
                                             },
                                           ),
-                                        ),
+
                                       ),
                                       Padding(
                                         padding: const EdgeInsets.all(20),
@@ -201,10 +204,7 @@ class _ShoppingCartsState extends State<ShoppingCarts> {
                       style: new TextStyle(color: primaryColor),
                     ),
                     onPressed: () {
-                      Navigator.push(context,
-                          MaterialPageRoute(builder: (context) {
-                        return HomePage();
-                      }));
+                      Get.to(()=>HomePage());
                     },
                   )),
                 ],
@@ -333,8 +333,7 @@ class _ShoppingCartsState extends State<ShoppingCarts> {
               )
             ],
           ),
-          commendSelect[index] == true ||
-                  shopController.listTextController.isNotEmpty
+          commendSelect[index] == true||listController[index].text!=''
               ? SizedBox(
                   height: 35,
                   child: Row(
@@ -342,9 +341,8 @@ class _ShoppingCartsState extends State<ShoppingCarts> {
                       Expanded(
                         child: Padding(
                           padding: const EdgeInsets.symmetric(horizontal: 10.0),
-                          child: Obx(
-                            () => TextFormField(
-                              controller: shopController.listController[index],
+                          child: TextFormField(
+                              controller: listController[index],
                               keyboardType: TextInputType.text,
                               decoration: InputDecoration(
                                 hintText: 'Kommentare..',
@@ -352,41 +350,36 @@ class _ShoppingCartsState extends State<ShoppingCarts> {
                               onSaved: (value) {
                                 setState(() {
                                   if (value != null) {
-                                    shopController.listController[index].text =
+                                    listController[index].text =
                                         value;
-                                    shopController.listTextController
-                                        .insert(index, value);
+
                                   }
                                 });
                               },
                               maxLines: 1,
                               style: TextStyle(color: blackColor, fontSize: 14),
                             ),
-                          ),
+
                         ),
                       ),
-                      Obx(
-                        () => MaterialButton(
+                       MaterialButton(
                           padding: EdgeInsets.all(5),
                           onPressed: () {
-                            if (shopController.listController[index].text !=
+                            if (listController[index].text !=
                                     '' &&
                                 buttonCheck[index] == false) {
                               buttonCheck[index] = true;
                             } else {
                               commendSelect[index] = false;
-                              shopController.listController[index].clear();
-                              shopController.listTextController.removeAt(index);
+                              shoppingCartController.listController[index].text='';
+
                             }
                             setState(() {});
                           },
-                          child: Obx(
-                            () => Text(
-                              shopController.listController[index].text != '' &&
-                                      buttonCheck[index] == true &&
-                                      shopController
-                                              .listController[index].text !=
-                                          null
+                          child: Text(
+                              listController[index].text != ''
+                                   && buttonCheck[index] == true
+
                                   ? 'Entfernen'.toUpperCase()
                                   : 'Hinzufügen'.toUpperCase(),
                               style: TextStyle(
@@ -394,16 +387,16 @@ class _ShoppingCartsState extends State<ShoppingCarts> {
                                 color: Colors.white,
                               ),
                             ),
-                          ),
-                          color: shopController.listController[index].text !=
+
+                          color: listController[index].text !=
                                       '' &&
                                   buttonCheck[index] == true &&
-                                  shopController.listController[index].text !=
+                                  listController[index].text !=
                                       null
                               ? Colors.red
                               : Colors.green,
                         ),
-                      )
+
                     ],
                   ),
                 )
