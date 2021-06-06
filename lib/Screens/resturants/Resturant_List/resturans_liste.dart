@@ -56,10 +56,10 @@ class _ResturantListeState extends State<ResturantListe> {
                         ),
                       ),
                       Positioned(
-                        bottom: 15,
-                        left: 25,
+                        bottom: 10,
+                        left: 20,
                         child: Container(
-                          padding: EdgeInsets.all(5),
+                          padding: EdgeInsets.fromLTRB(5,3,5,3),
                           alignment: Alignment.center,
                           decoration: BoxDecoration(
                               color: whiteColor,
@@ -69,7 +69,22 @@ class _ResturantListeState extends State<ResturantListe> {
                               style: TextStyle(
                                   fontSize: 12, fontWeight: FontWeight.bold)),
                         ),
-                      )
+                      ),
+                      Positioned(
+                        bottom: 10,
+                        right: 20,
+                        child: Container(
+                          padding: EdgeInsets.fromLTRB(5,3,5,3),
+                          alignment: Alignment.center,
+                          decoration: BoxDecoration(
+                              color: whiteColor,
+                              borderRadius:
+                              BorderRadius.all(Radius.circular(20))),
+                          child: Text('${_resturant.distance} km',
+                              style: TextStyle(
+                                  fontSize: 12, fontWeight: FontWeight.bold)),
+                        ),
+                      ),
                     ],
                   ),
                   Container(
