@@ -16,11 +16,7 @@ class ResturantListe extends StatefulWidget {
 class _ResturantListeState extends State<ResturantListe> {
   final ResturantListController sortList = Get.put(ResturantListController());
 
-  @override
-  void initState() {
-    sortList.list.value = resturants;
-    super.initState();
-  }
+
 
   @override
   Widget build(BuildContext context) {
@@ -28,9 +24,9 @@ class _ResturantListeState extends State<ResturantListe> {
       () => ListView.builder(
         shrinkWrap: true,
         physics: const NeverScrollableScrollPhysics(),
-        itemCount: sortList.list.length,
+        itemCount: sortList.sort.value==''?resturants.length: sortList.list.length,
         itemBuilder: (context, index) {
-          final Resturant _resturant = sortList.list[index];
+          final Resturant _resturant = sortList.sort.value==''?resturants[index]: sortList.list[index];
           return GestureDetector(
             onTap: () {
               print(sortList.sort.value);
@@ -86,7 +82,7 @@ class _ResturantListeState extends State<ResturantListe> {
                           ],
                         ),
                       ),
-                      
+
                     ],
                   ),
                   Container(

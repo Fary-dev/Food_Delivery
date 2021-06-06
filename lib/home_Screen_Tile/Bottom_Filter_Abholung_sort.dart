@@ -101,7 +101,7 @@ class BottomFilterAbholungSort extends StatelessWidget {
 void containerSortirung(context) {
   final ResturantListController sortList = Get.put(ResturantListController());
 
-  var selectSortItem = ''.obs;
+
   Widget btnSort(IconData iconn, String txt, Color colorIcon, Color colorBtn) {
     Color colorIcon = primaryColor;
     Color colorBtn = greyLightColor;
@@ -111,7 +111,27 @@ void containerSortirung(context) {
           padding: const EdgeInsets.symmetric(horizontal: 30),
           child: GestureDetector(
             onTap: () {
-              selectSortItem.value = txt;
+              sortList.sort.value = txt;
+
+              if (sortList.sort.value == 'Qualität') {
+                sortList.list.value = resturants
+                  ..sort((a, b) => b.ratingResturant
+                      .compareTo(a.ratingResturant));
+              } else if (sortList.sort.value == 'Zeit') {
+                sortList.list.value = resturants
+                  ..sort((a, b) => a.deliveryDuration
+                      .compareTo(b.deliveryDuration));
+              } else if (sortList.sort.value == 'Entfernung') {
+                sortList.list.value = resturants
+                  ..sort((a, b) => a.distance
+                      .compareTo(b.distance));
+              } else if (sortList.sort.value == 'Beliebtheit') {
+                sortList.list.value = resturants
+                  ..sort(
+                          (a, b) => b.distance.compareTo(a.distance));
+              } else {
+                sortList.sort.value = '';
+              }
             },
             child: Row(
               children: [
@@ -120,12 +140,12 @@ void containerSortirung(context) {
                     height: 40,
                     width: 40,
                     decoration: BoxDecoration(
-                      color: selectSortItem.value == txt ? colorIcon : colorBtn,
+                      color: sortList.sort.value == txt ? colorIcon : colorBtn,
                       shape: BoxShape.circle,
                     ),
                     child: Icon(
                       iconn,
-                      color: selectSortItem.value == txt ? colorBtn : colorIcon,
+                      color: sortList.sort.value == txt ? colorBtn : colorIcon,
                     ),
                   ),
                 ),
@@ -181,9 +201,10 @@ void containerSortirung(context) {
                           IconButton(
                               icon: Icon(Icons.cancel),
                               onPressed: () {
+                                sortList.sort.value = '';
                                 Get.back();
-                                selectSortItem.value = '';
-                              })
+
+                              },),
                         ],
                       ),
                     ),
@@ -220,40 +241,21 @@ void containerSortirung(context) {
                       child: Obx(
                         () => MaterialButton(
                           elevation: 10,
-                          color: selectSortItem.value == ''
+                          color: sortList.sort.value == ''
                               ? whiteColor
                               : primaryColor,
                           child: Obx(() => Text(
                                 'ÜBERNEHMEN',
                                 style: TextStyle(
-                                    color: selectSortItem.value == ''
+                                    color: sortList.sort.value == ''
                                         ? primaryColor
                                         : whiteColor),
                               )),
                           onPressed: () {
-                            sortList.sort = selectSortItem;
 
-                            if (selectSortItem.value == 'Qualität') {
-                              sortList.list.value = resturants
-                                ..sort((a, b) => b.ratingResturant
-                                    .compareTo(a.ratingResturant));
-                            } else if (selectSortItem.value == 'Zeit') {
-                              sortList.list.value = resturants
-                                ..sort((a, b) => a.deliveryDuration
-                                    .compareTo(b.deliveryDuration));
-                            } else if (selectSortItem.value == 'Enrfernung') {
-                              sortList.list.value = resturants
-                                ..sort((a, b) => a.deliveryDuration
-                                    .compareTo(b.deliveryDuration));
-                            } else if (selectSortItem.value == 'Beliebtheit') {
-                              sortList.list.value = resturants
-                                ..sort(
-                                    (a, b) => b.distance.compareTo(a.distance));
-                            } else {
-                              sortList.list.value = resturants;
-                            }
-
+if(sortList.sort.value!='')
                             Get.back();
+
 
                           },
                         ),
