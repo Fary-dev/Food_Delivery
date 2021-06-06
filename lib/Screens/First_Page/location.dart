@@ -39,7 +39,7 @@ class _LocationSetState extends State<LocationSet> {
       bzirck = address.first.postalCode;
       hausNummer = address.first.subThoroughfare;
       strasse = address.first.thoroughfare;
-      firstAdress.defaltAdress.value = '$strasse $hausNummer, $plz $bzirck';
+      firstAdress.fistUserLocation.value = '$strasse $hausNummer, $plz $bzirck';
     });
   }
 
@@ -77,7 +77,7 @@ class _LocationSetState extends State<LocationSet> {
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
                     SizedBox(
-                      height: 100,
+                      height: 120,
                     ),
                     Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 20),
@@ -98,9 +98,15 @@ class _LocationSetState extends State<LocationSet> {
                     ),
                     Text(
                       'FOODO',
-                      style: Theme.of(context).primaryTextTheme.headline2.apply(fontSizeDelta: 20,color: whiteColor),
+                      style: TextStyle(
+                        fontSize: 23,
+                        color: whiteColor,
+                        fontWeight: FontWeight.bold,
+                      ),
                     ),
-                    Spacer(),
+                    SizedBox(
+                      height: 400,
+                    ),
                     ElevatedButton(
                       style: ElevatedButton.styleFrom(
                           shape: RoundedRectangleBorder(
@@ -118,8 +124,7 @@ class _LocationSetState extends State<LocationSet> {
                       onPressed: () {
                         Get.to(() => HomePage());
                       },
-                    ),
-                    SizedBox(height: 40,)
+                    )
                   ],
                 ),
               ),
