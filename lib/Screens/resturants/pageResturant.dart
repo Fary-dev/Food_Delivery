@@ -9,7 +9,7 @@ import 'package:mjam/Widgets/Rating.dart';
 import 'package:mjam/bloc/Counter_Bloc/counter_select_product.dart';
 import 'package:mjam/bloc/Order_Bloc/events.dart';
 import 'package:mjam/bloc/Order_Bloc/states.dart';
-import 'package:mjam/bottom_Navigation_bar/shopping_carts.dart';
+import 'package:mjam/bottom_Navigation_bar/Shopping/shopping_carts.dart';
 import 'package:mjam/models_and_data/Class/models_and_data.dart';
 import 'package:mjam/bloc/Order_Bloc/productBloc.dart';
 
@@ -185,7 +185,7 @@ class _PageResturantState extends State<PageResturant>
                               style: TextStyle(
                                 letterSpacing: 0.4,
                                 decoration: TextDecoration.none,
-                                fontSize: 10,
+                                fontSize: 11,
                                 color: blackColor,
                                 fontWeight: FontWeight.w500,
                               ),
@@ -201,12 +201,12 @@ class _PageResturantState extends State<PageResturant>
                           Container(
                             alignment: Alignment.centerLeft,
                             child: Text(
-                              "${resturant.distance} km",
+                              "${(resturant.distance / 1000).toStringAsFixed(1)} km",
                               textAlign: TextAlign.center,
                               style: TextStyle(
                                 letterSpacing: 0.4,
                                 decoration: TextDecoration.none,
-                                fontSize: 10,
+                                fontSize: 11,
                                 color: blackColor,
                                 fontWeight: FontWeight.w500,
                               ),

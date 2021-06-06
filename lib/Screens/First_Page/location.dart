@@ -6,6 +6,8 @@ import 'package:get/get.dart';
 import 'package:mjam/Contants/Color.dart';
 import 'package:mjam/Screens/First_Page/First_Location_controller.dart';
 import 'package:mjam/Screens/Home_Page/HomePage.dart';
+import 'package:mjam/Screens/Resturants/Resturant_List/Resturant_List_Controller.dart';
+import 'package:mjam/models_and_data/Class/models_and_data.dart';
 
 class LocationSet extends StatefulWidget {
   @override
@@ -14,6 +16,7 @@ class LocationSet extends StatefulWidget {
 
 class _LocationSetState extends State<LocationSet> {
   final firstAdress = Get.put(FirstPageController());
+  final ResturantListController ff = Get.put(ResturantListController());
   final Future<FirebaseApp> _fba = Firebase.initializeApp();
   String strasse, hausNummer, bzirck, plz;
   bool isLoading = false;
@@ -29,8 +32,17 @@ class _LocationSetState extends State<LocationSet> {
     final position = await Geolocator.getCurrentPosition(
         desiredAccuracy: LocationAccuracy.high);
 
+    for (var res in resturants) {
+      var distanceBetweenLastTwoLocations = Geolocator.distanceBetween(
+        position.latitude,
+        position.longitude,
+        res.lattut,
+        res.longtut,
+      );
+      var totalDistance = distanceBetweenLastTwoLocations;
+      res.distance = totalDistance;
+    }
     final coordinates = Coordinates(position.latitude, position.longitude);
-
     final address =
         await Geocoder.local.findAddressesFromCoordinates(coordinates);
     address.isNotEmpty ? isLoading = true : isLoading = false;

@@ -16,17 +16,19 @@ class ResturantListe extends StatefulWidget {
 class _ResturantListeState extends State<ResturantListe> {
   final ResturantListController sortList = Get.put(ResturantListController());
 
-
-
   @override
   Widget build(BuildContext context) {
     return Obx(
       () => ListView.builder(
         shrinkWrap: true,
         physics: const NeverScrollableScrollPhysics(),
-        itemCount: sortList.sort.value==''?resturants.length: sortList.list.length,
+        itemCount: sortList.sort.value == ''
+            ? resturants.length
+            : sortList.list.length,
         itemBuilder: (context, index) {
-          final Resturant _resturant = sortList.sort.value==''?resturants[index]: sortList.list[index];
+          final Resturant _resturant = sortList.sort.value == ''
+              ? resturants[index]
+              : sortList.list[index];
           return GestureDetector(
             onTap: () {
               print(sortList.sort.value);
@@ -57,7 +59,7 @@ class _ResturantListeState extends State<ResturantListe> {
                         child: Row(
                           children: [
                             Container(
-                              padding: EdgeInsets.fromLTRB(5,3,5,3),
+                              padding: EdgeInsets.fromLTRB(5, 3, 5, 3),
                               alignment: Alignment.center,
                               decoration: BoxDecoration(
                                   color: whiteColor,
@@ -65,24 +67,28 @@ class _ResturantListeState extends State<ResturantListe> {
                                       BorderRadius.all(Radius.circular(20))),
                               child: Text('${_resturant.deliveryDuration} min',
                                   style: TextStyle(
-                                      fontSize: 12, fontWeight: FontWeight.bold)),
+                                      fontSize: 12,
+                                      fontWeight: FontWeight.bold)),
                             ),
-                            SizedBox(width: 5,),
+                            SizedBox(
+                              width: 5,
+                            ),
                             Container(
-                              padding: EdgeInsets.fromLTRB(5,3,5,3),
+                              padding: EdgeInsets.fromLTRB(5, 3, 5, 3),
                               alignment: Alignment.center,
                               decoration: BoxDecoration(
                                   color: whiteColor,
                                   borderRadius:
-                                  BorderRadius.all(Radius.circular(20))),
-                              child: Text('${_resturant.distance} km',
+                                      BorderRadius.all(Radius.circular(20))),
+                              child: Text(
+                                  '${(_resturant.distance / 1000).toStringAsFixed(1)} km',
                                   style: TextStyle(
-                                      fontSize: 12, fontWeight: FontWeight.bold)),
+                                      fontSize: 12,
+                                      fontWeight: FontWeight.bold)),
                             ),
                           ],
                         ),
                       ),
-
                     ],
                   ),
                   Container(
