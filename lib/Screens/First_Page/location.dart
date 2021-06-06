@@ -4,7 +4,7 @@ import 'package:geocoder/geocoder.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:get/get.dart';
 import 'package:mjam/Contants/Color.dart';
-import 'package:mjam/Screens/First_Page/controller.dart';
+import 'package:mjam/Screens/First_Page/First_Location_controller.dart';
 import 'package:mjam/Screens/Home_Page/HomePage.dart';
 
 class LocationSet extends StatefulWidget {
@@ -77,7 +77,7 @@ class _LocationSetState extends State<LocationSet> {
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
                     SizedBox(
-                      height: 120,
+                      height: 100,
                     ),
                     Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 20),
@@ -98,15 +98,9 @@ class _LocationSetState extends State<LocationSet> {
                     ),
                     Text(
                       'FOODO',
-                      style: TextStyle(
-                        fontSize: 23,
-                        color: whiteColor,
-                        fontWeight: FontWeight.bold,
-                      ),
+                      style: Theme.of(context).primaryTextTheme.headline2.apply(fontSizeDelta: 20,color: whiteColor),
                     ),
-                    SizedBox(
-                      height: 400,
-                    ),
+                    Spacer(),
                     ElevatedButton(
                       style: ElevatedButton.styleFrom(
                           shape: RoundedRectangleBorder(
@@ -124,7 +118,8 @@ class _LocationSetState extends State<LocationSet> {
                       onPressed: () {
                         Get.to(() => HomePage());
                       },
-                    )
+                    ),
+                    SizedBox(height: 40,)
                   ],
                 ),
               ),

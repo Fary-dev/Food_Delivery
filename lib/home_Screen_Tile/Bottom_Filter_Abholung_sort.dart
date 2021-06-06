@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:mjam/Contants/Color.dart';
-import 'package:mjam/Screens/Home_Page/HomePage.dart';
 import 'package:mjam/Screens/Resturants/Resturant_List/Resturant_List_Controller.dart';
 import 'package:mjam/Screens/google_Maps/map_screen.dart';
 import 'package:mjam/models_and_data/Class/models_and_data.dart';
@@ -101,7 +100,6 @@ class BottomFilterAbholungSort extends StatelessWidget {
 void containerSortirung(context) {
   final ResturantListController sortList = Get.put(ResturantListController());
 
-
   Widget btnSort(IconData iconn, String txt, Color colorIcon, Color colorBtn) {
     Color colorIcon = primaryColor;
     Color colorBtn = greyLightColor;
@@ -115,20 +113,18 @@ void containerSortirung(context) {
 
               if (sortList.sort.value == 'Qualität') {
                 sortList.list.value = resturants
-                  ..sort((a, b) => b.ratingResturant
-                      .compareTo(a.ratingResturant));
+                  ..sort(
+                      (a, b) => b.ratingResturant.compareTo(a.ratingResturant));
               } else if (sortList.sort.value == 'Zeit') {
                 sortList.list.value = resturants
-                  ..sort((a, b) => a.deliveryDuration
-                      .compareTo(b.deliveryDuration));
+                  ..sort((a, b) =>
+                      a.deliveryDuration.compareTo(b.deliveryDuration));
               } else if (sortList.sort.value == 'Entfernung') {
                 sortList.list.value = resturants
-                  ..sort((a, b) => a.distance
-                      .compareTo(b.distance));
+                  ..sort((a, b) => a.distance.compareTo(b.distance));
               } else if (sortList.sort.value == 'Beliebtheit') {
                 sortList.list.value = resturants
-                  ..sort(
-                          (a, b) => b.distance.compareTo(a.distance));
+                  ..sort((a, b) => b.distance.compareTo(a.distance));
               } else {
                 sortList.sort.value = '';
               }
@@ -199,12 +195,12 @@ void containerSortirung(context) {
                           ),
                           Spacer(),
                           IconButton(
-                              icon: Icon(Icons.cancel),
-                              onPressed: () {
-                                sortList.sort.value = '';
-                                Get.back();
-
-                              },),
+                            icon: Icon(Icons.cancel),
+                            onPressed: () {
+                              sortList.sort.value = '';
+                              Get.back();
+                            },
+                          ),
                         ],
                       ),
                     ),
@@ -252,11 +248,7 @@ void containerSortirung(context) {
                                         : whiteColor),
                               )),
                           onPressed: () {
-
-if(sortList.sort.value!='')
-                            Get.back();
-
-
+                            if (sortList.sort.value != '') Get.back();
                           },
                         ),
                       ),
@@ -290,25 +282,19 @@ void containerFilter(context) {
 
             filterList.sort.value = btnName;
             final sortList = resturants
-              ..sort((a, b) =>
-                  a.minimumOrder.compareTo(b.minimumOrder));
+              ..sort((a, b) => a.minimumOrder.compareTo(b.minimumOrder));
             if (selectFilterItem.value == 'Bis 10 \€') {
-               filterList.list.value = sortList
-                  .where(( a) =>
-              (a.minimumOrder <=
-                  10)).toList();
+              filterList.list.value =
+                  sortList.where((a) => (a.minimumOrder <= 10)).toList();
 
               listItemCount.value = filterList.list.length;
             } else if (selectFilterItem.value == 'Bis 20 \€') {
-              filterList.list.value =  sortList
-                  .where(( a) =>
-              (a.minimumOrder <=
-                  20)).toList();
+              filterList.list.value =
+                  sortList.where((a) => (a.minimumOrder <= 20)).toList();
               listItemCount.value = filterList.list.length;
             } else if (selectFilterItem.value == 'Egal') {
-              filterList.list.value = sortList.where(( a) =>
-              (a.minimumOrder>=0)
-            ).toList();
+              filterList.list.value =
+                  sortList.where((a) => (a.minimumOrder >= 0)).toList();
               listItemCount.value = filterList.list.length;
             } else {
               filterList.sort.value = '';
@@ -439,7 +425,7 @@ void containerFilter(context) {
                       width: MediaQuery.of(context).size.width,
                       height: 65,
                       child: Obx(
-                        ()=> MaterialButton(
+                        () => MaterialButton(
                           elevation: 10,
                           color: selectFilterItem.value == ''
                               ? whiteColor
@@ -455,8 +441,7 @@ void containerFilter(context) {
                             ),
                           ),
                           onPressed: () {
-                            if(selectFilterItem.value!='')
-                            Get.back();
+                            if (selectFilterItem.value != '') Get.back();
                           },
                         ),
                       ),
