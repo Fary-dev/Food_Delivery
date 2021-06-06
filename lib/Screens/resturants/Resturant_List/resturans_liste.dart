@@ -58,33 +58,35 @@ class _ResturantListeState extends State<ResturantListe> {
                       Positioned(
                         bottom: 10,
                         left: 20,
-                        child: Container(
-                          padding: EdgeInsets.fromLTRB(5,3,5,3),
-                          alignment: Alignment.center,
-                          decoration: BoxDecoration(
-                              color: whiteColor,
-                              borderRadius:
+                        child: Row(
+                          children: [
+                            Container(
+                              padding: EdgeInsets.fromLTRB(5,3,5,3),
+                              alignment: Alignment.center,
+                              decoration: BoxDecoration(
+                                  color: whiteColor,
+                                  borderRadius:
+                                      BorderRadius.all(Radius.circular(20))),
+                              child: Text('${_resturant.deliveryDuration} min',
+                                  style: TextStyle(
+                                      fontSize: 12, fontWeight: FontWeight.bold)),
+                            ),
+                            SizedBox(width: 5,),
+                            Container(
+                              padding: EdgeInsets.fromLTRB(5,3,5,3),
+                              alignment: Alignment.center,
+                              decoration: BoxDecoration(
+                                  color: whiteColor,
+                                  borderRadius:
                                   BorderRadius.all(Radius.circular(20))),
-                          child: Text('${_resturant.deliveryDuration} min',
-                              style: TextStyle(
-                                  fontSize: 12, fontWeight: FontWeight.bold)),
+                              child: Text('${_resturant.distance} km',
+                                  style: TextStyle(
+                                      fontSize: 12, fontWeight: FontWeight.bold)),
+                            ),
+                          ],
                         ),
                       ),
-                      Positioned(
-                        bottom: 10,
-                        right: 20,
-                        child: Container(
-                          padding: EdgeInsets.fromLTRB(5,3,5,3),
-                          alignment: Alignment.center,
-                          decoration: BoxDecoration(
-                              color: whiteColor,
-                              borderRadius:
-                              BorderRadius.all(Radius.circular(20))),
-                          child: Text('${_resturant.distance} km',
-                              style: TextStyle(
-                                  fontSize: 12, fontWeight: FontWeight.bold)),
-                        ),
-                      ),
+                      
                     ],
                   ),
                   Container(
