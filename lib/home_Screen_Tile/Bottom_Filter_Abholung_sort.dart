@@ -253,11 +253,8 @@ void containerSortirung(context) {
                               sortList.list.value = resturants;
                             }
 
-                            Get.off(() => HomePage());
-                            Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => HomePage()));
+                            Get.back();
+
                           },
                         ),
                       ),
@@ -277,7 +274,7 @@ void containerSortirung(context) {
 //______________________showModalBottomSheet_____Filter_________________________
 
 void containerFilter(context) {
-  final ResturantListController filterList = Get.find();
+  final ResturantListController filterList = Get.put(ResturantListController());
 
   var selectFilterItem = ''.obs;
   var listItemCount = 0.obs;
@@ -290,6 +287,31 @@ void containerFilter(context) {
             selectFilterItem.value = btnName;
 
             filterList.sort.value = btnName;
+            final sortList = resturants
+              ..sort((a, b) =>
+                  a.minimumOrder.compareTo(b.minimumOrder));
+            if (selectFilterItem.value == 'Bis 10 \€') {
+               filterList.list.value = sortList
+                  .where(( a) =>
+              (a.minimumOrder <=
+                  10)).toList();
+
+              listItemCount.value = filterList.list.length;
+            } else if (selectFilterItem.value == 'Bis 20 \€') {
+              filterList.list.value =  sortList
+                  .where(( a) =>
+              (a.minimumOrder <=
+                  20)).toList();
+              listItemCount.value = filterList.list.length;
+            } else if (selectFilterItem.value == 'Egal') {
+              filterList.list.value = sortList.where(( a) =>
+              (a.minimumOrder>=0)
+            ).toList();
+              listItemCount.value = filterList.list.length;
+            } else {
+              filterList.sort.value = '';
+              listItemCount.value = filterList.list.length;
+            }
           },
           shape: StadiumBorder(),
           child: Padding(
@@ -375,15 +397,15 @@ void containerFilter(context) {
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.start,
                         children: [
-                          buttomFilter('\€', 1),
+                          buttomFilter('Bis 10 \€', 1),
                           SizedBox(
                             width: 15,
                           ),
-                          buttomFilter('\€\€', 2),
+                          buttomFilter('Bis 20 \€', 2),
                           SizedBox(
                             width: 15,
                           ),
-                          buttomFilter('\€\€\€', 3)
+                          buttomFilter('Egal', 3)
                         ],
                       ),
                     ),
@@ -414,46 +436,27 @@ void containerFilter(context) {
                     Container(
                       width: MediaQuery.of(context).size.width,
                       height: 65,
-                      child: MaterialButton(
-                        elevation: 10,
-                        color: selectFilterItem.value == ''
-                            ? whiteColor
-                            : primaryColor,
-                        child: Obx(
-                          () => Text(
-                            'ZEIGE ${filterList.list.length} RESTURANTS',
-                            style: TextStyle(
-                              color: selectFilterItem.value == ''
-                                  ? primaryColor
-                                  : whiteColor,
+                      child: Obx(
+                        ()=> MaterialButton(
+                          elevation: 10,
+                          color: selectFilterItem.value == ''
+                              ? whiteColor
+                              : primaryColor,
+                          child: Obx(
+                            () => Text(
+                              'ZEIGE ${filterList.list.length} RESTURANTS',
+                              style: TextStyle(
+                                color: selectFilterItem.value == ''
+                                    ? primaryColor
+                                    : whiteColor,
+                              ),
                             ),
                           ),
+                          onPressed: () {
+                            if(selectFilterItem.value!='')
+                            Get.back();
+                          },
                         ),
-                        onPressed: () {
-                          var sortList = resturants
-                            ..sort((a, b) =>
-                                a.minimumOrder.compareTo(b.minimumOrder));
-                          if (selectFilterItem.value == '\€') {
-                            filterList.list.value = sortList
-                              ..where((a) =>
-                                  a.minimumOrder <=
-                                  10.0.compareTo(a.minimumOrder)).toList();
-                            listItemCount.value = filterList.list.length;
-                          } else if (selectFilterItem.value == '\€\€') {
-                            filterList.list.value = sortList
-                              ..where((a) =>
-                                  a.minimumOrder <=
-                                  20.0.compareTo(a.minimumOrder)).toList();
-                            listItemCount.value = filterList.list.length;
-                          } else if (selectFilterItem.value == '\€\€\€') {
-                            filterList.list.value = sortList;
-                            listItemCount.value = filterList.list.length;
-                          } else {
-                            filterList.sort.value = '';
-                            listItemCount.value = filterList.list.length;
-                          }
-                          Get.off(() => HomePage());
-                        },
                       ),
                     ),
                   ],

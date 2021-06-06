@@ -5,4 +5,5 @@ class ResturantListController extends GetxController {
   var sort = ''.obs;
   final list =<Resturant>[].obs;
 
+
 }
