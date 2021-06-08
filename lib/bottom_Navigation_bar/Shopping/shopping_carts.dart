@@ -22,13 +22,12 @@ class ShoppingCarts extends StatefulWidget {
 }
 
 class _ShoppingCartsState extends State<ShoppingCarts> {
+  final ShoppingCartController shoppingCartController =
+      Get.put(ShoppingCartController());
 
-  final ShoppingCartController shoppingCartController=Get.put(ShoppingCartController());
-
-
- // List<bool> commendSelect =[];
- // List<bool> buttonCheck=[] ;
- /*  @override
+  // List<bool> commendSelect =[];
+  // List<bool> buttonCheck=[] ;
+  /*  @override
   void dispose() {
    super.dispose();
    for (TextEditingController c in listController) {
@@ -38,16 +37,10 @@ class _ShoppingCartsState extends State<ShoppingCarts> {
 */
   @override
   Widget build(BuildContext context) {
-    CounterBloc counterBloc = BlocProvider.of<CounterBloc>(context);
-    ProductBloc productBloc = BlocProvider.of<ProductBloc>(context);
-    for(var controllerLength in productBloc.setMyCart){
+   final CounterBloc counterBloc = BlocProvider.of<CounterBloc>(context);
+   final ProductBloc productBloc = BlocProvider.of<ProductBloc>(context);
 
-      shoppingCartController.listController
-          .add(TextEditingController());
-      shoppingCartController.textFildValueList.add('');
-      shoppingCartController.commendSelect.add(false);
-      shoppingCartController. buttonCheck.add(false);
-    }
+
 
     return Scaffold(
       appBar: AppBar(
@@ -60,12 +53,15 @@ class _ShoppingCartsState extends State<ShoppingCarts> {
                   color: primaryColor,
                 ),
                 onPressed: () {
+                  print(shoppingCartController.listController.length);
+
                   Get.back();
                 },
               )
             : Icon(
-            Icons.menu,
-            color: Colors.transparent,),
+                Icons.menu,
+                color: Colors.transparent,
+              ),
         title: Text(
           "Deine Warenkörbe",
           style: Theme.of(context).primaryTextTheme.headline6,
@@ -81,10 +77,11 @@ class _ShoppingCartsState extends State<ShoppingCarts> {
                     productBloc.add(ClearAllCart());
                     counterBloc.add(
                         CounterEvent(value: 1, status: EventStatus.clearAll));
-                    setState(() {});
-                    shoppingCartController. commendSelect.clear();
-                    shoppingCartController. buttonCheck.clear();
+
+                    shoppingCartController.commendSelect.clear();
+                    shoppingCartController.buttonCheck.clear();
                     shoppingCartController.listController.clear();
+                    setState((){});
                   },
                 )
               : IconButton(
@@ -128,218 +125,331 @@ class _ShoppingCartsState extends State<ShoppingCarts> {
                                         ],
                                       ),
                                       Expanded(
-                                        child:  ListView.builder(
-                                            scrollDirection: Axis.vertical,
-                                            shrinkWrap: true,
-                                            itemCount:
-                                                state.setMyProductsList.length,
-                                            itemBuilder: (context, index) {
+                                        child: ListView.builder(
+                                          scrollDirection: Axis.vertical,
+                                          shrinkWrap: true,
+                                          itemCount:
+                                              state.setMyProductsList.length,
+                                          itemBuilder: (context, index) {
 
-                                              var _order = state
-                                                  .setMyProductsList
-                                                  .elementAt(index);
-                                              int count = state.orderList
-                                                  .where((element) =>
-                                                      element.product == _order)
-                                                  .toList()
-                                                  .length;
+                                            var _order = state.setMyProductsList
+                                                .elementAt(index);
+                                            int count = state.orderList
+                                                .where((element) =>
+                                                    element.product == _order)
+                                                .toList()
+                                                .length;
 
-
-                                              return  Container(
-                                                padding: EdgeInsets.only(right: 10.0),
-                                                width: MediaQuery.of(context).size.width - 30,
-                                                child:  Column(
+                                            return Container(
+                                              padding:
+                                                  EdgeInsets.only(right: 10.0),
+                                              width: MediaQuery.of(context)
+                                                      .size
+                                                      .width -
+                                                  30,
+                                              child: Column(
+                                                children: [
+                                                  Row(
+                                                    crossAxisAlignment:
+                                                        CrossAxisAlignment
+                                                            .start,
+                                                    mainAxisAlignment:
+                                                        MainAxisAlignment.start,
                                                     children: [
                                                       Row(
-                                                        crossAxisAlignment: CrossAxisAlignment.start,
-                                                        mainAxisAlignment: MainAxisAlignment.start,
+                                                        mainAxisAlignment:
+                                                            MainAxisAlignment
+                                                                .spaceEvenly,
                                                         children: [
-                                                          Row(
-                                                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                                                            children: [
-                                                              IconButton(
-                                                                icon: Icon(
-                                                                  CupertinoIcons.minus,
-                                                                  size: 20,
-                                                                  color: primaryColor,
-                                                                ),
-                                                                onPressed: () {
-                                                                  print(state.orderList.length);
-                                                                  if (count > 1) {
-                                                                    var selectProduct = state.orderList
-                                                                        .firstWhere((order) => order.product == _order);
-                                                                    state.orderList.remove(selectProduct);
-                                                                  } else if (state.orderList.length == 1) {
-                                                                    productBloc.add(ClearAllCart());
-                                                                    counterBloc.add(CounterEvent(
-                                                                        value: 1, status: EventStatus.clearAll));
-                                                                  } else {
-                                                                    var selectProduct = state.orderList
-                                                                        .firstWhere((order) => order.product == _order);
-                                                                    state.orderList.remove(selectProduct);
-                                                                    state.setMyProductsList.remove(_order);
-                                                                  }
-                                                                  if (state.setMyProductsList.isEmpty) {
-                                                                    productBloc.add(ClearAllCart());
-                                                                    counterBloc.add(CounterEvent(
-                                                                        value: 1, status: EventStatus.clearAll));
-                                                                  }
+                                                          IconButton(
+                                                            icon: Icon(
+                                                              CupertinoIcons
+                                                                  .minus,
+                                                              size: 20,
+                                                              color:
+                                                                  primaryColor,
+                                                            ),
+                                                            onPressed: () {
 
-                                                                  print(state.orderList.length);
-                                                                  setState(() {});
-                                                                },
-                                                              ),
-                                                              Text(
-                                                                count.toString(),
-                                                              ),
-                                                              IconButton(
-                                                                icon: Icon(
-                                                                  CupertinoIcons.add,
-                                                                  size: 20,
-                                                                  color: primaryColor,
-                                                                ),
-                                                                onPressed: () {
-                                                                  setState(() {
-                                                                    productBloc.add(AddToCart(
-                                                                        product: _order,
-                                                                        order: Order(
-                                                                            totalPrise: _order.price,
-                                                                            quantity: 1,
-                                                                            product: _order,
-                                                                            resturant: state.orderList[index].resturant)));
-                                                                  });
-                                                                },
-                                                              ),
-                                                            ],
+                                                              if (count > 1) {
+                                                                var selectProduct = state
+                                                                    .orderList
+                                                                    .firstWhere((order) =>
+                                                                        order
+                                                                            .product ==
+                                                                        _order);
+                                                                state.orderList
+                                                                    .remove(
+                                                                        selectProduct);
+                                                              } else if (state
+                                                                      .orderList
+                                                                      .length ==
+                                                                  1) {
+                                                                productBloc.add(
+                                                                    ClearAllCart());
+                                                                counterBloc.add(
+                                                                    CounterEvent(
+                                                                        value:
+                                                                            1,
+                                                                        status:
+                                                                            EventStatus.clearAll));
+
+
+                                                              } else {
+                                                                var selectProduct = state
+                                                                    .orderList
+                                                                    .firstWhere((order) =>
+                                                                        order
+                                                                            .product ==
+                                                                        _order);
+                                                                state.orderList
+                                                                    .remove(
+                                                                        selectProduct);
+                                                                state
+                                                                    .setMyProductsList
+                                                                    .remove(
+                                                                        _order);
+                                                                shoppingCartController.revomeController(index);
+
+                                                              }
+                                                              if (state
+                                                                  .setMyProductsList
+                                                                  .isEmpty) {
+                                                                productBloc.add(
+                                                                    ClearAllCart());
+                                                                counterBloc.add(
+                                                                    CounterEvent(
+                                                                        value:
+                                                                            1,
+                                                                        status:
+                                                                            EventStatus.clearAll));
+                                                              }
+                                                              setState((){});
+                                                            },
                                                           ),
-                                                          Expanded(
-                                                            child: Column(
-                                                              crossAxisAlignment: CrossAxisAlignment.start,
-                                                              children: [
-                                                                SizedBox(height: 15),
-                                                                Row(
-                                                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                                                  children: [
-                                                                    Text(
-                                                                      _order.nameProduct,
-                                                                    ),
-                                                                    Text(
-                                                                      '\€ ${(count * _order.price).toStringAsFixed(2)}',
-                                                                    )
-                                                                  ],
-                                                                ),
-                                                                Container(
-                                                                    padding: EdgeInsets.only(left: 0.0),
-                                                                    child: Text('+ souce',
-                                                                        style: TextStyle(color: greyColor))),
-                                                                Obx(
-                                                                      ()=>  shoppingCartController.textFildValueList[index]==''
-                                                                          ?Container(
-                                                                    padding: EdgeInsets.only(left: 0.0),
-                                                                    child: SizedBox(
-                                                                      height: 32,
-                                                                      child: TextButton(
-                                                                          onPressed: () {
-                                                                            shoppingCartController.commendSelect[index] = true;
-                                                                            shoppingCartController.buttonCheck[index] = false;
-                                                                          },
-                                                                          child: Text(
-                                                                            'Kommentar hinzufügen',
-                                                                            style: TextStyle(color: primaryColor),
-                                                                          )),
-                                                                    )
+                                                          Text(
+                                                            count.toString(),
+                                                          ),
+                                                          IconButton(
+                                                            icon: Icon(
+                                                              CupertinoIcons
+                                                                  .add,
+                                                              size: 20,
+                                                              color:
+                                                                  primaryColor,
+                                                            ),
+                                                            onPressed: () {
 
-                                                                  ) : Container(),
+                                                                productBloc.add(AddToCart(
+                                                                    product:
+                                                                        _order,
+                                                                    order: Order(
+                                                                        totalPrise:
+                                                                            _order
+                                                                                .price,
+                                                                        quantity:
+                                                                            1,
+                                                                        product:
+                                                                            _order,
+                                                                        resturant: state
+                                                                            .orderList[index]
+                                                                            .resturant)));
+
+                                                            },
+                                                          ),
+                                                        ],
+                                                      ),
+                                                      Expanded(
+                                                        child: Column(
+                                                          crossAxisAlignment:
+                                                              CrossAxisAlignment
+                                                                  .start,
+                                                          children: [
+                                                            SizedBox(
+                                                                height: 15),
+                                                            Row(
+                                                              mainAxisAlignment:
+                                                                  MainAxisAlignment
+                                                                      .spaceBetween,
+                                                              children: [
+                                                                Text(
+                                                                  _order
+                                                                      .nameProduct,
+                                                                ),
+                                                                Text(
+                                                                  '\€ ${(count * _order.price).toStringAsFixed(2)}',
+                                                                )
+                                                              ],
+                                                            ),
+                                                            Container(
+                                                                padding: EdgeInsets
+                                                                    .only(
+                                                                        left:
+                                                                            0.0),
+                                                                child: Text(
+                                                                    '+ Zutaten',
+                                                                    style: TextStyle(
+                                                                        color:
+                                                                            greyColor))),
+                                                            Obx(
+                                                              () =>
+                                                                      shoppingCartController.commendSelect[
+                                                                              index] ==
+                                                                          false
+                                                                  ? Container(
+                                                                      padding: EdgeInsets.only(
+                                                                          left:
+                                                                              0.0),
+                                                                      child:
+                                                                          SizedBox(
+                                                                        height:
+                                                                            32,
+                                                                        child: TextButton(
+                                                                            onPressed: () {
+                                                                              shoppingCartController.commendSelect[index] = true;
+                                                                              shoppingCartController.buttonCheck[index] = false;
+                                                                            },
+                                                                            child: Text(
+                                                                              'Kommentar hinzufügen',
+                                                                              style: TextStyle(color: primaryColor),
+                                                                            )),
+                                                                      ))
+                                                                  : Container(),
+                                                            ),
+                                                          ],
+                                                        ),
+                                                      )
+                                                    ],
+                                                  ),
+                                                  Obx(
+                                                    () => shoppingCartController
+                                                                        .commendSelect[
+                                                                    index] ==
+                                                                true ||
+                                                            shoppingCartController
+                                                                    .listController[
+                                                                        index]
+                                                                    .text !=
+                                                                ''
+                                                        ? SizedBox(
+                                                            height: 35,
+                                                            child: Row(
+                                                              children: [
+                                                                Expanded(
+                                                                  child:
+                                                                      Padding(
+                                                                    padding: const EdgeInsets
+                                                                            .symmetric(
+                                                                        horizontal:
+                                                                            10.0),
+                                                                    child:
+                                                                        TextFormField(
+                                                                      controller:
+                                                                          shoppingCartController
+                                                                              .listController[index],
+                                                                      keyboardType:
+                                                                          TextInputType
+                                                                              .text,
+                                                                      decoration:
+                                                                          InputDecoration(
+                                                                        hintText:
+                                                                            'Kommentare..',
+                                                                      ),
+                                                                      onSaved:
+                                                                          (value) {
+                                                                        if (value !=
+                                                                            '') {
+                                                                          shoppingCartController
+                                                                              .listController[index]
+                                                                              .text = value;
+                                                                        }
+                                                                      },
+                                                                      maxLines:
+                                                                          1,
+                                                                      style: TextStyle(
+                                                                          color:
+                                                                              blackColor,
+                                                                          fontSize:
+                                                                              14),
+                                                                    ),
+                                                                  ),
+                                                                ),
+                                                                Obx(
+                                                                  () =>
+                                                                      MaterialButton(
+                                                                    padding:
+                                                                        EdgeInsets
+                                                                            .all(5),
+                                                                    onPressed:
+                                                                        () {
+                                                                          if (shoppingCartController
+                                                                              .listController[index]
+                                                                              .text !=
+                                                                              '' &&
+                                                                              shoppingCartController
+                                                                                  .buttonCheck[index] ==
+                                                                                  false) {
+                                                                            shoppingCartController
+                                                                                .buttonCheck[index] =
+                                                                            true;
+                                                                            shoppingCartController
+                                                                                .commendSelect[index] =
+                                                                            true;
+
+                                                                            print(
+                                                                                'green');
+
+                                                                          } else {
+                                                                            shoppingCartController
+                                                                                .commendSelect[index] =
+                                                                            false;
+                                                                            shoppingCartController
+                                                                                .listController[index]
+                                                                                .text =
+                                                                            '';
+
+                                                                            print(
+                                                                                'red');
+
+                                                                          }
+                                                                        },
+
+                                                                    child: Obx(
+                                                                      () =>
+                                                                          Text(
+                                                                        shoppingCartController.listController[index].text != '' &&
+                                                                                shoppingCartController.buttonCheck[index] == true
+                                                                            ? 'Entfernen'.toUpperCase()
+                                                                            : 'Hinzufügen'.toUpperCase(),
+                                                                        style:
+                                                                            TextStyle(
+                                                                          fontSize:
+                                                                              12,
+                                                                          color:
+                                                                              Colors.white,
+                                                                        ),
+                                                                      ),
+                                                                    ),
+                                                                    color: shoppingCartController.listController[index].text !=
+                                                                                '' &&
+                                                                            shoppingCartController.buttonCheck[index] ==
+                                                                                true
+                                                                        ? Colors
+                                                                            .red
+                                                                        : Colors
+                                                                            .green,
+                                                                  ),
                                                                 ),
                                                               ],
                                                             ),
                                                           )
-                                                        ],
-                                                      ),
-                                                       Obx(()=>shoppingCartController.commendSelect[index] == true ||
-                                                           shoppingCartController.listController[index].text!=''
-                                                           ? SizedBox(
-                                                          height: 35,
-                                                          child: Row(
-                                                            children: [
-                                                              Expanded(
-                                                                child: Padding(
-                                                                  padding: const EdgeInsets.symmetric(horizontal: 10.0),
-                                                                  child:TextFormField(
-
-                                                                      controller: shoppingCartController.listController[index],
-                                                                      keyboardType: TextInputType.text,
-                                                                      decoration: InputDecoration(
-                                                                        hintText: 'Kommentare..',
-                                                                      ),
-
-                                                                      onSaved: (value) {
-                                                                           if (value!='') {
-                                                                             shoppingCartController
-                                                                                 .listController[index]
-                                                                                 .text =
-                                                                                 value;
-                                                                           }
-                                                                      },
-                                                                      maxLines: 1,
-                                                                      style: TextStyle(color: blackColor, fontSize: 14),
-                                                                    ),
-                                                                  ),
-                                                              ),
-                                                              Obx(
-                                                              ()=> MaterialButton(
-                                                                  padding: EdgeInsets.all(5),
-                                                                  onPressed: () {
-                                                                    if (shoppingCartController.listController[index].text!='' &&
-                                                                        shoppingCartController.buttonCheck[index] == false) {
-                                                                      shoppingCartController. buttonCheck[index] = true;
-                                                                      shoppingCartController.commendSelect[index] = true;
-                                                                      shoppingCartController.textFildValueList[index]=
-                                                                          shoppingCartController.listController[index].text;
-                                                                      print('green');
-                                                                      print( shoppingCartController.textFildValueList[index]);
-                                                                    } else {
-                                                                      shoppingCartController.commendSelect[index] = false;
-                                                                      shoppingCartController.listController[index].text='';
-                                                                      shoppingCartController.textFildValueList[index]='';
-                                                                         print('red');
-                                                                      print( shoppingCartController.textFildValueList[index]);
-                                                                    }
-
-                                                                  },
-                                                                  child: Obx(
-                                                                          ()=> Text(
-                                                                          shoppingCartController.listController[index].text!=''
-                                                                          && shoppingCartController.buttonCheck[index] == true
-
-                                                                          ? 'Entfernen'.toUpperCase()
-                                                                          : 'Hinzufügen'.toUpperCase(),
-                                                                      style: TextStyle(
-                                                                        fontSize: 12,
-                                                                        color: Colors.white,
-                                                                      ),
-                                                                    ),
-                                                                  ),
-
-                                                                  color: shoppingCartController.listController[index].text!='' &&
-                                                                      shoppingCartController.buttonCheck[index] == true
-                                                                      ? Colors.red
-                                                                      : Colors.green,
-                                                                ),
-                                                              ),
-
-                                                            ],
-                                                          ),
-                                                      ) : Text(''),
-                                                       )
-
-                                                    ],
-                                                  ),
-
-                                              );
-                                            },
-                                          ),
-
+                                                        : Text(''),
+                                                  )
+                                                ],
+                                              ),
+                                            );
+                                          },
+                                        ),
                                       ),
                                       Padding(
                                         padding: const EdgeInsets.all(20),
@@ -395,7 +505,7 @@ class _ShoppingCartsState extends State<ShoppingCarts> {
                       style: new TextStyle(color: primaryColor),
                     ),
                     onPressed: () {
-                      Get.to(()=>HomePage());
+                      Get.to(() => HomePage());
                     },
                   )),
                 ],

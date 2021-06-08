@@ -9,6 +9,7 @@ import 'package:mjam/Widgets/Rating.dart';
 import 'package:mjam/bloc/Counter_Bloc/counter_select_product.dart';
 import 'package:mjam/bloc/Order_Bloc/events.dart';
 import 'package:mjam/bloc/Order_Bloc/states.dart';
+import 'package:mjam/bottom_Navigation_bar/Shopping/shopping_Controller.dart';
 import 'package:mjam/bottom_Navigation_bar/Shopping/shopping_carts.dart';
 import 'package:mjam/models_and_data/Class/models_and_data.dart';
 import 'package:mjam/bloc/Order_Bloc/productBloc.dart';
@@ -25,6 +26,8 @@ class PageResturant extends StatefulWidget {
 
 class _PageResturantState extends State<PageResturant>
     with SingleTickerProviderStateMixin {
+  final ShoppingCartController shoppingCartController =
+      Get.put(ShoppingCartController());
   final Resturant resturant;
   _PageResturantState(this.resturant);
 
@@ -842,6 +845,20 @@ class _PageResturantState extends State<PageResturant>
                     value: 1,
                     status: EventStatus.clearState,
                   ));
+
+                  if (productBloc.setMyCart.length != 0 &&
+                      shoppingCartController.listController.length == 0) {
+                    shoppingCartController
+                        .setTextFieldController(productBloc.setMyCart.length);
+                  } else if (productBloc.setMyCart.length >
+                      shoppingCartController.listController.length) {
+                    int result = productBloc.setMyCart.length -
+                        shoppingCartController.listController.length;
+                    shoppingCartController.setTextFieldController(result);
+                  } else {
+                    print('Controller is Equal List Item!');
+                  }
+
                   Get.to(() => ShoppingCarts());
                 },
                 child: Padding(
