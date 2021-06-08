@@ -37,10 +37,8 @@ class _ShoppingCartsState extends State<ShoppingCarts> {
 */
   @override
   Widget build(BuildContext context) {
-   final CounterBloc counterBloc = BlocProvider.of<CounterBloc>(context);
-   final ProductBloc productBloc = BlocProvider.of<ProductBloc>(context);
-
-
+    final CounterBloc counterBloc = BlocProvider.of<CounterBloc>(context);
+    final ProductBloc productBloc = BlocProvider.of<ProductBloc>(context);
 
     return Scaffold(
       appBar: AppBar(
@@ -81,7 +79,7 @@ class _ShoppingCartsState extends State<ShoppingCarts> {
                     shoppingCartController.commendSelect.clear();
                     shoppingCartController.buttonCheck.clear();
                     shoppingCartController.listController.clear();
-                    setState((){});
+                    setState(() {});
                   },
                 )
               : IconButton(
@@ -131,7 +129,6 @@ class _ShoppingCartsState extends State<ShoppingCarts> {
                                           itemCount:
                                               state.setMyProductsList.length,
                                           itemBuilder: (context, index) {
-
                                             var _order = state.setMyProductsList
                                                 .elementAt(index);
                                             int count = state.orderList
@@ -170,7 +167,6 @@ class _ShoppingCartsState extends State<ShoppingCarts> {
                                                                   primaryColor,
                                                             ),
                                                             onPressed: () {
-
                                                               if (count > 1) {
                                                                 var selectProduct = state
                                                                     .orderList
@@ -193,8 +189,6 @@ class _ShoppingCartsState extends State<ShoppingCarts> {
                                                                             1,
                                                                         status:
                                                                             EventStatus.clearAll));
-
-
                                                               } else {
                                                                 var selectProduct = state
                                                                     .orderList
@@ -209,8 +203,9 @@ class _ShoppingCartsState extends State<ShoppingCarts> {
                                                                     .setMyProductsList
                                                                     .remove(
                                                                         _order);
-                                                                shoppingCartController.revomeController(index);
-
+                                                                shoppingCartController
+                                                                    .revomeController(
+                                                                        index);
                                                               }
                                                               if (state
                                                                   .setMyProductsList
@@ -224,7 +219,7 @@ class _ShoppingCartsState extends State<ShoppingCarts> {
                                                                         status:
                                                                             EventStatus.clearAll));
                                                               }
-                                                              setState((){});
+                                                              setState(() {});
                                                             },
                                                           ),
                                                           Text(
@@ -239,22 +234,21 @@ class _ShoppingCartsState extends State<ShoppingCarts> {
                                                                   primaryColor,
                                                             ),
                                                             onPressed: () {
-
-                                                                productBloc.add(AddToCart(
-                                                                    product:
-                                                                        _order,
-                                                                    order: Order(
-                                                                        totalPrise:
-                                                                            _order
-                                                                                .price,
-                                                                        quantity:
-                                                                            1,
-                                                                        product:
-                                                                            _order,
-                                                                        resturant: state
-                                                                            .orderList[index]
-                                                                            .resturant)));
-
+                                                              productBloc.add(AddToCart(
+                                                                  product:
+                                                                      _order,
+                                                                  order: Order(
+                                                                      totalPrise:
+                                                                          _order
+                                                                              .price,
+                                                                      quantity:
+                                                                          1,
+                                                                      product:
+                                                                          _order,
+                                                                      resturant: state
+                                                                          .orderList[
+                                                                              index]
+                                                                          .resturant)));
                                                             },
                                                           ),
                                                         ],
@@ -292,10 +286,10 @@ class _ShoppingCartsState extends State<ShoppingCarts> {
                                                                         color:
                                                                             greyColor))),
                                                             Obx(
-                                                              () =>
-                                                                      shoppingCartController.commendSelect[
-                                                                              index] ==
-                                                                          false
+                                                              () => shoppingCartController
+                                                                              .commendSelect[
+                                                                          index] ==
+                                                                      false
                                                                   ? Container(
                                                                       padding: EdgeInsets.only(
                                                                           left:
@@ -382,38 +376,28 @@ class _ShoppingCartsState extends State<ShoppingCarts> {
                                                                             .all(5),
                                                                     onPressed:
                                                                         () {
-                                                                          if (shoppingCartController
-                                                                              .listController[index]
-                                                                              .text !=
+                                                                      if (shoppingCartController.listController[index].text !=
                                                                               '' &&
-                                                                              shoppingCartController
-                                                                                  .buttonCheck[index] ==
-                                                                                  false) {
-                                                                            shoppingCartController
-                                                                                .buttonCheck[index] =
+                                                                          shoppingCartController.buttonCheck[index] ==
+                                                                              false) {
+                                                                        shoppingCartController.buttonCheck[index] =
                                                                             true;
-                                                                            shoppingCartController
-                                                                                .commendSelect[index] =
+                                                                        shoppingCartController.commendSelect[index] =
                                                                             true;
 
-                                                                            print(
-                                                                                'green');
-
-                                                                          } else {
-                                                                            shoppingCartController
-                                                                                .commendSelect[index] =
+                                                                        print(
+                                                                            'green');
+                                                                      } else {
+                                                                        shoppingCartController.commendSelect[index] =
                                                                             false;
-                                                                            shoppingCartController
-                                                                                .listController[index]
-                                                                                .text =
-                                                                            '';
+                                                                        shoppingCartController
+                                                                            .listController[index]
+                                                                            .text = '';
 
-                                                                            print(
-                                                                                'red');
-
-                                                                          }
-                                                                        },
-
+                                                                        print(
+                                                                            'red');
+                                                                      }
+                                                                    },
                                                                     child: Obx(
                                                                       () =>
                                                                           Text(
