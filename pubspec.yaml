@@ -31,15 +31,15 @@ dependencies:
   parallax_image: ^0.3.1+1
   intro_views_flutter: ^3.0.0
   carousel_slider: ^3.0.0
-  fluentui_icons: ^0.2.0
+  fluentui_icons: ^1.0.0
   geolocator: ^7.0.3
   geocoder: ^0.2.1
   provider: ^5.0.0
   firebase_core: ^1.0.3
-  firebase_database: ^6.1.2
+  firebase_database: ^7.1.0
   firebase_analytics: ^8.0.0 
   firebase_auth: ^1.0.3
-  cloud_firestore: ^1.0.4
+  cloud_firestore: ^2.2.1
   flutter_bloc: ^7.0.0
   bloc: ^7.0.0
   google_maps_flutter: ^2.0.3
@@ -89,10 +89,10 @@ flutter:
     - assets/mc2.jpg
     - assets/piz1.jpg
     - assets/gg1.jpg
-    - assets/ber1.jpg
-    - assets/sa1.jpg
-    - assets/sp1.jpg
-    - assets/ke1.jpg
+    - assets/ber1.png
+    - assets/sa1.png
+    - assets/sp1.png
+    - assets/ke1.png
     - assets/HornerPizzaa.jpg
     - assets/hornerpizza.png
     - assets/Milano.jpg
@@ -101,7 +101,7 @@ flutter:
     - assets/schnitzelp.png
     - assets/Ariana.jpg
     - assets/arian.jpg
-    - assets/Mehr.jpg
+    - assets/Mehr.png
     - assets/icon.png
     - assets/ico.png
     - assets/korb.png
@@ -124,6 +124,8 @@ flutter:
     - assets/google.png
     - assets/apple.png
     - assets/willkommen.jpg
+    - assets/pizza-slice.png
+    - assets/shop.png
 
 
   # An image asset can refer to one or more resolution-specific "variants", see

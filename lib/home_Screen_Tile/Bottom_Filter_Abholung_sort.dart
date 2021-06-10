@@ -10,8 +10,9 @@ class BottomFilterAbholungSort extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: EdgeInsets.only(bottom: 10),
-      height: 50,
+      color: Theme.of(context).backgroundColor,
+    padding: EdgeInsets.symmetric(vertical: 5),
+
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: <Widget>[
@@ -36,8 +37,9 @@ class BottomFilterAbholungSort extends StatelessWidget {
                   RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(10.0),
                   ),
+
                 ),
-                backgroundColor: MaterialStateProperty.all(whiteColor)),
+                backgroundColor: MaterialStateProperty.all(Theme.of(context).bottomAppBarTheme.color)),
           ),
 
           //____________________________Filter________________________________
@@ -63,7 +65,7 @@ class BottomFilterAbholungSort extends StatelessWidget {
                     borderRadius: BorderRadius.circular(10.0),
                   ),
                 ),
-                backgroundColor: MaterialStateProperty.all(whiteColor)),
+                backgroundColor: MaterialStateProperty.all(Theme.of(context).bottomAppBarTheme.color)),
           ),
 
           //__________________________Abholung________________________________
@@ -89,7 +91,7 @@ class BottomFilterAbholungSort extends StatelessWidget {
                     borderRadius: BorderRadius.circular(10.0),
                   ),
                 ),
-                backgroundColor: MaterialStateProperty.all(whiteColor)),
+                backgroundColor: MaterialStateProperty.all(Theme.of(context).bottomAppBarTheme.color)),
           ),
         ],
       ),

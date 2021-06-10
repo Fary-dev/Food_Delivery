@@ -35,12 +35,15 @@ class BanrState extends State<Banr> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      //color: Colors.grey[100],
+      color: Theme.of(context).backgroundColor,
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.center,
+
         children: <Widget>[
+          SizedBox(height: 10,),
           CarouselSlider(
+
             carouselController: _buttonCarouselController,
             options: CarouselOptions(
               onPageChanged: (i, imgeUrl) {
@@ -60,6 +63,7 @@ class BanrState extends State<Banr> {
               autoPlayAnimationDuration: Duration(milliseconds: 100),
               pauseAutoPlayOnTouch: true,
               scrollDirection: Axis.horizontal,
+
             ),
             items: imgList.map((imgUrl) {
               return Builder(builder: (BuildContext context) {
@@ -69,7 +73,9 @@ class BanrState extends State<Banr> {
                       horizontal: 15.0,
                     ),
                     decoration:
-                        BoxDecoration(borderRadius: BorderRadius.circular(5)),
+                        BoxDecoration(
+
+                            borderRadius: BorderRadius.circular(5)),
                     child: ClipRRect(
                       borderRadius: BorderRadius.all(Radius.circular(10.0)),
                       child: InkWell(
@@ -96,16 +102,16 @@ class BanrState extends State<Banr> {
               return Container(
                 width: 8,
                 height: 8,
-                margin: EdgeInsets.symmetric(horizontal: 4, vertical: 2),
+                margin: EdgeInsets.symmetric(horizontal: 4, vertical: 5),
                 decoration: BoxDecoration(
                   shape: BoxShape.circle,
-                  color: _current == i ? primaryColor : greyColor,
+                  color: _current == i ? primaryColor : Theme.of(context).hoverColor,
                 ),
               );
             }),
           ),
           SizedBox(
-            height: 10,
+            height: 5,
           )
         ],
       ),

@@ -134,7 +134,7 @@ class _LocationSetState extends State<LocationSet> {
                         ),
                       ),
                       onPressed: () {
-                        Get.to(() => HomePage());
+                        Get.off(() => HomePage());
                       },
                     )
                   ],

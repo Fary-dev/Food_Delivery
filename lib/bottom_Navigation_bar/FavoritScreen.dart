@@ -19,7 +19,8 @@ class _FavoritScreenState extends State<FavoritScreen> {
       appBar: AppBar(
         automaticallyImplyLeading: false,
         centerTitle: true,
-        backgroundColor: whiteColor,
+        backgroundColor: Theme.of(context).appBarTheme.backgroundColor,
+        brightness: Theme.of(context).appBarTheme.brightness,
         elevation: 0,
         title: Text(
           "Mein Foodo",
@@ -32,14 +33,19 @@ class _FavoritScreenState extends State<FavoritScreen> {
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 Container(
-                  padding: EdgeInsets.only(top: 150, bottom: 15),
+                  padding: EdgeInsets.only(top: 100, bottom: 65),
                   child: Container(
-                      height: 100,
-                      width: 130,
+                      height: 60,
+                      width: 60,
+                      child: ColorFiltered(
                       child: Image.asset(
-                        'assets/Favorit.png',
-                        fit: BoxFit.fitHeight,
-                      )),
+                        "assets/shop.png",
+                        fit: BoxFit.cover,
+                      ),
+                      colorFilter:
+                          ColorFilter.mode(Colors.grey, BlendMode.srcIn),
+                    ),
+                  ),
                 ),
                 Container(
                   padding: EdgeInsets.only(bottom: 20),

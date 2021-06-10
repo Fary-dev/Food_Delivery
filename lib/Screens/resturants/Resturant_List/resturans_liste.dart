@@ -1,7 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:mjam/Contants/Color.dart';
 import 'package:mjam/Screens/Resturants/Resturant_List/Resturant_List_Controller.dart';
 import 'package:mjam/models_and_data/Class/models_and_data.dart';
 import 'package:mjam/Widgets/Rating.dart';
@@ -37,7 +36,7 @@ class _ResturantListeState extends State<ResturantListe> {
                   ));
             },
             child: Container(
-              color: whiteColor,
+              color: Theme.of(context).bottomAppBarTheme.color,
               child: Column(
                 children: [
                   /////__________________ List Resturant _________/////////////////////////////7////
@@ -62,13 +61,11 @@ class _ResturantListeState extends State<ResturantListe> {
                               padding: EdgeInsets.fromLTRB(5, 3, 5, 3),
                               alignment: Alignment.center,
                               decoration: BoxDecoration(
-                                  color: whiteColor,
+                                  color: Theme.of(context).primaryColor,
                                   borderRadius:
                                       BorderRadius.all(Radius.circular(20))),
                               child: Text('${_resturant.deliveryDuration} min',
-                                  style: TextStyle(
-                                      fontSize: 12,
-                                      fontWeight: FontWeight.bold)),
+                                  style: Theme.of(context).primaryTextTheme.button.apply(fontSizeDelta: -1)),
                             ),
                             SizedBox(
                               width: 5,
@@ -77,14 +74,12 @@ class _ResturantListeState extends State<ResturantListe> {
                               padding: EdgeInsets.fromLTRB(5, 3, 5, 3),
                               alignment: Alignment.center,
                               decoration: BoxDecoration(
-                                  color: whiteColor,
+                                  color: Theme.of(context).primaryColor,
                                   borderRadius:
                                       BorderRadius.all(Radius.circular(20))),
                               child: Text(
                                   '${(_resturant.distance / 1000).toStringAsFixed(1)} km',
-                                  style: TextStyle(
-                                      fontSize: 12,
-                                      fontWeight: FontWeight.bold)),
+                                  style: Theme.of(context).primaryTextTheme.button.apply(fontSizeDelta: -1)),
                             ),
                           ],
                         ),
@@ -156,8 +151,7 @@ class _ResturantListeState extends State<ResturantListe> {
                                   _resturant.ratingResturant.toString(),
                                   textAlign: TextAlign.center,
                                   textScaleFactor: 1.0,
-                                  style: const TextStyle(
-                                      color: blackColor, fontSize: 11),
+                                  style: Theme.of(context).primaryTextTheme.headline3,
                                 ),
                               ),
                               Container(
@@ -177,12 +171,11 @@ class _ResturantListeState extends State<ResturantListe> {
                                 alignment: Alignment.topLeft,
                                 margin:
                                     const EdgeInsets.only(left: 15, top: 11),
-                                child: const Text(
+                                child:  Text(
                                   "Liefergebühr",
                                   textAlign: TextAlign.center,
                                   textScaleFactor: 1.0,
-                                  style: TextStyle(
-                                      color: blackColor, fontSize: 11),
+                                  style:Theme.of(context).primaryTextTheme.headline3,
                                 ),
                               ),
                               Container(
@@ -190,7 +183,7 @@ class _ResturantListeState extends State<ResturantListe> {
                                   "\€ ${_resturant.deliveryPrice.toString().padRight(4, '0')}",
                                   textAlign: TextAlign.center,
                                   textScaleFactor: 1.0,
-                                  style: const TextStyle(color: blackColor),
+                                  style: Theme.of(context).primaryTextTheme.headline3,
                                 ),
                               )
                             ],
@@ -204,12 +197,11 @@ class _ResturantListeState extends State<ResturantListe> {
                                 alignment: Alignment.topLeft,
                                 margin: const EdgeInsets.only(
                                     left: 15, top: 11, right: 15),
-                                child: const Text(
+                                child:  Text(
                                   "Minimum",
                                   textAlign: TextAlign.center,
                                   textScaleFactor: 1.0,
-                                  style: TextStyle(
-                                      color: blackColor, fontSize: 11),
+                                  style: Theme.of(context).primaryTextTheme.headline3,
                                 ),
                               ),
                               Container(
@@ -217,7 +209,7 @@ class _ResturantListeState extends State<ResturantListe> {
                                   "\€ ${_resturant.minimumOrder.toString().padRight(5, '0')}",
                                   textAlign: TextAlign.center,
                                   textScaleFactor: 1.0,
-                                  style: const TextStyle(color: blackColor),
+                                  style: Theme.of(context).primaryTextTheme.headline3,
                                 ),
                               )
                             ],

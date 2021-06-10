@@ -11,6 +11,7 @@ import 'package:mjam/Widgets/BottomNavBarWidget.dart';
 // ignore: must_be_immutable
 class Profil extends StatefulWidget {
   Profil({Key key}) : super(key: key);
+
   @override
   _ProfilState createState() => _ProfilState();
 }
@@ -34,6 +35,7 @@ class _ProfilState extends State<Profil> {
         child: SafeArea(
           child: Scaffold(
               appBar: AppBar(
+
                 automaticallyImplyLeading: false,
                 actions: signInOrNot == true
                     ? [
@@ -55,13 +57,13 @@ class _ProfilState extends State<Profil> {
                       ]
                     : null,
                 centerTitle: true,
-                backgroundColor: whiteColor,
                 elevation: 0,
                 title: Text(
                   googleUserName == null ? 'Profil' : googleUserName,
                   style: Theme.of(context).primaryTextTheme.headline6,
                 ),
                 bottom: TabBar(
+
                   labelStyle: TextStyle(
                       fontSize: 12,
                       fontWeight: FontWeight.w600,

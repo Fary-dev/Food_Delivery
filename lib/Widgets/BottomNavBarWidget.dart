@@ -59,9 +59,9 @@ class _BottomNavBarWidgetState extends State<BottomNavBarWidget> {
         ),
         bottomNavigationBar: BottomNavigationBar(
           type: BottomNavigationBarType.fixed,
-          backgroundColor: whiteColor,
+          backgroundColor: Theme.of(context).primaryColor,
           selectedItemColor: primaryColor,
-          unselectedItemColor: blackColor,
+          unselectedItemColor: Theme.of(context).primaryIconTheme.color,
           items: [
             BottomNavigationBarItem(
               // ignore: deprecated_member_use

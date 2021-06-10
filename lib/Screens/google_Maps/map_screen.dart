@@ -159,7 +159,7 @@ class _MapScreenState extends State<MapScreen> {
                                       Container(
                                         height: 20,
                                         width: 85,
-                                        child: rating(20.0, 80.0, 15.0),
+                                        child: rating(20.0, 80.0, 15.0,Theme.of(context).primaryColor),
                                       )
                                     ],
                                   ),
@@ -172,7 +172,7 @@ class _MapScreenState extends State<MapScreen> {
                                             color: greyColor, fontSize: 10),
                                       ),
                                       Text(
-                                        '${resturants[index].distance} km',
+                                        '${(resturants[index].distance/1000).toStringAsFixed(1)} km',
                                         style: TextStyle(
                                             fontSize: 11,
                                             fontWeight: FontWeight.bold),

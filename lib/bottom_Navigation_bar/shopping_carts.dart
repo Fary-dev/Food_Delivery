@@ -176,31 +176,38 @@ class _ShoppingCartsState extends State<ShoppingCarts> {
             )
           : Center(
               child: Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
                 children: <Widget>[
-                  Container(
-                    margin: EdgeInsets.all(60),
-                    child: Text('Bitte lege etwas in den Warenkorb.'),
+                  Text(
+                    'Bitte lege etwas in den Warenkorb.',
+                    style: Theme.of(context).primaryTextTheme.headline6,
                   ),
                   Container(
                     height: 80,
                     width: 80,
                     margin: EdgeInsets.all(0),
-                    child: Image.asset('assets/korb.png'),
+                    child: ColorFiltered(
+                      child: Image.asset(
+                        "assets/korb.png",
+                        fit: BoxFit.cover,
+                      ),
+                      colorFilter:
+                          ColorFilter.mode(Colors.grey, BlendMode.srcIn),
+                    ),
                   ),
-                  Container(
-                      child: CupertinoButton(
-                    child: new Text(
+                  TextButton(
+                    onPressed: () {
+                      Get.to(() => HomePage());
+                    },
+                    child: Text(
                       "Zur Resturantliste",
                       textAlign: TextAlign.center,
-                      style: new TextStyle(color: primaryColor),
+                      style: Theme.of(context)
+                          .primaryTextTheme
+                          .headline6
+                          .apply(color: primaryColor, fontSizeDelta: 2),
                     ),
-                    onPressed: () {
-                      Navigator.push(context,
-                          MaterialPageRoute(builder: (context) {
-                        return HomePage();
-                      }));
-                    },
-                  )),
+                  ),
                 ],
               ),
             ),
