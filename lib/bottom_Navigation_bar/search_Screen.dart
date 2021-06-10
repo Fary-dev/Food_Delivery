@@ -13,7 +13,6 @@ class Searching extends StatefulWidget {
 }
 
 class _SearchingState extends State<Searching> {
-
   TextEditingController _textEditingController = TextEditingController();
   List<Resturant> res = [];
   List searchList = [];
@@ -35,7 +34,6 @@ class _SearchingState extends State<Searching> {
 
   @override
   Widget build(BuildContext context) {
-
     return SafeArea(
       child: Scaffold(
         appBar: AppBar(
@@ -46,7 +44,7 @@ class _SearchingState extends State<Searching> {
             children: [
               IconButton(
                   onPressed: () {
-                    Get.to(()=>BottomNavBarWidget());
+                    Get.to(() => BottomNavBarWidget());
                   },
                   icon: Icon(
                     Icons.arrow_back,
@@ -56,11 +54,13 @@ class _SearchingState extends State<Searching> {
                 child: Padding(
                   padding: const EdgeInsets.all(10.0),
                   child: TextField(
-                    style:Theme.of(context).primaryTextTheme.headline3.apply(fontSizeDelta: 2) ,
+                    style: Theme.of(context)
+                        .primaryTextTheme
+                        .headline3
+                        .apply(fontSizeDelta: 2),
                     keyboardType: TextInputType.text,
                     controller: _textEditingController,
                     decoration: InputDecoration(
-
                       filled: true,
                       contentPadding: EdgeInsets.symmetric(horizontal: 10.0),
                       fillColor: Theme.of(context).scaffoldBackgroundColor,
@@ -106,11 +106,11 @@ class _SearchingState extends State<Searching> {
                             PageResturant(resturant: listViewSearch)));
               },
               child: Card(
-                // color: Theme.of(context).primaryColor,
+                color: Theme.of(context).cardColor,
                 child: Row(
                   children: [
                     Padding(
-                      padding: const EdgeInsets.all( 10.0),
+                      padding: const EdgeInsets.all(10.0),
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
