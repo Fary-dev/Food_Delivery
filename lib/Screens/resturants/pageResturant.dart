@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get/get.dart';
 import 'package:mjam/Contants/Color.dart';
-import 'package:mjam/Widgets/Search/search.dart';
 import 'package:mjam/Widgets/Rating.dart';
 import 'package:mjam/Widgets/search.dart';
 import 'package:mjam/bloc/Counter_Bloc/counter_select_product.dart';
