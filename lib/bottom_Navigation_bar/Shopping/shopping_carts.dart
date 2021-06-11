@@ -52,7 +52,7 @@ class _ShoppingCartsState extends State<ShoppingCarts> {
               ),
         title: Text(
           "Deine Warenkörbe",
-          style: Theme.of(context).primaryTextTheme.headline6,
+          style: Theme.of(context).primaryTextTheme.button,
         ),
         actions: [
           productBloc.cartOrder.length != 0

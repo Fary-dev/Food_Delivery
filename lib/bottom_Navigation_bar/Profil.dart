@@ -8,7 +8,6 @@ import 'package:mjam/Screens/Login_and_SignUp/auch_with_Google.dart';
 import 'package:mjam/Screens/Login_and_SignUp/login_screen.dart';
 import 'package:mjam/Screens/Login_and_SignUp/sign_up_screen.dart';
 
-// ignore: must_be_immutable
 class Profil extends StatefulWidget {
   Profil({Key key}) : super(key: key);
 
@@ -52,13 +51,10 @@ class _ProfilState extends State<Profil> {
                 elevation: 0,
                 title: Text(
                   googleUserName == null ? 'Profil' : googleUserName,
-                  style: Theme.of(context).primaryTextTheme.headline6,
+                  style: Theme.of(context).primaryTextTheme.button,
                 ),
                 bottom: TabBar(
-                  labelStyle: TextStyle(
-                      fontSize: 12,
-                      fontWeight: FontWeight.w600,
-                      letterSpacing: 0.4),
+                  labelStyle: Theme.of(context).primaryTextTheme.headline2,
                   unselectedLabelColor: greyColor,
                   labelColor: primaryColor,
                   indicatorColor: primaryColor,
@@ -198,9 +194,9 @@ class _ProfilState extends State<Profil> {
                         child: Text(
                           'Wilkommen',
                           style: Theme.of(context)
-                              .textTheme
-                              .headline3
-                              .apply(fontSizeDelta: -20),
+                              .primaryTextTheme
+                              .headline2
+                              .copyWith(fontSize: 20),
                         ),
                       ),
                 Column(
@@ -218,10 +214,7 @@ class _ProfilState extends State<Profil> {
                     child: Text(
                       'Derzeit sind keine Updates verfügbar. Bitte \nspäter noch einmal versuchen.',
                       textAlign: TextAlign.center,
-                      style: Theme.of(context)
-                          .textTheme
-                          .headline6
-                          .apply(fontSizeDelta: -6),
+                      style: Theme.of(context).primaryTextTheme.headline3,
                     ),
                   ),
                 ),
@@ -243,8 +236,7 @@ class _ProfilState extends State<Profil> {
           alignment: Alignment.centerLeft,
           child: Text(
             text,
-            style:
-                Theme.of(context).textTheme.headline3.apply(fontSizeDelta: -30),
+            style: Theme.of(context).primaryTextTheme.headline2,
           ),
         ),
         onPressed: function,

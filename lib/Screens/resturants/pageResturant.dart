@@ -104,42 +104,37 @@ class _PageResturantState extends State<PageResturant>
                         fit: BoxFit.fitWidth,
                       ),
                     ),
-                    Padding(
-                      padding: EdgeInsets.all(0),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Container(
-                            padding: EdgeInsets.all(15),
-                            alignment: Alignment.topLeft,
-                            child: Text(
-                              resturant.nameResturant,
-                              textAlign: TextAlign.left,
-                              style: Theme.of(context)
-                                  .primaryTextTheme
-                                  .headline2
-                                  .apply(fontSizeDelta: 7),
-                            ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Container(
+                          padding: EdgeInsets.all(15),
+                          alignment: Alignment.topLeft,
+                          child: Text(
+                            resturant.nameResturant,
+                            textAlign: TextAlign.left,
+                            textScaleFactor: 1.5,
+                            style: Theme.of(context).primaryTextTheme.headline2,
                           ),
-                          Container(
-                            padding: EdgeInsets.all(10),
-                            child: IconButton(
-                              icon: Icon(
-                                Icons.info_outline,
-                                size: 38,
-                              ),
-                              onPressed: () {
-                                Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                      builder: (context) =>
-                                          InfoResturant(resturant),
-                                    ));
-                              },
+                        ),
+                        Container(
+                          padding: EdgeInsets.all(10),
+                          child: IconButton(
+                            icon: Icon(
+                              Icons.info_outline,
+                              size: 38,
                             ),
+                            onPressed: () {
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) =>
+                                        InfoResturant(resturant),
+                                  ));
+                            },
                           ),
-                        ],
-                      ),
+                        ),
+                      ],
                     ),
                     Container(
                       padding: EdgeInsets.only(left: 15),
@@ -237,8 +232,7 @@ class _PageResturantState extends State<PageResturant>
               expandedHeight: 400.0,
 //========================================= TabBar =============================
               bottom: TabBar(
-                labelStyle:
-                    TextStyle(fontSize: 12, fontWeight: FontWeight.w500),
+                labelStyle: Theme.of(context).primaryTextTheme.button,
                 isScrollable: true,
                 indicatorColor: primaryColor,
                 labelColor: blackColor,
@@ -787,8 +781,9 @@ class _PageResturantState extends State<PageResturant>
                                   children: [
                                     Text(
                                       product.nameProduct,
-                                      style: TextStyle(
-                                          fontWeight: FontWeight.w400),
+                                      style: Theme.of(context)
+                                          .primaryTextTheme
+                                          .headline2,
                                     ),
                                   ],
                                 ),
@@ -796,8 +791,9 @@ class _PageResturantState extends State<PageResturant>
                                   children: [
                                     Text(
                                       '\€ ${product.price.toString().padRight(4, "0")}',
-                                      style: TextStyle(
-                                          fontWeight: FontWeight.w400),
+                                      style: Theme.of(context)
+                                          .primaryTextTheme
+                                          .headline2,
                                     ),
                                     SizedBox(width: 10),
                                     Stack(

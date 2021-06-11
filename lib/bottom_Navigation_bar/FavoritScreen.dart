@@ -24,7 +24,7 @@ class _FavoritScreenState extends State<FavoritScreen> {
         elevation: 0,
         title: Text(
           "Mein Foodo",
-          style: Theme.of(context).primaryTextTheme.headline6,
+          style: Theme.of(context).primaryTextTheme.button,
         ),
       ),
       body: signInOrNot == false
