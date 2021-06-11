@@ -4,8 +4,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get/get.dart';
 import 'package:mjam/Contants/Color.dart';
-import 'package:mjam/Widgets/search.dart';
+import 'package:mjam/Widgets/Search/search.dart';
 import 'package:mjam/Widgets/Rating.dart';
+import 'package:mjam/Widgets/search.dart';
 import 'package:mjam/bloc/Counter_Bloc/counter_select_product.dart';
 import 'package:mjam/bloc/Order_Bloc/events.dart';
 import 'package:mjam/bloc/Order_Bloc/states.dart';
@@ -77,18 +78,25 @@ class _PageResturantState extends State<PageResturant>
               leading: BottomAppBar(
                 elevation: 0,
                 color: Colors.transparent,
-                child: IconButton(
-                    icon: Icon(
-                      Icons.arrow_back,
-                      size: 30,
-                      color: primaryColor,
-                    ),
-                    onPressed: () {
-                      Navigator.of(context).pop();
-                    }),
+                child: Container(
+                  height: 30,
+                  width: 30,
+                  decoration: BoxDecoration(
+                      shape: BoxShape.circle,
+                      color: Theme.of(context).primaryColor),
+                  child: IconButton(
+                      icon: Icon(
+                        Icons.arrow_back,
+                        size: 30,
+                        color: primaryColor,
+                      ),
+                      onPressed: () {
+                        Navigator.of(context).pop();
+                      }),
+                ),
               ),
               pinned: true,
-              backgroundColor: whiteColor,
+              backgroundColor: Theme.of(context).bottomAppBarTheme.color,
               flexibleSpace: FlexibleSpaceBar(
                 collapseMode: CollapseMode.pin,
                 background: Column(
@@ -99,7 +107,7 @@ class _PageResturantState extends State<PageResturant>
                       width: double.infinity,
                       color: greyColor,
                       child: Image.asset(
-                        resturant.photoResturant.toString(),
+                        resturant.photoResturant,
                         width: double.infinity,
                         fit: BoxFit.fitWidth,
                       ),
@@ -125,12 +133,7 @@ class _PageResturantState extends State<PageResturant>
                               size: 38,
                             ),
                             onPressed: () {
-                              Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (context) =>
-                                        InfoResturant(resturant),
-                                  ));
+                              Get.to(() => InfoResturant(resturant));
                             },
                           ),
                         ),
@@ -151,12 +154,7 @@ class _PageResturantState extends State<PageResturant>
                           Text(
                             resturant.ratingResturant.toString(),
                             textAlign: TextAlign.left,
-                            style: TextStyle(
-                              decoration: TextDecoration.none,
-                              fontSize: 10,
-                              color: blackColor,
-                              fontWeight: FontWeight.w500,
-                            ),
+                            style: Theme.of(context).primaryTextTheme.headline3,
                           ),
                         ],
                       ),
@@ -180,13 +178,8 @@ class _PageResturantState extends State<PageResturant>
                             child: Text(
                               " ca.${resturant.deliveryDuration}min",
                               textAlign: TextAlign.center,
-                              style: TextStyle(
-                                letterSpacing: 0.4,
-                                decoration: TextDecoration.none,
-                                fontSize: 11,
-                                color: blackColor,
-                                fontWeight: FontWeight.w500,
-                              ),
+                              style:
+                                  Theme.of(context).primaryTextTheme.headline3,
                             ),
                           ),
                           SizedBox(width: 10),
@@ -201,13 +194,8 @@ class _PageResturantState extends State<PageResturant>
                             child: Text(
                               "${(resturant.distance / 1000).toStringAsFixed(1)} km",
                               textAlign: TextAlign.center,
-                              style: TextStyle(
-                                letterSpacing: 0.4,
-                                decoration: TextDecoration.none,
-                                fontSize: 11,
-                                color: blackColor,
-                                fontWeight: FontWeight.w500,
-                              ),
+                              style:
+                                  Theme.of(context).primaryTextTheme.headline3,
                             ),
                           ),
                         ],
@@ -218,7 +206,7 @@ class _PageResturantState extends State<PageResturant>
                       borderOnForeground: false,
                       margin: EdgeInsets.only(top: 10),
                       child: Container(
-                        color: greyLightColor,
+                        color: Theme.of(context).backgroundColor,
                         child: Container(
                           color: whiteColor,
                           margin: EdgeInsets.only(top: 8, bottom: 8),
@@ -232,12 +220,15 @@ class _PageResturantState extends State<PageResturant>
               expandedHeight: 400.0,
 //========================================= TabBar =============================
               bottom: TabBar(
-                labelStyle: Theme.of(context).primaryTextTheme.button,
+                labelStyle: Theme.of(context).tabBarTheme.labelStyle,
                 isScrollable: true,
                 indicatorColor: primaryColor,
-                labelColor: blackColor,
-                unselectedLabelColor: blackColor,
+                labelColor: Theme.of(context).tabBarTheme.labelColor,
+                unselectedLabelColor:
+                    Theme.of(context).tabBarTheme.unselectedLabelColor,
                 indicatorWeight: 4,
+                unselectedLabelStyle:
+                    Theme.of(context).tabBarTheme.unselectedLabelStyle,
                 tabs: [
                   for (int i = 0; i < resturant.products.length; i++)
                     Tab(text: resturant.products[i].nameProducts),

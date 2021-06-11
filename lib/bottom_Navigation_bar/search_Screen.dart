@@ -38,7 +38,6 @@ class _SearchingState extends State<Searching> {
       child: Scaffold(
         appBar: AppBar(
           backgroundColor: Theme.of(context).appBarTheme.backgroundColor,
-          brightness: Theme.of(context).appBarTheme.brightness,
           automaticallyImplyLeading: false,
           flexibleSpace: Row(
             children: [
@@ -60,7 +59,9 @@ class _SearchingState extends State<Searching> {
                         .apply(fontSizeDelta: 2),
                     keyboardType: TextInputType.text,
                     controller: _textEditingController,
+                    textAlignVertical: TextAlignVertical.center,
                     decoration: InputDecoration(
+                      hintTextDirection: TextDirection.ltr,
                       filled: true,
                       contentPadding: EdgeInsets.symmetric(horizontal: 10.0),
                       fillColor: Theme.of(context).scaffoldBackgroundColor,
@@ -79,7 +80,7 @@ class _SearchingState extends State<Searching> {
                                 color: primaryColor,
                               ),
                             )
-                          : null,
+                          : Icon(Icons.search, color: Colors.grey[500]),
                       border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(30)),
                     ),

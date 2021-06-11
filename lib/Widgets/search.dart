@@ -1,35 +1,51 @@
 import 'package:flutter/material.dart';
 import 'package:mjam/Contants/Color.dart';
 
-class Search extends StatelessWidget {
+class Search extends StatefulWidget {
+  @override
+  State<Search> createState() => _SearchState();
+}
+
+class _SearchState extends State<Search> {
+  TextEditingController textEditingController = TextEditingController();
+  @override
+  void dispose() {
+    textEditingController.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return TextField(
-      onChanged: (String value) {
-        print(value);
-      },
+      style:
+          Theme.of(context).primaryTextTheme.headline3.apply(fontSizeDelta: 2),
+      keyboardType: TextInputType.text,
+      controller: textEditingController,
+      textAlignVertical: TextAlignVertical.center,
       decoration: InputDecoration(
+        filled: true,
+        contentPadding: EdgeInsets.symmetric(horizontal: 15.0),
+        fillColor: Theme.of(context).bottomAppBarTheme.color,
         hintText: "Gericht suchen...",
-        hintStyle: TextStyle(
-          fontStyle: FontStyle.italic,
-          fontSize: 12,
-          letterSpacing: 0.4,
-        ),
-        prefixIcon: iconBtn(),
+        hintStyle: Theme.of(context).primaryTextTheme.subtitle1,
+        suffixIcon: textEditingController.text != ''
+            ? IconButton(
+                onPressed: () {
+                  textEditingController.clear();
+                  setState(() {});
+                },
+                icon: Icon(
+                  Icons.cancel_outlined,
+                  size: 15,
+                  color: primaryColor,
+                ),
+              )
+            : Icon(Icons.search, color: Colors.grey[600]),
         border: InputBorder.none,
       ),
+      onChanged: (value) {
+        setState(() {});
+      },
     );
-  }
-
-  Widget iconBtn() {
-    return IconButton(
-        icon: Icon(
-          Icons.search,
-          size: 40,
-          color: primaryColor,
-        ),
-        onPressed: () {
-          print('Buttom OnPressed!!');
-        });
   }
 }
