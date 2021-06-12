@@ -37,7 +37,7 @@ class _ShoppingCartsState extends State<ShoppingCarts> {
         leading: productBloc.cartOrder.length != 0
             ? IconButton(
                 icon: Icon(
-                  Icons.menu,
+                  CupertinoIcons.arrow_left,
                   color: primaryColor,
                 ),
                 onPressed: () {
@@ -47,7 +47,7 @@ class _ShoppingCartsState extends State<ShoppingCarts> {
                 },
               )
             : Icon(
-                Icons.menu,
+                CupertinoIcons.arrow_left,
                 color: Colors.transparent,
               ),
         title: Text(
@@ -328,6 +328,15 @@ class _ShoppingCartsState extends State<ShoppingCarts> {
                                                                             10.0),
                                                                     child:
                                                                         TextFormField(
+                                                                      textAlignVertical:
+                                                                          TextAlignVertical
+                                                                              .bottom,
+                                                                      style: Theme.of(
+                                                                              context)
+                                                                          .primaryTextTheme
+                                                                          .headline3
+                                                                          .copyWith(
+                                                                              fontSize: 14),
                                                                       controller:
                                                                           shoppingCartController
                                                                               .listController[index],
@@ -350,11 +359,6 @@ class _ShoppingCartsState extends State<ShoppingCarts> {
                                                                       },
                                                                       maxLines:
                                                                           1,
-                                                                      style: TextStyle(
-                                                                          color:
-                                                                              blackColor,
-                                                                          fontSize:
-                                                                              14),
                                                                     ),
                                                                   ),
                                                                 ),
@@ -429,25 +433,42 @@ class _ShoppingCartsState extends State<ShoppingCarts> {
                                         padding: const EdgeInsets.all(20),
                                         child: Container(
                                           child: state.orderList.length == 0
-                                              ? Text(
-                                                  '0.00',
-                                                  style: TextStyle(
-                                                      color: primaryColor,
-                                                      fontSize: 30),
-                                                )
-                                              : Center(
-                                                  child: Text(
-                                                    state.orderList
-                                                        .reduce((x, y) => Order(
-                                                            totalPrise: x
-                                                                    .totalPrise +
-                                                                y.totalPrise))
-                                                        .totalPrise
-                                                        .toStringAsFixed(2),
-                                                    style: TextStyle(
-                                                        color: primaryColor,
-                                                        fontSize: 30),
-                                                  ),
+                                              ? Text('')
+                                              : Row(
+                                                  children: [
+                                                    RichText(
+                                                      text: TextSpan(children: [
+                                                        TextSpan(
+                                                            text: 'Gesamt',
+                                                            style: Theme.of(
+                                                                    context)
+                                                                .primaryTextTheme
+                                                                .headline2
+                                                                .copyWith(
+                                                                    fontSize:
+                                                                        18)),
+                                                        TextSpan(text: ' '),
+                                                        TextSpan(
+                                                          text: '(inkl.Mwst.)',
+                                                          style: Theme.of(
+                                                                  context)
+                                                              .primaryTextTheme
+                                                              .headline3
+                                                              .copyWith(
+                                                                  fontSize: 10),
+                                                        ),
+                                                      ]),
+                                                    ),
+                                                    Spacer(),
+                                                    Text(
+                                                      '${state.orderList.reduce((x, y) => Order(totalPrise: x.totalPrise + y.totalPrise)).totalPrise.toStringAsFixed(2)} \€',
+                                                      style: Theme.of(context)
+                                                          .primaryTextTheme
+                                                          .bodyText2
+                                                          .copyWith(
+                                                              fontSize: 18),
+                                                    ),
+                                                  ],
                                                 ),
                                         ),
                                       )

@@ -33,8 +33,9 @@ class _InfoResturantState extends State<InfoResturant> {
         headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
           return [
             SliverAppBar(
+              automaticallyImplyLeading: false,
               expandedHeight: 350.0,
-              elevation: 20,
+              elevation: 0,
               pinned: true,
               backgroundColor: Theme.of(context).bottomAppBarTheme.color,
               actions: [

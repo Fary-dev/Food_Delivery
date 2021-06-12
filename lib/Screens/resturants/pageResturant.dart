@@ -287,7 +287,8 @@ class _PageResturantState extends State<PageResturant>
                                                 .size
                                                 .width,
                                             decoration: BoxDecoration(
-                                              color: whiteColor,
+                                              color: Theme.of(context)
+                                                  .scaffoldBackgroundColor,
                                               borderRadius: BorderRadius.only(
                                                 topRight: Radius.circular(
                                                   20,
@@ -342,8 +343,8 @@ class _PageResturantState extends State<PageResturant>
                                                                 ),
                                                                 IconButton(
                                                                   icon: Icon(
-                                                                    Icons
-                                                                        .cancel,
+                                                                    CupertinoIcons
+                                                                        .clear_circled_solid,
                                                                   ),
                                                                   onPressed:
                                                                       () {
@@ -355,18 +356,19 @@ class _PageResturantState extends State<PageResturant>
                                                             ),
                                                             Text(
                                                               'subTitle',
-                                                              style: TextStyle(
-                                                                fontSize: 12,
-                                                                color:
-                                                                    blackColor,
-                                                              ),
-                                                            ),
-                                                            SizedBox(
-                                                              height: 3,
+                                                              style: Theme.of(
+                                                                      context)
+                                                                  .primaryTextTheme
+                                                                  .subtitle1,
                                                             ),
                                                           ],
                                                         ),
                                                       ),
+                                                    ),
+                                                    Container(
+                                                      color: greyColor,
+                                                      width: double.infinity,
+                                                      height: 2,
                                                     ),
 
 //======================================================================== Allergene & Zusatzstoffe =======================
@@ -381,8 +383,8 @@ class _PageResturantState extends State<PageResturant>
                                                         child: Row(
                                                           children: [
                                                             Icon(
-                                                              Icons
-                                                                  .error_outline_sharp,
+                                                              CupertinoIcons
+                                                                  .info,
                                                               color:
                                                                   primaryColor,
                                                             ),
@@ -402,66 +404,62 @@ class _PageResturantState extends State<PageResturant>
                                                       ),
                                                     ),
                                                     Container(
+                                                      color: greyColor,
                                                       width: double.infinity,
-                                                      height: 10,
-                                                      color: greyLightColor,
+                                                      height: 2,
                                                     ),
 //=================================================================================== Extraauflagen =======================
                                                     Expanded(
                                                       flex: 1,
-                                                      child: Padding(
-                                                        padding:
-                                                            const EdgeInsets
-                                                                .symmetric(
-                                                          vertical: 8,
-                                                        ),
-                                                        child: MaterialButton(
-                                                          onPressed: () {},
-                                                          child: Row(
-                                                            mainAxisAlignment:
-                                                                MainAxisAlignment
-                                                                    .spaceBetween,
-                                                            children: [
-                                                              Column(
-                                                                crossAxisAlignment:
-                                                                    CrossAxisAlignment
-                                                                        .start,
-                                                                children: [
-                                                                  Text(
-                                                                    '1. Extraauflagen',
-                                                                    style:
-                                                                        TextStyle(
-                                                                      fontSize:
-                                                                          14,
-                                                                    ),
+                                                      child: MaterialButton(
+                                                        onPressed: () {},
+                                                        child: Row(
+                                                          mainAxisAlignment:
+                                                              MainAxisAlignment
+                                                                  .spaceBetween,
+                                                          children: [
+                                                            Column(
+                                                              mainAxisAlignment:
+                                                                  MainAxisAlignment
+                                                                      .center,
+                                                              crossAxisAlignment:
+                                                                  CrossAxisAlignment
+                                                                      .start,
+                                                              children: [
+                                                                Text(
+                                                                  '1. Extraauflagen',
+                                                                  style:
+                                                                      TextStyle(
+                                                                    fontSize:
+                                                                        14,
                                                                   ),
-                                                                  Text(
-                                                                    'Optional',
-                                                                    style:
-                                                                        TextStyle(
-                                                                      fontSize:
-                                                                          12,
-                                                                      color:
-                                                                          blackColor,
-                                                                    ),
-                                                                  ),
-                                                                ],
-                                                              ),
-                                                              Icon(
-                                                                Icons
-                                                                    .keyboard_arrow_down_outlined,
-                                                                color:
-                                                                    primaryColor,
-                                                                size: 50,
-                                                              )
-                                                            ],
-                                                          ),
+                                                                ),
+                                                                SizedBox(
+                                                                  height: 5,
+                                                                ),
+                                                                Text(
+                                                                  'Optional',
+                                                                  style: Theme.of(
+                                                                          context)
+                                                                      .primaryTextTheme
+                                                                      .subtitle1,
+                                                                ),
+                                                              ],
+                                                            ),
+                                                            Icon(
+                                                              CupertinoIcons
+                                                                  .chevron_down,
+                                                              color:
+                                                                  primaryColor,
+                                                              size: 30,
+                                                            )
+                                                          ],
                                                         ),
                                                       ),
                                                     ),
 
                                                     Container(
-                                                      color: greyLightColor,
+                                                      color: greyColor,
                                                       height: 2,
                                                       width:
                                                           MediaQuery.of(context)
@@ -472,40 +470,34 @@ class _PageResturantState extends State<PageResturant>
 //============================================================================ Kommentare hinzufügen =======================
                                                     Expanded(
                                                       flex: 1,
-                                                      child: Padding(
-                                                        padding:
-                                                            const EdgeInsets
-                                                                .symmetric(
-                                                          vertical: 10,
-                                                        ),
-                                                        // ignore: deprecated_member_use
-                                                        child: FlatButton(
-                                                          onPressed: () {},
-                                                          child: Row(
-                                                            children: [
-                                                              Icon(
-                                                                Icons
-                                                                    .comment_rounded,
-                                                                size: 25,
+                                                      child: MaterialButton(
+                                                        onPressed: () {},
+                                                        child: Row(
+                                                          children: [
+                                                            Icon(
+                                                              CupertinoIcons
+                                                                  .bubble_right,
+                                                              size: 25,
+                                                              color:
+                                                                  primaryColor,
+                                                            ),
+                                                            SizedBox(
+                                                              width: 5,
+                                                            ),
+                                                            Text(
+                                                              'Kommentar hinzufügen',
+                                                              style: TextStyle(
                                                                 color:
                                                                     primaryColor,
+                                                                fontSize: 14,
                                                               ),
-                                                              Text(
-                                                                'Kommentar hinzufügen',
-                                                                style:
-                                                                    TextStyle(
-                                                                  color:
-                                                                      primaryColor,
-                                                                  fontSize: 14,
-                                                                ),
-                                                              ),
-                                                            ],
-                                                          ),
+                                                            ),
+                                                          ],
                                                         ),
                                                       ),
                                                     ),
                                                     Container(
-                                                      color: greyLightColor,
+                                                      color: greyColor,
                                                       height: 2,
                                                       width:
                                                           MediaQuery.of(context)
@@ -522,8 +514,8 @@ class _PageResturantState extends State<PageResturant>
                                                         children: [
                                                           IconButton(
                                                             icon: Icon(
-                                                              Icons
-                                                                  .do_disturb_on_outlined,
+                                                              CupertinoIcons
+                                                                  .minus_circle,
                                                               size: 40,
                                                               color: counterBloc
                                                                           .state <
@@ -578,8 +570,8 @@ class _PageResturantState extends State<PageResturant>
                                                           ),
                                                           IconButton(
                                                             icon: Icon(
-                                                              Icons
-                                                                  .add_circle_outline_sharp,
+                                                              CupertinoIcons
+                                                                  .add_circled,
                                                               size: 40,
                                                               color:
                                                                   primaryColor,
@@ -721,8 +713,8 @@ class _PageResturantState extends State<PageResturant>
                                                                     .spaceBetween,
                                                             children: [
                                                               Icon(
-                                                                Icons
-                                                                    .shopping_bag,
+                                                                CupertinoIcons
+                                                                    .bag,
                                                                 color:
                                                                     whiteColor,
                                                                 size: 35,
