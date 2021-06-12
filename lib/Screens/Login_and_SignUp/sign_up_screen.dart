@@ -59,7 +59,6 @@ class _SignUpScreenState extends State<SignUpScreen> {
         body: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 20),
           child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
             children: [
               SizedBox(
                 height: 10,
@@ -332,9 +331,6 @@ class _SignUpScreenState extends State<SignUpScreen> {
                           .button
                           .copyWith(fontSize: 14, color: Color(0xFFFFFFFF))),
                 ),
-              ),
-              SizedBox(
-                height: 50,
               ),
             ],
           ),

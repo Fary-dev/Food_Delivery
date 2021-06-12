@@ -65,7 +65,10 @@ class _ResturantListeState extends State<ResturantListe> {
                                   borderRadius:
                                       BorderRadius.all(Radius.circular(20))),
                               child: Text('${_resturant.deliveryDuration} min',
-                                  style: Theme.of(context).primaryTextTheme.button.apply(fontSizeDelta: -1)),
+                                  style: Theme.of(context)
+                                      .primaryTextTheme
+                                      .button
+                                      .apply(fontSizeDelta: -1)),
                             ),
                             SizedBox(
                               width: 5,
@@ -79,7 +82,10 @@ class _ResturantListeState extends State<ResturantListe> {
                                       BorderRadius.all(Radius.circular(20))),
                               child: Text(
                                   '${(_resturant.distance / 1000).toStringAsFixed(1)} km',
-                                  style: Theme.of(context).primaryTextTheme.button.apply(fontSizeDelta: -1)),
+                                  style: Theme.of(context)
+                                      .primaryTextTheme
+                                      .button
+                                      .apply(fontSizeDelta: -1)),
                             ),
                           ],
                         ),
@@ -151,15 +157,13 @@ class _ResturantListeState extends State<ResturantListe> {
                                   _resturant.ratingResturant.toString(),
                                   textAlign: TextAlign.center,
                                   textScaleFactor: 1.0,
-                                  style: Theme.of(context).primaryTextTheme.headline3,
+                                  style: Theme.of(context)
+                                      .primaryTextTheme
+                                      .headline3,
                                 ),
                               ),
-                              Container(
-                                child: Rating(),
-                                margin: const EdgeInsets.only(left: 15),
-                                height: 20,
-                                width: 100,
-                              ),
+                              rating(20.0, 105.0, 15.0,
+                                  Theme.of(context).bottomAppBarTheme.color),
                             ],
                           ),
                         ),
@@ -171,11 +175,13 @@ class _ResturantListeState extends State<ResturantListe> {
                                 alignment: Alignment.topLeft,
                                 margin:
                                     const EdgeInsets.only(left: 15, top: 11),
-                                child:  Text(
+                                child: Text(
                                   "Liefergebühr",
                                   textAlign: TextAlign.center,
                                   textScaleFactor: 1.0,
-                                  style:Theme.of(context).primaryTextTheme.headline3,
+                                  style: Theme.of(context)
+                                      .primaryTextTheme
+                                      .headline3,
                                 ),
                               ),
                               Container(
@@ -183,7 +189,9 @@ class _ResturantListeState extends State<ResturantListe> {
                                   "\€ ${_resturant.deliveryPrice.toString().padRight(4, '0')}",
                                   textAlign: TextAlign.center,
                                   textScaleFactor: 1.0,
-                                  style: Theme.of(context).primaryTextTheme.headline3,
+                                  style: Theme.of(context)
+                                      .primaryTextTheme
+                                      .headline3,
                                 ),
                               )
                             ],
@@ -197,11 +205,13 @@ class _ResturantListeState extends State<ResturantListe> {
                                 alignment: Alignment.topLeft,
                                 margin: const EdgeInsets.only(
                                     left: 15, top: 11, right: 15),
-                                child:  Text(
+                                child: Text(
                                   "Minimum",
                                   textAlign: TextAlign.center,
                                   textScaleFactor: 1.0,
-                                  style: Theme.of(context).primaryTextTheme.headline3,
+                                  style: Theme.of(context)
+                                      .primaryTextTheme
+                                      .headline3,
                                 ),
                               ),
                               Container(
@@ -209,7 +219,9 @@ class _ResturantListeState extends State<ResturantListe> {
                                   "\€ ${_resturant.minimumOrder.toString().padRight(5, '0')}",
                                   textAlign: TextAlign.center,
                                   textScaleFactor: 1.0,
-                                  style: Theme.of(context).primaryTextTheme.headline3,
+                                  style: Theme.of(context)
+                                      .primaryTextTheme
+                                      .headline3,
                                 ),
                               )
                             ],

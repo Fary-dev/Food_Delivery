@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -10,7 +11,7 @@ class BannerScreen1 extends StatelessWidget {
               onPressed: () {
                 Get.back();
               },
-              icon: Icon(Icons.arrow_back)),
+              icon: Icon(CupertinoIcons.arrow_left)),
           elevation: 0,
         ),
         body: SafeArea(
@@ -22,7 +23,7 @@ class BannerScreen1 extends StatelessWidget {
                     padding: const EdgeInsets.all(20.0),
                     child: Text(
                       'Loding...',
-                      style: Theme.of(context).primaryTextTheme.bodyText1,
+                      style: Theme.of(context).primaryTextTheme.headline2,
                     ),
                   ),
                 ],
