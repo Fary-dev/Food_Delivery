@@ -33,7 +33,7 @@ dependencies:
   carousel_slider: ^3.0.0
   fluentui_icons: ^1.0.0
   geolocator: ^7.1.0
-  geocoder: ^0.2.1
+  geocoding: ^2.0.0
   provider: ^5.0.0
   firebase_core: ^1.3.0
   firebase_database: ^7.1.1
@@ -139,6 +139,7 @@ flutter:
   # "family" key with the font family name, and a "fonts" key with a
   # list giving the asset and other descriptors for the font. For
   # example:
+
   fonts:
     - family: Iconss
       fonts:
@@ -147,24 +148,24 @@ flutter:
     - family: Iconsss
       fonts:
         - asset: icons/Iconsss.ttf
-    
+
     - family: Open_Sans_Bold
       fonts:
         - asset: Fonts/OpenSans-Bold.ttf
-          
+
     - family: Open_Sans-LightItalic
       fonts:
         - asset: Fonts/OpenSans-LightItalic.ttf
-          
+
     - family: Open_Sans-Regular
-      fonts:     
+      fonts:
         - asset: Fonts/OpenSans-Regular.ttf
-          
+
     - family: Open_Sans-SemiBold
-      fonts:      
+      fonts:
         - asset: Fonts/OpenSans-SemiBold.ttf
     - family: Montserrat-ExtraBold
-      fonts:      
+      fonts:
         - asset: Fonts/Montserrat-ExtraBold.ttf
           weight: 800
           

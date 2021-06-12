@@ -1,6 +1,6 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'package:geocoder/geocoder.dart';
+import 'package:geocoding/geocoding.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:get/get.dart';
 import 'package:mjam/Contants/Color.dart';
@@ -18,7 +18,7 @@ class _LocationSetState extends State<LocationSet> {
   final firstAdress = Get.put(FirstPageController());
   final ResturantListController ff = Get.put(ResturantListController());
   final Future<FirebaseApp> _fba = Firebase.initializeApp();
-  String strasse, hausNummer, bzirck, plz;
+
   bool isLoading = false;
 
   @override
@@ -28,31 +28,56 @@ class _LocationSetState extends State<LocationSet> {
     isLoading = false;
   }
 
-  void getCurrentLocation() async {
-    final position = await Geolocator.getCurrentPosition(
-        desiredAccuracy: LocationAccuracy.high);
+  getCurrentLocation() async {
+    await determinePosition().then((value) => {getPlace(value)});
+    setState(() {
+      isLoading = true;
+    });
+  }
 
+  void getPlace(Position pos) async {
+    List<Placemark> newPlace =
+        await placemarkFromCoordinates(pos.latitude, pos.longitude);
     for (var res in resturants) {
       var distanceBetweenLastTwoLocations = Geolocator.distanceBetween(
-        position.latitude,
-        position.longitude,
+        pos.latitude,
+        pos.longitude,
         res.lattut,
         res.longtut,
       );
       var totalDistance = distanceBetweenLastTwoLocations;
       res.distance = totalDistance;
     }
-    final coordinates = Coordinates(position.latitude, position.longitude);
-    final address =
-        await Geocoder.local.findAddressesFromCoordinates(coordinates);
-    address.isNotEmpty ? isLoading = true : isLoading = false;
-    setState(() {
-      plz = address.first.locality;
-      bzirck = address.first.postalCode;
-      hausNummer = address.first.subThoroughfare;
-      strasse = address.first.thoroughfare;
-      firstAdress.fistUserLocation.value = '$strasse $hausNummer, $plz $bzirck';
-    });
+
+    Placemark placemark = newPlace[0];
+    String plz = placemark.locality;
+    String bzirck = placemark.postalCode;
+    String hausNummer = placemark.subThoroughfare;
+    String strasse = placemark.thoroughfare;
+
+    firstAdress.fistUserLocation.value = '$strasse $hausNummer, $plz $bzirck';
+  }
+
+  Future<Position> determinePosition() async {
+    bool serviceEnable;
+    LocationPermission permission;
+
+    serviceEnable = await Geolocator.isLocationServiceEnabled();
+    if (!serviceEnable) {
+      return Future.error('Location service are disable.');
+    }
+    permission = await Geolocator.checkPermission();
+    if (permission == LocationPermission.denied) {
+      permission = await Geolocator.requestPermission();
+      if (permission == LocationPermission.denied) {
+        return Future.error('Location permission are denied.');
+      }
+    }
+    if (permission == LocationPermission.deniedForever) {
+      return Future.error(
+          'Location permission are permanently denied,we cannot request permission!');
+    }
+    return await Geolocator.getCurrentPosition();
   }
 
   @override
