@@ -83,34 +83,35 @@ class _MapScreenState extends State<MapScreen> {
                 borderRadius: BorderRadius.circular(10.0),
                 boxShadow: [
                   BoxShadow(
-                      color: blackColor,
+                      color: Theme.of(context).iconTheme.color,
                       blurRadius: 5,
                       offset: Offset(0.0, 1.0)),
                   BoxShadow(
-                      color: blackColor,
+                      color: Theme.of(context).iconTheme.color,
                       blurRadius: 5,
                       offset: Offset(1.0, 0.0))
                 ],
               ),
               child: Container(
                 decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(10), color: whiteColor),
+                    borderRadius: BorderRadius.circular(10),
+                    color: Theme.of(context).scaffoldBackgroundColor),
                 child: Stack(
                   children: [
                     Positioned(
                         top: 15,
                         left: 10,
-                        child: Text(
-                          resturants[index].nameResturant,
-                          style: TextStyle(
-                              fontWeight: FontWeight.bold, fontSize: 12),
-                        )),
+                        child: Text(resturants[index].nameResturant,
+                            style: Theme.of(context)
+                                .primaryTextTheme
+                                .headline2
+                                .copyWith(fontSize: 14))),
                     Positioned(
                         top: 35,
                         left: 10,
                         child: Text(
                           resturants[index].description,
-                          style: TextStyle(fontSize: 10, color: greyColor),
+                          style: Theme.of(context).primaryTextTheme.subtitle1,
                         )),
                     Positioned(
                         top: 70,
@@ -124,8 +125,11 @@ class _MapScreenState extends State<MapScreen> {
                             ),
                             Text(
                               resturants[index].address,
-                              style:
-                                  TextStyle(color: primaryColor, fontSize: 10),
+                              style: TextStyle(
+                                color: primaryColor,
+                                fontSize: 10,
+                                fontFamily: 'Open_Sans-Regular',
+                              ),
                             ),
                           ],
                         )),
@@ -149,7 +153,7 @@ class _MapScreenState extends State<MapScreen> {
                         child: Padding(
                           padding: EdgeInsets.symmetric(horizontal: 10),
                           child: Container(
-                            width: 255,
+                            width: 245,
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               crossAxisAlignment: CrossAxisAlignment.start,
@@ -159,13 +163,15 @@ class _MapScreenState extends State<MapScreen> {
                                   children: [
                                     Text(
                                       '${resturants[index].ratingResturant} Bewertungen',
-                                      style: TextStyle(
-                                          color: greyColor, fontSize: 10),
+                                      style: Theme.of(context)
+                                          .primaryTextTheme
+                                          .headline3
+                                          .copyWith(fontSize: 10),
                                     ),
                                     rating(
                                         20.0,
                                         105.0,
-                                        15.0,
+                                        12.0,
                                         Theme.of(context)
                                             .bottomAppBarTheme
                                             .color),
@@ -176,14 +182,17 @@ class _MapScreenState extends State<MapScreen> {
                                   children: [
                                     Text(
                                       'Distanz',
-                                      style: TextStyle(
-                                          color: greyColor, fontSize: 10),
+                                      style: Theme.of(context)
+                                          .primaryTextTheme
+                                          .headline3
+                                          .copyWith(fontSize: 10),
                                     ),
                                     Text(
                                       '${(resturants[index].distance / 1000).toStringAsFixed(1)} km',
-                                      style: TextStyle(
-                                          fontSize: 11,
-                                          fontWeight: FontWeight.bold),
+                                      style: Theme.of(context)
+                                          .primaryTextTheme
+                                          .headline3
+                                          .copyWith(fontSize: 10),
                                     )
                                   ],
                                 ),
@@ -192,14 +201,17 @@ class _MapScreenState extends State<MapScreen> {
                                   children: [
                                     Text(
                                       'AbholZeit',
-                                      style: TextStyle(
-                                          color: greyColor, fontSize: 10),
+                                      style: Theme.of(context)
+                                          .primaryTextTheme
+                                          .headline3
+                                          .copyWith(fontSize: 10),
                                     ),
                                     Text(
                                       'ca.${resturants[index].deliveryDuration} min',
-                                      style: TextStyle(
-                                          fontSize: 11,
-                                          fontWeight: FontWeight.bold),
+                                      style: Theme.of(context)
+                                          .primaryTextTheme
+                                          .headline3
+                                          .copyWith(fontSize: 10),
                                     )
                                   ],
                                 )
@@ -263,7 +275,7 @@ class _MapScreenState extends State<MapScreen> {
             left: 20,
             child: Container(
               decoration: BoxDecoration(
-                  color: whiteColor,
+                  color: Theme.of(context).cardColor,
                   shape: BoxShape.circle,
                   boxShadow: [
                     BoxShadow(
@@ -275,7 +287,7 @@ class _MapScreenState extends State<MapScreen> {
               child: IconButton(
                   icon: Icon(
                     CupertinoIcons.arrow_left,
-                    color: blackColor,
+                    color: Theme.of(context).iconTheme.color,
                   ),
                   onPressed: () {
                     Get.back();

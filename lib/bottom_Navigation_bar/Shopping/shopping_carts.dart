@@ -26,6 +26,11 @@ class _ShoppingCartsState extends State<ShoppingCarts> {
       Get.put(ShoppingCartController());
 
   @override
+  void initState() {
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
     final CounterBloc counterBloc = BlocProvider.of<CounterBloc>(context);
     final ProductBloc productBloc = BlocProvider.of<ProductBloc>(context);
@@ -518,7 +523,7 @@ class _ShoppingCartsState extends State<ShoppingCarts> {
                                       )
                                     ],
                                   )
-                                : null,
+                                : Container(),
                   ),
                 ),
               ],
@@ -571,85 +576,7 @@ class _ShoppingCartsState extends State<ShoppingCarts> {
                 ],
               ),
             ),
-      // bottomNavigationBar:
+      //
     );
   }
 }
-
-// BlocBuilder<ProductBloc, BlocState>(
-//             builder: (context, state) => state is LodingState
-//                 ? CupertinoActivityIndicator()
-//                 : state is FailState
-//                     ? Center(
-//                         child: Text('${state.massage}'),
-//                       )
-//                     : state is SuccessState
-//                         ? Padding(
-//                             padding: const EdgeInsets.all(20),
-//                             child: Container(
-//                               child: state.orderList.length == 0
-//                                   ? Text('')
-//                                   : Column(
-//                                       children: [
-//                                         Row(
-//                                           children: [
-//                                             RichText(
-//                                               text: TextSpan(children: [
-//                                                 TextSpan(
-//                                                     text: 'Gesamt',
-//                                                     style: Theme.of(context)
-//                                                         .primaryTextTheme
-//                                                         .headline2
-//                                                         .copyWith(
-//                                                             fontSize: 18)),
-//                                                 TextSpan(text: ' '),
-//                                                 TextSpan(
-//                                                   text: '(inkl.Mwst.)',
-//                                                   style: Theme.of(context)
-//                                                       .primaryTextTheme
-//                                                       .headline3
-//                                                       .copyWith(fontSize: 10),
-//                                                 ),
-//                                               ]),
-//                                             ),
-//                                             Spacer(),
-//                                             Text(
-//                                               '${state.orderList.reduce((x, y) => Order(totalPrise: x.totalPrise + y.totalPrise)).totalPrise.toStringAsFixed(2)} \€',
-//                                               style: Theme.of(context)
-//                                                   .primaryTextTheme
-//                                                   .bodyText2
-//                                                   .copyWith(fontSize: 18),
-//                                             ),
-//                                           ],
-//                                         ),
-//                                         SizedBox(
-//                                           width:
-//                                               MediaQuery.of(context).size.width,
-//                                           child: ElevatedButton(
-//                                             style: ElevatedButton.styleFrom(
-//                                               shape: RoundedRectangleBorder(
-//                                                   borderRadius:
-//                                                       BorderRadius.circular(
-//                                                           10)),
-//                                               primary: primaryColor,
-//                                               textStyle: Theme.of(context)
-//                                                   .primaryTextTheme
-//                                                   .button,
-//                                             ),
-//                                             child: Text(
-//                                               "Zahlung und Adresse Überprüfen",
-//                                               style: Theme.of(context)
-//                                                   .primaryTextTheme
-//                                                   .button
-//                                                   .copyWith(fontSize: 14),
-//                                             ),
-//                                             onPressed: () {
-//                                               Get.off(() => HomePage());
-//                                             },
-//                                           ),
-//                                         )
-//                                       ],
-//                                     ),
-//                             ),
-//                           )
-//                         : Container())
