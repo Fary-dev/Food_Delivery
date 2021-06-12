@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
@@ -46,12 +47,11 @@ class _SearchingState extends State<Searching> {
                     Get.to(() => BottomNavBarWidget());
                   },
                   icon: Icon(
-                    Icons.arrow_back,
-                    size: 25,
+                    CupertinoIcons.arrow_left,
                   )),
               Expanded(
                 child: Padding(
-                  padding: const EdgeInsets.all(10.0),
+                  padding: const EdgeInsets.symmetric(vertical: 7.0),
                   child: TextField(
                     style: Theme.of(context)
                         .primaryTextTheme
@@ -75,14 +75,19 @@ class _SearchingState extends State<Searching> {
                                 setState(() {});
                               },
                               icon: Icon(
-                                Icons.cancel_outlined,
-                                size: 15,
+                                CupertinoIcons.clear_circled_solid,
+                                // Icons.cancel_outlined,
+                                size: 20,
                                 color: primaryColor,
                               ),
                             )
-                          : Icon(Icons.search, color: Colors.grey[500]),
+                          : Icon(
+                              CupertinoIcons.search,
+                              color: Colors.grey[500],
+                            ),
                       border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(30)),
+                          borderSide: BorderSide.none,
+                          borderRadius: BorderRadius.circular(10)),
                     ),
                     onChanged: _onChange,
                   ),

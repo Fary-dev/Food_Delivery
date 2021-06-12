@@ -57,44 +57,52 @@ class _PageResturantState extends State<PageResturant>
           return [
             SliverAppBar(
               actions: [
-                Padding(
-                  padding: const EdgeInsets.only(right: 20.0),
-                  child: IconButton(
-                    icon: Icon(
-                        likeBottumPress
-                            ? Icons.favorite
-                            : Icons.favorite_border,
-                        color: likeBottumPress ? primaryColor : primaryColor),
-                    onPressed: () {
-                      setState(() {
-                        likeBottumPress = !likeBottumPress;
-                      });
-                    },
-                  ),
-                )
-              ],
-              elevation: 10,
-              leading: BottomAppBar(
-                elevation: 0,
-                color: Colors.transparent,
-                child: Container(
-                  height: 30,
-                  width: 30,
+                Container(
+                  margin: EdgeInsets.only(left: 15),
+                  height: 35,
+                  width: 35,
                   decoration: BoxDecoration(
-                      shape: BoxShape.circle,
-                      color: Theme.of(context).primaryColor),
+                    shape: BoxShape.circle,
+                    color: Color(0xFFFFFFFF),
+                  ),
                   child: IconButton(
                       icon: Icon(
-                        Icons.arrow_back,
-                        size: 30,
+                        CupertinoIcons.arrow_left,
                         color: primaryColor,
                       ),
                       onPressed: () {
-                        Navigator.of(context).pop();
+                        Get.back();
                       }),
                 ),
-              ),
+                Spacer(),
+                Container(
+                  margin: EdgeInsets.only(right: 15),
+                  height: 35,
+                  width: 35,
+                  decoration: BoxDecoration(
+                    shape: BoxShape.circle,
+                    color: Color(0xFFFFFFFF),
+                  ),
+                  child: IconButton(
+                    icon: Icon(
+                      likeBottumPress
+                          ? CupertinoIcons.heart_fill
+                          : CupertinoIcons.heart,
+                      color: primaryColor,
+                    ),
+                    onPressed: () {
+                      setState(
+                        () {
+                          likeBottumPress = !likeBottumPress;
+                        },
+                      );
+                    },
+                  ),
+                ),
+              ],
+              elevation: 10,
               pinned: true,
+              automaticallyImplyLeading: false,
               backgroundColor: Theme.of(context).bottomAppBarTheme.color,
               flexibleSpace: FlexibleSpaceBar(
                 collapseMode: CollapseMode.pin,
@@ -128,8 +136,8 @@ class _PageResturantState extends State<PageResturant>
                           padding: EdgeInsets.all(10),
                           child: IconButton(
                             icon: Icon(
-                              Icons.info_outline,
-                              size: 38,
+                              CupertinoIcons.info_circle,
+                              size: 35,
                             ),
                             onPressed: () {
                               Get.to(() => InfoResturant(resturant));
@@ -142,11 +150,8 @@ class _PageResturantState extends State<PageResturant>
                       padding: EdgeInsets.only(left: 15),
                       child: Row(
                         children: [
-                          Container(
-                            height: 20,
-                            width: 100,
-                            child: Rating(),
-                          ),
+                          rating(20.0, 105.0, 20.0,
+                              Theme.of(context).bottomAppBarTheme.color),
                           SizedBox(
                             width: 5,
                           ),
@@ -159,7 +164,7 @@ class _PageResturantState extends State<PageResturant>
                       ),
                     ),
                     SizedBox(
-                      height: 15,
+                      height: 5,
                     ),
                     Container(
                       margin: EdgeInsets.only(top: 5, left: 15),
@@ -169,7 +174,7 @@ class _PageResturantState extends State<PageResturant>
                           Container(
                               padding: EdgeInsets.only(left: 0),
                               child: Icon(
-                                Icons.timer_outlined,
+                                CupertinoIcons.timer,
                                 size: 20,
                               )),
                           Container(
@@ -185,7 +190,7 @@ class _PageResturantState extends State<PageResturant>
                           Container(
                               padding: EdgeInsets.only(left: 0),
                               child: Icon(
-                                Icons.location_on_outlined,
+                                CupertinoIcons.location,
                                 size: 20,
                               )),
                           Container(
@@ -796,12 +801,11 @@ class _PageResturantState extends State<PageResturant>
                                               border: Border.all(
                                                 color: greyColor,
                                               ),
-                                              // color: Colors.green[700],
                                               borderRadius:
                                                   BorderRadius.circular(3)),
                                         ),
                                         Icon(
-                                          Icons.add_sharp,
+                                          CupertinoIcons.add,
                                           color: primaryColor,
                                           size: 20,
                                         ),

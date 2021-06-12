@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:mjam/Contants/Color.dart';
 
@@ -35,12 +36,12 @@ class _SearchState extends State<Search> {
                   setState(() {});
                 },
                 icon: Icon(
-                  Icons.cancel_outlined,
-                  size: 15,
+                  CupertinoIcons.clear_circled_solid,
+                  size: 20,
                   color: primaryColor,
                 ),
               )
-            : Icon(Icons.search, color: Colors.grey[600]),
+            : Icon(CupertinoIcons.search, color: Colors.grey[600]),
         border: InputBorder.none,
       ),
       onChanged: (value) {

@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_icons/flutter_icons.dart';
 import 'package:mjam/Contants/Color.dart';
 import 'package:mjam/Screens/Menu_Screen/Menu.dart';
 import 'package:mjam/bloc/Order_Bloc/productBloc.dart';
@@ -70,7 +71,7 @@ class _BottomNavBarWidgetState extends State<BottomNavBarWidget> {
               ),
               icon: Icon(
                 Iconsss.room_service,
-                size: 28,
+                size: 25,
               ),
             ),
             BottomNavigationBarItem(
@@ -79,8 +80,9 @@ class _BottomNavBarWidgetState extends State<BottomNavBarWidget> {
                 padding: EdgeInsets.all(0),
               ),
               icon: Icon(
-                Iconsss.search_1,
-                size: 20,
+                CupertinoIcons.search,
+                // Iconsss.search_1,
+                // size: 20,
               ),
             ),
             BottomNavigationBarItem(
@@ -89,8 +91,8 @@ class _BottomNavBarWidgetState extends State<BottomNavBarWidget> {
                 padding: EdgeInsets.all(0),
               ),
               icon: Icon(
-                Iconsss.heart_empty,
-                size: 20,
+                CupertinoIcons.heart,
+                // Iconsss.heart_empty,
               ),
             ),
             BottomNavigationBarItem(
@@ -100,7 +102,9 @@ class _BottomNavBarWidgetState extends State<BottomNavBarWidget> {
               ),
               icon: Stack(
                 children: <Widget>[
-                  Icon(Icons.shopping_cart_outlined),
+                  Icon(
+                    CupertinoIcons.shopping_cart,
+                  ),
                   BlocBuilder<ProductBloc, BlocState>(
                       builder: (context, state) => state is SuccessState
                           ? Positioned(
@@ -139,8 +143,7 @@ class _BottomNavBarWidgetState extends State<BottomNavBarWidget> {
                 padding: EdgeInsets.all(0),
               ),
               icon: Icon(
-                Icons.person_outline,
-                size: 25,
+                CupertinoIcons.person,
               ),
             ),
           ],

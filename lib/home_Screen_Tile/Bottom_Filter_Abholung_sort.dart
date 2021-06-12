@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:mjam/Contants/Color.dart';
@@ -11,8 +12,7 @@ class BottomFilterAbholungSort extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       color: Theme.of(context).backgroundColor,
-    padding: EdgeInsets.symmetric(vertical: 5),
-
+      padding: EdgeInsets.symmetric(vertical: 5),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: <Widget>[
@@ -22,7 +22,7 @@ class BottomFilterAbholungSort extends StatelessWidget {
               containerSortirung(context);
             },
             icon: Icon(
-              Icons.sort,
+              CupertinoIcons.sort_down,
               color: primaryColor,
             ),
             label: Text(
@@ -37,9 +37,9 @@ class BottomFilterAbholungSort extends StatelessWidget {
                   RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(10.0),
                   ),
-
                 ),
-                backgroundColor: MaterialStateProperty.all(Theme.of(context).bottomAppBarTheme.color)),
+                backgroundColor: MaterialStateProperty.all(
+                    Theme.of(context).bottomAppBarTheme.color)),
           ),
 
           //____________________________Filter________________________________
@@ -65,7 +65,8 @@ class BottomFilterAbholungSort extends StatelessWidget {
                     borderRadius: BorderRadius.circular(10.0),
                   ),
                 ),
-                backgroundColor: MaterialStateProperty.all(Theme.of(context).bottomAppBarTheme.color)),
+                backgroundColor: MaterialStateProperty.all(
+                    Theme.of(context).bottomAppBarTheme.color)),
           ),
 
           //__________________________Abholung________________________________
@@ -91,7 +92,8 @@ class BottomFilterAbholungSort extends StatelessWidget {
                     borderRadius: BorderRadius.circular(10.0),
                   ),
                 ),
-                backgroundColor: MaterialStateProperty.all(Theme.of(context).bottomAppBarTheme.color)),
+                backgroundColor: MaterialStateProperty.all(
+                    Theme.of(context).bottomAppBarTheme.color)),
           ),
         ],
       ),
@@ -197,7 +199,9 @@ void containerSortirung(context) {
                           ),
                           Spacer(),
                           IconButton(
-                            icon: Icon(Icons.cancel),
+                            icon: Icon(
+                              CupertinoIcons.clear_circled_solid,
+                            ),
                             onPressed: () {
                               sortList.sort.value = '';
                               Get.back();
@@ -211,23 +215,23 @@ void containerSortirung(context) {
                     ),
                     Column(
                       children: [
-                        btnSort(Icons.star, 'Qualität', primaryColor,
+                        btnSort(CupertinoIcons.star_fill, 'Qualität',
+                            primaryColor, greyLightColor),
+                        SizedBox(
+                          height: 10,
+                        ),
+                        btnSort(CupertinoIcons.flame_fill, 'Beliebtheit',
+                            primaryColor, greyLightColor),
+                        SizedBox(
+                          height: 10,
+                        ),
+                        btnSort(CupertinoIcons.timer, 'Zeit', primaryColor,
                             greyLightColor),
                         SizedBox(
                           height: 10,
                         ),
-                        btnSort(Icons.local_fire_department_rounded,
-                            'Beliebtheit', primaryColor, greyLightColor),
-                        SizedBox(
-                          height: 10,
-                        ),
-                        btnSort(
-                            Icons.timer, 'Zeit', primaryColor, greyLightColor),
-                        SizedBox(
-                          height: 10,
-                        ),
-                        btnSort(Icons.location_pin, 'Entfernung', primaryColor,
-                            greyLightColor),
+                        btnSort(CupertinoIcons.location_solid, 'Entfernung',
+                            primaryColor, greyLightColor),
                       ],
                     ),
                     SizedBox(
@@ -360,7 +364,7 @@ void containerFilter(context) {
                             ),
                           ),
                           IconButton(
-                              icon: Icon(Icons.cancel),
+                              icon: Icon(CupertinoIcons.clear_circled_solid),
                               onPressed: () {
                                 Get.back();
                                 selectFilterItem.value = '';
