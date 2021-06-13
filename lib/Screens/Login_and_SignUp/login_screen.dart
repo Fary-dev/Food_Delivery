@@ -51,220 +51,227 @@ class _LoginScreenState extends State<LoginScreen> {
         ),
         body: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 20),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              SizedBox(
-                height: 10,
-              ),
-              //__________________Foode_Kundenkonto_erstellen____
-              Text('Anmelden',
-                  style: Theme.of(context).primaryTextTheme.headline2),
+          child: SingleChildScrollView(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                SizedBox(
+                  height: 10,
+                ),
+                //__________________Foode_Kundenkonto_erstellen____
+                Text('Anmelden',
+                    style: Theme.of(context).primaryTextTheme.headline2),
 
-              SizedBox(
-                height: 15,
-              ),
-              //____________________Facebook_____Google__________
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  //___________________Facebook_______________
-                  Expanded(
-                    flex: 25,
-                    child: MaterialButton(
-                      color: Theme.of(context).cardColor,
-                      onPressed: () {
-                        print('Facebook');
-                      },
-                      child: Row(
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          Container(
-                            margin: EdgeInsets.symmetric(vertical: 10),
-                            decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(5),
-                                image: DecorationImage(
-                                  image: AssetImage('assets/facebook.jpg'),
-                                )),
-                            height: 25,
-                            width: 25,
-                          ),
-                          SizedBox(
-                            width: 10,
-                          ),
-                          Text('Facebook',
-                              style: Theme.of(context).primaryTextTheme.button),
-                        ],
-                      ),
-                    ),
-                  ),
-                  Expanded(
-                    flex: 1,
-                    child: SizedBox(
-                      width: 10,
-                    ),
-                  ),
-                  //____________________Google________________
-                  Expanded(
-                    flex: 25,
-                    child: MaterialButton(
-                      color: Theme.of(context).cardColor,
-                      onPressed: () {
-                        setState(() {
-                          click();
-                        });
-                      },
-                      child: Row(
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          Container(
-                            margin: EdgeInsets.symmetric(vertical: 7),
-                            decoration: BoxDecoration(
-                                image: DecorationImage(
-                              image: AssetImage('assets/google.png'),
-                            )),
-                            height: 30,
-                            width: 30,
-                          ),
-                          SizedBox(
-                            width: 10,
-                          ),
-                          Text(
-                            'Google',
-                            style: Theme.of(context).primaryTextTheme.button,
-                          ),
-                        ],
-                      ),
-                    ),
-                  )
-                ],
-              ),
-              SizedBox(
-                height: 25,
-              ),
-              //____________________________Oder_________________
-              Row(
-                children: [
-                  Expanded(
-                    child: Container(
-                      height: 2,
-                      color: Theme.of(context).hoverColor,
-                      margin: EdgeInsets.only(right: 15),
-                      child: Divider(
-                        color: blackColor,
-                        height: 25,
-                      ),
-                    ),
-                  ),
-                  Text(
-                    'oder',
-                    style: TextStyle(
-                      fontSize: 13,
-                      color: Theme.of(context).hoverColor,
-                    ),
-                  ),
-                  Expanded(
-                    child: Container(
-                      height: 2,
-                      color: Theme.of(context).hoverColor,
-                      margin: EdgeInsets.only(left: 10),
-                      child: Divider(
-                        color: blackColor,
-                        height: 30,
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-              SizedBox(
-                height: 40,
-              ),
-              //_____________________Mit E-Mail registrieren_____
-              Text(
-                'Mit E-Mail einloggen',
-                style: Theme.of(context).primaryTextTheme.headline2,
-              ),
-              SizedBox(
-                height: 40,
-              ),
-              //_____________________Name_E-Mail_Password________
-              Container(
-                child: Form(
-                  key: _formKey,
-                  child: Column(
-                    children: [
-                      Container(
-                        decoration: BoxDecoration(
-                            color: Theme.of(context).hoverColor,
-                            borderRadius: BorderRadius.circular(0)),
-                        child: TextFormField(
-                          validator: validateEmail,
-                          onSaved: (input) => _email = input,
-                          controller: _emailController,
-                          style: txtBtnStyle,
-                          decoration: InputDecoration(
-                              contentPadding:
-                                  EdgeInsets.symmetric(horizontal: 15),
-                              border: InputBorder.none,
-                              hintText: 'E-Mail',
-                              hintStyle:
-                                  TextStyle(color: whiteColor, fontSize: 12)),
+                SizedBox(
+                  height: 15,
+                ),
+                //____________________Facebook_____Google__________
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    //___________________Facebook_______________
+                    Expanded(
+                      flex: 25,
+                      child: MaterialButton(
+                        shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.all(Radius.circular(5))),
+                        color: Theme.of(context).cardColor,
+                        onPressed: () {
+                          print('Facebook');
+                        },
+                        child: Row(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            Container(
+                              margin: EdgeInsets.symmetric(vertical: 10),
+                              decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(5),
+                                  image: DecorationImage(
+                                    image: AssetImage('assets/facebook.jpg'),
+                                  )),
+                              height: 25,
+                              width: 25,
+                            ),
+                            SizedBox(
+                              width: 10,
+                            ),
+                            Text('Facebook',
+                                style:
+                                    Theme.of(context).primaryTextTheme.button),
+                          ],
                         ),
                       ),
-                      SizedBox(height: 10),
-                      Container(
-                        decoration: BoxDecoration(
-                            color: Theme.of(context).hoverColor,
-                            borderRadius: BorderRadius.circular(0)),
-                        child: TextFormField(
-                          validator: validatePassword,
-                          onSaved: (input) => _password = input,
-                          controller: _passwordController,
-                          obscureText: true,
-                          style: txtBtnStyle,
-                          decoration: InputDecoration(
-                              contentPadding:
-                                  EdgeInsets.symmetric(horizontal: 15),
-                              border: InputBorder.none,
-                              hintText: 'Password',
-                              hintStyle:
-                                  TextStyle(color: whiteColor, fontSize: 12)),
+                    ),
+                    Expanded(
+                      flex: 1,
+                      child: SizedBox(
+                        width: 10,
+                      ),
+                    ),
+                    //____________________Google________________
+                    Expanded(
+                      flex: 25,
+                      child: MaterialButton(
+                        shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.all(Radius.circular(5))),
+                        color: Theme.of(context).cardColor,
+                        onPressed: () {
+                          setState(() {
+                            click();
+                          });
+                        },
+                        child: Row(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            Container(
+                              margin: EdgeInsets.symmetric(vertical: 7),
+                              decoration: BoxDecoration(
+                                  image: DecorationImage(
+                                image: AssetImage('assets/google.png'),
+                              )),
+                              height: 30,
+                              width: 30,
+                            ),
+                            SizedBox(
+                              width: 10,
+                            ),
+                            Text(
+                              'Google',
+                              style: Theme.of(context).primaryTextTheme.button,
+                            ),
+                          ],
                         ),
                       ),
-                    ],
+                    )
+                  ],
+                ),
+                SizedBox(
+                  height: 25,
+                ),
+                //____________________________Oder_________________
+                Row(
+                  children: [
+                    Expanded(
+                      child: Container(
+                        height: 2,
+                        color: Theme.of(context).hoverColor,
+                        margin: EdgeInsets.only(right: 15),
+                        child: Divider(
+                          color: blackColor,
+                          height: 25,
+                        ),
+                      ),
+                    ),
+                    Text(
+                      'oder',
+                      style: TextStyle(
+                        fontSize: 13,
+                        color: Theme.of(context).hoverColor,
+                      ),
+                    ),
+                    Expanded(
+                      child: Container(
+                        height: 2,
+                        color: Theme.of(context).hoverColor,
+                        margin: EdgeInsets.only(left: 10),
+                        child: Divider(
+                          color: blackColor,
+                          height: 30,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+                SizedBox(
+                  height: 40,
+                ),
+                //_____________________Mit E-Mail registrieren_____
+                Text(
+                  'Mit E-Mail einloggen',
+                  style: Theme.of(context).primaryTextTheme.headline2,
+                ),
+                SizedBox(
+                  height: 40,
+                ),
+                //_____________________Name_E-Mail_Password________
+                Container(
+                  child: Form(
+                    key: _formKey,
+                    child: Column(
+                      children: [
+                        Container(
+                          color: Theme.of(context).hoverColor,
+                          child: TextFormField(
+                            validator: validateEmail,
+                            onSaved: (input) => _email = input,
+                            controller: _emailController,
+                            style: txtBtnStyle,
+                            decoration: InputDecoration(
+                                contentPadding:
+                                    EdgeInsets.symmetric(horizontal: 15),
+                                border: InputBorder.none,
+                                hintText: 'E-Mail',
+                                hintStyle:
+                                    TextStyle(color: whiteColor, fontSize: 12)),
+                          ),
+                        ),
+                        SizedBox(height: 10),
+                        Container(
+                          decoration: BoxDecoration(
+                              color: Theme.of(context).hoverColor,
+                              borderRadius: BorderRadius.circular(0)),
+                          child: TextFormField(
+                            validator: validatePassword,
+                            onSaved: (input) => _password = input,
+                            controller: _passwordController,
+                            obscureText: true,
+                            style: txtBtnStyle,
+                            decoration: InputDecoration(
+                                contentPadding:
+                                    EdgeInsets.symmetric(horizontal: 15),
+                                border: InputBorder.none,
+                                hintText: 'Password',
+                                hintStyle:
+                                    TextStyle(color: whiteColor, fontSize: 12)),
+                          ),
+                        ),
+                      ],
+                    ),
                   ),
                 ),
-              ),
-              SizedBox(
-                height: 230,
-              ),
-              //__________________KUNDENKONTO_ERSTELLE___________
-              SizedBox(
-                width: MediaQuery.of(context).size.width,
-                height: 40,
-                child: MaterialButton(
-                  color: primaryColor,
-                  onPressed: signin,
-                  child: Text('KUNDENKONTO  ERSTELLE',
-                      style: Theme.of(context)
-                          .primaryTextTheme
-                          .button
-                          .copyWith(fontSize: 14, color: Color(0xFFFFFFFF))),
+                SizedBox(
+                  height: 230,
                 ),
-              ),
-              SizedBox(
-                height: 15,
-              ),
-              Center(
-                child: TextButton(
-                  onPressed: () => Get.to(() => ResetPasswordScreen()),
-                  child: Text(
-                    'Password vergessen?',
-                    style: TextStyle(color: primaryColor, fontSize: 11),
+                //__________________KUNDENKONTO_ERSTELLE___________
+                SizedBox(
+                  width: MediaQuery.of(context).size.width,
+                  height: 40,
+                  child: MaterialButton(
+                    color: primaryColor,
+                    onPressed: signin,
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.all(Radius.circular(5))),
+                    child: Text('KUNDENKONTO  ERSTELLE',
+                        style: Theme.of(context)
+                            .primaryTextTheme
+                            .button
+                            .copyWith(fontSize: 14, color: Color(0xFFFFFFFF))),
                   ),
                 ),
-              ),
-            ],
+                SizedBox(
+                  height: 15,
+                ),
+                Center(
+                  child: TextButton(
+                    onPressed: () => Get.to(() => ResetPasswordScreen()),
+                    child: Text(
+                      'Password vergessen?',
+                      style: TextStyle(color: primaryColor, fontSize: 11),
+                    ),
+                  ),
+                ),
+              ],
+            ),
           ),
         ),
       ),
