@@ -14,12 +14,11 @@ class SignUpScreen extends StatefulWidget {
 }
 
 class _SignUpScreenState extends State<SignUpScreen> {
-  TextStyle txtBtnStyle = TextStyle(color: Colors.black, fontSize: 16);
   TextEditingController _nameController = TextEditingController();
   TextEditingController _emailController = TextEditingController();
   TextEditingController _passController = TextEditingController();
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
-  // ignore: unused_field
+  bool showPassword = false;
   String _email, _password, _name;
 
   void click() {
@@ -34,6 +33,12 @@ class _SignUpScreenState extends State<SignUpScreen> {
         );
       });
     });
+  }
+
+  @override
+  void initState() {
+    showPassword = false;
+    super.initState();
   }
 
   @override
@@ -218,75 +223,101 @@ class _SignUpScreenState extends State<SignUpScreen> {
                 //_____________________Name_E-Mail_Password________
                 Form(
                   key: _formKey,
-                  child: Container(
-                    child: Column(
-                      children: [
-                        Container(
-                          decoration: BoxDecoration(
-                              color: Theme.of(context).hoverColor,
-                              borderRadius: BorderRadius.circular(0)),
-                          child: TextFormField(
-                            controller: _nameController,
-                            style: txtBtnStyle,
-                            validator: validateName,
-                            onSaved: (String value) {
-                              _name = value;
-                            },
-                            decoration: InputDecoration(
-                                contentPadding:
-                                    EdgeInsets.symmetric(horizontal: 15),
-                                border: InputBorder.none,
-                                hintText: 'Name',
-                                hintStyle: TextStyle(
-                                    color: Colors.white, fontSize: 12)),
+                  child: Column(
+                    children: [
+                      TextFormField(
+                        controller: _nameController,
+                        style: Theme.of(context)
+                            .primaryTextTheme
+                            .headline3
+                            .apply(fontSizeDelta: 2),
+                        validator: validateName,
+                        onSaved: (String value) {
+                          _name = value;
+                        },
+                        decoration: InputDecoration(
+                          contentPadding: EdgeInsets.symmetric(horizontal: 15),
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(10),
+                          ),
+                          labelText: 'Name',
+                          suffixIcon: Icon(
+                            CupertinoIcons.person,
+                            color: Colors.grey[500],
+                            size: 18,
                           ),
                         ),
-                        SizedBox(height: 10),
-                        Container(
-                          decoration: BoxDecoration(
-                              color: Theme.of(context).hoverColor,
-                              borderRadius: BorderRadius.circular(0)),
-                          child: TextFormField(
-                            controller: _emailController,
-                            style: txtBtnStyle,
-                            keyboardType: TextInputType.emailAddress,
-                            validator: validateEmail,
-                            onSaved: (String value) {
-                              _email = value;
-                            },
-                            decoration: InputDecoration(
-                                contentPadding:
-                                    EdgeInsets.symmetric(horizontal: 15),
-                                border: InputBorder.none,
-                                hintText: 'E-Mail',
-                                hintStyle: TextStyle(
-                                    color: Colors.white, fontSize: 12)),
+                      ),
+                      SizedBox(height: 10),
+                      TextFormField(
+                        controller: _emailController,
+                        style: Theme.of(context)
+                            .primaryTextTheme
+                            .headline3
+                            .apply(fontSizeDelta: 2),
+                        keyboardType: TextInputType.emailAddress,
+                        validator: validateEmail,
+                        onSaved: (String value) {
+                          _email = value;
+                        },
+                        decoration: InputDecoration(
+                          contentPadding: EdgeInsets.symmetric(horizontal: 15),
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(10),
+                          ),
+                          labelText: 'E-Mail',
+                          suffixIcon: Icon(
+                            CupertinoIcons.mail,
+                            color: Colors.grey[500],
+                            size: 18,
                           ),
                         ),
-                        SizedBox(height: 10),
-                        Container(
-                          decoration: BoxDecoration(
-                              color: Theme.of(context).hoverColor,
-                              borderRadius: BorderRadius.circular(0)),
-                          child: TextFormField(
-                            controller: _passController,
-                            obscureText: true,
-                            style: txtBtnStyle,
-                            validator: validatePassword,
-                            onSaved: (String value) {
-                              _password = value;
-                            },
-                            decoration: InputDecoration(
-                                contentPadding:
-                                    EdgeInsets.symmetric(horizontal: 15),
-                                border: InputBorder.none,
-                                hintText: 'Password',
-                                hintStyle: TextStyle(
-                                    color: Colors.white, fontSize: 12)),
+                      ),
+                      SizedBox(height: 10),
+                      TextFormField(
+                        controller: _passController,
+                        obscureText: !showPassword ? true : false,
+                        style: Theme.of(context)
+                            .primaryTextTheme
+                            .headline3
+                            .apply(fontSizeDelta: 2),
+                        validator: validatePassword,
+                        onSaved: (String value) {
+                          _password = value;
+                        },
+                        decoration: InputDecoration(
+                          contentPadding: EdgeInsets.symmetric(horizontal: 15),
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(10),
                           ),
+                          labelText: 'Password',
+                          suffixIcon: !showPassword
+                              ? IconButton(
+                                  onPressed: () {
+                                    setState(() {
+                                      showPassword = true;
+                                    });
+                                  },
+                                  icon: Icon(
+                                    CupertinoIcons.eye,
+                                    size: 20,
+                                    color: Colors.grey[500],
+                                  ),
+                                )
+                              : IconButton(
+                                  onPressed: () {
+                                    setState(() {
+                                      showPassword = false;
+                                    });
+                                  },
+                                  icon: Icon(
+                                    CupertinoIcons.eye_slash,
+                                    color: Colors.grey[500],
+                                  ),
+                                ),
                         ),
-                      ],
-                    ),
+                      ),
+                    ],
                   ),
                 ),
                 SizedBox(
@@ -328,7 +359,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                   ]),
                 ]),
                 SizedBox(
-                  height: 100,
+                  height: 70,
                 ),
                 //__________________KUNDENKONTO_ERSTELLE___________
                 SizedBox(
@@ -356,7 +387,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
 
   String validateName(String value) {
     if (value.length < 3)
-      return 'Name must be more than 2 charater';
+      return 'Name muss mehr als 2 Charakter sein';
     else
       return null;
   }
@@ -366,7 +397,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
         r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$';
     RegExp regex = new RegExp(pattern);
     if (!regex.hasMatch(value))
-      return 'Enter Valid Email';
+      return 'Bitte gib eine gültige E-Mail-Adresse ein';
     else
       return null;
   }
@@ -379,7 +410,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
       return 'Please enter password';
     } else {
       if (!regex.hasMatch(value))
-        return 'Enter valid password';
+        return 'Bitte gib eine gültige Password ein';
       else
         return null;
     }

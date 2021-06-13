@@ -19,6 +19,7 @@ class _LoginScreenState extends State<LoginScreen> {
   TextEditingController _passwordController = TextEditingController();
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   String _email, _password;
+  bool showPassword = false;
 
   void click() {
     setState(() {
@@ -32,6 +33,12 @@ class _LoginScreenState extends State<LoginScreen> {
         );
       });
     });
+  }
+
+  @override
+  void initState() {
+    showPassword = false;
+    super.initState();
   }
 
   @override
@@ -199,48 +206,78 @@ class _LoginScreenState extends State<LoginScreen> {
                     key: _formKey,
                     child: Column(
                       children: [
-                        Container(
-                          color: Theme.of(context).hoverColor,
-                          child: TextFormField(
-                            validator: validateEmail,
-                            onSaved: (input) => _email = input,
-                            controller: _emailController,
-                            style: txtBtnStyle,
-                            decoration: InputDecoration(
-                                contentPadding:
-                                    EdgeInsets.symmetric(horizontal: 15),
-                                border: InputBorder.none,
-                                hintText: 'E-Mail',
-                                hintStyle:
-                                    TextStyle(color: whiteColor, fontSize: 12)),
+                        TextFormField(
+                          style: Theme.of(context)
+                              .primaryTextTheme
+                              .headline3
+                              .apply(fontSizeDelta: 2),
+                          keyboardType: TextInputType.emailAddress,
+                          decoration: InputDecoration(
+                            contentPadding:
+                                EdgeInsets.symmetric(horizontal: 15),
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(10),
+                            ),
+                            labelText: 'E-Mail',
+                            suffixIcon: Icon(
+                              CupertinoIcons.mail,
+                              color: Colors.grey[500],
+                              size: 18,
+                            ),
                           ),
+                          validator: validateEmail,
+                          onSaved: (input) => _email = input,
+                          controller: _emailController,
                         ),
                         SizedBox(height: 10),
-                        Container(
-                          decoration: BoxDecoration(
-                              color: Theme.of(context).hoverColor,
-                              borderRadius: BorderRadius.circular(0)),
-                          child: TextFormField(
-                            validator: validatePassword,
-                            onSaved: (input) => _password = input,
-                            controller: _passwordController,
-                            obscureText: true,
-                            style: txtBtnStyle,
-                            decoration: InputDecoration(
-                                contentPadding:
-                                    EdgeInsets.symmetric(horizontal: 15),
-                                border: InputBorder.none,
-                                hintText: 'Password',
-                                hintStyle:
-                                    TextStyle(color: whiteColor, fontSize: 12)),
+                        TextFormField(
+                          obscureText: !showPassword ? true : false,
+                          style: Theme.of(context)
+                              .primaryTextTheme
+                              .headline3
+                              .apply(fontSizeDelta: 2),
+                          decoration: InputDecoration(
+                            contentPadding:
+                                EdgeInsets.symmetric(horizontal: 15),
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(10),
+                            ),
+                            labelText: 'Password',
+                            suffixIcon: !showPassword
+                                ? IconButton(
+                                    onPressed: () {
+                                      setState(() {
+                                        showPassword = true;
+                                      });
+                                    },
+                                    icon: Icon(
+                                      CupertinoIcons.eye,
+                                      size: 20,
+                                      color: Colors.grey[500],
+                                    ),
+                                  )
+                                : IconButton(
+                                    onPressed: () {
+                                      setState(() {
+                                        showPassword = false;
+                                      });
+                                    },
+                                    icon: Icon(
+                                      CupertinoIcons.eye_slash,
+                                      color: Colors.grey[500],
+                                    ),
+                                  ),
                           ),
+                          validator: validatePassword,
+                          onSaved: (input) => _password = input,
+                          controller: _passwordController,
                         ),
                       ],
                     ),
                   ),
                 ),
                 SizedBox(
-                  height: 230,
+                  height: 200,
                 ),
                 //__________________KUNDENKONTO_ERSTELLE___________
                 SizedBox(
@@ -283,7 +320,7 @@ class _LoginScreenState extends State<LoginScreen> {
         r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$';
     RegExp regex = new RegExp(pattern);
     if (!regex.hasMatch(value))
-      return 'Enter Valid Email';
+      return 'Bitte gib eine gültige E-Mail-Adresse ein';
     else
       return null;
   }
@@ -296,7 +333,7 @@ class _LoginScreenState extends State<LoginScreen> {
       return 'Please enter password';
     } else {
       if (!regex.hasMatch(value))
-        return 'Enter valid password';
+        return 'Bitte gib eine gültige Password ein';
       else
         return null;
     }

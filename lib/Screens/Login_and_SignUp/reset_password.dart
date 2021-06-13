@@ -62,25 +62,27 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
               //________________________________________E-Mail_______
               Form(
                 key: _formKey,
-                child: Column(
-                  children: [
-                    Container(
-                      color: Theme.of(context).hoverColor,
-                      child: TextFormField(
-                        validator: validateEmail,
-                        onSaved: (input) => _email = input,
-                        controller: _emailController,
-                        style: txtBtnStyle,
-                        decoration: InputDecoration(
-                            contentPadding:
-                                EdgeInsets.symmetric(horizontal: 15),
-                            border: InputBorder.none,
-                            hintText: 'E-Mail',
-                            hintStyle:
-                                TextStyle(color: Colors.white, fontSize: 12)),
-                      ),
+                child: TextFormField(
+                  style: Theme.of(context)
+                      .primaryTextTheme
+                      .headline3
+                      .apply(fontSizeDelta: 2),
+                  keyboardType: TextInputType.emailAddress,
+                  decoration: InputDecoration(
+                    contentPadding: EdgeInsets.symmetric(horizontal: 15),
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(10),
                     ),
-                  ],
+                    labelText: 'E-Mail',
+                    suffixIcon: Icon(
+                      CupertinoIcons.mail,
+                      color: Colors.grey[500],
+                      size: 18,
+                    ),
+                  ),
+                  validator: validateEmail,
+                  onSaved: (input) => _email = input,
+                  controller: _emailController,
                 ),
               ),
               SizedBox(
