@@ -2,36 +2,47 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
+import 'package:mjam/Screens/Banner/Banr.dart';
+
 class BannerScreen1 extends StatelessWidget {
+  final BannerGeneraly bannerGeneraly;
+  const BannerScreen1({
+    Key key,
+    this.bannerGeneraly,
+  }) : super(key: key);
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-        appBar: AppBar(
-          leading: IconButton(
-              onPressed: () {
-                Get.back();
-              },
-              icon: Icon(CupertinoIcons.arrow_left)),
-          elevation: 0,
-        ),
-        body: SafeArea(
-          child: Container(
-            child: Center(
-              child: Column(
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.all(20.0),
-                    child: Text(
-                      'Loding...',
-                      style: Theme.of(context).primaryTextTheme.headline2,
-                    ),
-                  ),
-                ],
-              ),
+    return InkWell(
+      onTap: () => Get.back(),
+      child: Scaffold(
+          body: Column(
+        children: [
+          SizedBox(
+              height: 200,
+              width: MediaQuery.of(context).size.width,
+              child: Image.asset(
+                bannerGeneraly.photo,
+                fit: BoxFit.fitWidth,
+              )),
+          Padding(
+            padding: const EdgeInsets.all(20.0),
+            child: Text(
+              bannerGeneraly.title,
+              style: Theme.of(context)
+                  .primaryTextTheme
+                  .button
+                  .copyWith(fontSize: 18),
             ),
-            height: double.infinity,
-            width: double.infinity,
           ),
-        ));
+          Padding(
+            padding: const EdgeInsets.all(20.0),
+            child: Text(
+              bannerGeneraly.subtitle,
+              style: Theme.of(context).primaryTextTheme.headline2,
+            ),
+          ),
+        ],
+      )),
+    );
   }
 }

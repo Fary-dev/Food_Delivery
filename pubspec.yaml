@@ -47,6 +47,7 @@ dependencies:
   http: ^0.13.2
   google_sign_in: ^5.0.4
   get: ^4.1.4
+  animations: ^2.0.0
 
 
 dev_dependencies:
