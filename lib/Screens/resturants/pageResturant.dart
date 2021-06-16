@@ -17,6 +17,7 @@ import 'package:mjam/bloc/Order_Bloc/productBloc.dart';
 import 'info_resturant.dart';
 
 class PageResturant extends StatefulWidget {
+
   final Resturant resturant;
   PageResturant({Key key, this.resturant}) : super(key: key);
 
@@ -75,28 +76,31 @@ class _PageResturantState extends State<PageResturant>
                       }),
                 ),
                 Spacer(),
-                Container(
-                  margin: EdgeInsets.only(right: 15),
-                  height: 35,
-                  width: 35,
-                  decoration: BoxDecoration(
-                    shape: BoxShape.circle,
-                    color: Color(0xFFFFFFFF),
-                  ),
-                  child: IconButton(
-                    icon: Icon(
-                      likeBottumPress
-                          ? CupertinoIcons.heart_fill
-                          : CupertinoIcons.heart,
-                      color: primaryColor,
+                AnimatedContainer(
+                  duration: Duration(seconds: 2),
+                  child: Container(
+                    margin: EdgeInsets.only(right: 15),
+                    height: 35,
+                    width: 35,
+                    decoration: BoxDecoration(
+                      shape: BoxShape.circle,
+                      color: Color(0xFFFFFFFF),
                     ),
-                    onPressed: () {
-                      setState(
-                        () {
-                          likeBottumPress = !likeBottumPress;
-                        },
-                      );
-                    },
+                    child: IconButton(
+                      icon: Icon(
+                        likeBottumPress
+                            ? CupertinoIcons.heart_fill
+                            : CupertinoIcons.heart,
+                        color: primaryColor,
+                      ),
+                      onPressed: () {
+                        setState(
+                          () {
+                            likeBottumPress = !likeBottumPress;
+                          },
+                        );
+                      },
+                    ),
                   ),
                 ),
               ],
@@ -109,12 +113,10 @@ class _PageResturantState extends State<PageResturant>
                 background: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
-                    Container(
-                      height: 180.0,
-                      width: double.infinity,
-                      color: greyColor,
+                    Hero(tag:resturant.photoResturant,
                       child: Image.asset(
                         resturant.photoResturant,
+                        height: 180.0,
                         width: double.infinity,
                         fit: BoxFit.fitWidth,
                       ),
@@ -140,7 +142,12 @@ class _PageResturantState extends State<PageResturant>
                               size: 35,
                             ),
                             onPressed: () {
-                              Get.to(() => InfoResturant(resturant));
+                              // Navigator.push(
+                              //     context,
+                              //     PageRouteBuilder(
+                              //         transitionDuration: Duration(milliseconds:800 ),
+                              //         pageBuilder: (_, __, ___) => InfoResturant(resturant: resturant)));
+                              Get.to( InfoResturant(resturant: resturant));
                             },
                           ),
                         ),

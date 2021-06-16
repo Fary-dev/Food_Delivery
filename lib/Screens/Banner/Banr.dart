@@ -1,7 +1,6 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 import 'package:animations/animations.dart';
 import 'package:mjam/Contants/Color.dart';
 import 'package:mjam/Screens/Banner/banner_Screen_1.dart';

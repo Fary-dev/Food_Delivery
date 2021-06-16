@@ -5,11 +5,10 @@ import 'package:mjam/Contants/Color.dart';
 import 'package:mjam/Widgets/Rating.dart';
 import 'package:mjam/models_and_data/Class/models_and_data.dart';
 
-// ignore: must_be_immutable
 class InfoResturant extends StatefulWidget {
   final Resturant resturant;
 
-  InfoResturant(this.resturant);
+ const InfoResturant({this.resturant});
 
   @override
   State<InfoResturant> createState() => _InfoResturantState();
@@ -84,11 +83,11 @@ class _InfoResturantState extends State<InfoResturant> {
               ],
               flexibleSpace: FlexibleSpaceBar(
                 collapseMode: CollapseMode.pin,
-                background: Container(
-                  height: 350.0,
-                  width: double.infinity,
+                background: Hero(tag:widget.resturant.photoResturant,
                   child: Image.asset(
-                    widget.resturant.photoInfoPage.toString(),
+                    widget.resturant.photoInfoPage,
+                    height: 350.0,
+                    width: double.infinity,
                     fit: BoxFit.cover,
                   ),
                 ),
