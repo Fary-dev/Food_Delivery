@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get/get.dart';
 import 'package:mjam/Contants/Color.dart';
+import 'package:mjam/Screens/Resturants/Resturant_List/Clipper_Resturant_Photo.dart';
 import 'package:mjam/Widgets/Rating.dart';
 import 'package:mjam/Widgets/search.dart';
 import 'package:mjam/bloc/Counter_Bloc/counter_select_product.dart';
@@ -13,11 +14,9 @@ import 'package:mjam/bottom_Navigation_bar/Shopping/shopping_Controller.dart';
 import 'package:mjam/bottom_Navigation_bar/Shopping/shopping_carts.dart';
 import 'package:mjam/models_and_data/Class/models_and_data.dart';
 import 'package:mjam/bloc/Order_Bloc/productBloc.dart';
-
 import 'info_resturant.dart';
 
 class PageResturant extends StatefulWidget {
-
   final Resturant resturant;
   PageResturant({Key key, this.resturant}) : super(key: key);
 
@@ -111,53 +110,44 @@ class _PageResturantState extends State<PageResturant>
               flexibleSpace: FlexibleSpaceBar(
                 collapseMode: CollapseMode.pin,
                 background: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
-                    Hero(tag:resturant.photoResturant,
+                    ClipPath(
                       child: Image.asset(
                         resturant.photoResturant,
-                        height: 180.0,
+                        height: 230.0,
                         width: double.infinity,
-                        fit: BoxFit.fitWidth,
+                        fit: BoxFit.cover,
                       ),
+                      clipper: CliperHpmePageResturant(),
                     ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Container(
-                          padding: EdgeInsets.all(15),
-                          alignment: Alignment.topLeft,
-                          child: Text(
+                    Padding(
+                      padding: EdgeInsets.symmetric(horizontal: 10),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text(
                             resturant.nameResturant,
                             textAlign: TextAlign.left,
                             textScaleFactor: 1.5,
                             style: Theme.of(context).primaryTextTheme.headline2,
                           ),
-                        ),
-                        Container(
-                          padding: EdgeInsets.all(10),
-                          child: IconButton(
+                          IconButton(
                             icon: Icon(
                               CupertinoIcons.info_circle,
                               size: 35,
                             ),
                             onPressed: () {
-                              // Navigator.push(
-                              //     context,
-                              //     PageRouteBuilder(
-                              //         transitionDuration: Duration(milliseconds:800 ),
-                              //         pageBuilder: (_, __, ___) => InfoResturant(resturant: resturant)));
-                              Get.to( InfoResturant(resturant: resturant));
+                              Get.to(InfoResturant(resturant: resturant));
                             },
                           ),
-                        ),
-                      ],
+                        ],
+                      ),
                     ),
-                    Container(
-                      padding: EdgeInsets.only(left: 15),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 10),
                       child: Row(
                         children: [
-                          rating(20.0, 105.0, 20.0,
+                          rating(20.0, 105.0, 18.0,
                               Theme.of(context).bottomAppBarTheme.color),
                           SizedBox(
                             width: 5,
@@ -173,70 +163,58 @@ class _PageResturantState extends State<PageResturant>
                     SizedBox(
                       height: 5,
                     ),
-                    Container(
-                      margin: EdgeInsets.only(top: 5, left: 15),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 10),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.start,
                         children: [
-                          Container(
-                              padding: EdgeInsets.only(left: 0),
-                              child: Icon(
-                                CupertinoIcons.timer,
-                                size: 20,
-                              )),
-                          Container(
-                            alignment: Alignment.centerLeft,
-                            child: Text(
-                              " ca.${resturant.deliveryDuration}min",
-                              textAlign: TextAlign.center,
-                              style:
-                                  Theme.of(context).primaryTextTheme.headline3,
-                            ),
+                          Icon(
+                            CupertinoIcons.timer,
+                            size: 20,
+                          ),
+                          Text(
+                            " ca.${resturant.deliveryDuration}min",
+                            textAlign: TextAlign.center,
+                            style: Theme.of(context).primaryTextTheme.headline3,
                           ),
                           SizedBox(width: 10),
-                          Container(
-                              padding: EdgeInsets.only(left: 0),
-                              child: Icon(
-                                CupertinoIcons.location,
-                                size: 20,
-                              )),
-                          Container(
-                            alignment: Alignment.centerLeft,
-                            child: Text(
-                              "${(resturant.distance / 1000).toStringAsFixed(1)} km",
-                              textAlign: TextAlign.center,
-                              style:
-                                  Theme.of(context).primaryTextTheme.headline3,
-                            ),
+                          Icon(
+                            CupertinoIcons.location,
+                            size: 20,
+                          ),
+                          Text(
+                            "${(resturant.distance / 1000).toStringAsFixed(1)} km",
+                            textAlign: TextAlign.center,
+                            style: Theme.of(context).primaryTextTheme.headline3,
                           ),
                         ],
                       ),
                     ),
-                    Card(
-                      elevation: 0,
-                      borderOnForeground: false,
-                      margin: EdgeInsets.only(top: 10),
+                    SizedBox(
+                      height: 10,
+                    ),
+                    Container(
+                      color: Theme.of(context).backgroundColor,
                       child: Container(
-                        color: Theme.of(context).backgroundColor,
-                        child: Container(
-                          color: whiteColor,
-                          margin: EdgeInsets.only(top: 8, bottom: 8),
-                          child: Search(),
-                        ),
+                        color: whiteColor,
+                        margin: EdgeInsets.only(top: 8, bottom: 8),
+                        child: Search(),
                       ),
                     ),
                   ],
                 ),
               ),
-              expandedHeight: 400.0,
+              expandedHeight: 420.0,
 //========================================= TabBar =============================
               bottom: TabBar(
                 labelStyle: Theme.of(context).tabBarTheme.labelStyle,
                 isScrollable: true,
                 indicatorColor: primaryColor,
                 labelColor: Theme.of(context).tabBarTheme.labelColor,
-                unselectedLabelColor:
-                    Theme.of(context).tabBarTheme.unselectedLabelColor,
+                unselectedLabelColor: Theme.of(context)
+                    .tabBarTheme
+                    .unselectedLabelColor
+                    .withOpacity(0.6),
                 indicatorWeight: 4,
                 unselectedLabelStyle:
                     Theme.of(context).tabBarTheme.unselectedLabelStyle,

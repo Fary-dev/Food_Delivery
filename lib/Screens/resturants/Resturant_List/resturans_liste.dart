@@ -14,28 +14,25 @@ class ResturantListe extends StatefulWidget {
 
 class _ResturantListeState extends State<ResturantListe> {
   final ResturantListController sortList = Get.put(ResturantListController());
-  final GlobalKey _globalKey=GlobalKey();
 
   @override
   Widget build(BuildContext context) {
     return Obx(
       () => ListView.builder(
-        key: _globalKey,
         shrinkWrap: true,
         physics: const NeverScrollableScrollPhysics(),
         itemCount: sortList.sort.value == ''
             ? resturants.length
             : sortList.list.length,
         itemBuilder: (context, index) {
-          final Resturant resturant = sortList.sort.value == ''
+          final Resturant _resturant = sortList.sort.value == ''
               ? resturants[index]
               : sortList.list[index];
           return GestureDetector(
             onTap: () {
               Get.to(() => PageResturant(
-                    resturant: resturant
+                    resturant: _resturant,
                   ));
-
             },
             child: Container(
               color: Theme.of(context).bottomAppBarTheme.color,
@@ -48,25 +45,10 @@ class _ResturantListeState extends State<ResturantListe> {
                         padding: const EdgeInsets.fromLTRB(15, 15, 15, 5),
                         child: ClipRRect(
                           borderRadius: BorderRadius.circular(8),
-                          child: GestureDetector(
-                            onTap: () {
-                              // Navigator.push(
-                              //     context,
-                              //     PageRouteBuilder(
-                              //         transitionDuration: Duration(seconds: 2),
-                              //         pageBuilder: (_, __, ___) => PageResturant(
-                              //               resturant: resturant,
-                              //             )));
-                              Get.to(() => PageResturant(
-                                resturant: resturant
-                              ));
-
-                            },
-                            child: Image.asset(resturant.photoResturant,
-                                height: 140,
-                                width: MediaQuery.of(context).size.width,
-                                fit: BoxFit.fitWidth),
-                          ),
+                          child: Image.asset(_resturant.photoResturant,
+                              height: 140,
+                              width: MediaQuery.of(context).size.width,
+                              fit: BoxFit.fitWidth),
                         ),
                       ),
                       Positioned(
@@ -81,7 +63,7 @@ class _ResturantListeState extends State<ResturantListe> {
                                   color: Theme.of(context).primaryColor,
                                   borderRadius:
                                       BorderRadius.all(Radius.circular(20))),
-                              child: Text('${resturant.deliveryDuration} min',
+                              child: Text('${_resturant.deliveryDuration} min',
                                   style: Theme.of(context)
                                       .primaryTextTheme
                                       .button
@@ -98,7 +80,7 @@ class _ResturantListeState extends State<ResturantListe> {
                                   borderRadius:
                                       BorderRadius.all(Radius.circular(20))),
                               child: Text(
-                                  '${(resturant.distance / 1000).toStringAsFixed(1)} km',
+                                  '${(_resturant.distance / 1000).toStringAsFixed(1)} km',
                                   style: Theme.of(context)
                                       .primaryTextTheme
                                       .button
@@ -122,7 +104,7 @@ class _ResturantListeState extends State<ResturantListe> {
                               alignment: Alignment.topLeft,
                               margin: const EdgeInsets.only(left: 15),
                               child: Text(
-                                resturant.nameResturant,
+                                _resturant.nameResturant,
                                 textAlign: TextAlign.center,
                                 textScaleFactor: 1.5,
                                 style: Theme.of(context)
@@ -135,7 +117,7 @@ class _ResturantListeState extends State<ResturantListe> {
                               alignment: Alignment.topLeft,
                               margin: const EdgeInsets.only(left: 15, top: 3),
                               child: Text(
-                                resturant.description,
+                                _resturant.description,
                                 textAlign: TextAlign.center,
                                 textScaleFactor: 1.0,
                                 style: Theme.of(context)
@@ -149,7 +131,7 @@ class _ResturantListeState extends State<ResturantListe> {
                           margin: const EdgeInsets.only(right: 15),
                           height: 40,
                           width: 80,
-                          child: Image.asset(resturant.logoResturant,
+                          child: Image.asset(_resturant.logoResturant,
                               height: 20,
                               width: MediaQuery.of(context).size.width,
                               fit: BoxFit.contain),
@@ -171,7 +153,7 @@ class _ResturantListeState extends State<ResturantListe> {
                                 alignment: Alignment.topLeft,
                                 margin: const EdgeInsets.only(left: 15, top: 7),
                                 child: Text(
-                                  resturant.ratingResturant.toString(),
+                                  _resturant.ratingResturant.toString(),
                                   textAlign: TextAlign.center,
                                   textScaleFactor: 1.0,
                                   style: Theme.of(context)
@@ -203,7 +185,7 @@ class _ResturantListeState extends State<ResturantListe> {
                               ),
                               Container(
                                 child: Text(
-                                  "\€ ${resturant.deliveryPrice.toString().padRight(4, '0')}",
+                                  "\€ ${_resturant.deliveryPrice.toString().padRight(4, '0')}",
                                   textAlign: TextAlign.center,
                                   textScaleFactor: 1.0,
                                   style: Theme.of(context)
@@ -233,7 +215,7 @@ class _ResturantListeState extends State<ResturantListe> {
                               ),
                               Container(
                                 child: Text(
-                                  "\€ ${resturant.minimumOrder.toString().padRight(5, '0')}",
+                                  "\€ ${_resturant.minimumOrder.toString().padRight(5, '0')}",
                                   textAlign: TextAlign.center,
                                   textScaleFactor: 1.0,
                                   style: Theme.of(context)

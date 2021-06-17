@@ -1,3 +1,4 @@
+import 'package:animations/animations.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
@@ -23,7 +24,7 @@ class BottomNavBarWidget extends StatefulWidget {
 class _BottomNavBarWidgetState extends State<BottomNavBarWidget> {
   PageController pageController = PageController();
   int _selectedIndex = 0;
-  List<Widget> _screens = [
+  final screens = <Widget>[
     Menu(),
     Searching(),
     FavoritScreen(),
@@ -31,14 +32,10 @@ class _BottomNavBarWidgetState extends State<BottomNavBarWidget> {
     Profil(),
   ];
 
-  _onPageChanged(int index) {
+  onPageChanged(int index) {
     setState(() {
       _selectedIndex = index;
     });
-  }
-
-  _itemTapped(int selectedIndex) {
-    pageController.jumpToPage(selectedIndex);
   }
 
   @override
@@ -51,11 +48,16 @@ class _BottomNavBarWidgetState extends State<BottomNavBarWidget> {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
-        body: PageView(
-          controller: pageController,
-          children: _screens,
-          onPageChanged: _onPageChanged,
-          physics: NeverScrollableScrollPhysics(),
+        body: PageTransitionSwitcher(
+          duration: Duration(milliseconds: 300),
+          transitionBuilder: (child, primaryAnimation, secondaryAnimation) {
+            return FadeThroughTransition(
+              child: child,
+              animation: primaryAnimation,
+              secondaryAnimation: secondaryAnimation,
+            );
+          },
+          child: screens[_selectedIndex],
         ),
         bottomNavigationBar: BottomNavigationBar(
           type: BottomNavigationBarType.fixed,
@@ -147,7 +149,11 @@ class _BottomNavBarWidgetState extends State<BottomNavBarWidget> {
             ),
           ],
           currentIndex: _selectedIndex,
-          onTap: _itemTapped,
+          onTap: (int value) {
+            setState(() {
+              _selectedIndex = value;
+            });
+          },
         ),
       ),
     );

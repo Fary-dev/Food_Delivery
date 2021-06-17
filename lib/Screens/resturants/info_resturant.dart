@@ -5,10 +5,12 @@ import 'package:mjam/Contants/Color.dart';
 import 'package:mjam/Widgets/Rating.dart';
 import 'package:mjam/models_and_data/Class/models_and_data.dart';
 
+import 'Resturant_List/Clipper_Resturant_Photo.dart';
+
 class InfoResturant extends StatefulWidget {
   final Resturant resturant;
 
- const InfoResturant({this.resturant});
+  const InfoResturant({this.resturant});
 
   @override
   State<InfoResturant> createState() => _InfoResturantState();
@@ -83,13 +85,14 @@ class _InfoResturantState extends State<InfoResturant> {
               ],
               flexibleSpace: FlexibleSpaceBar(
                 collapseMode: CollapseMode.pin,
-                background: Hero(tag:widget.resturant.photoResturant,
+                background: ClipPath(
                   child: Image.asset(
                     widget.resturant.photoInfoPage,
                     height: 350.0,
                     width: double.infinity,
                     fit: BoxFit.cover,
                   ),
+                  clipper: CliperHpmePageResturant(),
                 ),
               ),
             )
