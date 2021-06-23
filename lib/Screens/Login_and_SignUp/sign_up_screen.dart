@@ -2,9 +2,11 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:get_storage/get_storage.dart';
 import 'package:mjam/Contants/Color.dart';
 import 'package:mjam/Screens/Login_and_SignUp/login_screen.dart';
 import 'package:mjam/Widgets/BottomNavBarWidget.dart';
+import 'package:mjam/models_and_data/Class/models_and_data.dart';
 
 import 'auch_with_Google.dart';
 
@@ -18,6 +20,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
   TextEditingController _emailController = TextEditingController();
   TextEditingController _passController = TextEditingController();
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+  final userData = GetStorage();
   bool showPassword = false;
   String _email, _password, _name;
 
@@ -405,7 +408,6 @@ class _SignUpScreenState extends State<SignUpScreen> {
   String validatePassword(String value) {
     Pattern pattern = r'^(?=.*\d)(?=.*[a-zA-Z])[a-zA-Z0-9!@#$%&*]{6,20}$';
     RegExp regex = new RegExp(pattern);
-    print(value);
     if (value.isEmpty) {
       return 'Please enter password';
     } else {
@@ -421,15 +423,16 @@ class _SignUpScreenState extends State<SignUpScreen> {
     if (formState.validate()) {
       formState.save();
       try {
-        print(_email);
         final User user = (await FirebaseAuth.instance
                 .createUserWithEmailAndPassword(
                     email: _email, password: _password))
             .user;
+        userData.write('userName', _nameController.text);
+        userData.write('isLogged', true);
         user.sendEmailVerification();
-        Navigator.push(
-            context, MaterialPageRoute(builder: (context) => LoginScreen()));
+        Get.to(LoginScreen());
       } catch (e) {
+        Get.snackbar('Achtung', 'Mit Diese Email gibt es ein Konto!!');
         print(e.message);
       }
     }
