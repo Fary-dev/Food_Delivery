@@ -2,6 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:get_storage/get_storage.dart';
 import 'package:mjam/Contants/Color.dart';
 import 'package:mjam/Screens/Login_and_SignUp/reset_password.dart';
 import 'package:mjam/Widgets/BottomNavBarWidget.dart';
@@ -14,10 +15,12 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
+  final userData=GetStorage();
   TextStyle txtBtnStyle = TextStyle(color: Colors.black, fontSize: 16);
   TextEditingController _emailController = TextEditingController();
   TextEditingController _passwordController = TextEditingController();
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+
   String _email, _password;
   bool showPassword = false;
 
@@ -288,7 +291,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     onPressed: signin,
                     shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.all(Radius.circular(5))),
-                    child: Text('KUNDENKONTO  ERSTELLE',
+                    child: Text('Anmelden'.toUpperCase(),
                         style: Theme.of(context)
                             .primaryTextTheme
                             .button
@@ -348,11 +351,15 @@ class _LoginScreenState extends State<LoginScreen> {
         final User user = (await FirebaseAuth.instance
                 .signInWithEmailAndPassword(email: _email, password: _password))
             .user;
-        Navigator.push(context,
-            MaterialPageRoute(builder: (context) => BottomNavBarWidget()));
 
-        print(user.email);
+        userData.write('userName',user.displayName);
+        userData.write('userName',user.email);
+        userData.write('isLogged', true);
+        Get.offAll(BottomNavBarWidget());
+
+
       } catch (e) {
+        Get.snackbar('Achtung', 'Kennword oder Email passt nicht!!');
         print(e.message);
       }
     }

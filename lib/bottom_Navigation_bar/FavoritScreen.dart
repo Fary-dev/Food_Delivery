@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:get_storage/get_storage.dart';
 import 'package:mjam/Contants/Color.dart';
 import 'package:mjam/Screens/Login_and_SignUp/auch_with_Google.dart';
 import 'package:mjam/Screens/Login_and_SignUp/login_screen.dart';
@@ -13,6 +14,7 @@ class FavoritScreen extends StatefulWidget {
 }
 
 class _FavoritScreenState extends State<FavoritScreen> {
+  final userData=GetStorage();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -27,7 +29,7 @@ class _FavoritScreenState extends State<FavoritScreen> {
           style: Theme.of(context).primaryTextTheme.button,
         ),
       ),
-      body: signInOrNot == false
+      body: userData.read('isLogged')== false
           ? Column(
               mainAxisAlignment: MainAxisAlignment.end,
               crossAxisAlignment: CrossAxisAlignment.center,
@@ -128,7 +130,7 @@ class _FavoritScreenState extends State<FavoritScreen> {
                         .apply(color: whiteColor),
                   ),
                   onPressed: () {
-                    Get.to(() => LoginScreen());
+                    Get.offAll( LoginScreen());
                   },
                 ),
                 SizedBox(

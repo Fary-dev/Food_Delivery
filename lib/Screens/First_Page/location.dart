@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:geocoding/geocoding.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:get/get.dart';
+import 'package:get_storage/get_storage.dart';
 import 'package:mjam/Contants/Color.dart';
 import 'package:mjam/Screens/First_Page/First_Location_controller.dart';
 import 'package:mjam/Screens/Home_Page/HomePage.dart';
@@ -15,6 +16,7 @@ class LocationSet extends StatefulWidget {
 }
 
 class _LocationSetState extends State<LocationSet> {
+  final userData=GetStorage();
   final firstAdress = Get.put(FirstPageController());
   final ResturantListController ff = Get.put(ResturantListController());
   final Future<FirebaseApp> _fba = Firebase.initializeApp();
@@ -26,6 +28,7 @@ class _LocationSetState extends State<LocationSet> {
     super.initState();
     getCurrentLocation();
     isLoading = false;
+    userData.writeIfNull('isLogged', false);
   }
 
   getCurrentLocation() async {
@@ -34,6 +37,7 @@ class _LocationSetState extends State<LocationSet> {
       isLoading = true;
     });
   }
+
 
   void getPlace(Position pos) async {
     List<Placemark> newPlace =
@@ -79,6 +83,7 @@ class _LocationSetState extends State<LocationSet> {
     }
     return await Geolocator.getCurrentPosition();
   }
+
 
   @override
   Widget build(BuildContext context) {

@@ -11,11 +11,11 @@ import 'package:mjam/bottom_Navigation_bar/FavoritScreen.dart';
 import 'package:mjam/bottom_Navigation_bar/Profil.dart';
 import 'package:mjam/bottom_Navigation_bar/search_Screen.dart';
 import 'package:mjam/bottom_Navigation_bar/Shopping/shopping_carts.dart';
-import 'package:mjam/models_and_data/Icons/font1.dart';
 
 // ignore: camel_case_types
 class BottomNavBarWidget extends StatefulWidget {
   BottomNavBarWidget({Key key}) : super(key: key);
+
   @override
   _BottomNavBarWidgetState createState() => _BottomNavBarWidgetState();
 }
@@ -59,101 +59,91 @@ class _BottomNavBarWidgetState extends State<BottomNavBarWidget> {
           },
           child: screens[_selectedIndex],
         ),
-        bottomNavigationBar: BottomNavigationBar(
-          type: BottomNavigationBarType.fixed,
-          backgroundColor: Theme.of(context).primaryColor,
-          selectedItemColor: primaryColor,
-          unselectedItemColor: Theme.of(context).primaryIconTheme.color,
-          items: [
-            BottomNavigationBarItem(
-              // ignore: deprecated_member_use
-              title: Padding(
-                padding: EdgeInsets.all(0),
+        
+           bottomNavigationBar: BottomNavigationBar(
+
+            type: BottomNavigationBarType.fixed,
+            backgroundColor: Theme.of(context).primaryColor,
+            selectedItemColor: primaryColor,
+            unselectedItemColor: Theme.of(context).primaryIconTheme.color,
+            items: [
+              BottomNavigationBarItem(
+                // ignore: deprecated_member_use
+                title: Padding(
+                  padding: EdgeInsets.all(0),
+                ),
+                icon:ImageIcon(AssetImage('assets/bottomNavBar/service.png')),
               ),
-              icon: Icon(
-                Iconsss.room_service,
-                size: 25,
+              BottomNavigationBarItem(
+                // ignore: deprecated_member_use
+                title: Padding(
+                  padding: EdgeInsets.all(0),
+                ),
+                icon:ImageIcon(AssetImage('assets/bottomNavBar/search.png')),
+
               ),
-            ),
-            BottomNavigationBarItem(
-              // ignore: deprecated_member_use
-              title: Padding(
-                padding: EdgeInsets.all(0),
+              BottomNavigationBarItem(
+                // ignore: deprecated_member_use
+                title: Padding(
+                  padding: EdgeInsets.all(0),
+                ),
+                icon:ImageIcon(AssetImage('assets/bottomNavBar/favo.png')),
               ),
-              icon: Icon(
-                CupertinoIcons.search,
-                // Iconsss.search_1,
-                // size: 20,
-              ),
-            ),
-            BottomNavigationBarItem(
-              // ignore: deprecated_member_use
-              title: Padding(
-                padding: EdgeInsets.all(0),
-              ),
-              icon: Icon(
-                CupertinoIcons.heart,
-                // Iconsss.heart_empty,
-              ),
-            ),
-            BottomNavigationBarItem(
-              // ignore: deprecated_member_use
-              title: Padding(
-                padding: EdgeInsets.all(0),
-              ),
-              icon: Stack(
-                children: <Widget>[
-                  Icon(
-                    CupertinoIcons.shopping_cart,
-                  ),
-                  BlocBuilder<ProductBloc, BlocState>(
-                      builder: (context, state) => state is SuccessState
-                          ? Positioned(
-                              right: 0,
-                              child: state.orderList.isNotEmpty
-                                  ? Container(
-                                      padding: EdgeInsets.all(1),
-                                      decoration: BoxDecoration(
-                                        color: Colors.red,
-                                        borderRadius: BorderRadius.circular(6),
+              BottomNavigationBarItem(
+                // ignore: deprecated_member_use
+                title: Padding(
+                  padding: EdgeInsets.all(0),
+                ),
+                icon: Stack(
+                  children: <Widget>[
+                    ImageIcon(AssetImage('assets/bottomNavBar/shop.png')),
+                    BlocBuilder<ProductBloc, BlocState>(
+                        builder: (context, state) => state is SuccessState
+                            ? Positioned(
+                          top: 0,
+                                right: 0,
+                                child: state.orderList.isNotEmpty
+                                    ? Container(
+                                        padding: EdgeInsets.all(1),
+                                        decoration: BoxDecoration(
+                                          color: Colors.red,
+                                          borderRadius: BorderRadius.circular(6),
+                                        ),
+                                        constraints: BoxConstraints(
+                                          minWidth: 5,
+                                          minHeight: 5,
+                                        ),
+                                      )
+                                    : Container(
+                                        padding: EdgeInsets.all(1),
+                                        decoration: BoxDecoration(
+                                          color: Colors.transparent,
+                                          borderRadius: BorderRadius.circular(6),
+                                        ),
+                                        constraints: BoxConstraints(
+                                          minWidth: 5,
+                                          minHeight: 5,
+                                        ),
                                       ),
-                                      constraints: BoxConstraints(
-                                        minWidth: 7,
-                                        minHeight: 7,
-                                      ),
-                                    )
-                                  : Container(
-                                      padding: EdgeInsets.all(1),
-                                      decoration: BoxDecoration(
-                                        color: Colors.transparent,
-                                        borderRadius: BorderRadius.circular(6),
-                                      ),
-                                      constraints: BoxConstraints(
-                                        minWidth: 7,
-                                        minHeight: 7,
-                                      ),
-                                    ),
-                            )
-                          : Text('')),
-                ],
+                              )
+                            : Text('')),
+                  ],
+                ),
               ),
-            ),
-            BottomNavigationBarItem(
-              // ignore: deprecated_member_use
-              title: Padding(
-                padding: EdgeInsets.all(0),
+              BottomNavigationBarItem(
+                // ignore: deprecated_member_use
+                title: Padding(
+                  padding: EdgeInsets.all(0),
+                ),
+                icon:ImageIcon(AssetImage('assets/bottomNavBar/user.png')),
               ),
-              icon: Icon(
-                CupertinoIcons.person,
-              ),
-            ),
-          ],
-          currentIndex: _selectedIndex,
-          onTap: (int value) {
-            setState(() {
-              _selectedIndex = value;
-            });
-          },
+            ],
+            currentIndex: _selectedIndex,
+            onTap: (int value) {
+              setState(() {
+                _selectedIndex = value;
+              });
+            },
         ),
       ),
     );

@@ -27,13 +27,13 @@ dependencies:
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
-  cupertino_icons: ^1.0.2
+  cupertino_icons: ^1.0.3
   flutter_icons: ^1.1.0
   flutter_launcher_icons: ^0.9.0
   parallax_image: ^0.3.1+1
-  intro_views_flutter: ^3.0.0
-  carousel_slider: ^3.0.0
-  geolocator: ^7.1.0
+  intro_views_flutter: ^3.2.0
+  carousel_slider: ^4.0.0
+  geolocator: ^7.1.1
   geocoding: ^2.0.0
   provider: ^5.0.0
   firebase_core: ^1.3.0
@@ -41,13 +41,15 @@ dependencies:
   firebase_analytics: ^8.1.2 
   firebase_auth: ^1.4.1
   cloud_firestore: ^2.2.2
-  flutter_bloc: ^7.0.0
+  flutter_bloc: ^7.0.1
   bloc: ^7.0.0
-  google_maps_flutter: ^2.0.3
-  http: ^0.13.2
+  google_maps_flutter: ^2.0.6
+  http: ^0.13.3
   google_sign_in: ^5.0.4
   get: ^4.1.4
   animations: ^2.0.0
+  get_storage: ^2.0.2
+  shared_preferences: ^2.0.6
 
 
 dev_dependencies:
@@ -126,6 +128,11 @@ flutter:
     - assets/willkommen.jpg
     - assets/pizza-slice.png
     - assets/shop.png
+    - assets/bottomNavBar/service.png
+    - assets/bottomNavBar/search.png
+    - assets/bottomNavBar/favo.png
+    - assets/bottomNavBar/shop.png
+    - assets/bottomNavBar/user.png
 
 
   # An image asset can refer to one or more resolution-specific "variants", see

@@ -432,7 +432,7 @@ final f = Product(
 
 class ShoppingCart {
   final Order order;
-  final User user;
+  final UserAccount user;
 
   ShoppingCart({this.order, this.user});
 }
@@ -451,19 +451,21 @@ class Order {
   });
 }
 
-class User {
+class UserAccount {
   final Order order;
   String firstName;
   String lastName;
   String nicName;
   String email;
   String password;
-  User({
+  final String key;
+  UserAccount({
     this.order,
     this.firstName,
     this.lastName,
     this.nicName,
     this.email,
     this.password,
+    this.key,
   });
 }
