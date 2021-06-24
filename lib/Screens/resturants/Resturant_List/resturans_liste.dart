@@ -4,7 +4,7 @@ import 'package:get/get.dart';
 import 'package:mjam/Screens/Resturants/Resturant_List/Resturant_List_Controller.dart';
 import 'package:mjam/models_and_data/Class/models_and_data.dart';
 import 'package:mjam/Widgets/Rating.dart';
-import '../pageResturant.dart';
+import '../PageResturant/pageResturant.dart';
 
 class ResturantListe extends StatefulWidget {
   ResturantListe({Key key}) : super(key: key);

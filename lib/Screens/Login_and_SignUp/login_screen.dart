@@ -288,7 +288,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   height: 40,
                   child: MaterialButton(
                     color: primaryColor,
-                    onPressed: signin,
+                    onPressed: signIn,
                     shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.all(Radius.circular(5))),
                     child: Text('Anmelden'.toUpperCase(),
@@ -342,7 +342,7 @@ class _LoginScreenState extends State<LoginScreen> {
     }
   }
 
-  Future<void> signin() async {
+  Future<void> signIn() async {
     final formState = _formKey.currentState;
     if (formState.validate()) {
       formState.save();
