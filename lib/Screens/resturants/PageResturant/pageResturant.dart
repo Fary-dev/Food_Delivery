@@ -1,19 +1,14 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get/get.dart';
 import 'package:mjam/Contants/Color.dart';
 import 'package:mjam/Screens/Resturants/Resturant_List/Clipper_Resturant_Photo.dart';
 import 'package:mjam/Widgets/Rating.dart';
 import 'package:mjam/Widgets/search.dart';
-import 'package:mjam/bloc/Counter_Bloc/counter_select_product.dart';
-import 'package:mjam/bloc/Order_Bloc/events.dart';
-import 'package:mjam/bloc/Order_Bloc/states.dart';
 import 'package:mjam/bottom_Navigation_bar/Shopping/shopping_Controller.dart';
 import 'package:mjam/bottom_Navigation_bar/Shopping/shopping_carts.dart';
 import 'package:mjam/models_and_data/Class/models_and_data.dart';
-import 'package:mjam/bloc/Order_Bloc/productBloc.dart';
 import 'counterController.dart';
 import '../info_resturant.dart';
 import 'orderController.dart';
@@ -54,7 +49,6 @@ class _PageResturantState extends State<PageResturant>
 
   @override
   Widget build(BuildContext context) {
-    ProductBloc productBloc = BlocProvider.of<ProductBloc>(context);
     return Scaffold(
       body: NestedScrollView(
         headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
@@ -261,11 +255,6 @@ class _PageResturantState extends State<PageResturant>
                                         children: [
 //==================================================================================== Product Name =======================
                                           productInfo(product, context),
-                                          /*Container(
-                                                color: greyColor,
-                                                width: double.infinity,
-                                                height: 2,
-                                              ),*/
 
 //======================================================================== Allergene & Zusatzstoffe =======================
                                           allergeneAndZusatzstoffe(),
@@ -287,23 +276,15 @@ class _PageResturantState extends State<PageResturant>
 
 //============================================================================ Kommentare hinzufügen =======================
                                           comment(),
-                                          /* Container(
-                                                color: greyColor,
-                                                height: 2,
-                                                width: MediaQuery.of(context)
-                                                    .size
-                                                    .width,
-                                              ),*/
 //========================================================================================= - and + =======================
                                           incrementAndDicrement(
-                                            productBloc,
+                                            // productBloc,
                                             product,
                                           ),
 
 //==================================================================================== HINZUFÜGEN =========================
 
-                                          hinzufugen(
-                                              productBloc, product, context),
+                                          hinzufugen(product, context),
                                         ],
                                       );
                                     },
@@ -357,10 +338,6 @@ class _PageResturantState extends State<PageResturant>
                 onPressed: () {
                   counterController.itemCount.value = 1;
                   counterController.clear();
-                  // counterBloc.add(CounterEvent(
-                  //   value: 1,
-                  //   status: EventStatus.clearState,
-                  // ));
 
                   if (orderController.setMyCart.length != 0 &&
                       shoppingCartController.listController.length == 0) {
@@ -382,39 +359,26 @@ class _PageResturantState extends State<PageResturant>
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      BlocBuilder<ProductBloc, BlocState>(
-                          builder: (context, state) => state is LodingState
-                              ? CupertinoActivityIndicator()
-                              : state is SuccessState
-                                  ? Container(
-                                      height: 40,
-                                      width: 40,
-                                      decoration: BoxDecoration(
-                                        shape: BoxShape.circle,
-                                        color: whiteColor,
-                                      ),
-                                      child: Center(
-                                        child: Text(
-                                          orderController.cartOrder.isEmpty
-                                              // productBloc.cartOrder.isEmpty
-                                              ? ''
-                                              : orderController.cartOrder.length
-                                                  .toString(),
-                                          style: Theme.of(context)
-                                              .primaryTextTheme
-                                              .button
-                                              .apply(
-                                                  color: primaryColor,
-                                                  fontSizeDelta: 5),
-                                        ),
-                                      ),
-                                    )
-                                  : state is FailState
-                                      ? Tooltip(
-                                          message: '${state.massage}',
-                                          child: Text('0'),
-                                        )
-                                      : Text('')),
+                      Container(
+                        height: 40,
+                        width: 40,
+                        decoration: BoxDecoration(
+                          shape: BoxShape.circle,
+                          color: whiteColor,
+                        ),
+                        child: Center(
+                          child: Text(
+                            orderController.cartOrder.isEmpty
+                                // productBloc.cartOrder.isEmpty
+                                ? ''
+                                : orderController.cartOrder.length.toString(),
+                            style: Theme.of(context)
+                                .primaryTextTheme
+                                .button
+                                .apply(color: primaryColor, fontSizeDelta: 5),
+                          ),
+                        ),
+                      ),
                       Text(changeText.value,
                           style: Theme.of(context)
                               .primaryTextTheme
@@ -428,12 +392,6 @@ class _PageResturantState extends State<PageResturant>
                                     totalPrise: x.totalPrise + y.totalPrise))
                                 .totalPrise
                                 .toStringAsFixed(2),
-
-                        /*  productBloc.cartOrder
-                                .reduce((x, y) => Order(
-                                    totalPrise: x.totalPrise + y.totalPrise))
-                                .totalPrise
-                                .toStringAsFixed(2),*/
                         style: Theme.of(context)
                             .primaryTextTheme
                             .button
@@ -448,8 +406,7 @@ class _PageResturantState extends State<PageResturant>
     );
   }
 
-  Expanded hinzufugen(
-      ProductBloc productBloc, Product product, BuildContext context) {
+  Expanded hinzufugen(Product product, BuildContext context) {
     return Expanded(
       flex: 1,
       child: MaterialButton(
@@ -461,14 +418,6 @@ class _PageResturantState extends State<PageResturant>
               : changeText.value = 'HINZUFÜGEN';
 
           if (counterController.itemCount.value == 1) {
-            /*productBloc.add(AddToCart(
-                product: product,
-                order: Order(
-                  resturant: resturant,
-                  product: product,
-                  quantity: counterController.counter.value,
-                  totalPrise: product.price * counterController.counter.value,
-                )));*/
             orderController.addToCart(
               Order(
                 product: product,
@@ -526,7 +475,7 @@ class _PageResturantState extends State<PageResturant>
     );
   }
 
-  Expanded incrementAndDicrement(ProductBloc productBloc, Product product) {
+  Expanded incrementAndDicrement(Product product) {
     return Expanded(
       flex: 1,
       child: Row(
@@ -545,25 +494,15 @@ class _PageResturantState extends State<PageResturant>
             onPressed: () {
               if (counterController.counter.value > 1) {
                 counterController.decrement();
-                orderController.removeFromCart(
-                  Order(
+                orderController.removeFromCart(Order(
+
                     product: product,
                     totalPrise: product.price,
                     quantity: 1,
                     resturant: resturant,
-                  ),
-                );
 
-                /*productBloc.add(
-                  DeleteFromCart(
-                    product: product,
-                    order: Order(
-                        product: product,
-                        totalPrise: product.price,
-                        quantity: 1,
-                        resturant: resturant),
-                  ),
-                );*/
+                ));
+
               } else {
                 counterController.counter.value;
               }
@@ -605,26 +544,7 @@ class _PageResturantState extends State<PageResturant>
                     resturant: resturant,
                   ),
                 );
-
-                /*productBloc.add(AddToCart(
-                    product: product,
-                    order: Order(
-                      product: product,
-                      totalPrise: product.price,
-                      quantity: 1,
-                      resturant: resturant,
-                    )));
-                productBloc.add(AddToCart(
-                    product: product,
-                    order: Order(
-                      product: product,
-                      totalPrise: product.price,
-                      quantity: 1,
-                      resturant: resturant,
-                    )));*/
                 counterController.increment();
-                // counterController.counter.value=1;
-
               } else {
                 orderController.addToCart(
                   Order(
@@ -634,15 +554,6 @@ class _PageResturantState extends State<PageResturant>
                     resturant: resturant,
                   ),
                 );
-
-                /* productBloc.add(AddToCart(
-                    product: product,
-                    order: Order(
-                      product: product,
-                      totalPrise: product.price,
-                      quantity: 1,
-                      resturant: resturant,
-                    )));*/
                 counterController.increment();
               }
             },

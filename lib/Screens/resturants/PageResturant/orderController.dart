@@ -2,8 +2,6 @@ import 'package:get/get.dart';
 import 'package:mjam/models_and_data/Class/models_and_data.dart';
 
 class OrderController extends GetxController {
-  /*Order order;
-  Product product;*/
   RxList<Order> cartOrder = <Order>[].obs;
   RxSet<Product> setMyCart = <Product>{}.obs;
 
@@ -13,8 +11,10 @@ class OrderController extends GetxController {
   }
 
   removeFromCart(Order order) {
-    cartOrder.remove(order);
-    setMyCart.remove(order.product);
+    var selectProduct = cartOrder
+        .firstWhere((element) =>
+    element.product == order.product);
+    cartOrder.remove(selectProduct);
   }
 
   clearAllCart() {
