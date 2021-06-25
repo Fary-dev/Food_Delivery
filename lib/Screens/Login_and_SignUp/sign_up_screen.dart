@@ -6,7 +6,6 @@ import 'package:get_storage/get_storage.dart';
 import 'package:mjam/Contants/Color.dart';
 import 'package:mjam/Screens/Login_and_SignUp/login_screen.dart';
 import 'package:mjam/Widgets/BottomNavBarWidget.dart';
-import 'package:mjam/models_and_data/Class/models_and_data.dart';
 
 import 'auch_with_Google.dart';
 

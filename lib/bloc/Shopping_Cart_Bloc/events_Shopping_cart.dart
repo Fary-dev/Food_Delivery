@@ -1,3 +1,4 @@
+/*
 import 'package:mjam/models_and_data/Class/models_and_data.dart';
 
 abstract class CartBlocEvent {}
@@ -13,3 +14,4 @@ class DeleteFromShoppingCart extends CartBlocEvent {
 }
 
 class ClearAllShoppingCart extends CartBlocEvent {}
+*/

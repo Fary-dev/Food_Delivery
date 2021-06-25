@@ -1,30 +1,16 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get/get.dart';
 import 'package:mjam/Contants/Color.dart';
 import 'package:mjam/Screens/Home_Page/HomePage.dart';
 import 'package:mjam/Screens/Resturants/PageResturant/counterController.dart';
 import 'package:mjam/Screens/Resturants/PageResturant/orderController.dart';
-import 'package:mjam/Widgets/BottomNavBarWidget.dart';
-import 'package:mjam/bloc/Counter_Bloc/counter_select_product.dart';
-import 'package:mjam/bloc/Order_Bloc/events.dart';
-import 'package:mjam/bloc/Order_Bloc/states.dart';
 import 'package:mjam/bottom_Navigation_bar/Shopping/shopping_Controller.dart';
 import 'package:mjam/models_and_data/Class/models_and_data.dart';
-import 'package:mjam/bloc/Order_Bloc/productBloc.dart';
 
-class ShoppingCarts extends StatefulWidget {
-  ShoppingCarts({
-    Key key,
-  }) : super(key: key);
 
-  @override
-  _ShoppingCartsState createState() => _ShoppingCartsState();
-}
-
-class _ShoppingCartsState extends State<ShoppingCarts> {
+class ShoppingCarts extends StatelessWidget {
   final CounterController counterController = Get.put(CounterController());
   final OrderController orderController = Get.put(OrderController());
   final ShoppingCartController shoppingCartController =
@@ -32,505 +18,354 @@ class _ShoppingCartsState extends State<ShoppingCarts> {
 
   @override
   Widget build(BuildContext context) {
-    final ProductBloc productBloc = BlocProvider.of<ProductBloc>(context);
-
     return Scaffold(
-      appBar: buildAppBar(productBloc, context),
+      appBar: buildAppBar(context),
       body: Obx(
         () => orderController.cartOrder.isNotEmpty
-            ? screenAfterLogIn(productBloc)
+            ? screenAfterLogIn(context)
             : screenBeforLogIn(context),
       ),
     );
   }
 
-  Column screenAfterLogIn(
-    ProductBloc productBloc,
-  ) {
+  Column screenAfterLogIn(context) {
     return Column(
       children: [
         Expanded(
-          child: BlocBuilder<ProductBloc, BlocState>(
-            builder: (context, state) => state is LodingState
-                ? CupertinoActivityIndicator()
-                : state is FailState
-                    ? Center(
-                        child: Text('${state.massage}'),
-                      )
-                    : state is SuccessState
-                        ? Column(
+            child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Column(
+              children: [
+                Padding(
+                  padding: const EdgeInsets.only(top: 10, left: 10),
+                  child: Text(
+                    orderController.cartOrder.length > 0
+                        ? 'Deine Bestellung bei ${orderController.cartOrder[0].resturant.nameResturant}'
+                        : '',
+                    style: TextStyle(fontWeight: FontWeight.bold),
+                  ),
+                ),
+              ],
+            ),
+            Expanded(
+              child: GetBuilder<OrderController>(builder: (_ord) {
+                return ListView.builder(
+                  scrollDirection: Axis.vertical,
+                  shrinkWrap: true,
+                  itemCount: _ord.setMyCart.length,
+                  itemBuilder: (context, index) {
+                    var _order = _ord.setMyCart.elementAt(index);
+                    int count = _ord.cartOrder
+                        .where((element) => element.product == _order)
+                        .toList()
+                        .length;
+
+                    return Container(
+                      padding: EdgeInsets.only(right: 10.0),
+                      width: MediaQuery.of(context).size.width - 30,
+                      child: Column(
+                        children: [
+                          Row(
                             crossAxisAlignment: CrossAxisAlignment.start,
+                            mainAxisAlignment: MainAxisAlignment.start,
                             children: [
-                              Column(
+                              Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceEvenly,
                                 children: [
-                                  Padding(
-                                    padding: const EdgeInsets.only(
-                                        top: 10, left: 10),
-                                    child: Text(
-                                      orderController.cartOrder.length > 0
-                                          ? 'Deine Bestellung bei ${orderController.cartOrder[0].resturant.nameResturant}'
-                                          : '',
-                                      style: TextStyle(
-                                          fontWeight: FontWeight.bold),
+                                  IconButton(
+                                    icon: Icon(
+                                      CupertinoIcons.minus,
+                                      size: 20,
+                                      color: primaryColor,
                                     ),
+                                    onPressed: () {
+                                      if (count > 1) {
+                                        orderController.removeFromCart(Order(
+                                          product: _order,
+                                          totalPrise: _order.price,
+                                          quantity: 1,
+                                          resturant:
+                                              _ord.cartOrder[0].resturant,
+                                        ));
+                                      } else if (_ord.cartOrder.length == 1) {
+                                        _ord.clearAllCart();
+                                        counterController.itemCount.value = 1;
+                                        counterController
+                                            .showBottomSheet.value = false;
+                                      } else {
+                                        orderController.removeFromCart(Order(
+                                          product: _order,
+                                          totalPrise: _order.price,
+                                          quantity: 1,
+                                          resturant:
+                                              _ord.cartOrder[0].resturant,
+                                        ));
+
+                                        _ord.setMyCart.remove(_order);
+                                        shoppingCartController
+                                            .revomeController(index);
+                                      }
+                                      if (_ord.setMyCart.isEmpty) {
+                                        _ord.clearAllCart();
+
+                                        counterController.itemCount.value = 1;
+                                        counterController
+                                            .showBottomSheet.value = false;
+                                        orderController.clearAllCart();
+                                      }
+
+                                    },
+                                  ),
+                                  Text(
+                                    count.toString(),
+                                  ),
+                                  IconButton(
+                                    icon: Icon(
+                                      CupertinoIcons.add,
+                                      size: 20,
+                                      color: primaryColor,
+                                    ),
+                                    onPressed: () {
+                                      _ord.addToCart(Order(
+                                          totalPrise: _order.price,
+                                          quantity: 1,
+                                          product: _order,
+                                          resturant: orderController
+                                              .cartOrder[index].resturant));
+                                    },
                                   ),
                                 ],
                               ),
                               Expanded(
-                                child: GetBuilder<OrderController>(
-                                    builder: (_ord) {
-                                  return ListView.builder(
-                                    scrollDirection: Axis.vertical,
-                                    shrinkWrap: true,
-                                    itemCount: _ord.setMyCart.length,
-                                    itemBuilder: (context, index) {
-                                      var _order =
-                                          _ord.setMyCart.elementAt(index);
-                                      int count = _ord.cartOrder
-                                          .where((element) =>
-                                              element.product == _order)
-                                          .toList()
-                                          .length;
-                                      /*var _order = state.setMyProductsList
-                                            .elementAt(index);*/
-                                      /*int count = state.orderList
-                                            .where((element) =>
-                                                element.product == _order)
-                                            .toList()
-                                            .length;*/
-
-                                      return Container(
-                                        padding: EdgeInsets.only(right: 10.0),
-                                        width:
-                                            MediaQuery.of(context).size.width -
-                                                30,
-                                        child: Column(
-                                          children: [
-                                            Row(
-                                              crossAxisAlignment:
-                                                  CrossAxisAlignment.start,
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment.start,
-                                              children: [
-                                                Row(
-                                                  mainAxisAlignment:
-                                                      MainAxisAlignment
-                                                          .spaceEvenly,
-                                                  children: [
-                                                    IconButton(
-                                                      icon: Icon(
-                                                        CupertinoIcons.minus,
-                                                        size: 20,
-                                                        color: primaryColor,
-                                                      ),
-                                                      onPressed: () {
-                                                        if (count > 1) {
-                                                          var selectProduct = _ord
-                                                              .cartOrder
-                                                              .firstWhere(
-                                                                  (element) =>
-                                                                      element
-                                                                          .product ==
-                                                                      _order);
-                                                          _ord.cartOrder.remove(
-                                                              selectProduct);
-
-                                                          /* var selectProduct = state
-                                                                .orderList
-                                                                .firstWhere((order) =>
-                                                                    order.product ==
-                                                                    _order);
-                                                            state.orderList.remove(
-                                                                selectProduct);*/
-                                                        } else if (
-                                                            /*state.orderList
-                                                                  .length ==
-                                                              1*/
-                                                            _ord.cartOrder
-                                                                    .length ==
-                                                                1) {
-                                                          _ord.clearAllCart();
-                                                          /* productBloc.add(
-                                                                ClearAllCart());*/
-                                                          counterController
-                                                              .itemCount
-                                                              .value = 1;
-                                                          counterController
-                                                              .showBottomSheet
-                                                              .value = false;
-
-                                                          // counterBloc.add(
-                                                          //     CounterEvent(
-                                                          //         value: 1,
-                                                          //         status: EventStatus
-                                                          //             .clearAll));
-                                                        } else {
-                                                          var selectProduct = _ord
-                                                              .cartOrder
-                                                              .firstWhere(
-                                                                  (element) =>
-                                                                      element
-                                                                          .product ==
-                                                                      _order);
-
-                                                          _ord.cartOrder.remove(
-                                                              selectProduct);
-
-                                                          _ord.setMyCart
-                                                              .remove(_order);
-
-                                                          /*var selectProduct = state
-                                                                .orderList
-                                                                .firstWhere((order) =>
-                                                                    order.product ==
-                                                                    _order);
-                                                            state.orderList.remove(
-                                                                selectProduct);
-                                                            state.setMyProductsList
-                                                                .remove(_order);*/
-                                                          shoppingCartController
-                                                              .revomeController(
-                                                                  index);
-                                                        }
-                                                        if (_ord.setMyCart
-                                                                .isEmpty
-                                                            /*state
-                                                            .setMyProductsList
-                                                            .isEmpty*/
-                                                            ) {
-                                                          _ord.clearAllCart();
-                                                          /*productBloc.add(
-                                                              ClearAllCart());*/
-
-                                                          counterController
-                                                              .itemCount
-                                                              .value = 1;
-                                                          counterController
-                                                              .showBottomSheet
-                                                              .value = false;
-                                                          orderController
-                                                              .clearAllCart();
-                                                          // counterBloc.add(
-                                                          //     CounterEvent(
-                                                          //         value: 1,
-                                                          //         status: EventStatus
-                                                          //             .clearAll));
-                                                        }
-                                                        setState(() {});
-                                                      },
-                                                    ),
-                                                    Text(
-                                                      count.toString(),
-                                                    ),
-                                                    IconButton(
-                                                      icon: Icon(
-                                                        CupertinoIcons.add,
-                                                        size: 20,
-                                                        color: primaryColor,
-                                                      ),
-                                                      onPressed: () {
-                                                        _ord.addToCart(Order(
-                                                            totalPrise:
-                                                                _order.price,
-                                                            quantity: 1,
-                                                            product: _order,
-                                                            resturant:
-                                                                orderController
-                                                                    .cartOrder[
-                                                                        index]
-                                                                    .resturant));
-
-                                                        /*productBloc.add(AddToCart(
-                                                            product: _order,
-                                                            order: Order(
-                                                                totalPrise:
-                                                                    _order
-                                                                        .price,
-                                                                quantity: 1,
-                                                                product: _order,
-                                                                resturant: state
-                                                                    .orderList[
-                                                                        index]
-                                                                    .resturant)));*/
-                                                      },
-                                                    ),
-                                                  ],
-                                                ),
-                                                Expanded(
-                                                  child: Column(
-                                                    crossAxisAlignment:
-                                                        CrossAxisAlignment
-                                                            .start,
-                                                    children: [
-                                                      SizedBox(height: 15),
-                                                      Row(
-                                                        mainAxisAlignment:
-                                                            MainAxisAlignment
-                                                                .spaceBetween,
-                                                        children: [
-                                                          Text(
-                                                            _order.nameProduct,
-                                                          ),
-                                                          Text(
-                                                            '\€ ${(count * _order.price).toStringAsFixed(2)}',
-                                                          )
-                                                        ],
-                                                      ),
-                                                      Container(
-                                                          padding:
-                                                              EdgeInsets.only(
-                                                                  left: 0.0),
-                                                          child: Text(
-                                                              '+ Zutaten',
-                                                              style: TextStyle(
-                                                                  color:
-                                                                      greyColor))),
-                                                      Obx(
-                                                        () => shoppingCartController
-                                                                        .commendSelect[
-                                                                    index] ==
-                                                                false
-                                                            ? Container(
-                                                                padding: EdgeInsets
-                                                                    .only(
-                                                                        left:
-                                                                            0.0),
-                                                                child: SizedBox(
-                                                                  height: 32,
-                                                                  child:
-                                                                      TextButton(
-                                                                          onPressed:
-                                                                              () {
-                                                                            shoppingCartController.commendSelect[index] =
-                                                                                true;
-                                                                            shoppingCartController.buttonCheck[index] =
-                                                                                false;
-                                                                          },
-                                                                          child:
-                                                                              Text(
-                                                                            'Kommentar hinzufügen',
-                                                                            style:
-                                                                                TextStyle(color: primaryColor),
-                                                                          )),
-                                                                ))
-                                                            : Container(),
-                                                      ),
-                                                    ],
-                                                  ),
-                                                )
-                                              ],
-                                            ),
-                                            Obx(
-                                              () => shoppingCartController
-                                                                  .commendSelect[
-                                                              index] ==
-                                                          true ||
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    SizedBox(height: 15),
+                                    Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        Text(
+                                          _order.nameProduct,
+                                        ),
+                                        Text(
+                                          '\€ ${(count * _order.price).toStringAsFixed(2)}',
+                                        )
+                                      ],
+                                    ),
+                                    Container(
+                                        padding: EdgeInsets.only(left: 0.0),
+                                        child: Text('+ Zutaten',
+                                            style:
+                                                TextStyle(color: greyColor))),
+                                    Obx(
+                                      () => shoppingCartController
+                                                  .commendSelect[index] ==
+                                              false
+                                          ? Container(
+                                              padding:
+                                                  EdgeInsets.only(left: 0.0),
+                                              child: SizedBox(
+                                                height: 32,
+                                                child: TextButton(
+                                                    onPressed: () {
                                                       shoppingCartController
-                                                              .listController[
-                                                                  index]
-                                                              .text !=
-                                                          ''
-                                                  ? SizedBox(
-                                                      height: 35,
-                                                      child: Row(
-                                                        children: [
-                                                          Expanded(
-                                                            child: Padding(
-                                                              padding: const EdgeInsets
-                                                                      .symmetric(
-                                                                  horizontal:
-                                                                      10.0),
-                                                              child:
-                                                                  TextFormField(
-                                                                textAlignVertical:
-                                                                    TextAlignVertical
-                                                                        .bottom,
-                                                                style: Theme.of(
-                                                                        context)
-                                                                    .primaryTextTheme
-                                                                    .headline3
-                                                                    .copyWith(
-                                                                        fontSize:
-                                                                            14),
-                                                                controller:
-                                                                    shoppingCartController
-                                                                            .listController[
-                                                                        index],
-                                                                keyboardType:
-                                                                    TextInputType
-                                                                        .text,
-                                                                decoration:
-                                                                    InputDecoration(
-                                                                  hintText:
-                                                                      'Kommentare..',
-                                                                ),
-                                                                onSaved:
-                                                                    (value) {
-                                                                  if (value !=
-                                                                      '') {
-                                                                    shoppingCartController
-                                                                        .listController[
-                                                                            index]
-                                                                        .text = value;
-                                                                  }
-                                                                },
-                                                                maxLines: 1,
-                                                              ),
-                                                            ),
-                                                          ),
-                                                          Obx(
-                                                            () =>
-                                                                MaterialButton(
-                                                              padding:
-                                                                  EdgeInsets
-                                                                      .all(5),
-                                                              onPressed: () {
-                                                                if (shoppingCartController
-                                                                            .listController[
-                                                                                index]
-                                                                            .text !=
-                                                                        '' &&
-                                                                    shoppingCartController
-                                                                            .buttonCheck[index] ==
-                                                                        false) {
-                                                                  shoppingCartController
-                                                                          .buttonCheck[
-                                                                      index] = true;
-                                                                  shoppingCartController
-                                                                          .commendSelect[
-                                                                      index] = true;
-                                                                } else {
-                                                                  shoppingCartController
-                                                                          .commendSelect[
-                                                                      index] = false;
-                                                                  shoppingCartController
-                                                                      .listController[
-                                                                          index]
-                                                                      .text = '';
-                                                                }
-                                                              },
-                                                              child: Obx(
-                                                                () => Text(
-                                                                  shoppingCartController.listController[index].text !=
-                                                                              '' &&
-                                                                          shoppingCartController.buttonCheck[index] ==
-                                                                              true
-                                                                      ? 'Entfernen'
-                                                                          .toUpperCase()
-                                                                      : 'Hinzufügen'
-                                                                          .toUpperCase(),
-                                                                  style:
-                                                                      TextStyle(
-                                                                    fontSize:
-                                                                        12,
-                                                                    color: Colors
-                                                                        .white,
-                                                                  ),
-                                                                ),
-                                                              ),
-                                                              color: shoppingCartController
-                                                                              .listController[
-                                                                                  index]
-                                                                              .text !=
-                                                                          '' &&
-                                                                      shoppingCartController.buttonCheck[
-                                                                              index] ==
-                                                                          true
-                                                                  ? Colors.red
-                                                                  : Colors
-                                                                      .green,
-                                                            ),
-                                                          ),
-                                                        ],
-                                                      ),
-                                                    )
-                                                  : Text(''),
-                                            )
-                                          ],
-                                        ),
-                                      );
-                                    },
-                                  );
-                                }),
-                              ),
-                              Padding(
-                                padding: const EdgeInsets.all(20),
-                                child: Container(
-                                  child: orderController.cartOrder.length == 0
-                                      ? Text('')
-                                      : Column(
-                                          children: [
-                                            Row(
-                                              children: [
-                                                RichText(
-                                                  text: TextSpan(children: [
-                                                    TextSpan(
-                                                        text: 'Gesamt',
-                                                        style: Theme.of(context)
-                                                            .primaryTextTheme
-                                                            .headline2
-                                                            .copyWith(
-                                                                fontSize: 18)),
-                                                    TextSpan(text: ' '),
-                                                    TextSpan(
-                                                      text: '(inkl.Mwst.)',
-                                                      style: Theme.of(context)
-                                                          .primaryTextTheme
-                                                          .headline3
-                                                          .copyWith(
-                                                              fontSize: 10),
-                                                    ),
-                                                  ]),
-                                                ),
-                                                Spacer(),
-                                                Text(
-                                                  '${orderController.cartOrder.reduce((x, y) => Order(totalPrise: x.totalPrise + y.totalPrise)).totalPrise.toStringAsFixed(2)} \€',
-                                                  style: Theme.of(context)
-                                                      .primaryTextTheme
-                                                      .bodyText2
-                                                      .copyWith(fontSize: 18),
-                                                ),
-                                              ],
-                                            ),
-                                            SizedBox(
-                                              width: MediaQuery.of(context)
-                                                  .size
-                                                  .width,
-                                              child: ElevatedButton(
-                                                style: ElevatedButton.styleFrom(
-                                                  shape: RoundedRectangleBorder(
-                                                      borderRadius:
-                                                          BorderRadius.circular(
-                                                              10)),
-                                                  primary: primaryColor,
-                                                  textStyle: Theme.of(context)
-                                                      .primaryTextTheme
-                                                      .button,
-                                                ),
-                                                child: Text(
-                                                  "Zahlung und Adresse Überprüfen",
-                                                  style: Theme.of(context)
-                                                      .primaryTextTheme
-                                                      .button
-                                                      .copyWith(
-                                                          fontSize: 14,
-                                                          color: Color(
-                                                              0xFFFFFFFF)),
-                                                ),
-                                                onPressed: () {
-                                                  Get.off(() => HomePage());
-                                                },
-                                              ),
-                                            )
-                                          ],
-                                        ),
+                                                              .commendSelect[
+                                                          index] = true;
+                                                      shoppingCartController
+                                                              .buttonCheck[
+                                                          index] = false;
+                                                    },
+                                                    child: Text(
+                                                      'Kommentar hinzufügen',
+                                                      style: TextStyle(
+                                                          color: primaryColor),
+                                                    )),
+                                              ))
+                                          : Container(),
+                                    ),
+                                  ],
                                 ),
                               )
                             ],
+                          ),
+                          Obx(
+                            () => shoppingCartController.commendSelect[index] ==
+                                        true ||
+                                    shoppingCartController
+                                            .listController[index].text !=
+                                        ''
+                                ? SizedBox(
+                                    height: 35,
+                                    child: Row(
+                                      children: [
+                                        Expanded(
+                                          child: Padding(
+                                            padding: const EdgeInsets.symmetric(
+                                                horizontal: 10.0),
+                                            child: TextFormField(
+                                              textAlignVertical:
+                                                  TextAlignVertical.bottom,
+                                              style: Theme.of(context)
+                                                  .primaryTextTheme
+                                                  .headline3
+                                                  .copyWith(fontSize: 14),
+                                              controller: shoppingCartController
+                                                  .listController[index],
+                                              keyboardType: TextInputType.text,
+                                              decoration: InputDecoration(
+                                                hintText: 'Kommentare..',
+                                              ),
+                                              onSaved: (value) {
+                                                if (value != '') {
+                                                  shoppingCartController
+                                                      .listController[index]
+                                                      .text = value;
+                                                }
+                                              },
+                                              maxLines: 1,
+                                            ),
+                                          ),
+                                        ),
+                                        Obx(
+                                          () => MaterialButton(
+                                            padding: EdgeInsets.all(5),
+                                            onPressed: () {
+                                              if (shoppingCartController
+                                                          .listController[index]
+                                                          .text !=
+                                                      '' &&
+                                                  shoppingCartController
+                                                          .buttonCheck[index] ==
+                                                      false) {
+                                                shoppingCartController
+                                                    .buttonCheck[index] = true;
+                                                shoppingCartController
+                                                        .commendSelect[index] =
+                                                    true;
+                                              } else {
+                                                shoppingCartController
+                                                        .commendSelect[index] =
+                                                    false;
+                                                shoppingCartController
+                                                    .listController[index]
+                                                    .text = '';
+                                              }
+                                            },
+                                            child: Obx(
+                                              () => Text(
+                                                shoppingCartController
+                                                                .listController[
+                                                                    index]
+                                                                .text !=
+                                                            '' &&
+                                                        shoppingCartController
+                                                                    .buttonCheck[
+                                                                index] ==
+                                                            true
+                                                    ? 'Entfernen'.toUpperCase()
+                                                    : 'Hinzufügen'
+                                                        .toUpperCase(),
+                                                style: TextStyle(
+                                                  fontSize: 12,
+                                                  color: Colors.white,
+                                                ),
+                                              ),
+                                            ),
+                                            color: shoppingCartController
+                                                            .listController[
+                                                                index]
+                                                            .text !=
+                                                        '' &&
+                                                    shoppingCartController
+                                                                .buttonCheck[
+                                                            index] ==
+                                                        true
+                                                ? Colors.red
+                                                : Colors.green,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  )
+                                : Text(''),
                           )
-                        : Container(),
-          ),
-        ),
+                        ],
+                      ),
+                    );
+                  },
+                );
+              }),
+            ),
+            Padding(
+              padding: const EdgeInsets.all(20),
+              child: Container(
+                child: orderController.cartOrder.length == 0
+                    ? Text('')
+                    : Column(
+                        children: [
+                          Row(
+                            children: [
+                              RichText(
+                                text: TextSpan(children: [
+                                  TextSpan(
+                                      text: 'Gesamt',
+                                      style: Theme.of(context)
+                                          .primaryTextTheme
+                                          .headline2
+                                          .copyWith(fontSize: 18)),
+                                  TextSpan(text: ' '),
+                                  TextSpan(
+                                    text: '(inkl.Mwst.)',
+                                    style: Theme.of(context)
+                                        .primaryTextTheme
+                                        .headline3
+                                        .copyWith(fontSize: 10),
+                                  ),
+                                ]),
+                              ),
+                              Spacer(),
+                              Text(
+                                '${orderController.cartOrder.reduce((x, y) => Order(totalPrise: x.totalPrise + y.totalPrise)).totalPrise.toStringAsFixed(2)} \€',
+                                style: Theme.of(context)
+                                    .primaryTextTheme
+                                    .bodyText2
+                                    .copyWith(fontSize: 18),
+                              ),
+                            ],
+                          ),
+                          SizedBox(
+                            width: MediaQuery.of(context).size.width,
+                            child: ElevatedButton(
+                              style: ElevatedButton.styleFrom(
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(10),
+                                ),
+                                primary: primaryColor,
+                                textStyle:
+                                    Theme.of(context).primaryTextTheme.button,
+                              ),
+                              child: Text(
+                                "Zahlung und Adresse Überprüfen",
+                                style: Theme.of(context)
+                                    .primaryTextTheme
+                                    .button
+                                    .copyWith(
+                                        fontSize: 14, color: Color(0xFFFFFFFF)),
+                              ),
+                              onPressed: () {
+                                Get.off(() => HomePage());
+                              },
+                            ),
+                          )
+                        ],
+                      ),
+              ),
+            )
+          ],
+        )),
       ],
     );
   }
@@ -583,7 +418,7 @@ class _ShoppingCartsState extends State<ShoppingCarts> {
     );
   }
 
-  AppBar buildAppBar(ProductBloc productBloc, BuildContext context) {
+  AppBar buildAppBar(BuildContext context) {
     return AppBar(
       automaticallyImplyLeading: false,
       centerTitle: true,
@@ -617,10 +452,8 @@ class _ShoppingCartsState extends State<ShoppingCarts> {
                   ),
                   onPressed: () {
                     orderController.clearAllCart();
-                    // productBloc.add(ClearAllCart());
                     counterController.itemCount.value = 1;
                     counterController.showBottomSheet.value = false;
-
                     shoppingCartController.commendSelect.clear();
                     shoppingCartController.buttonCheck.clear();
                     shoppingCartController.listController.clear();
@@ -631,7 +464,7 @@ class _ShoppingCartsState extends State<ShoppingCarts> {
                     CupertinoIcons.delete,
                     color: greyColor,
                   ),
-                  onPressed: () {},
+                  onPressed: null,
                 ),
         ),
       ],

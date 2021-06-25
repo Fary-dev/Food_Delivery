@@ -2,17 +2,15 @@ import 'package:animations/animations.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:get/get.dart';
 import 'package:mjam/Contants/Color.dart';
 import 'package:mjam/Screens/Menu_Screen/Menu.dart';
-import 'package:mjam/bloc/Order_Bloc/productBloc.dart';
-import 'package:mjam/bloc/Order_Bloc/states.dart';
+import 'package:mjam/Screens/Resturants/PageResturant/orderController.dart';
 import 'package:mjam/bottom_Navigation_bar/FavoritScreen.dart';
 import 'package:mjam/bottom_Navigation_bar/Profil.dart';
 import 'package:mjam/bottom_Navigation_bar/search_Screen.dart';
 import 'package:mjam/bottom_Navigation_bar/Shopping/shopping_carts.dart';
 
-// ignore: camel_case_types
 class BottomNavBarWidget extends StatefulWidget {
   BottomNavBarWidget({Key key}) : super(key: key);
 
@@ -20,8 +18,8 @@ class BottomNavBarWidget extends StatefulWidget {
   _BottomNavBarWidgetState createState() => _BottomNavBarWidgetState();
 }
 
-// ignore: camel_case_types
 class _BottomNavBarWidgetState extends State<BottomNavBarWidget> {
+  final OrderController orderController = Get.put(OrderController());
   PageController pageController = PageController();
   int _selectedIndex = 0;
   final screens = <Widget>[
@@ -59,91 +57,87 @@ class _BottomNavBarWidgetState extends State<BottomNavBarWidget> {
           },
           child: screens[_selectedIndex],
         ),
-        
-           bottomNavigationBar: BottomNavigationBar(
-
-            type: BottomNavigationBarType.fixed,
-            backgroundColor: Theme.of(context).primaryColor,
-            selectedItemColor: primaryColor,
-            unselectedItemColor: Theme.of(context).primaryIconTheme.color,
-            items: [
-              BottomNavigationBarItem(
-                // ignore: deprecated_member_use
-                title: Padding(
-                  padding: EdgeInsets.all(0),
-                ),
-                icon:ImageIcon(AssetImage('assets/bottomNavBar/service.png')),
+        bottomNavigationBar: BottomNavigationBar(
+          type: BottomNavigationBarType.fixed,
+          backgroundColor: Theme.of(context).primaryColor,
+          selectedItemColor: primaryColor,
+          unselectedItemColor: Theme.of(context).primaryIconTheme.color,
+          items: [
+            BottomNavigationBarItem(
+              // ignore: deprecated_member_use
+              title: Padding(
+                padding: EdgeInsets.all(0),
               ),
-              BottomNavigationBarItem(
-                // ignore: deprecated_member_use
-                title: Padding(
-                  padding: EdgeInsets.all(0),
-                ),
-                icon:ImageIcon(AssetImage('assets/bottomNavBar/search.png')),
-
+              icon: ImageIcon(AssetImage('assets/bottomNavBar/service.png')),
+            ),
+            BottomNavigationBarItem(
+              // ignore: deprecated_member_use
+              title: Padding(
+                padding: EdgeInsets.all(0),
               ),
-              BottomNavigationBarItem(
-                // ignore: deprecated_member_use
-                title: Padding(
-                  padding: EdgeInsets.all(0),
-                ),
-                icon:ImageIcon(AssetImage('assets/bottomNavBar/favo.png')),
+              icon: ImageIcon(AssetImage('assets/bottomNavBar/search.png')),
+            ),
+            BottomNavigationBarItem(
+              // ignore: deprecated_member_use
+              title: Padding(
+                padding: EdgeInsets.all(0),
               ),
-              BottomNavigationBarItem(
-                // ignore: deprecated_member_use
-                title: Padding(
-                  padding: EdgeInsets.all(0),
-                ),
-                icon: Stack(
-                  children: <Widget>[
-                    ImageIcon(AssetImage('assets/bottomNavBar/shop.png')),
-                    BlocBuilder<ProductBloc, BlocState>(
-                        builder: (context, state) => state is SuccessState
-                            ? Positioned(
-                          top: 0,
-                                right: 0,
-                                child: state.orderList.isNotEmpty
-                                    ? Container(
-                                        padding: EdgeInsets.all(1),
-                                        decoration: BoxDecoration(
-                                          color: Colors.red,
-                                          borderRadius: BorderRadius.circular(6),
-                                        ),
-                                        constraints: BoxConstraints(
-                                          minWidth: 5,
-                                          minHeight: 5,
-                                        ),
-                                      )
-                                    : Container(
-                                        padding: EdgeInsets.all(1),
-                                        decoration: BoxDecoration(
-                                          color: Colors.transparent,
-                                          borderRadius: BorderRadius.circular(6),
-                                        ),
-                                        constraints: BoxConstraints(
-                                          minWidth: 5,
-                                          minHeight: 5,
-                                        ),
-                                      ),
-                              )
-                            : Text('')),
-                  ],
-                ),
+              icon: ImageIcon(AssetImage('assets/bottomNavBar/favo.png')),
+            ),
+            BottomNavigationBarItem(
+              // ignore: deprecated_member_use
+              title: Padding(
+                padding: EdgeInsets.all(0),
               ),
-              BottomNavigationBarItem(
-                // ignore: deprecated_member_use
-                title: Padding(
-                  padding: EdgeInsets.all(0),
-                ),
-                icon:ImageIcon(AssetImage('assets/bottomNavBar/user.png')),
+              icon: Stack(
+                children: <Widget>[
+                  ImageIcon(AssetImage('assets/bottomNavBar/shop.png')),
+                  Obx(
+                    () => Positioned(
+                      top: 0,
+                      right: 0,
+                      child: orderController.cartOrder.isNotEmpty
+                          ? Container(
+                              padding: EdgeInsets.all(1),
+                              decoration: BoxDecoration(
+                                color: Colors.red,
+                                borderRadius: BorderRadius.circular(6),
+                              ),
+                              constraints: BoxConstraints(
+                                minWidth: 5,
+                                minHeight: 5,
+                              ),
+                            )
+                          : Container(
+                              padding: EdgeInsets.all(1),
+                              decoration: BoxDecoration(
+                                color: Colors.transparent,
+                                borderRadius: BorderRadius.circular(6),
+                              ),
+                              constraints: BoxConstraints(
+                                minWidth: 5,
+                                minHeight: 5,
+                              ),
+                            ),
+                    ),
+                  )
+                ],
               ),
-            ],
-            currentIndex: _selectedIndex,
-            onTap: (int value) {
-              setState(() {
-                _selectedIndex = value;
-              });
-            },
+            ),
+            BottomNavigationBarItem(
+              // ignore: deprecated_member_use
+              title: Padding(
+                padding: EdgeInsets.all(0),
+              ),
+              icon: ImageIcon(AssetImage('assets/bottomNavBar/user.png')),
+            ),
+          ],
+          currentIndex: _selectedIndex,
+          onTap: (int value) {
+            setState(() {
+              _selectedIndex = value;
+            });
+          },
         ),
       ),
     );

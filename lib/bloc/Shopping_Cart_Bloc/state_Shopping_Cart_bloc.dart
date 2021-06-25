@@ -1,3 +1,4 @@
+/*
 import 'package:mjam/models_and_data/Class/models_and_data.dart';
 
 abstract class CartBlocState {}
@@ -15,3 +16,4 @@ class FailCartState extends CartBlocState {
   String massage;
   FailCartState({this.massage});
 }
+*/
