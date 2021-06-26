@@ -51,67 +51,7 @@ class _ProfilState extends State<Profil> {
                             signOutGoogle();
                             Get.offAll(HomePage());
                           } else {
-                            showDialog(
-
-                              context: context,
-                              builder: (context) => AlertDialog(
-                                shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.all(Radius.circular(15.0))),
-                                title: Text(
-                                  "Achtung!!",
-                                  style: Theme.of(context)
-                                      .primaryTextTheme
-                                      .button
-                                      .copyWith(
-                                          color: primaryColor, fontSize: 14),
-                                ),
-                                content: Column(
-                                  mainAxisSize: MainAxisSize.min,
-                                  children: [
-                                    Text(
-                                      "Ihre aktuelle Bestellung wird gelöscht.",
-                                      style: Theme.of(context)
-                                          .primaryTextTheme
-                                          .button
-                                          .copyWith(fontSize: 12),
-                                    ),
-                                    SizedBox(
-                                      height: 40,
-                                    ),
-                                    Row(
-                                      children: [
-                                        ElevatedButton.icon(
-                                          style:Theme.of(context).elevatedButtonTheme.style,
-                                          label: Text('JA'),
-                                          icon: Icon(
-                                            CupertinoIcons.checkmark_alt,
-                                            color: Color(0xFF10D401),
-                                          ),
-                                          onPressed: () {
-                                            orderController.clearAllCart();
-                                            logOut();
-                                            signOutGoogle();
-                                            Get.offAll(HomePage());
-                                          },
-                                        ),
-                                        Spacer(),
-                                        ElevatedButton.icon(
-                                          style:Theme.of(context).elevatedButtonTheme.style,
-                                          label: Text('NEIN'),
-                                          icon: Icon(
-                                            CupertinoIcons.clear,
-                                            color: primaryColor,
-                                          ),
-                                          onPressed: () {
-                                           Get.back();
-                                          },
-                                        ),
-                                      ],
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            );
+                            showDialogLogout(context);
                           }
                         },
                       )
@@ -296,6 +236,75 @@ class _ProfilState extends State<Profil> {
                 ),
               ),
             ])),
+      ),
+    );
+  }
+
+  Future<dynamic> showDialogLogout(BuildContext context) {
+    return showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        backgroundColor: Theme.of(context).primaryColor,
+        shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.all(Radius.circular(15.0))),
+        title: Text(
+          "Achtung!!",
+          style: Theme.of(context)
+              .primaryTextTheme
+              .button
+              .copyWith(color: primaryColor, fontSize: 14),
+        ),
+        content: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Text(
+              "Ihre aktuelle Bestellung wird gelöscht.",
+              style: Theme.of(context)
+                  .primaryTextTheme
+                  .button
+                  .copyWith(fontSize: 12),
+            ),
+            SizedBox(
+              height: 40,
+            ),
+            Row(
+              children: [
+                ElevatedButton.icon(
+                  style: Theme.of(context).elevatedButtonTheme.style,
+                  label: Text(
+                    'JA',
+                    style: Theme.of(context).primaryTextTheme.button,
+                  ),
+                  icon: Icon(
+                    CupertinoIcons.checkmark_alt,
+                    color: Color(0xFF10D401),
+                  ),
+                  onPressed: () {
+                    orderController.clearAllCart();
+                    logOut();
+                    signOutGoogle();
+                    Get.offAll(HomePage());
+                  },
+                ),
+                Spacer(),
+                ElevatedButton.icon(
+                  style: Theme.of(context).elevatedButtonTheme.style,
+                  label: Text(
+                    'NEIN',
+                    style: Theme.of(context).primaryTextTheme.button,
+                  ),
+                  icon: Icon(
+                    CupertinoIcons.clear,
+                    color: primaryColor,
+                  ),
+                  onPressed: () {
+                    Get.back();
+                  },
+                ),
+              ],
+            ),
+          ],
+        ),
       ),
     );
   }
