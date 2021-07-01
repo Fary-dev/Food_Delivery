@@ -278,9 +278,7 @@ class _PageResturantState extends State<PageResturant>
                                           comment(),
 //========================================================================================= - and + =======================
                                           incrementAndDicrement(
-                                            // productBloc,
-                                            product,
-                                          ),
+                                              product, resturant),
 
 //==================================================================================== HINZUFÜGEN =========================
 
@@ -412,30 +410,36 @@ class _PageResturantState extends State<PageResturant>
       child: MaterialButton(
         color: primaryColor,
         onPressed: () {
-          counterController.showBottomSheet.value = true;
-          counterController.itemCount.value >= 1
-              ? changeText.value = 'WARENKORB ÖFFNEN'
-              : changeText.value = 'HINZUFÜGEN';
-
-          if (counterController.itemCount.value == 1) {
-            orderController.addToCart(
-              Order(
-                product: product,
-                totalPrise: product.price,
-                quantity: 1,
-                resturant: resturant,
-              ),
-            );
-
-            counterController.clear();
-
+          if (orderController.cartOrder.isEmpty ||
+              orderController.cartOrder[0].resturant.nameResturant ==
+                  resturant.nameResturant) {
             counterController.showBottomSheet.value = true;
-            Get.back();
-            updateScreen();
+            counterController.itemCount.value >= 1
+                ? changeText.value = 'WARENKORB ÖFFNEN'
+                : changeText.value = 'HINZUFÜGEN';
+            if (counterController.itemCount.value == 1) {
+              orderController.addToCart(
+                Order(
+                  product: product,
+                  totalPrise: product.price,
+                  quantity: 1,
+                  resturant: resturant,
+                ),
+              );
+
+              counterController.clear();
+
+              counterController.showBottomSheet.value = true;
+              Get.back();
+              updateScreen();
+            } else {
+              counterController.clear();
+              counterController.counter.value = 1;
+              Get.back();
+              updateScreen();
+            }
           } else {
-            counterController.clear();
-            counterController.counter.value = 1;
-            Get.back();
+            showDialogForCheckResturantHinzufugen(context, product);
             updateScreen();
           }
         },
@@ -475,7 +479,197 @@ class _PageResturantState extends State<PageResturant>
     );
   }
 
-  Expanded incrementAndDicrement(Product product) {
+  Future<dynamic> showDialogForCheckResturantHinzufugen(
+      BuildContext context, Product product) {
+    return showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        backgroundColor: Theme.of(context).primaryColor,
+        shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.all(Radius.circular(15.0))),
+        title: Text(
+          "Achtung!!",
+          style: Theme.of(context)
+              .primaryTextTheme
+              .button
+              .copyWith(color: primaryColor, fontSize: 14),
+        ),
+        content: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Text(
+              "Ihre aktuelle Bestellung wird gelöscht.",
+              style: Theme.of(context)
+                  .primaryTextTheme
+                  .button
+                  .copyWith(fontSize: 12),
+            ),
+            SizedBox(
+              height: 40,
+            ),
+            Row(
+              children: [
+                ElevatedButton.icon(
+                  style: Theme.of(context).elevatedButtonTheme.style,
+                  label: Text(
+                    'JA',
+                    style: Theme.of(context).primaryTextTheme.button,
+                  ),
+                  icon: Icon(
+                    CupertinoIcons.checkmark_alt,
+                    color: Color(0xFF10D401),
+                  ),
+                  onPressed: () {
+                    orderController.clearAllCart();
+                    counterController.showBottomSheet.value = true;
+                    counterController.itemCount.value >= 1
+                        ? changeText.value = 'WARENKORB ÖFFNEN'
+                        : changeText.value = 'HINZUFÜGEN';
+                    if (counterController.itemCount.value == 1) {
+                      orderController.addToCart(
+                        Order(
+                          product: product,
+                          totalPrise: product.price,
+                          quantity: 1,
+                          resturant: resturant,
+                        ),
+                      );
+
+                      counterController.clear();
+
+                      counterController.showBottomSheet.value = true;
+                      Get.back();
+                      updateScreen();
+                    } else {
+                      counterController.clear();
+                      counterController.counter.value = 1;
+                      Get.back();
+                      updateScreen();
+                    }
+                    Get.back();
+                  },
+                ),
+                Spacer(),
+                ElevatedButton.icon(
+                  style: Theme.of(context).elevatedButtonTheme.style,
+                  label: Text(
+                    'NEIN',
+                    style: Theme.of(context).primaryTextTheme.button,
+                  ),
+                  icon: Icon(
+                    CupertinoIcons.clear,
+                    color: primaryColor,
+                  ),
+                  onPressed: () {
+                    Get.back();
+                  },
+                ),
+              ],
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Future<dynamic> showDialogForCheckResturant(Product product) {
+    return showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        backgroundColor: Theme.of(context).primaryColor,
+        shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.all(Radius.circular(15.0))),
+        title: Text(
+          "Achtung!!",
+          style: Theme.of(context)
+              .primaryTextTheme
+              .button
+              .copyWith(color: primaryColor, fontSize: 14),
+        ),
+        content: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Text(
+              "Ihre aktuelle Bestellung wird gelöscht.",
+              style: Theme.of(context)
+                  .primaryTextTheme
+                  .button
+                  .copyWith(fontSize: 12),
+            ),
+            SizedBox(
+              height: 40,
+            ),
+            Row(
+              children: [
+                ElevatedButton.icon(
+                  style: Theme.of(context).elevatedButtonTheme.style,
+                  label: Text(
+                    'JA',
+                    style: Theme.of(context).primaryTextTheme.button,
+                  ),
+                  icon: Icon(
+                    CupertinoIcons.checkmark_alt,
+                    color: Color(0xFF10D401),
+                  ),
+                  onPressed: () {
+                    orderController.clearAllCart();
+                    if (counterController.counter.value == 1) {
+                      orderController.addToCart(
+                        Order(
+                          product: product,
+                          totalPrise: product.price,
+                          quantity: 1,
+                          resturant: resturant,
+                        ),
+                      );
+
+                      orderController.addToCart(
+                        Order(
+                          product: product,
+                          totalPrise: product.price,
+                          quantity: 1,
+                          resturant: resturant,
+                        ),
+                      );
+                      counterController.increment();
+                    } else {
+                      orderController.addToCart(
+                        Order(
+                          product: product,
+                          totalPrise: product.price,
+                          quantity: 1,
+                          resturant: resturant,
+                        ),
+                      );
+                      counterController.increment();
+                    }
+                    Get.back();
+                  },
+                ),
+                Spacer(),
+                ElevatedButton.icon(
+                  style: Theme.of(context).elevatedButtonTheme.style,
+                  label: Text(
+                    'NEIN',
+                    style: Theme.of(context).primaryTextTheme.button,
+                  ),
+                  icon: Icon(
+                    CupertinoIcons.clear,
+                    color: primaryColor,
+                  ),
+                  onPressed: () {
+                    Get.back();
+                  },
+                ),
+              ],
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Expanded incrementAndDicrement(Product product, Resturant resturant) {
     return Expanded(
       flex: 1,
       child: Row(
@@ -495,14 +689,11 @@ class _PageResturantState extends State<PageResturant>
               if (counterController.counter.value > 1) {
                 counterController.decrement();
                 orderController.removeFromCart(Order(
-
-                    product: product,
-                    totalPrise: product.price,
-                    quantity: 1,
-                    resturant: resturant,
-
+                  product: product,
+                  totalPrise: product.price,
+                  quantity: 1,
+                  resturant: resturant,
                 ));
-
               } else {
                 counterController.counter.value;
               }
@@ -526,35 +717,41 @@ class _PageResturantState extends State<PageResturant>
               color: primaryColor,
             ),
             onPressed: () {
-              if (counterController.counter.value == 1) {
-                orderController.addToCart(
-                  Order(
-                    product: product,
-                    totalPrise: product.price,
-                    quantity: 1,
-                    resturant: resturant,
-                  ),
-                );
+              if (orderController.cartOrder.isEmpty ||
+                  orderController.cartOrder[0].resturant.nameResturant ==
+                      resturant.nameResturant) {
+                if (counterController.counter.value == 1) {
+                  orderController.addToCart(
+                    Order(
+                      product: product,
+                      totalPrise: product.price,
+                      quantity: 1,
+                      resturant: resturant,
+                    ),
+                  );
 
-                orderController.addToCart(
-                  Order(
-                    product: product,
-                    totalPrise: product.price,
-                    quantity: 1,
-                    resturant: resturant,
-                  ),
-                );
-                counterController.increment();
+                  orderController.addToCart(
+                    Order(
+                      product: product,
+                      totalPrise: product.price,
+                      quantity: 1,
+                      resturant: resturant,
+                    ),
+                  );
+                  counterController.increment();
+                } else {
+                  orderController.addToCart(
+                    Order(
+                      product: product,
+                      totalPrise: product.price,
+                      quantity: 1,
+                      resturant: resturant,
+                    ),
+                  );
+                  counterController.increment();
+                }
               } else {
-                orderController.addToCart(
-                  Order(
-                    product: product,
-                    totalPrise: product.price,
-                    quantity: 1,
-                    resturant: resturant,
-                  ),
-                );
-                counterController.increment();
+                showDialogForCheckResturant(product);
               }
             },
           ),
