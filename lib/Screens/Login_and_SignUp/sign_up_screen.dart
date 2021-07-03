@@ -8,6 +8,7 @@ import 'package:mjam/Screens/Login_and_SignUp/login_screen.dart';
 import 'package:mjam/Widgets/BottomNavBarWidget.dart';
 
 import 'auch_with_Google.dart';
+import 'auch_with_facebook.dart';
 
 class SignUpScreen extends StatefulWidget {
   @override
@@ -15,6 +16,7 @@ class SignUpScreen extends StatefulWidget {
 }
 
 class _SignUpScreenState extends State<SignUpScreen> {
+  final LoginFacebook loginFacebook=Get.put(LoginFacebook());
   TextEditingController _nameController = TextEditingController();
   TextEditingController _emailController = TextEditingController();
   TextEditingController _passController = TextEditingController();
@@ -25,15 +27,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
 
   void click() {
     setState(() {
-      signInWithGoogle().whenComplete(() {
-        Navigator.of(context).push(
-          MaterialPageRoute(
-            builder: (context) {
-              return BottomNavBarWidget();
-            },
-          ),
-        );
-      });
+      signInWithGoogle().whenComplete(() => Get.to(BottomNavBarWidget()));
     });
   }
 
@@ -101,7 +95,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                             borderRadius: BorderRadius.all(Radius.circular(5))),
                         color: Theme.of(context).cardColor,
                         onPressed: () {
-                          print('Facebook');
+                          loginFacebook.signInFacebook().whenComplete(() => Get.to(BottomNavBarWidget()));
                         },
                         child: Row(
                           crossAxisAlignment: CrossAxisAlignment.center,

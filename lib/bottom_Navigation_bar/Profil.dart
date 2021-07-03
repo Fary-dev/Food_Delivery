@@ -6,6 +6,7 @@ import 'package:get_storage/get_storage.dart';
 import 'package:mjam/Contants/Color.dart';
 import 'package:mjam/Screens/Home_Page/HomePage.dart';
 import 'package:mjam/Screens/Login_and_SignUp/auch_with_Google.dart';
+import 'package:mjam/Screens/Login_and_SignUp/auch_with_facebook.dart';
 import 'package:mjam/Screens/Login_and_SignUp/login_screen.dart';
 import 'package:mjam/Screens/Login_and_SignUp/sign_up_screen.dart';
 import 'package:mjam/Screens/Resturants/PageResturant/orderController.dart';
@@ -18,6 +19,8 @@ class Profil extends StatefulWidget {
 }
 
 class _ProfilState extends State<Profil> {
+  final LoginFacebook loginFacebook=Get.put(LoginFacebook());
+
   final OrderController orderController = Get.put(OrderController());
   FirebaseAuth _auth = FirebaseAuth.instance;
   final userData = GetStorage();
@@ -49,6 +52,7 @@ class _ProfilState extends State<Profil> {
                           if (orderController.cartOrder.isEmpty) {
                             logOut();
                             signOutGoogle();
+                            // loginFacebook.signOutFacebook();
                             Get.offAll(HomePage());
                           } else {
                             showDialogLogout(context);

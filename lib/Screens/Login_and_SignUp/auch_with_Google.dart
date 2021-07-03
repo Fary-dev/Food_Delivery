@@ -47,7 +47,7 @@ Future<String> signInWithGoogle() async {
 
   final User currentUser = _auth.currentUser;
   assert(user.uid == currentUser.uid);
-  googleUser = user;
+  // googleUser = user;
   userData.write('isLogged', true);
   userData.write('userName', user.displayName);
 
