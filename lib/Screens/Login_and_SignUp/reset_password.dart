@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:mjam/Contants/Color.dart';
 
@@ -63,6 +64,9 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
               Form(
                 key: _formKey,
                 child: TextFormField(
+                  inputFormatters: [BlacklistingTextInputFormatter(
+                       RegExp(r"\s\b|\b\s")
+                  )],
                   style: Theme.of(context)
                       .primaryTextTheme
                       .headline3
@@ -81,7 +85,7 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
                     ),
                   ),
                   validator: validateEmail,
-                  onSaved: (input) => _email = input,
+                  onSaved: (input) => _email = input.trim(),
                   controller: _emailController,
                 ),
               ),
@@ -117,7 +121,7 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
     Pattern pattern =
         r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$';
     RegExp regex = new RegExp(pattern);
-    if (!regex.hasMatch(value))
+    if (!regex.hasMatch(value.trim()))
       return 'Enter Valid Email';
     else
       return null;
@@ -128,7 +132,7 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
     if (formState.validate()) {
       formState.save();
       try {
-        await auth.sendPasswordResetEmail(email: _email);
+        await auth.sendPasswordResetEmail(email: _email.trim());
         Navigator.push(
             context, MaterialPageRoute(builder: (context) => LoginScreen()));
       } catch (e) {

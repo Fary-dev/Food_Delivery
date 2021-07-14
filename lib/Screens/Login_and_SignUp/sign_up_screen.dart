@@ -1,12 +1,12 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:mjam/Contants/Color.dart';
 import 'package:mjam/Screens/Login_and_SignUp/login_screen.dart';
 import 'package:mjam/Widgets/BottomNavBarWidget.dart';
-
 import 'auch_with_Google.dart';
 import 'auch_with_facebook.dart';
 
@@ -16,7 +16,7 @@ class SignUpScreen extends StatefulWidget {
 }
 
 class _SignUpScreenState extends State<SignUpScreen> {
-  final LoginFacebook loginFacebook=Get.put(LoginFacebook());
+  final LoginFacebook loginFacebook = Get.put(LoginFacebook());
   TextEditingController _nameController = TextEditingController();
   TextEditingController _emailController = TextEditingController();
   TextEditingController _passController = TextEditingController();
@@ -95,7 +95,43 @@ class _SignUpScreenState extends State<SignUpScreen> {
                             borderRadius: BorderRadius.all(Radius.circular(5))),
                         color: Theme.of(context).cardColor,
                         onPressed: () {
-                          loginFacebook.signInFacebook().whenComplete(() => Get.to(BottomNavBarWidget()));
+                          loginFacebook.signInFacebook().whenComplete(() =>
+                              Get.defaultDialog(
+                                  barrierDismissible: false,
+                                  backgroundColor:
+                                      Theme.of(context).primaryColor,
+                                  title: '',
+                                  content: Column(
+                                    children: [
+                                      CircleAvatar(
+                                        radius: 50,
+                                        backgroundImage: NetworkImage(
+                                            (userData.read('photo'))),
+                                      ),
+                                      SizedBox(height: 30),
+                                      Center(
+                                          child:
+                                              Text(userData.read('userName'),style: Theme.of(context).textTheme.button)),
+                                      SizedBox(height: 30),
+                                      ElevatedButton.icon(
+                                        style: Theme.of(context)
+                                            .elevatedButtonTheme
+                                            .style,
+                                        label: Text(
+                                          'OK',
+                                          style: Theme.of(context)
+                                              .primaryTextTheme
+                                              .button,
+                                        ),
+                                        icon: Icon(
+                                          CupertinoIcons.checkmark_alt,
+                                          color: Color(0xFF10D401),
+                                        ),
+                                        onPressed: () =>
+                                            Get.to(BottomNavBarWidget()),
+                                      ),
+                                    ],
+                                  )));
                         },
                         child: Row(
                           crossAxisAlignment: CrossAxisAlignment.center,
@@ -229,7 +265,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                             .apply(fontSizeDelta: 2),
                         validator: validateName,
                         onSaved: (String value) {
-                          _name = value;
+                          _name = value.trim();
                         },
                         decoration: InputDecoration(
                           contentPadding: EdgeInsets.symmetric(horizontal: 15),
@@ -246,6 +282,9 @@ class _SignUpScreenState extends State<SignUpScreen> {
                       ),
                       SizedBox(height: 10),
                       TextFormField(
+                        inputFormatters: [
+                          BlacklistingTextInputFormatter(RegExp(r"\s\b|\b\s"))
+                        ],
                         controller: _emailController,
                         style: Theme.of(context)
                             .primaryTextTheme
@@ -254,7 +293,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         keyboardType: TextInputType.emailAddress,
                         validator: validateEmail,
                         onSaved: (String value) {
-                          _email = value;
+                          _email = value.trim();
                         },
                         decoration: InputDecoration(
                           contentPadding: EdgeInsets.symmetric(horizontal: 15),
@@ -271,6 +310,9 @@ class _SignUpScreenState extends State<SignUpScreen> {
                       ),
                       SizedBox(height: 10),
                       TextFormField(
+                        inputFormatters: [
+                          BlacklistingTextInputFormatter(RegExp(r"\s\b|\b\s"))
+                        ],
                         controller: _passController,
                         obscureText: !showPassword ? true : false,
                         style: Theme.of(context)
@@ -279,7 +321,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                             .apply(fontSizeDelta: 2),
                         validator: validatePassword,
                         onSaved: (String value) {
-                          _password = value;
+                          _password = value.trim();
                         },
                         decoration: InputDecoration(
                           contentPadding: EdgeInsets.symmetric(horizontal: 15),
@@ -418,12 +460,12 @@ class _SignUpScreenState extends State<SignUpScreen> {
       try {
         final User user = (await FirebaseAuth.instance
                 .createUserWithEmailAndPassword(
-                    email: _email, password: _password))
+                    email: _email.trim(), password: _password.trim()))
             .user;
         userData.write('userName', _nameController.text);
         userData.write('isLogged', true);
         user.sendEmailVerification();
-        Get.to(LoginScreen());
+        Get.to(BottomNavBarWidget());
       } catch (e) {
         Get.snackbar('Achtung', 'Mit Diese Email gibt es ein Konto!!');
         print(e.message);

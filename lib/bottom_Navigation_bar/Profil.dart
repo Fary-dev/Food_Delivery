@@ -19,7 +19,7 @@ class Profil extends StatefulWidget {
 }
 
 class _ProfilState extends State<Profil> {
-  final LoginFacebook loginFacebook=Get.put(LoginFacebook());
+   final LoginFacebook loginFacebook=Get.put(LoginFacebook());
 
   final OrderController orderController = Get.put(OrderController());
   FirebaseAuth _auth = FirebaseAuth.instance;
@@ -52,7 +52,7 @@ class _ProfilState extends State<Profil> {
                           if (orderController.cartOrder.isEmpty) {
                             logOut();
                             signOutGoogle();
-                            // loginFacebook.signOutFacebook();
+                            loginFacebook.signOutFacebook();
                             Get.offAll(HomePage());
                           } else {
                             showDialogLogout(context);

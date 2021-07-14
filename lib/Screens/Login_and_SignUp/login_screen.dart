@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:mjam/Contants/Color.dart';
@@ -210,6 +211,9 @@ class _LoginScreenState extends State<LoginScreen> {
                     child: Column(
                       children: [
                         TextFormField(
+                          inputFormatters: [BlacklistingTextInputFormatter(
+                               RegExp(r"\s\b|\b\s")
+                          )],
                           style: Theme.of(context)
                               .primaryTextTheme
                               .headline3
@@ -229,11 +233,14 @@ class _LoginScreenState extends State<LoginScreen> {
                             ),
                           ),
                           validator: validateEmail,
-                          onSaved: (input) => _email = input,
+                          onSaved: (input) => _email = input.trim(),
                           controller: _emailController,
                         ),
                         SizedBox(height: 10),
                         TextFormField(
+                          inputFormatters: [BlacklistingTextInputFormatter(
+                               RegExp(r"\s\b|\b\s")
+                          )],
                           obscureText: !showPassword ? true : false,
                           style: Theme.of(context)
                               .primaryTextTheme
@@ -272,7 +279,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                   ),
                           ),
                           validator: validatePassword,
-                          onSaved: (input) => _password = input,
+                          onSaved: (input) => _password = input.trim(),
                           controller: _passwordController,
                         ),
                       ],
