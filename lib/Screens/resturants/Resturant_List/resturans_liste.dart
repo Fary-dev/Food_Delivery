@@ -8,6 +8,7 @@ import '../PageResturant/pageResturant.dart';
 
 class ResturantListe extends StatefulWidget {
   ResturantListe({Key key}) : super(key: key);
+
   @override
   _ResturantListeState createState() => _ResturantListeState();
 }
@@ -21,13 +22,12 @@ class _ResturantListeState extends State<ResturantListe> {
       () => ListView.builder(
         shrinkWrap: true,
         physics: const NeverScrollableScrollPhysics(),
-        itemCount: sortList.sort.value == ''
-            ? resturants.length
-            : sortList.list.length,
+        itemCount:
+            sortList.list.isEmpty ? resturants.length : sortList.list.length,
         itemBuilder: (context, index) {
-          final Resturant _resturant = sortList.sort.value == ''
-              ? resturants[index]
-              : sortList.list[index];
+          final Resturant _resturant =
+              sortList.list.isEmpty ? resturants[index] : sortList.list[index];
+
           return GestureDetector(
             onTap: () {
               Get.to(() => PageResturant(

@@ -8,6 +8,8 @@ import 'package:mjam/models_and_data/Class/models_and_data.dart';
 import 'package:mjam/models_and_data/Icons/font1.dart';
 
 class BottomFilterAbholungSort extends StatelessWidget {
+  final ResturantListController _controller = Get.find();
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -17,56 +19,83 @@ class BottomFilterAbholungSort extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: <Widget>[
           //__________________________Sortierung______________________________
-          ElevatedButton.icon(
-            onPressed: () {
-              containerSortirung(context);
-            },
-            icon: Icon(
-              CupertinoIcons.sort_down,
-              color: primaryColor,
-            ),
-            label: Text(
-              'Sortierung',
-              style: Theme.of(context)
-                  .primaryTextTheme
-                  .button
-                  .apply(fontSizeDelta: -3),
-            ),
-            style: ButtonStyle(
+          Obx(()=> ElevatedButton.icon(
+              onPressed: () {
+                containerSortirung(context);
+              },
+              icon: Icon(
+                CupertinoIcons.sort_down,
+                color: primaryColor,
+              ),
+              label: Text(
+                'Sortierung',
+                style: Theme.of(context)
+                    .primaryTextTheme
+                    .button
+                    .apply(fontSizeDelta: -3),
+              ),
+              style: _controller.selectSortItem.value != ''
+                  ? ButtonStyle(
+                shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                  RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(10.0),
+                    side: BorderSide(color: primaryColor, width: 1),
+                  ),
+                ),
+                backgroundColor: MaterialStateProperty.all(
+                    Theme.of(context).bottomAppBarTheme.color),
+              )
+                  : ButtonStyle(
                 shape: MaterialStateProperty.all<RoundedRectangleBorder>(
                   RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(10.0),
                   ),
                 ),
                 backgroundColor: MaterialStateProperty.all(
-                    Theme.of(context).bottomAppBarTheme.color)),
+                    Theme.of(context).bottomAppBarTheme.color),
+              ),
+            ),
           ),
 
           //____________________________Filter________________________________
-          ElevatedButton.icon(
-            onPressed: () {
-              containerFilter(context);
-            },
-            icon: Icon(
-              Iconsss.equalizer,
-              size: 20,
-              color: primaryColor,
+          Obx(
+            () => ElevatedButton.icon(
+              onPressed: () {
+                containerFilter(context);
+              },
+              icon: Icon(
+                Iconsss.equalizer,
+                size: 20,
+                color: primaryColor,
+              ),
+              label: Text(
+                'Filter',
+                style: Theme.of(context)
+                    .primaryTextTheme
+                    .button
+                    .apply(fontSizeDelta: -3),
+              ),
+              style: _controller.selectFilterItem.value != ''
+                  ? ButtonStyle(
+                      shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                        RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(10.0),
+                          side: BorderSide(color: primaryColor, width: 1),
+                        ),
+                      ),
+                      backgroundColor: MaterialStateProperty.all(
+                          Theme.of(context).bottomAppBarTheme.color),
+                    )
+                  : ButtonStyle(
+                      shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                        RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(10.0),
+                        ),
+                      ),
+                      backgroundColor: MaterialStateProperty.all(
+                          Theme.of(context).bottomAppBarTheme.color),
+                    ),
             ),
-            label: Text(
-              'Filter',
-              style: Theme.of(context)
-                  .primaryTextTheme
-                  .button
-                  .apply(fontSizeDelta: -3),
-            ),
-            style: ButtonStyle(
-                shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-                  RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(10.0),
-                  ),
-                ),
-                backgroundColor: MaterialStateProperty.all(
-                    Theme.of(context).bottomAppBarTheme.color)),
           ),
 
           //__________________________Abholung________________________________
@@ -113,24 +142,49 @@ void containerSortirung(context) {
           padding: const EdgeInsets.symmetric(horizontal: 30),
           child: GestureDetector(
             onTap: () {
-              sortList.sort.value = txt;
+              sortList.selectSortItem.value = txt;
 
-              if (sortList.sort.value == 'Qualität') {
-                sortList.list.value = resturants
-                  ..sort(
-                      (a, b) => b.ratingResturant.compareTo(a.ratingResturant));
-              } else if (sortList.sort.value == 'Zeit') {
-                sortList.list.value = resturants
-                  ..sort((a, b) =>
-                      a.deliveryDuration.compareTo(b.deliveryDuration));
-              } else if (sortList.sort.value == 'Entfernung') {
-                sortList.list.value = resturants
-                  ..sort((a, b) => a.distance.compareTo(b.distance));
-              } else if (sortList.sort.value == 'Beliebtheit') {
-                sortList.list.value = resturants
-                  ..sort((a, b) => b.distance.compareTo(a.distance));
+              if (sortList.list.isEmpty) {
+                if (sortList.selectSortItem.value == 'Qualität') {
+                  sortList.list.value = resturants
+                    ..sort((a, b) =>
+                        b.ratingResturant.compareTo(a.ratingResturant));
+                } else if (sortList.selectSortItem.value == 'Zeit') {
+                  sortList.list.value = resturants
+                    ..sort((a, b) =>
+                        a.deliveryDuration.compareTo(b.deliveryDuration));
+                } else if (sortList.selectSortItem.value == 'Entfernung') {
+                  sortList.list.value = resturants
+                    ..sort((a, b) => a.distance.compareTo(b.distance));
+                } else if (sortList.selectSortItem.value == 'Beliebtheit') {
+                  sortList.list.value = resturants
+                    ..sort((a, b) => b.distance.compareTo(a.distance));
+                } else {
+                  sortList.selectSortItem.value = '';
+                }
               } else {
-                sortList.sort.value = '';
+                sortList.categuryListSet.clear();
+                if (sortList.selectSortItem.value == 'Qualität') {
+                  sortList.list
+                    // .value = select
+                    ..sort((a, b) =>
+                        b.ratingResturant.compareTo(a.ratingResturant));
+                } else if (sortList.selectSortItem.value == 'Zeit') {
+                  sortList.list
+                    // .value = select
+                    ..sort((a, b) =>
+                        a.deliveryDuration.compareTo(b.deliveryDuration));
+                } else if (sortList.selectSortItem.value == 'Entfernung') {
+                  sortList.list
+                    // .value = select
+                    ..sort((a, b) => a.distance.compareTo(b.distance));
+                } else if (sortList.selectSortItem.value == 'Beliebtheit') {
+                  sortList.list
+                    // .value = select
+                    ..sort((a, b) => b.distance.compareTo(a.distance));
+                } else {
+                  sortList.selectSortItem.value = '';
+                }
               }
             },
             child: Row(
@@ -140,12 +194,12 @@ void containerSortirung(context) {
                     height: 40,
                     width: 40,
                     decoration: BoxDecoration(
-                      color: sortList.sort.value == txt ? colorIcon : colorBtn,
+                      color: sortList.selectSortItem.value == txt ? colorIcon : colorBtn,
                       shape: BoxShape.circle,
                     ),
                     child: Icon(
                       iconn,
-                      color: sortList.sort.value == txt ? colorBtn : colorIcon,
+                      color: sortList.selectSortItem.value == txt ? colorBtn : colorIcon,
                     ),
                   ),
                 ),
@@ -198,7 +252,7 @@ void containerSortirung(context) {
                         CupertinoIcons.clear_circled_solid,
                       ),
                       onPressed: () {
-                        sortList.sort.value = '';
+                        sortList.selectSortItem.value = '';
                         Get.back();
                       },
                     ),
@@ -238,7 +292,7 @@ void containerSortirung(context) {
                 child: Obx(
                   () => MaterialButton(
                     elevation: 10,
-                    color: sortList.sort.value == ''
+                    color: sortList.selectSortItem.value == ''
                         ? Theme.of(context).cardColor
                         : primaryColor,
                     child: Obx(() => Text(
@@ -246,12 +300,12 @@ void containerSortirung(context) {
                           style: TextStyle(
                               fontFamily: 'Open_Sans_Bold',
                               fontSize: 14,
-                              color: sortList.sort.value == ''
+                              color: sortList.selectSortItem.value == ''
                                   ? Theme.of(context).iconTheme.color
                                   : whiteColor),
                         )),
                     onPressed: () {
-                      if (sortList.sort.value != '') Get.back();
+                      if (sortList.selectSortItem.value != '') Get.back();
                     },
                   ),
                 ),
@@ -268,8 +322,6 @@ void containerSortirung(context) {
 
 void containerFilter(context) {
   final ResturantListController filterList = Get.put(ResturantListController());
-
-  var selectFilterItem = ''.obs;
   var listItemCount = 0.obs;
   buttomFilter(String btnName, int index) {
     return StatefulBuilder(
@@ -277,27 +329,52 @@ void containerFilter(context) {
       return Obx(
         () => MaterialButton(
           onPressed: () {
-            selectFilterItem.value = btnName;
+            filterList.selectFilterItem.value = btnName;
+            // filterList.sort.value = btnName;
 
-            filterList.sort.value = btnName;
-            final sortList = resturants
-              ..sort((a, b) => a.minimumOrder.compareTo(b.minimumOrder));
-            if (selectFilterItem.value == 'Bis 10 \€') {
-              filterList.list.value =
-                  sortList.where((a) => (a.minimumOrder <= 10)).toList();
+            if (filterList.categuryListSet.isEmpty) {
+              final sortList = resturants
+                ..sort((a, b) => a.minimumOrder.compareTo(b.minimumOrder));
+              if (filterList.selectFilterItem.value == 'Bis 10 \€') {
+                filterList.list.value =
+                    sortList.where((a) => (a.minimumOrder <= 10)).toList();
 
-              listItemCount.value = filterList.list.length;
-            } else if (selectFilterItem.value == 'Bis 20 \€') {
-              filterList.list.value =
-                  sortList.where((a) => (a.minimumOrder <= 20)).toList();
-              listItemCount.value = filterList.list.length;
-            } else if (selectFilterItem.value == 'Egal') {
-              filterList.list.value =
-                  sortList.where((a) => (a.minimumOrder >= 0)).toList();
-              listItemCount.value = filterList.list.length;
+                listItemCount.value = filterList.list.length;
+              } else if (filterList.selectFilterItem.value == 'Bis 20 \€') {
+                filterList.list.value =
+                    sortList.where((a) => (a.minimumOrder <= 20)).toList();
+                listItemCount.value = filterList.list.length;
+              } else if (filterList.selectFilterItem.value == 'Egal') {
+                filterList.list.value =
+                    sortList.where((a) => (a.minimumOrder >= 0)).toList();
+                listItemCount.value = filterList.list.length;
+              } else {
+                filterList.selectSortItem.value = '';
+                listItemCount.value = filterList.list.length;
+              }
             } else {
-              filterList.sort.value = '';
-              listItemCount.value = filterList.list.length;
+              final sortList = filterList.reserveList
+                ..sort((a, b) => a.minimumOrder.compareTo(b.minimumOrder));
+              List<Resturant> _select = [];
+              _select.addAll(sortList.toSet());
+
+              if (filterList.selectFilterItem.value == 'Bis 10 \€') {
+                filterList.list.value =
+                    _select.where((a) => (a.minimumOrder <= 10)).toList();
+
+                listItemCount.value = filterList.list.length;
+              } else if (filterList.selectFilterItem.value == 'Bis 20 \€') {
+                filterList.list.value =
+                    _select.where((a) => (a.minimumOrder <= 20)).toList();
+                listItemCount.value = filterList.list.length;
+              } else if (filterList.selectFilterItem.value == 'Egal') {
+                filterList.list.value =
+                    _select.where((a) => (a.minimumOrder >= 0)).toList();
+                listItemCount.value = filterList.list.length;
+              } else {
+                // filterList.sort.value = '';
+                listItemCount.value = filterList.list.length;
+              }
             }
           },
           shape: StadiumBorder(),
@@ -307,12 +384,13 @@ void containerFilter(context) {
               btnName,
               style: TextStyle(
                 fontSize: 14,
-                color:
-                    selectFilterItem.value == btnName ? whiteColor : blackColor,
+                color: filterList.selectFilterItem.value == btnName
+                    ? whiteColor
+                    : blackColor,
               ),
             ),
           ),
-          color: selectFilterItem.value == btnName
+          color: filterList.selectFilterItem.value == btnName
               ? primaryColor
               : Theme.of(context).cardColor,
         ),
@@ -346,7 +424,7 @@ void containerFilter(context) {
                         icon: Icon(CupertinoIcons.clear_circled_solid),
                         onPressed: () {
                           Get.back();
-                          selectFilterItem.value = '';
+                          filterList.selectFilterItem.value = '';
                           listItemCount.value = 0;
                         })
                   ],
@@ -382,14 +460,14 @@ void containerFilter(context) {
               Center(
                 child: TextButton(
                   onPressed: () {
-                    selectFilterItem.value = '';
+                    filterList.selectFilterItem.value = '';
                     listItemCount.value = 0;
                   },
                   child: Obx(
                     () => Text(
                       'Zurücksetzen',
                       style: TextStyle(
-                        color: selectFilterItem.value != ''
+                        color: filterList.selectFilterItem.value != ''
                             ? primaryColor
                             : greyColor,
                       ),
@@ -406,7 +484,7 @@ void containerFilter(context) {
                 child: Obx(
                   () => MaterialButton(
                     elevation: 10,
-                    color: selectFilterItem.value == ''
+                    color: filterList.selectFilterItem.value == ''
                         ? Theme.of(context).cardColor
                         : primaryColor,
                     child: Obx(
@@ -415,14 +493,14 @@ void containerFilter(context) {
                         style: TextStyle(
                           fontFamily: 'Open_Sans_Bold',
                           fontSize: 14,
-                          color: selectFilterItem.value == ''
+                          color: filterList.selectFilterItem.value == ''
                               ? Theme.of(context).iconTheme.color
                               : whiteColor,
                         ),
                       ),
                     ),
                     onPressed: () {
-                      if (selectFilterItem.value != '') Get.back();
+                      if (filterList.selectFilterItem.value != '') Get.back();
                     },
                   ),
                 ),
