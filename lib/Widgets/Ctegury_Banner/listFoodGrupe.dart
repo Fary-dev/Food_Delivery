@@ -66,6 +66,11 @@ class _FoodGrupeState extends State<FoodGrupe> {
                         categury.selected = !categury.selected;
                         categuryFilter.selectFilterItem.value='';
                         categuryFilter.selectSortItem.value='';
+
+                        if(categuryFilter.categuryListSet.isEmpty){
+                          categuryFilter.list.clear();
+                        }
+
                         if (categury.selected == true) {
                           if (categuryFilter.list.isNotEmpty) {
                             for (var res in resturants) {
@@ -95,13 +100,12 @@ class _FoodGrupeState extends State<FoodGrupe> {
                               }
                             }
                           }
-                          print(categuryFilter.categuryListSet.toSet().length);
                         } else {
                           categuryFilter.categuryListSet.remove(categury.name);
-                          print(categuryFilter.categuryListSet.toSet().length);
                           if (categuryFilter.categuryListSet.length >= 1) {
                             categuryFilter.list.clear();
                             categuryFilter.reserveList.clear();
+
                             for (int i = 0;
                                 i < categuryFilter.categuryListSet.length;
                                 i++) {
@@ -201,8 +205,8 @@ final salate =
     CateguryBanner('Salate', "assets/sa1.png", false, Color(0xFF97B500));
 final pasta =
     CateguryBanner('Pasta', "assets/sp1.png", false, Color(0xFFF08800));
-final kebap =
-    CateguryBanner('Kebap', "assets/ke1.png", false, Color(0xFF06716A));
+// final kebap =
+//     CateguryBanner('Kebap', "assets/ke1.png", false, Color(0xFF06716A));
 final mehr =
     CateguryBanner('Mehr', "assets/Mehr.png", false, Color(0xFFA7021C));
 
@@ -211,6 +215,6 @@ final List<CateguryBanner> listCateguryBanner = [
   burger,
   salate,
   pasta,
-  kebap,
+  // kebap,
   mehr,
 ];
