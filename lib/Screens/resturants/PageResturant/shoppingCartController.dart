@@ -18,8 +18,8 @@ class ShoppingCartController extends GetxController{
   }
 
   clearAllShoppingCart(){
-    shoppingCartOrder.value=[];
-    setShoppingCartOrder.value={};
+    shoppingCartOrder.clear();
+    setShoppingCartOrder.clear();
   }
   
 }
