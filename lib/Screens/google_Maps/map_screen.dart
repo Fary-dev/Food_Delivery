@@ -173,8 +173,7 @@ class _MapScreenState extends State<MapScreen> {
                                         105.0,
                                         12.0,
                                         Theme.of(context)
-                                            .bottomAppBarTheme
-                                            .color),
+                                            .scaffoldBackgroundColor),
                                   ],
                                 ),
                                 Column(

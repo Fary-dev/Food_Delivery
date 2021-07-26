@@ -14,19 +14,30 @@ class ResturantListe extends StatefulWidget {
 }
 
 class _ResturantListeState extends State<ResturantListe> {
-  final ResturantListController sortList = Get.put(ResturantListController());
+  final ResturantListController sortList = Get.find();
+
+  @override
+  void initState() {
+
+    super.initState();
+     if (sortList.defaultListResturant.isEmpty)
+      sortList.defaultListResturant.addAll(resturants);
+
+  }
 
   @override
   Widget build(BuildContext context) {
     return Obx(
-      () => ListView.builder(
+       () => ListView.builder(
         shrinkWrap: true,
         physics: const NeverScrollableScrollPhysics(),
-        itemCount:
-            sortList.list.isEmpty ? resturants.length : sortList.list.length,
+        itemCount: sortList.list.isEmpty
+            ? sortList.defaultListResturant.length
+            : sortList.list.length,
         itemBuilder: (context, index) {
-          final Resturant _resturant =
-              sortList.list.isEmpty ? resturants[index] : sortList.list[index];
+          final Resturant _resturant = sortList.list.isEmpty
+              ?sortList.defaultListResturant[index]
+              : sortList.list[index];
 
           return GestureDetector(
             onTap: () {

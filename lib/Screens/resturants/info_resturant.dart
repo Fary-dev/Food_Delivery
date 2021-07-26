@@ -1,10 +1,12 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:get_storage/get_storage.dart';
 import 'package:mjam/Contants/Color.dart';
 import 'package:mjam/Widgets/Rating.dart';
 import 'package:mjam/models_and_data/Class/models_and_data.dart';
 
+import 'PageResturant/FavoritController.dart';
 import 'Resturant_List/Clipper_Resturant_Photo.dart';
 
 class InfoResturant extends StatefulWidget {
@@ -17,13 +19,12 @@ class InfoResturant extends StatefulWidget {
 }
 
 class _InfoResturantState extends State<InfoResturant> {
-  bool likeBottumPress = false;
-
+  UserAccount userAccount;
+  final FavoritController favoritController = Get.put(FavoritController());
   TabController tabController;
-
   String changeText;
-
   bool showBottomSheet = false;
+  final userData = GetStorage();
 
   @override
   Widget build(BuildContext context) {
@@ -68,17 +69,24 @@ class _InfoResturantState extends State<InfoResturant> {
                   ),
                   child: IconButton(
                     icon: Icon(
-                      likeBottumPress
+                      favoritController.userFavoritList
+                                  .contains(widget.resturant) ==
+                              true
                           ? CupertinoIcons.heart_fill
                           : CupertinoIcons.heart,
                       color: primaryColor,
                     ),
                     onPressed: () {
-                      setState(
-                        () {
-                          likeBottumPress = !likeBottumPress;
-                        },
-                      );
+                      widget.resturant.licked == null
+                          ? widget.resturant.licked = true
+                          : widget.resturant.licked = !widget.resturant.licked;
+                      setState(() {});
+                      if (widget.resturant.licked == true) {
+                        favoritController.userFavoritList.add(widget.resturant);
+                      } else {
+                        favoritController.userFavoritList
+                            .remove(widget.resturant);
+                      }
                     },
                   ),
                 ),

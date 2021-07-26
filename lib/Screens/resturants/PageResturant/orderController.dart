@@ -18,7 +18,7 @@ class OrderController extends GetxController {
   }
 
   clearAllCart() {
-    cartOrder.value = [];
-    setMyCart.value = {};
+    cartOrder.clear();
+    setMyCart.clear();
   }
 }

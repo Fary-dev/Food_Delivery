@@ -6,6 +6,7 @@ import 'package:mjam/Contants/Color.dart';
 import 'package:mjam/Screens/Home_Page/HomePage.dart';
 import 'package:mjam/Screens/Resturants/PageResturant/counterController.dart';
 import 'package:mjam/Screens/Resturants/PageResturant/orderController.dart';
+import 'package:mjam/Widgets/BottomNavBarWidget.dart';
 import 'package:mjam/bottom_Navigation_bar/Shopping/shopping_Controller.dart';
 import 'package:mjam/models_and_data/Class/models_and_data.dart';
 
@@ -399,7 +400,7 @@ class ShoppingCarts extends StatelessWidget {
           ),
           TextButton(
             onPressed: () {
-              Get.to(() => HomePage());
+              Get.to(() => BottomNavBarWidget());
             },
             child: Text(
               "Zur Resturantliste",

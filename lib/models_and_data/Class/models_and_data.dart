@@ -3,6 +3,8 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 //================================ Resturants ==========================
 class Resturant {
+  List favorit;
+  bool licked;
   int id;
   double lattut;
   double longtut;
@@ -25,6 +27,8 @@ class Resturant {
   List<Product> product;
 
   Resturant({
+    this.favorit,
+    this.licked,
     @required this.id,
     @required this.latlong,
     @required this.longtut,
@@ -50,6 +54,7 @@ class Resturant {
 
 final resturant1 = Resturant(
   id: 1,
+
   latlong: LatLng(48.66507923548689, 15.63873216469989),
   lattut: 48.66507923548689,
   longtut: 15.63873216469989,
@@ -88,6 +93,7 @@ final resturant1 = Resturant(
 );
 final resturant2 = Resturant(
   id: 2,
+
   latlong: LatLng(48.665538925380226, 15.633648444305498),
   lattut: 48.665538925380226,
   longtut: 15.633648444305498,
@@ -110,6 +116,7 @@ final resturant2 = Resturant(
 );
 final resturant3 = Resturant(
   id: 3,
+
   latlong: LatLng(48.66207965750285, 15.654308480654059),
   lattut: 48.66207965750285,
   longtut: 15.654308480654059,
@@ -147,6 +154,7 @@ final resturant3 = Resturant(
 );
 final resturant4 = Resturant(
   id: 4,
+
   latlong: LatLng(48.664687222651246, 15.633361206578444),
   lattut: 48.664687222651246,
   longtut: 15.633361206578444,
@@ -183,6 +191,7 @@ final resturant4 = Resturant(
 );
 final resturant5 = Resturant(
   id: 5,
+
   latlong: LatLng(48.66432424932352, 15.662778866146501),
   lattut: 48.66432424932352,
   longtut: 15.662778866146501,
@@ -244,6 +253,7 @@ final List<Resturant> resturants = [
 class Products {
   int id;
   String nameProducts = '';
+
   Products({
     @required this.id,
     @required this.nameProducts,
@@ -453,19 +463,24 @@ class Order {
 
 class UserAccount {
   final Order order;
+  final List<String> favorit;
   String firstName;
   String lastName;
   String nicName;
   String email;
   String password;
+  bool licked;
   final String key;
+
   UserAccount({
     this.order,
+    this.favorit,
     this.firstName,
     this.lastName,
     this.nicName,
     this.email,
     this.password,
+    this.licked = false,
     this.key,
   });
 }

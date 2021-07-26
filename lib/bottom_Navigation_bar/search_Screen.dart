@@ -76,9 +76,9 @@ class _SearchingState extends State<Searching> {
                               },
                               icon: Icon(
                                 CupertinoIcons.clear_circled_solid,
-                                // Icons.cancel_outlined,
                                 size: 20,
-                                color: primaryColor,
+                                color: Colors.grey[500],
+
                               ),
                             )
                           : Icon(
