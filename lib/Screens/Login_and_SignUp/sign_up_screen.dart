@@ -5,7 +5,6 @@ import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:mjam/Contants/Color.dart';
-import 'package:mjam/Screens/Login_and_SignUp/login_screen.dart';
 import 'package:mjam/Widgets/BottomNavBarWidget.dart';
 import 'auch_with_Google.dart';
 import 'auch_with_facebook.dart';
@@ -23,7 +22,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   final userData = GetStorage();
   bool showPassword = false;
-  String _email, _password, _name;
+  String _email, _name, _password;
+
 
   void click() {
     setState(() {
@@ -36,9 +36,9 @@ class _SignUpScreenState extends State<SignUpScreen> {
     showPassword = false;
     super.initState();
   }
-
   @override
   Widget build(BuildContext context) {
+
     return SafeArea(
       child: Scaffold(
         appBar: AppBar(
