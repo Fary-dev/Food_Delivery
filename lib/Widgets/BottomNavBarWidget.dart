@@ -44,99 +44,101 @@ class _BottomNavBarWidgetState extends State<BottomNavBarWidget> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: PageTransitionSwitcher(
-        duration: Duration(milliseconds: 300),
-        transitionBuilder: (child, primaryAnimation, secondaryAnimation) {
-          return FadeThroughTransition(
-            child: child,
-            animation: primaryAnimation,
-            secondaryAnimation: secondaryAnimation,
-          );
-        },
-        child: screens[_selectedIndex],
-      ),
-      bottomNavigationBar: BottomNavigationBar(
-        type: BottomNavigationBarType.fixed,
-        backgroundColor: Theme.of(context).primaryColor,
-        selectedItemColor: primaryColor,
-        unselectedItemColor: Theme.of(context).primaryIconTheme.color,
-        items: [
-          BottomNavigationBarItem(
-            // ignore: deprecated_member_use
-            title: Padding(
-              padding: EdgeInsets.all(0),
+    return SafeArea(
+      child: Scaffold(
+        body: PageTransitionSwitcher(
+          duration: Duration(milliseconds: 300),
+          transitionBuilder: (child, primaryAnimation, secondaryAnimation) {
+            return FadeThroughTransition(
+              child: child,
+              animation: primaryAnimation,
+              secondaryAnimation: secondaryAnimation,
+            );
+          },
+          child: screens[_selectedIndex],
+        ),
+        bottomNavigationBar: BottomNavigationBar(
+          type: BottomNavigationBarType.fixed,
+          backgroundColor: Theme.of(context).primaryColor,
+          selectedItemColor: primaryColor,
+          unselectedItemColor: Theme.of(context).primaryIconTheme.color,
+          items: [
+            BottomNavigationBarItem(
+              // ignore: deprecated_member_use
+              title: Padding(
+                padding: EdgeInsets.all(0),
+              ),
+              icon: ImageIcon(AssetImage('assets/bottomNavBar/service.png')),
             ),
-            icon: ImageIcon(AssetImage('assets/bottomNavBar/service.png')),
-          ),
-          BottomNavigationBarItem(
-            // ignore: deprecated_member_use
-            title: Padding(
-              padding: EdgeInsets.all(0),
+            BottomNavigationBarItem(
+              // ignore: deprecated_member_use
+              title: Padding(
+                padding: EdgeInsets.all(0),
+              ),
+              icon: ImageIcon(AssetImage('assets/bottomNavBar/search.png')),
             ),
-            icon: ImageIcon(AssetImage('assets/bottomNavBar/search.png')),
-          ),
-          BottomNavigationBarItem(
-            // ignore: deprecated_member_use
-            title: Padding(
-              padding: EdgeInsets.all(0),
+            BottomNavigationBarItem(
+              // ignore: deprecated_member_use
+              title: Padding(
+                padding: EdgeInsets.all(0),
+              ),
+              icon: ImageIcon(AssetImage('assets/bottomNavBar/favo.png')),
             ),
-            icon: ImageIcon(AssetImage('assets/bottomNavBar/favo.png')),
-          ),
-          BottomNavigationBarItem(
-            // ignore: deprecated_member_use
-            title: Padding(
-              padding: EdgeInsets.all(0),
-            ),
-            icon: Stack(
-              children: <Widget>[
-                ImageIcon(AssetImage('assets/bottomNavBar/shop.png')),
-                Obx(
-                  () => Positioned(
-                    top: 0,
-                    right: 0,
-                    child: orderController.cartOrder.isNotEmpty
-                        ? Container(
-                            padding: EdgeInsets.all(1),
-                            decoration: BoxDecoration(
-                              color: Colors.red,
-                              borderRadius: BorderRadius.circular(6),
+            BottomNavigationBarItem(
+              // ignore: deprecated_member_use
+              title: Padding(
+                padding: EdgeInsets.all(0),
+              ),
+              icon: Stack(
+                children: <Widget>[
+                  ImageIcon(AssetImage('assets/bottomNavBar/shop.png')),
+                  Obx(
+                    () => Positioned(
+                      top: 0,
+                      right: 0,
+                      child: orderController.cartOrder.isNotEmpty
+                          ? Container(
+                              padding: EdgeInsets.all(1),
+                              decoration: BoxDecoration(
+                                color: Colors.red,
+                                borderRadius: BorderRadius.circular(6),
+                              ),
+                              constraints: BoxConstraints(
+                                minWidth: 5,
+                                minHeight: 5,
+                              ),
+                            )
+                          : Container(
+                              padding: EdgeInsets.all(1),
+                              decoration: BoxDecoration(
+                                color: Colors.transparent,
+                                borderRadius: BorderRadius.circular(6),
+                              ),
+                              constraints: BoxConstraints(
+                                minWidth: 5,
+                                minHeight: 5,
+                              ),
                             ),
-                            constraints: BoxConstraints(
-                              minWidth: 5,
-                              minHeight: 5,
-                            ),
-                          )
-                        : Container(
-                            padding: EdgeInsets.all(1),
-                            decoration: BoxDecoration(
-                              color: Colors.transparent,
-                              borderRadius: BorderRadius.circular(6),
-                            ),
-                            constraints: BoxConstraints(
-                              minWidth: 5,
-                              minHeight: 5,
-                            ),
-                          ),
-                  ),
-                )
-              ],
+                    ),
+                  )
+                ],
+              ),
             ),
-          ),
-          BottomNavigationBarItem(
-            // ignore: deprecated_member_use
-            title: Padding(
-              padding: EdgeInsets.all(0),
+            BottomNavigationBarItem(
+              // ignore: deprecated_member_use
+              title: Padding(
+                padding: EdgeInsets.all(0),
+              ),
+              icon: ImageIcon(AssetImage('assets/bottomNavBar/user.png')),
             ),
-            icon: ImageIcon(AssetImage('assets/bottomNavBar/user.png')),
-          ),
-        ],
-        currentIndex: _selectedIndex,
-        onTap: (int value) {
-          setState(() {
-            _selectedIndex = value;
-          });
-        },
+          ],
+          currentIndex: _selectedIndex,
+          onTap: (int value) {
+            setState(() {
+              _selectedIndex = value;
+            });
+          },
+        ),
       ),
     );
   }

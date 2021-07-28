@@ -11,7 +11,6 @@ import 'package:mjam/Contants/Color.dart';
 import 'package:mjam/Widgets/Rating.dart';
 import 'package:mjam/Widgets/search.dart';
 import 'package:get_storage/get_storage.dart';
-import 'package:mjam/Screens/Home_Page/HomePage.dart';
 import 'package:mjam/models_and_data/Class/models_and_data.dart';
 import 'package:mjam/bottom_Navigation_bar/Shopping/shopping_carts.dart';
 import 'package:mjam/bottom_Navigation_bar/Shopping/shopping_Controller.dart';
@@ -31,7 +30,8 @@ class _PageResturantState extends State<PageResturant>
   final OrderController orderController = Get.put(OrderController());
   final CounterController counterController = Get.put(CounterController());
   final FavoritController favoritController = Get.put(FavoritController());
-  final ShoppingCartController shoppingCartController = Get.put(ShoppingCartController());
+  final ShoppingCartController shoppingCartController =
+      Get.put(ShoppingCartController());
   final userData = GetStorage();
   UserAccount userAccount;
   final Resturant resturant;
@@ -55,7 +55,6 @@ class _PageResturantState extends State<PageResturant>
   @override
   Widget build(BuildContext context) {
     return SafeArea(
-      bottom: false,
       child: Scaffold(
         body: NestedScrollView(
           headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
@@ -93,7 +92,8 @@ class _PageResturantState extends State<PageResturant>
                       ),
                       child: IconButton(
                         icon: Icon(
-                          favoritController.userFavoritList.contains(resturant) ==
+                          favoritController.userFavoritList
+                                      .contains(resturant) ==
                                   true
                               ? CupertinoIcons.heart_fill
                               : CupertinoIcons.heart,
@@ -141,7 +141,8 @@ class _PageResturantState extends State<PageResturant>
                               resturant.nameResturant,
                               textAlign: TextAlign.left,
                               textScaleFactor: 1.5,
-                              style: Theme.of(context).primaryTextTheme.headline2,
+                              style:
+                                  Theme.of(context).primaryTextTheme.headline2,
                             ),
                             IconButton(
                               icon: Icon(
@@ -167,7 +168,8 @@ class _PageResturantState extends State<PageResturant>
                             Text(
                               resturant.ratingResturant.toString(),
                               textAlign: TextAlign.left,
-                              style: Theme.of(context).primaryTextTheme.headline3,
+                              style:
+                                  Theme.of(context).primaryTextTheme.headline3,
                             ),
                           ],
                         ),
@@ -187,7 +189,8 @@ class _PageResturantState extends State<PageResturant>
                             Text(
                               " ca.${resturant.deliveryDuration}min",
                               textAlign: TextAlign.center,
-                              style: Theme.of(context).primaryTextTheme.headline3,
+                              style:
+                                  Theme.of(context).primaryTextTheme.headline3,
                             ),
                             SizedBox(width: 10),
                             Icon(
@@ -197,7 +200,8 @@ class _PageResturantState extends State<PageResturant>
                             Text(
                               "${(resturant.distance / 1000).toStringAsFixed(1)} km",
                               textAlign: TextAlign.center,
-                              style: Theme.of(context).primaryTextTheme.headline3,
+                              style:
+                                  Theme.of(context).primaryTextTheme.headline3,
                             ),
                           ],
                         ),
@@ -249,6 +253,7 @@ class _PageResturantState extends State<PageResturant>
                               onPressed: () {
                                 counterController.counter.value = 1;
 
+                               
                                 showModalBottomSheet(
                                   isScrollControlled: false,
 
@@ -721,6 +726,7 @@ class _PageResturantState extends State<PageResturant>
             child: Obx(
               () => Text(
                 '${counterController.counter.value}',
+
                 style: TextStyle(
                   fontSize: 20,
                 ),
@@ -770,6 +776,7 @@ class _PageResturantState extends State<PageResturant>
               } else {
                 showDialogForCheckResturant(product);
               }
+
             },
           ),
         ],

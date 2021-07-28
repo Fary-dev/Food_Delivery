@@ -106,11 +106,16 @@ class _LocationSetState extends State<LocationSet> {
               ),
               child: Visibility(
                 visible: isLoading,
-                replacement: Container(
-                  child: Center(
-                    child: CircularProgressIndicator(
-                      valueColor: new AlwaysStoppedAnimation<Color>(
-                        whiteColor,
+                replacement: Center(
+                  child: Padding(
+                    padding: const EdgeInsets.only(left: 20.0,top: 50.0,right: 20.0,),
+                    child: Align(
+                      // alignment: Alignment.topCenter,
+                      child: LinearProgressIndicator(
+                        valueColor:  AlwaysStoppedAnimation<Color>(
+                          primaryColor,
+                        ),
+                        backgroundColor: Colors.black38,
                       ),
                     ),
                   ),
@@ -181,8 +186,43 @@ class _LocationSetState extends State<LocationSet> {
                   fit: BoxFit.cover,
                 ),
               ),
-              child: Center(
-                child: CircularProgressIndicator(),
+              child:  Column(
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.only(left: 20.0,top: 50.0,right: 20.0,),
+                    child: Align(
+                      alignment: Alignment.topCenter,
+                      child: LinearProgressIndicator(
+                        valueColor:  AlwaysStoppedAnimation<Color>(
+                          primaryColor,
+                        ),
+                      ),
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.only(bottom: 100.0),
+                    child: Align(alignment: Alignment.bottomCenter,
+                      child: ElevatedButton(
+                        style: ElevatedButton.styleFrom(
+                            shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(15)),
+                            primary: primaryColor,
+                            textStyle: TextStyle(
+                                fontSize: 30, fontWeight: FontWeight.bold)),
+                        child: Text(
+                          "Los geht's",
+                          style: TextStyle(
+                            fontSize: 15,
+                            color: whiteColor,
+                          ),
+                        ),
+                        onPressed: () {
+                          Get.off(() => BottomNavBarWidget());
+                        },
+                      ),
+                    ),
+                  )
+                ],
               ),
             );
           }

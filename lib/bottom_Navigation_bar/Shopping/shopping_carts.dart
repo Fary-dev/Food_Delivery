@@ -19,12 +19,14 @@ class ShoppingCarts extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: buildAppBar(context),
-      body: Obx(
-        () => orderController.cartOrder.isNotEmpty
-            ? screenAfterLogIn(context)
-            : screenBeforLogIn(context),
+    return SafeArea(
+      child: Scaffold(
+        appBar: buildAppBar(context),
+        body: Obx(
+          () => orderController.cartOrder.isNotEmpty
+              ? screenAfterLogIn(context)
+              : screenBeforLogIn(context),
+        ),
       ),
     );
   }
@@ -119,9 +121,15 @@ class ShoppingCarts extends StatelessWidget {
 
                                     },
                                   ),
-                                  Text(
+                                  AnimatedSwitcher(
+                                    duration: const Duration(milliseconds: 500),
+                                    transitionBuilder: (Widget child, Animation<double> animation) {
+                                      return ScaleTransition(child: child, scale: animation);
+                                    },
+                                  child:Text(
                                     count.toString(),
-                                  ),
+                                    key: ValueKey<int>(count) ,
+                                  ),),
                                   IconButton(
                                     icon: Icon(
                                       CupertinoIcons.add,
