@@ -79,10 +79,12 @@ class _InfoResturantState extends State<InfoResturant> {
                     onPressed: () {
                       widget.resturant!.licked == null
                           ? widget.resturant!.licked = true
-                          : widget.resturant!.licked = !widget.resturant!.licked!;
+                          : widget.resturant!.licked =
+                              !widget.resturant!.licked!;
                       setState(() {});
                       if (widget.resturant!.licked == true) {
-                        favoritController.userFavoriteList.add(widget.resturant!);
+                        favoritController.userFavoriteList
+                            .add(widget.resturant!);
                       } else {
                         favoritController.userFavoriteList
                             .remove(widget.resturant);
@@ -128,8 +130,7 @@ class _InfoResturantState extends State<InfoResturant> {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    rating(20.0, 105.0, 20.0,
-                        Theme.of(context).bottomAppBarTheme.color!),
+                    rating(5.0, 0.0, 15.0, Colors.amber),
                     SizedBox(
                       width: 5,
                     ),

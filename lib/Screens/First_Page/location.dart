@@ -8,7 +8,7 @@ import 'package:mjam/Contants/Color.dart';
 import 'package:mjam/Screens/First_Page/First_Location_controller.dart';
 import 'package:mjam/Screens/Resturants/PageResturant/FavoritController.dart';
 import 'package:mjam/Screens/Resturants/Resturant_List/Resturant_List_Controller.dart';
-import 'package:mjam/Widgets/BottomNavBarWidget.dart';
+import 'package:mjam/Screens/BootomNavBar/BottomNavBarWidget.dart';
 import 'package:mjam/models_and_data/Class/models_and_data.dart';
 
 class LocationSet extends StatefulWidget {

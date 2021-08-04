@@ -168,13 +168,7 @@ class _MapScreenState extends State<MapScreen> {
                                           .headline3!
                                           .copyWith(fontSize: 10),
                                     ),
-                                    rating(
-                                        20.0,
-                                        105.0,
-                                        12.0,
-                                        Theme.of(context)
-                                            .bottomAppBarTheme
-                                            .color!),
+                                    rating(5.0, 0.0, 12.0, Colors.amber),
                                   ],
                                 ),
                                 Column(

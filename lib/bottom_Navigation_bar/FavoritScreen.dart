@@ -32,22 +32,21 @@ class _FavoriteScreenState extends State<FavoriteScreen> {
 
   void _refreshData() async {
     final data = await DB.getData();
-    List<Resturant>a=[];
-    for(var i in data){
-      for(var x in resturants){
-        if(i.name==x.nameResturant&&i.owner==x.owner){
+    List<Resturant> a = [];
+    for (var i in data) {
+      for (var x in resturants) {
+        if (i.name == x.nameResturant && i.owner == x.owner) {
           a.add(x);
         }
       }
     }
     setState(() {
-      favoriteController.userFavoriteList.value =a;
+      favoriteController.userFavoriteList.value = a;
     });
   }
 
   @override
   Widget build(BuildContext context) {
-
     return Scaffold(
       appBar: AppBar(
         automaticallyImplyLeading: false,
@@ -171,22 +170,64 @@ class _FavoriteScreenState extends State<FavoriteScreen> {
             )
           : favoriteController.userFavoriteList.isEmpty
               ? Center(
-                  child: Text(
-                    'Wilkommen',
-                    style: Theme.of(context)
-                        .textTheme
-                        .headline3!
-                        .apply(fontSizeDelta: -20),
-                  ),
-                )
+                child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          SizedBox(
+            height: 40,
+            width: 40,
+            child: ColorFiltered(
+                child: Image.asset(
+                  "assets/shop.png",
+                  fit: BoxFit.cover,
+
+                ),
+                colorFilter: ColorFilter.mode(Colors.grey, BlendMode.srcIn),
+            ),
+          ),
+          SizedBox(
+            height: 35,
+          ),
+          Text(
+            'Es ist leer hier',
+            style: TextStyle(
+                  fontSize: 20,
+                  fontWeight: FontWeight.w900,
+                  color: greyColor),
+          ),
+          SizedBox(
+            height: 10,
+          ),
+          Text(
+            'Du musst angemeldet sein, um diese '
+                  'Information sehen zu können',
+            style: TextStyle(
+                  fontSize: 12,
+                  fontWeight: FontWeight.w900,
+                  color: greyColor),
+            textAlign: TextAlign.center,
+          ),
+
+
+        ],
+      ),
+              )
+      // Center(
+      //             child: Text(
+      //               'Wilkommen',
+      //               style: Theme.of(context)
+      //                   .textTheme
+      //                   .headline3!
+      //                   .apply(fontSizeDelta: -20),
+      //             ),
+      //           )
               : GetBuilder<FavoriteController>(builder: (_list) {
                   return ListView.builder(
                     shrinkWrap: true,
                     itemCount: favoriteController.userFavoriteList.length,
                     itemBuilder: (context, index) {
-
-                       Resturant _resturant =
-                          _list.userFavoriteList[index];
+                      Resturant _resturant = _list.userFavoriteList[index];
 
                       return GestureDetector(
                         onTap: () {
@@ -340,13 +381,12 @@ class _FavoriteScreenState extends State<FavoriteScreen> {
                                                   .headline3,
                                             ),
                                           ),
-                                          rating(
-                                              20.0,
-                                              105.0,
-                                              15.0,
-                                              Theme.of(context)
-                                                  .bottomAppBarTheme
-                                                  .color!),
+                                          Padding(
+                                            padding: const EdgeInsets.only(
+                                                left: 15.0),
+                                            child: rating(
+                                                5.0, 0.0, 15.0, Colors.amber),
+                                          ),
                                         ],
                                       ),
                                     ),

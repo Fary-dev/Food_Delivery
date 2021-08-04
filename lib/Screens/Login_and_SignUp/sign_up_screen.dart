@@ -5,7 +5,7 @@ import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:mjam/Contants/Color.dart';
-import 'package:mjam/Widgets/BottomNavBarWidget.dart';
+import 'package:mjam/Screens/BootomNavBar/BottomNavBarWidget.dart';
 import 'auch_with_Google.dart';
 import 'auch_with_facebook.dart';
 

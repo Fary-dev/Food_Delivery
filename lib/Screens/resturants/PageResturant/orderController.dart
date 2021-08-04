@@ -7,7 +7,7 @@ class OrderController extends GetxController {
 
   addToCart(Order order) {
     cartOrder.add(order);
-    setMyCart.add(order.product);
+    setMyCart.add(order.product!);
   }
 
   removeFromCart(Order order) {

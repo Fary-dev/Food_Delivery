@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import 'package:mjam/Screens/Resturants/PageResturant/pageResturant.dart';
-import 'package:mjam/Widgets/BottomNavBarWidget.dart';
+import 'package:mjam/Screens/BootomNavBar/BottomNavBarWidget.dart';
 import 'package:mjam/models_and_data/Class/models_and_data.dart';
 
 class Searching extends StatefulWidget {

@@ -1,5 +1,5 @@
 import 'package:get/get.dart';
-import 'package:mjam/Widgets/BottomNavBarWidget.dart';
+import 'package:mjam/Screens/BootomNavBar/BottomNavBarWidget.dart';
 import 'package:mjam/models_and_data/Class/Sqlite/Database.dart';
 import 'package:mjam/models_and_data/Class/Sqlite/FavoriteModel.dart';
 import 'orderController.dart';
@@ -205,8 +205,7 @@ class _PageResturantState extends State<PageResturant>
                         padding: const EdgeInsets.symmetric(horizontal: 10),
                         child: Row(
                           children: [
-                            rating(20.0, 105.0, 18.0,
-                                Theme.of(context).bottomAppBarTheme.color!),
+                            rating(5.0, 0.0, 15.0, Colors.amber),
                             SizedBox(
                               width: 5,
                             ),
