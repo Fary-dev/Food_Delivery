@@ -12,7 +12,7 @@ import 'package:mjam/Screens/Login_and_SignUp/sign_up_screen.dart';
 import 'package:mjam/Screens/Resturants/PageResturant/orderController.dart';
 
 class Profil extends StatefulWidget {
-  Profil({Key key}) : super(key: key);
+  Profil({Key? key}) : super(key: key);
 
   @override
   _ProfilState createState() => _ProfilState();
@@ -45,7 +45,7 @@ class _ProfilState extends State<Profil> {
                           'Abmelden',
                           style: Theme.of(context)
                               .primaryTextTheme
-                              .button
+                              .button!
                               .copyWith(color: primaryColor, fontSize: 10),
                         ),
                         onPressed: () {
@@ -151,7 +151,7 @@ class _ProfilState extends State<Profil> {
                             'KUNDENKONTO ERSTELLEN',
                             style: Theme.of(context)
                                 .primaryTextTheme
-                                .button
+                                .button!
                                 .apply(color: primaryColor),
                           ),
                           onPressed: () {
@@ -202,7 +202,7 @@ class _ProfilState extends State<Profil> {
                             'ANMELDEN',
                             style: Theme.of(context)
                                 .primaryTextTheme
-                                .button
+                                .button!
                                 .apply(color: whiteColor),
                           ),
                         ),
@@ -216,7 +216,7 @@ class _ProfilState extends State<Profil> {
                         'Wilkommen',
                         style: Theme.of(context)
                             .primaryTextTheme
-                            .headline2
+                            .headline2!
                             .copyWith(fontSize: 20),
                       ),
                     ),
@@ -255,7 +255,7 @@ class _ProfilState extends State<Profil> {
           "Achtung!!",
           style: Theme.of(context)
               .primaryTextTheme
-              .button
+              .button!
               .copyWith(color: primaryColor, fontSize: 14),
         ),
         content: Column(
@@ -265,7 +265,7 @@ class _ProfilState extends State<Profil> {
               "Ihre aktuelle Bestellung wird gelöscht.",
               style: Theme.of(context)
                   .primaryTextTheme
-                  .button
+                  .button!
                   .copyWith(fontSize: 12),
             ),
             SizedBox(
@@ -313,7 +313,7 @@ class _ProfilState extends State<Profil> {
     );
   }
 
-  Widget buildContainer(String text, Function function) {
+  Widget buildContainer(String text, VoidCallback function) {
     return Container(
       margin: EdgeInsets.only(top: 10),
       width: MediaQuery.of(context).size.width,

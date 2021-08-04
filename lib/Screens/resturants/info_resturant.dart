@@ -10,7 +10,7 @@ import 'PageResturant/FavoritController.dart';
 import 'Resturant_List/Clipper_Resturant_Photo.dart';
 
 class InfoResturant extends StatefulWidget {
-  final Resturant resturant;
+  final Resturant? resturant;
 
   const InfoResturant({this.resturant});
 
@@ -19,10 +19,10 @@ class InfoResturant extends StatefulWidget {
 }
 
 class _InfoResturantState extends State<InfoResturant> {
-  UserAccount userAccount;
-  final FavoritController favoritController = Get.put(FavoritController());
-  TabController tabController;
-  String changeText;
+  UserAccount? userAccount;
+  final FavoriteController favoritController = Get.put(FavoriteController());
+  TabController? tabController;
+  String? changeText;
   bool showBottomSheet = false;
   final userData = GetStorage();
 
@@ -69,7 +69,7 @@ class _InfoResturantState extends State<InfoResturant> {
                   ),
                   child: IconButton(
                     icon: Icon(
-                      favoritController.userFavoritList
+                      favoritController.userFavoriteList
                                   .contains(widget.resturant) ==
                               true
                           ? CupertinoIcons.heart_fill
@@ -77,14 +77,14 @@ class _InfoResturantState extends State<InfoResturant> {
                       color: primaryColor,
                     ),
                     onPressed: () {
-                      widget.resturant.licked == null
-                          ? widget.resturant.licked = true
-                          : widget.resturant.licked = !widget.resturant.licked;
+                      widget.resturant!.licked == null
+                          ? widget.resturant!.licked = true
+                          : widget.resturant!.licked = !widget.resturant!.licked!;
                       setState(() {});
-                      if (widget.resturant.licked == true) {
-                        favoritController.userFavoritList.add(widget.resturant);
+                      if (widget.resturant!.licked == true) {
+                        favoritController.userFavoriteList.add(widget.resturant!);
                       } else {
-                        favoritController.userFavoritList
+                        favoritController.userFavoriteList
                             .remove(widget.resturant);
                       }
                     },
@@ -95,7 +95,7 @@ class _InfoResturantState extends State<InfoResturant> {
                 collapseMode: CollapseMode.pin,
                 background: ClipPath(
                   child: Image.asset(
-                    widget.resturant.photoInfoPage,
+                    widget.resturant!.photoInfoPage!,
                     height: 350.0,
                     width: double.infinity,
                     fit: BoxFit.cover,
@@ -114,12 +114,12 @@ class _InfoResturantState extends State<InfoResturant> {
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 Text(
-                  widget.resturant.nameResturant,
+                  widget.resturant!.nameResturant!,
                   textAlign: TextAlign.left,
                   textScaleFactor: 1.5,
                   style: Theme.of(context)
                       .primaryTextTheme
-                      .headline2
+                      .headline2!
                       .copyWith(fontSize: 16),
                 ),
                 SizedBox(
@@ -129,12 +129,12 @@ class _InfoResturantState extends State<InfoResturant> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     rating(20.0, 105.0, 20.0,
-                        Theme.of(context).bottomAppBarTheme.color),
+                        Theme.of(context).bottomAppBarTheme.color!),
                     SizedBox(
                       width: 5,
                     ),
                     Text(
-                      widget.resturant.ratingResturant.toString(),
+                      widget.resturant!.ratingResturant.toString(),
                       textAlign: TextAlign.left,
                       style: Theme.of(context).primaryTextTheme.headline3,
                     ),
@@ -152,7 +152,7 @@ class _InfoResturantState extends State<InfoResturant> {
                       size: 20,
                     ),
                     Text(
-                      " ca.${widget.resturant.deliveryDuration}min",
+                      " ca.${widget.resturant!.deliveryDuration}min",
                       textAlign: TextAlign.center,
                       style: Theme.of(context).primaryTextTheme.headline3,
                     ),
@@ -162,7 +162,7 @@ class _InfoResturantState extends State<InfoResturant> {
                       size: 20,
                     ),
                     Text(
-                      "${(widget.resturant.distance / 1000).toStringAsFixed(1)} km",
+                      "${(widget.resturant!.distance! / 1000).toStringAsFixed(1)} km",
                       textAlign: TextAlign.center,
                       style: Theme.of(context).primaryTextTheme.headline3,
                     ),
@@ -179,7 +179,7 @@ class _InfoResturantState extends State<InfoResturant> {
                       size: 20,
                     ),
                     Text(
-                      "  \€ ${widget.resturant.deliveryPrice}",
+                      "  \€ ${widget.resturant!.deliveryPrice}",
                       textAlign: TextAlign.center,
                       style: Theme.of(context).primaryTextTheme.headline3,
                     ),
@@ -189,7 +189,7 @@ class _InfoResturantState extends State<InfoResturant> {
                       size: 20,
                     ),
                     Text(
-                      "  \€ ${widget.resturant.deliveryPrice}",
+                      "  \€ ${widget.resturant!.deliveryPrice}",
                       textAlign: TextAlign.center,
                       style: Theme.of(context).primaryTextTheme.headline3,
                     ),
@@ -204,17 +204,17 @@ class _InfoResturantState extends State<InfoResturant> {
                   'Öffnungszeiten',
                   style: Theme.of(context)
                       .primaryTextTheme
-                      .headline3
+                      .headline3!
                       .copyWith(fontSize: 16),
                 ),
                 SizedBox(
                   height: 10,
                 ),
                 Text(
-                  '${widget.resturant.openingTime}',
+                  '${widget.resturant!.openingTime}',
                   style: Theme.of(context)
                       .primaryTextTheme
-                      .subtitle1
+                      .subtitle1!
                       .copyWith(fontSize: 12.0),
                 ),
                 SizedBox(
@@ -224,17 +224,17 @@ class _InfoResturantState extends State<InfoResturant> {
                   'Adresse',
                   style: Theme.of(context)
                       .primaryTextTheme
-                      .headline3
+                      .headline3!
                       .copyWith(fontSize: 16),
                 ),
                 SizedBox(
                   height: 10,
                 ),
                 Text(
-                  widget.resturant.address.toString(),
+                  widget.resturant!.address.toString(),
                   style: Theme.of(context)
                       .primaryTextTheme
-                      .subtitle1
+                      .subtitle1!
                       .copyWith(fontSize: 12.0),
                 ),
                 SizedBox(
@@ -244,17 +244,17 @@ class _InfoResturantState extends State<InfoResturant> {
                   'Eigentümer',
                   style: Theme.of(context)
                       .primaryTextTheme
-                      .headline3
+                      .headline3!
                       .copyWith(fontSize: 16),
                 ),
                 SizedBox(
                   height: 10,
                 ),
                 Text(
-                  widget.resturant.owner,
+                  widget.resturant!.owner!,
                   style: Theme.of(context)
                       .primaryTextTheme
-                      .subtitle1
+                      .subtitle1!
                       .copyWith(fontSize: 14.0),
                 ),
               ],

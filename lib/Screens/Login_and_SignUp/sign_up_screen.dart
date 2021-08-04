@@ -22,7 +22,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   final userData = GetStorage();
   bool showPassword = false;
-  String _email, _name, _password;
+  String? _email, _name, _password;
 
 
   void click() {
@@ -261,11 +261,11 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         controller: _nameController,
                         style: Theme.of(context)
                             .primaryTextTheme
-                            .headline3
+                            .headline3!
                             .apply(fontSizeDelta: 2),
                         validator: validateName,
-                        onSaved: (String value) {
-                          _name = value.trim();
+                        onSaved: (String? value) {
+                          _name = value!.trim();
                         },
                         decoration: InputDecoration(
                           contentPadding: EdgeInsets.symmetric(horizontal: 15),
@@ -283,17 +283,17 @@ class _SignUpScreenState extends State<SignUpScreen> {
                       SizedBox(height: 10),
                       TextFormField(
                         inputFormatters: [
-                          BlacklistingTextInputFormatter(RegExp(r"\s\b|\b\s"))
+                          FilteringTextInputFormatter.deny(RegExp(r"\s\b|\b\s"))
                         ],
                         controller: _emailController,
                         style: Theme.of(context)
                             .primaryTextTheme
-                            .headline3
+                            .headline3!
                             .apply(fontSizeDelta: 2),
                         keyboardType: TextInputType.emailAddress,
                         validator: validateEmail,
-                        onSaved: (String value) {
-                          _email = value.trim();
+                        onSaved: (String? value) {
+                          _email = value!.trim();
                         },
                         decoration: InputDecoration(
                           contentPadding: EdgeInsets.symmetric(horizontal: 15),
@@ -311,17 +311,17 @@ class _SignUpScreenState extends State<SignUpScreen> {
                       SizedBox(height: 10),
                       TextFormField(
                         inputFormatters: [
-                          BlacklistingTextInputFormatter(RegExp(r"\s\b|\b\s"))
+                          FilteringTextInputFormatter.deny(RegExp(r"\s\b|\b\s"))
                         ],
                         controller: _passController,
                         obscureText: !showPassword ? true : false,
                         style: Theme.of(context)
                             .primaryTextTheme
-                            .headline3
+                            .headline3!
                             .apply(fontSizeDelta: 2),
                         validator: validatePassword,
-                        onSaved: (String value) {
-                          _password = value.trim();
+                        onSaved: (String? value) {
+                          _password = value!.trim();
                         },
                         decoration: InputDecoration(
                           contentPadding: EdgeInsets.symmetric(horizontal: 15),
@@ -368,7 +368,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                       '*Mit der Registrierung akzeptiere ich die',
                       style: Theme.of(context)
                           .primaryTextTheme
-                          .headline2
+                          .headline2!
                           .copyWith(fontSize: 11),
                     ),
                     Text(' AGB',
@@ -377,7 +377,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                       ' und',
                       style: Theme.of(context)
                           .primaryTextTheme
-                          .headline2
+                          .headline2!
                           .copyWith(fontSize: 11),
                     )
                   ]),
@@ -391,7 +391,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                       ' von Foodo.',
                       style: Theme.of(context)
                           .primaryTextTheme
-                          .headline2
+                          .headline2!
                           .copyWith(fontSize: 11),
                     ),
                   ]),
@@ -411,7 +411,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                     child: Text('KUNDENKONTO  ERSTELLE',
                         style: Theme.of(context)
                             .primaryTextTheme
-                            .button
+                            .button!
                             .copyWith(fontSize: 14, color: Color(0xFFFFFFFF))),
                   ),
                 ),
@@ -423,52 +423,53 @@ class _SignUpScreenState extends State<SignUpScreen> {
     );
   }
 
-  String validateName(String value) {
-    if (value.length < 3)
+  String validateName(String? value) {
+    if (value!.length < 3)
       return 'Name muss mehr als 2 Charakter sein';
     else
-      return null;
+      return '';
   }
 
-  String validateEmail(String value) {
-    Pattern pattern =
-        r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$';
-    RegExp regex = new RegExp(pattern);
-    if (!regex.hasMatch(value))
+  String validateEmail(String? value) {
+    // Pattern pattern =
+    //     r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$';
+    RegExp regex = new RegExp(r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$');
+
+    if (!regex.hasMatch(value!))
       return 'Bitte gib eine gültige E-Mail-Adresse ein';
     else
-      return null;
+      return '';
   }
 
-  String validatePassword(String value) {
-    Pattern pattern = r'^(?=.*\d)(?=.*[a-zA-Z])[a-zA-Z0-9!@#$%&*]{6,20}$';
-    RegExp regex = new RegExp(pattern);
-    if (value.isEmpty) {
+  String validatePassword(String? value) {
+    // Pattern pattern = r'^(?=.*\d)(?=.*[a-zA-Z])[a-zA-Z0-9!@#$%&*]{6,20}$';
+    RegExp regex = new RegExp((r'^(?=.*\d)(?=.*[a-zA-Z])[a-zA-Z0-9!@#$%&*]{6,20}$').toString());
+    if (value!.isEmpty) {
       return 'Please enter password';
     } else {
       if (!regex.hasMatch(value))
         return 'Bitte gib eine gültige Password ein';
       else
-        return null;
+        return '';
     }
   }
 
   void signUp() async {
     final formState = _formKey.currentState;
-    if (formState.validate()) {
+    if (formState!.validate()) {
       formState.save();
       try {
-        final User user = (await FirebaseAuth.instance
+        final User? user = (await FirebaseAuth.instance
                 .createUserWithEmailAndPassword(
-                    email: _email.trim(), password: _password.trim()))
+                    email: _email!.trim(), password: _password!.trim()))
             .user;
         userData.write('userName', _nameController.text);
         userData.write('isLogged', true);
-        user.sendEmailVerification();
+        user!.sendEmailVerification();
         Get.to(BottomNavBarWidget());
       } catch (e) {
         Get.snackbar('Achtung', 'Mit Diese Email gibt es ein Konto!!');
-        print(e.message);
+        e.printError();
       }
     }
   }

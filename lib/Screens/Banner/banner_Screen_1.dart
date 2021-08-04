@@ -5,9 +5,9 @@ import 'package:get/get.dart';
 import 'package:mjam/Screens/Banner/Banr.dart';
 
 class BannerScreen1 extends StatelessWidget {
-  final BannerGeneraly bannerGeneraly;
+  final BannerGeneraly? bannerGeneraly;
   const BannerScreen1({
-    Key key,
+    Key? key,
     this.bannerGeneraly,
   }) : super(key: key);
   @override
@@ -23,23 +23,23 @@ class BannerScreen1 extends StatelessWidget {
             height: 200,
             width: MediaQuery.of(context).size.width,
             child: Image.asset(
-              bannerGeneraly.photo,
+              bannerGeneraly!.photo,
               fit: BoxFit.fitWidth,
             )),
         Padding(
           padding: const EdgeInsets.all(20.0),
           child: Text(
-            bannerGeneraly.title,
+            bannerGeneraly!.title,
             style: Theme.of(context)
                 .primaryTextTheme
-                .button
+                .button!
                 .copyWith(fontSize: 18),
           ),
         ),
         Padding(
           padding: const EdgeInsets.all(20.0),
           child: Text(
-            bannerGeneraly.subtitle,
+            bannerGeneraly!.subtitle,
             style: Theme.of(context).primaryTextTheme.headline2,
           ),
         ),

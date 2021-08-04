@@ -32,7 +32,7 @@ class BottomFilterAbholungSort extends StatelessWidget {
                 'Sortierung',
                 style: Theme.of(context)
                     .primaryTextTheme
-                    .button
+                    .button!
                     .apply(fontSizeDelta: -3),
               ),
               style: _controller.selectSortItem.value != ''
@@ -73,7 +73,7 @@ class BottomFilterAbholungSort extends StatelessWidget {
                 'Filter',
                 style: Theme.of(context)
                     .primaryTextTheme
-                    .button
+                    .button!
                     .apply(fontSizeDelta: -3),
               ),
               style: _controller.selectFilterItem.value != ''
@@ -113,7 +113,7 @@ class BottomFilterAbholungSort extends StatelessWidget {
               'Abholung',
               style: Theme.of(context)
                   .primaryTextTheme
-                  .button
+                  .button!
                   .apply(fontSizeDelta: -3),
             ),
             style: ButtonStyle(
@@ -164,17 +164,17 @@ void containerSortirung(context) {
                 if (sortList.selectSortItem.value == 'Qualität') {
                   sortList.list
                     ..sort((a, b) =>
-                        b.ratingResturant.compareTo(a.ratingResturant));
+                        b.ratingResturant!.compareTo(a.ratingResturant!));
                 } else if (sortList.selectSortItem.value == 'Zeit') {
                   sortList.list
                     ..sort((a, b) =>
-                        a.deliveryDuration.compareTo(b.deliveryDuration));
+                        a.deliveryDuration!.compareTo(b.deliveryDuration!));
                 } else if (sortList.selectSortItem.value == 'Entfernung') {
                   sortList.list
-                    ..sort((a, b) => a.distance.compareTo(b.distance));
+                    ..sort((a, b) => a.distance!.compareTo(b.distance!));
                 } else if (sortList.selectSortItem.value == 'Beliebtheit') {
                   sortList.list
-                    ..sort((a, b) => b.distance.compareTo(a.distance));
+                    ..sort((a, b) => b.distance!.compareTo(a.distance!));
                 }
               }
             },
@@ -205,7 +205,7 @@ void containerSortirung(context) {
                   txt,
                   style: Theme.of(context)
                       .primaryTextTheme
-                      .button
+                      .button!
                       .copyWith(fontSize: 14),
                 )
               ],
@@ -238,7 +238,7 @@ void containerSortirung(context) {
                       'Sortiren nach...',
                       style: Theme.of(context)
                           .primaryTextTheme
-                          .button
+                          .button!
                           .copyWith(fontSize: 14),
                     ),
                     Spacer(),
@@ -328,19 +328,19 @@ void containerFilter(context) {
 
             if (filterList.categuryListSet.isEmpty) {
               final sortList = resturants
-                ..sort((a, b) => a.minimumOrder.compareTo(b.minimumOrder));
+                ..sort((a, b) => a.minimumOrder!.compareTo(b.minimumOrder!));
               if (filterList.selectFilterItem.value == 'Bis 10 \€') {
                 filterList.list.value =
-                    sortList.where((a) => (a.minimumOrder <= 10)).toList();
+                    sortList.where((a) => (a.minimumOrder! <= 10)).toList();
 
                 listItemCount.value = filterList.list.length;
               } else if (filterList.selectFilterItem.value == 'Bis 20 \€') {
                 filterList.list.value =
-                    sortList.where((a) => (a.minimumOrder <= 20)).toList();
+                    sortList.where((a) => (a.minimumOrder! <= 20)).toList();
                 listItemCount.value = filterList.list.length;
               } else if (filterList.selectFilterItem.value == 'Egal') {
                 filterList.list.value =
-                    sortList.where((a) => (a.minimumOrder >= 0)).toList();
+                    sortList.where((a) => (a.minimumOrder! >= 0)).toList();
                 listItemCount.value = filterList.list.length;
               } else {
                 filterList.selectSortItem.value = '';
@@ -348,22 +348,22 @@ void containerFilter(context) {
               }
             } else {
               final sortList = filterList.reserveList
-                ..sort((a, b) => a.minimumOrder.compareTo(b.minimumOrder));
+                ..sort((a, b) => a.minimumOrder!.compareTo(b.minimumOrder!));
 
               List<Resturant> _select = [];
               _select.addAll(sortList.toSet());
 
               if (filterList.selectFilterItem.value == 'Bis 10 \€') {
                 filterList.list.value =
-                    _select.where((a) => (a.minimumOrder <= 10)).toList();
+                    _select.where((a) => (a.minimumOrder! <= 10)).toList();
                 listItemCount.value = filterList.list.length;
               } else if (filterList.selectFilterItem.value == 'Bis 20 \€') {
                 filterList.list.value =
-                    _select.where((a) => (a.minimumOrder <= 20)).toList();
+                    _select.where((a) => (a.minimumOrder! <= 20)).toList();
                 listItemCount.value = filterList.list.length;
               } else if (filterList.selectFilterItem.value == 'Egal') {
                 filterList.list.value =
-                    _select.where((a) => (a.minimumOrder >= 0)).toList();
+                    _select.where((a) => (a.minimumOrder! >= 0)).toList();
                 listItemCount.value = filterList.list.length;
               } else {
                 // filterList.sort.value = '';
@@ -412,7 +412,7 @@ void containerFilter(context) {
                     Text('Filtern nach...',
                         style: Theme.of(context)
                             .primaryTextTheme
-                            .button
+                            .button!
                             .copyWith(fontSize: 14)),
                     IconButton(
                         icon: Icon(CupertinoIcons.clear_circled_solid),
@@ -430,7 +430,7 @@ void containerFilter(context) {
                   'Mindestbestellwert',
                   style: Theme.of(context)
                       .primaryTextTheme
-                      .button
+                      .button!
                       .copyWith(fontSize: 14),
                 ),
               ),

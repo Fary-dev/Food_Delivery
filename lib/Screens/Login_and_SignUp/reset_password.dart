@@ -17,7 +17,7 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
   TextEditingController _emailController = TextEditingController();
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   final auth = FirebaseAuth.instance;
-  String _email;
+  String? _email;
 
   @override
   Widget build(BuildContext context) {
@@ -64,12 +64,12 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
               Form(
                 key: _formKey,
                 child: TextFormField(
-                  inputFormatters: [BlacklistingTextInputFormatter(
+                  inputFormatters: [FilteringTextInputFormatter.deny(
                        RegExp(r"\s\b|\b\s")
                   )],
                   style: Theme.of(context)
                       .primaryTextTheme
-                      .headline3
+                      .headline3!
                       .apply(fontSizeDelta: 2),
                   keyboardType: TextInputType.emailAddress,
                   decoration: InputDecoration(
@@ -85,7 +85,7 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
                     ),
                   ),
                   validator: validateEmail,
-                  onSaved: (input) => _email = input.trim(),
+                  onSaved: (input) => _email = input!.trim(),
                   controller: _emailController,
                 ),
               ),
@@ -105,7 +105,7 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
                     'SCHICKE MIR MEIN PASSWORT',
                     style: Theme.of(context)
                         .primaryTextTheme
-                        .button
+                        .button!
                         .copyWith(fontSize: 14, color: Color(0xFFFFFFFF)),
                   ),
                 ),
@@ -117,26 +117,27 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
     );
   }
 
-  String validateEmail(String value) {
-    Pattern pattern =
-        r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$';
-    RegExp regex = new RegExp(pattern);
-    if (!regex.hasMatch(value.trim()))
+  String validateEmail(String? value) {
+    // Pattern pattern =
+    //     r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$';
+    RegExp regex =  RegExp(r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$');
+    if (!regex.hasMatch(value!.trim()))
       return 'Enter Valid Email';
     else
-      return null;
+      return '';
   }
 
   Future<void> resetPassword() async {
     final formState = _formKey.currentState;
-    if (formState.validate()) {
+    if (formState!.validate()) {
       formState.save();
       try {
-        await auth.sendPasswordResetEmail(email: _email.trim());
+        await auth.sendPasswordResetEmail(email: _email!.trim());
         Navigator.push(
             context, MaterialPageRoute(builder: (context) => LoginScreen()));
       } catch (e) {
-        print(e.message);
+
+      e.printError();
       }
     }
   }

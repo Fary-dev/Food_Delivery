@@ -36,7 +36,7 @@ class Menu extends StatelessWidget {
                       text: adress.fistUserLocation.value.toString(),
                       style: Theme.of(context)
                           .primaryTextTheme
-                          .headline6
+                          .headline6!
                           .apply(color: primaryColor),
                     ),
                   ],

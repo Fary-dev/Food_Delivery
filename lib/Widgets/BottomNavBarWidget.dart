@@ -12,7 +12,7 @@ import 'package:mjam/bottom_Navigation_bar/search_Screen.dart';
 import 'package:mjam/bottom_Navigation_bar/Shopping/shopping_carts.dart';
 
 class BottomNavBarWidget extends StatefulWidget {
-  BottomNavBarWidget({Key key}) : super(key: key);
+  BottomNavBarWidget({Key? key}) : super(key: key);
 
   @override
   _BottomNavBarWidgetState createState() => _BottomNavBarWidgetState();
@@ -20,12 +20,13 @@ class BottomNavBarWidget extends StatefulWidget {
 
 class _BottomNavBarWidgetState extends State<BottomNavBarWidget> {
   final OrderController orderController = Get.put(OrderController());
+
   PageController pageController = PageController();
   int _selectedIndex = 0;
   final screens = <Widget>[
     Menu(),
     Searching(),
-    FavoritScreen(),
+    FavoriteScreen(),
     ShoppingCarts(),
     Profil(),
   ];

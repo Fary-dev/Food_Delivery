@@ -6,9 +6,9 @@ import 'package:mjam/Screens/Resturants/Resturant_List/Resturant_List_Controller
 import 'package:mjam/models_and_data/Class/models_and_data.dart';
 
 class FoodGrupe extends StatefulWidget {
-  final CateguryBanner categuryBanner;
+  final CateguryBanner? categuryBanner;
 
-  const FoodGrupe({Key key, this.categuryBanner}) : super(key: key);
+  const FoodGrupe({Key? key, this.categuryBanner}) : super(key: key);
 
   @override
   _FoodGrupeState createState() => _FoodGrupeState();
@@ -47,7 +47,7 @@ class _FoodGrupeState extends State<FoodGrupe> {
                             offset: Offset(1, -1),
                             color: Theme.of(context)
                                 .iconTheme
-                                .color
+                                .color!
                                 .withOpacity(0.5),
                             spreadRadius: 0.2,
                             blurRadius: 5),
@@ -55,7 +55,7 @@ class _FoodGrupeState extends State<FoodGrupe> {
                             offset: Offset(-1, 1),
                             color: Theme.of(context)
                                 .iconTheme
-                                .color
+                                .color!
                                 .withOpacity(0.5),
                             spreadRadius: 0.2,
                             blurRadius: 5)
@@ -74,7 +74,7 @@ class _FoodGrupeState extends State<FoodGrupe> {
                         if (categury.selected == true) {
                           if (categuryFilter.list.isNotEmpty) {
                             for (var res in resturants) {
-                              for (var pro in res.products) {
+                              for (var pro in res.products!) {
                                 if (pro.nameProducts == categury.name) {
                                   if ((categuryFilter.categuryListSet
                                           .contains(categury.name)) ==
@@ -90,7 +90,7 @@ class _FoodGrupeState extends State<FoodGrupe> {
                             }
                           } else {
                             for (var res in resturants) {
-                              for (var pro in res.products) {
+                              for (var pro in res.products!) {
                                 if (pro.nameProducts == categury.name) {
                                   categuryFilter.categuryListSet
                                       .add(categury.name);
@@ -111,7 +111,7 @@ class _FoodGrupeState extends State<FoodGrupe> {
                                 i++) {
                               if (categuryFilter.list.isNotEmpty) {
                                 for (var res in resturants) {
-                                  for (var pro in res.products) {
+                                  for (var pro in res.products!) {
                                     if (pro.nameProducts ==
                                         categuryFilter.categuryListSet
                                             .elementAt(i)) {
@@ -127,7 +127,7 @@ class _FoodGrupeState extends State<FoodGrupe> {
                                 }
                               } else {
                                 for (var res in resturants) {
-                                  for (var pro in res.products) {
+                                  for (var pro in res.products!) {
                                     if (pro.nameProducts ==
                                         categuryFilter.categuryListSet
                                             .elementAt(i)) {
@@ -176,7 +176,7 @@ class _FoodGrupeState extends State<FoodGrupe> {
                       textAlign: TextAlign.center,
                       style: Theme.of(context)
                           .primaryTextTheme
-                          .headline6
+                          .headline6!
                           .apply(fontSizeDelta: -3),
                     ),
                   ),

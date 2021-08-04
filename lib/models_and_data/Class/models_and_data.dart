@@ -3,28 +3,28 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 //================================ Resturants ==========================
 class Resturant {
-  List favorit;
-  bool licked;
-  int id;
-  double lattut;
-  double longtut;
-  LatLng latlong;
-  String nameResturant = '';
-  String description;
-  String photoResturant;
-  String logoResturant;
-  String photoInfoPage;
-  int ratingResturant;
-  double deliveryPrice;
-  double minimumOrder;
-  int deliveryDuration;
-  double distance;
-  bool isOnline;
-  String openingTime;
-  String address;
-  String owner;
-  List<Products> products;
-  List<Product> product;
+  List? favorit;
+  bool? licked;
+  int? id;
+  double? lattut;
+  double? longtut;
+  LatLng? latlong;
+  String? nameResturant ;
+  String? description;
+  String ?photoResturant;
+  String? logoResturant;
+  String? photoInfoPage;
+  int? ratingResturant;
+  double? deliveryPrice;
+  double? minimumOrder;
+  int? deliveryDuration;
+  double? distance;
+  bool? isOnline;
+  String? openingTime;
+  String? address;
+  String? owner;
+  List<Products>? products;
+  List<Product>? product;
 
   Resturant({
     this.favorit,
@@ -251,8 +251,8 @@ final List<Resturant> resturants = [
 
 //================================ Products ==========================
 class Products {
-  int id;
-  String nameProducts = '';
+  int? id;
+  String? nameProducts ;
 
   Products({
     @required this.id,
@@ -284,14 +284,14 @@ final List<Products> listProducts = [
 //================================ Product ===========================
 
 class Product extends Products {
-  int id;
-  String nameProduct = '';
-  double price;
-  bool isNoVeg;
-  List<String> allergy;
+  int? id;
+  String? nameProduct ;
+  double? price;
+  bool? isNoVeg;
+  List<String>? allergy;
 
   Product({
-    String nameProducts,
+    String? nameProducts,
     @required this.id,
     @required this.nameProduct,
     this.price,
@@ -441,17 +441,17 @@ final f = Product(
 );
 
 class ShoppingCart {
-  final Order order;
-  final UserAccount user;
+  final Order? order;
+  final UserAccount ?user;
 
   ShoppingCart({this.order, this.user});
 }
 
 class Order {
-  final Resturant resturant;
-  Product product;
-  int quantity;
-  double totalPrise;
+  final Resturant? resturant;
+  Product? product;
+  int? quantity;
+  double? totalPrise;
 
   Order({
     this.resturant,
@@ -462,15 +462,15 @@ class Order {
 }
 
 class UserAccount {
-  final Order order;
-  final List<String> favorit;
-  String firstName;
-  String lastName;
-  String nicName;
-  String email;
-  String password;
-  bool licked;
-  final String key;
+  final Order? order;
+  final List<String>? favorit;
+  String? firstName;
+  String? lastName;
+  String ?nicName;
+  String ?email;
+  String? password;
+  bool ?licked;
+  final String? key;
 
   UserAccount({
     this.order,

@@ -1,5 +1,7 @@
 import 'package:get/get.dart';
 import 'package:mjam/Widgets/BottomNavBarWidget.dart';
+import 'package:mjam/models_and_data/Class/Sqlite/Database.dart';
+import 'package:mjam/models_and_data/Class/Sqlite/FavoriteModel.dart';
 import 'orderController.dart';
 import 'FavoritController.dart';
 import 'counterController.dart';
@@ -17,9 +19,9 @@ import 'package:mjam/bottom_Navigation_bar/Shopping/shopping_Controller.dart';
 import 'package:mjam/Screens/Resturants/Resturant_List/Clipper_Resturant_Photo.dart';
 
 class PageResturant extends StatefulWidget {
-  final Resturant resturant;
+  final Resturant? resturant;
 
-  PageResturant({Key key, this.resturant}) : super(key: key);
+  PageResturant({Key? key, this.resturant}) : super(key: key);
 
   @override
   _PageResturantState createState() => _PageResturantState(resturant);
@@ -27,25 +29,62 @@ class PageResturant extends StatefulWidget {
 
 class _PageResturantState extends State<PageResturant>
     with SingleTickerProviderStateMixin {
-  final OrderController orderController = Get.put(OrderController());
-  final CounterController counterController = Get.put(CounterController());
-  final FavoritController favoritController = Get.put(FavoritController());
-  final ShoppingCartController shoppingCartController =
-      Get.put(ShoppingCartController());
-  final userData = GetStorage();
-  UserAccount userAccount;
-  final Resturant resturant;
+  final Resturant? resturant;
 
   _PageResturantState(this.resturant);
 
-  TabController tabController;
+  //controllers
+  final OrderController orderController = Get.put(OrderController());
+  final CounterController counterController = Get.put(CounterController());
+  final FavoriteController favoritController = Get.put(FavoriteController());
+
+  final ShoppingCartController shoppingCartController =
+      Get.put(ShoppingCartController());
+
+  //save User DATA
+  final userData = GetStorage();
+  UserAccount? userAccount;
+  List<FavoriteModel> favoriteList = [];
+
+  TabController? tabController;
   RxString changeText = 'HINZUFÜGEN'.obs;
+  RxBool check = false.obs;
 
   @override
   void initState() {
     super.initState();
     tabController =
-        TabController(length: resturant.products.length, vsync: this);
+        TabController(length: resturant!.products!.length, vsync: this);
+    _refreshData();
+  }
+
+  void _refreshData() async {
+    final data = await DB.getData();
+    setState(() {
+      favoriteList = data;
+    });
+  }
+
+  _addToFavoriteList(Resturant res) async {
+    FavoriteModel favoriteModel = FavoriteModel(
+      name: '${res.nameResturant}',
+      owner: '${res.owner}',
+    );
+    await DB.insertData(favoriteModel);
+    favoriteModel.id = favoriteList.isEmpty
+        ? 0
+        : favoriteList[favoriteList.length - 1].id! + 1;
+
+    _refreshData();
+  }
+
+  _removeFromFavoriteList(Resturant res) async {
+    for (var a in favoriteList) {
+      if (a.name == res.nameResturant && a.owner == res.owner) {
+        await DB.delete(a.id!);
+      }
+    }
+    _refreshData();
   }
 
   void updateScreen() {
@@ -75,7 +114,15 @@ class _PageResturantState extends State<PageResturant>
                           color: primaryColor,
                         ),
                         onPressed: () {
-                          // Get.back();
+                          if (favoriteList.isNotEmpty) {
+                            for (var a in favoriteList) {
+                              print(a.name);
+                              print(a.id);
+                            }
+                            print(favoriteList.any(
+                                (e) => e.name == resturant!.nameResturant));
+                          }
+
                           Get.to(() => BottomNavBarWidget());
                         }),
                   ),
@@ -92,24 +139,22 @@ class _PageResturantState extends State<PageResturant>
                       ),
                       child: IconButton(
                         icon: Icon(
-                          favoritController.userFavoritList
-                                      .contains(resturant) ==
+                          (favoriteList.any((e) =>
+                                      (e.name) == resturant!.nameResturant)) ==
                                   true
                               ? CupertinoIcons.heart_fill
                               : CupertinoIcons.heart,
                           color: primaryColor,
                         ),
                         onPressed: () {
-                          resturant.licked == null
-                              ? resturant.licked = true
-                              : resturant.licked = !resturant.licked;
+                          (favoriteList.any((e) =>
+                                      (e.name) == resturant!.nameResturant!)) ==
+                                  true
+                              ? _removeFromFavoriteList(resturant!)
+                              : _addToFavoriteList(resturant!);
 
-                          if (resturant.licked == true) {
-                            favoritController.userFavoritList.add(resturant);
-                          } else {
-                            favoritController.userFavoritList.remove(resturant);
-                          }
-                          setState(() {});
+                          // print(_favorite.data?.any((e) =>
+                          // e.name == resturant.nameResturant));
                         },
                       ),
                     ),
@@ -125,7 +170,7 @@ class _PageResturantState extends State<PageResturant>
                     children: <Widget>[
                       ClipPath(
                         child: Image.asset(
-                          resturant.photoResturant,
+                          resturant!.photoResturant!,
                           height: 230.0,
                           width: double.infinity,
                           fit: BoxFit.cover,
@@ -138,7 +183,7 @@ class _PageResturantState extends State<PageResturant>
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             Text(
-                              resturant.nameResturant,
+                              resturant!.nameResturant!,
                               textAlign: TextAlign.left,
                               textScaleFactor: 1.5,
                               style:
@@ -150,7 +195,7 @@ class _PageResturantState extends State<PageResturant>
                                 size: 35,
                               ),
                               onPressed: () {
-                                Get.to(InfoResturant(resturant: resturant));
+                                Get.to(InfoResturant(resturant: resturant!));
                               },
                             ),
                           ],
@@ -161,12 +206,12 @@ class _PageResturantState extends State<PageResturant>
                         child: Row(
                           children: [
                             rating(20.0, 105.0, 18.0,
-                                Theme.of(context).bottomAppBarTheme.color),
+                                Theme.of(context).bottomAppBarTheme.color!),
                             SizedBox(
                               width: 5,
                             ),
                             Text(
-                              resturant.ratingResturant.toString(),
+                              resturant!.ratingResturant.toString(),
                               textAlign: TextAlign.left,
                               style:
                                   Theme.of(context).primaryTextTheme.headline3,
@@ -187,7 +232,7 @@ class _PageResturantState extends State<PageResturant>
                               size: 20,
                             ),
                             Text(
-                              " ca.${resturant.deliveryDuration}min",
+                              " ca.${resturant!.deliveryDuration}min",
                               textAlign: TextAlign.center,
                               style:
                                   Theme.of(context).primaryTextTheme.headline3,
@@ -198,7 +243,7 @@ class _PageResturantState extends State<PageResturant>
                               size: 20,
                             ),
                             Text(
-                              "${(resturant.distance / 1000).toStringAsFixed(1)} km",
+                              "${(resturant!.distance! / 1000).toStringAsFixed(1)} km",
                               textAlign: TextAlign.center,
                               style:
                                   Theme.of(context).primaryTextTheme.headline3,
@@ -231,7 +276,7 @@ class _PageResturantState extends State<PageResturant>
           body: TabBarView(
             controller: tabController,
             children: [
-              for (int index = 0; index < resturant.products.length; index++)
+              for (int index = 0; index < resturant!.products!.length; index++)
                 ListView(
                   shrinkWrap: true,
                   children: [
@@ -239,12 +284,12 @@ class _PageResturantState extends State<PageResturant>
                       child: Container(
                           height: 100,
                           child: Image.asset(
-                            resturant.photoResturant,
+                            resturant!.photoResturant!,
                             fit: BoxFit.fitWidth,
                           )),
                     ),
-                    for (Product product in resturant.product)
-                      if (resturant.products[index].id == product.id)
+                    for (Product product in resturant!.product!)
+                      if (resturant!.products![index].id == product.id)
                         Card(
                           child: Container(
                             padding: EdgeInsets.only(left: 15, right: 15),
@@ -253,7 +298,6 @@ class _PageResturantState extends State<PageResturant>
                               onPressed: () {
                                 counterController.counter.value = 1;
 
-                               
                                 showModalBottomSheet(
                                   isScrollControlled: false,
 
@@ -299,7 +343,7 @@ class _PageResturantState extends State<PageResturant>
                                             comment(),
 //========================================================================================= - and + =======================
                                             incrementAndDicrement(
-                                                product, resturant),
+                                                product, resturant!),
 
 //==================================================================================== HINZUFÜGEN =========================
 
@@ -318,7 +362,7 @@ class _PageResturantState extends State<PageResturant>
                                       MainAxisAlignment.spaceBetween,
                                   children: [
                                     Text(
-                                      product.nameProduct,
+                                      product.nameProduct!,
                                       style: Theme.of(context)
                                           .primaryTextTheme
                                           .headline2,
@@ -393,7 +437,7 @@ class _PageResturantState extends State<PageResturant>
                                   : orderController.cartOrder.length.toString(),
                               style: Theme.of(context)
                                   .primaryTextTheme
-                                  .button
+                                  .button!
                                   .apply(color: primaryColor, fontSizeDelta: 4),
                             ),
                           ),
@@ -401,19 +445,20 @@ class _PageResturantState extends State<PageResturant>
                         Text(changeText.value,
                             style: Theme.of(context)
                                 .primaryTextTheme
-                                .button
+                                .button!
                                 .apply(color: whiteColor)),
                         Text(
                           orderController.cartOrder.isEmpty
                               ? ''
                               : orderController.cartOrder
                                   .reduce((x, y) => Order(
-                                      totalPrise: x.totalPrise + y.totalPrise))
-                                  .totalPrise
+                                      totalPrise:
+                                          x.totalPrise! + y.totalPrise!))
+                                  .totalPrise!
                                   .toStringAsFixed(2),
                           style: Theme.of(context)
                               .primaryTextTheme
-                              .button
+                              .button!
                               .apply(color: whiteColor, fontSizeDelta: 4),
                         ),
                       ],
@@ -433,8 +478,8 @@ class _PageResturantState extends State<PageResturant>
         color: primaryColor,
         onPressed: () {
           if (orderController.cartOrder.isEmpty ||
-              orderController.cartOrder[0].resturant.nameResturant ==
-                  resturant.nameResturant) {
+              orderController.cartOrder[0].resturant!.nameResturant ==
+                  resturant!.nameResturant) {
             counterController.showBottomSheet.value = true;
             counterController.itemCount.value >= 1
                 ? changeText.value = 'WARENKORB ÖFFNEN'
@@ -445,7 +490,7 @@ class _PageResturantState extends State<PageResturant>
                   product: product,
                   totalPrise: product.price,
                   quantity: 1,
-                  resturant: resturant,
+                  resturant: resturant!,
                 ),
               );
 
@@ -480,17 +525,17 @@ class _PageResturantState extends State<PageResturant>
                   changeText.value,
                   style: Theme.of(context)
                       .primaryTextTheme
-                      .button
+                      .button!
                       .apply(color: whiteColor),
                 ),
               ),
               Obx(
                 () => Text(
-                  (counterController.counter.value * product.price)
+                  (counterController.counter.value * product.price!)
                       .toStringAsFixed(2),
                   style: Theme.of(context)
                       .primaryTextTheme
-                      .button
+                      .button!
                       .apply(color: whiteColor, fontSizeDelta: 4),
                 ),
               ),
@@ -513,7 +558,7 @@ class _PageResturantState extends State<PageResturant>
           "Achtung!!",
           style: Theme.of(context)
               .primaryTextTheme
-              .button
+              .button!
               .copyWith(color: primaryColor, fontSize: 14),
         ),
         content: Column(
@@ -523,7 +568,7 @@ class _PageResturantState extends State<PageResturant>
               "Ihre aktuelle Bestellung wird gelöscht.",
               style: Theme.of(context)
                   .primaryTextTheme
-                  .button
+                  .button!
                   .copyWith(fontSize: 12),
             ),
             SizedBox(
@@ -553,7 +598,7 @@ class _PageResturantState extends State<PageResturant>
                           product: product,
                           totalPrise: product.price,
                           quantity: 1,
-                          resturant: resturant,
+                          resturant: resturant!,
                         ),
                       );
 
@@ -605,7 +650,7 @@ class _PageResturantState extends State<PageResturant>
           "Achtung!!",
           style: Theme.of(context)
               .primaryTextTheme
-              .button
+              .button!
               .copyWith(color: primaryColor, fontSize: 14),
         ),
         content: Column(
@@ -615,7 +660,7 @@ class _PageResturantState extends State<PageResturant>
               "Ihre aktuelle Bestellung wird gelöscht.",
               style: Theme.of(context)
                   .primaryTextTheme
-                  .button
+                  .button!
                   .copyWith(fontSize: 12),
             ),
             SizedBox(
@@ -641,7 +686,7 @@ class _PageResturantState extends State<PageResturant>
                           product: product,
                           totalPrise: product.price,
                           quantity: 1,
-                          resturant: resturant,
+                          resturant: resturant!,
                         ),
                       );
 
@@ -650,7 +695,7 @@ class _PageResturantState extends State<PageResturant>
                           product: product,
                           totalPrise: product.price,
                           quantity: 1,
-                          resturant: resturant,
+                          resturant: resturant!,
                         ),
                       );
                       counterController.increment();
@@ -660,7 +705,7 @@ class _PageResturantState extends State<PageResturant>
                           product: product,
                           totalPrise: product.price,
                           quantity: 1,
-                          resturant: resturant,
+                          resturant: resturant!,
                         ),
                       );
                       counterController.increment();
@@ -726,7 +771,6 @@ class _PageResturantState extends State<PageResturant>
             child: Obx(
               () => Text(
                 '${counterController.counter.value}',
-
                 style: TextStyle(
                   fontSize: 20,
                 ),
@@ -741,7 +785,7 @@ class _PageResturantState extends State<PageResturant>
             ),
             onPressed: () {
               if (orderController.cartOrder.isEmpty ||
-                  orderController.cartOrder[0].resturant.nameResturant ==
+                  orderController.cartOrder[0].resturant!.nameResturant ==
                       resturant.nameResturant) {
                 if (counterController.counter.value == 1) {
                   orderController.addToCart(
@@ -776,7 +820,6 @@ class _PageResturantState extends State<PageResturant>
               } else {
                 showDialogForCheckResturant(product);
               }
-
             },
           ),
         ],
@@ -895,7 +938,7 @@ class _PageResturantState extends State<PageResturant>
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text(
-                  product.nameProduct,
+                  product.nameProduct!,
                   style: TextStyle(
                     fontSize: 15,
                     fontWeight: FontWeight.w500,
@@ -929,12 +972,12 @@ class _PageResturantState extends State<PageResturant>
       indicatorColor: primaryColor,
       labelColor: Theme.of(context).tabBarTheme.labelColor,
       unselectedLabelColor:
-          Theme.of(context).tabBarTheme.unselectedLabelColor.withOpacity(0.6),
+          Theme.of(context).tabBarTheme.unselectedLabelColor!.withOpacity(0.6),
       indicatorWeight: 4,
       unselectedLabelStyle: Theme.of(context).tabBarTheme.unselectedLabelStyle,
       tabs: [
-        for (int i = 0; i < resturant.products.length; i++)
-          Tab(text: resturant.products[i].nameProducts),
+        for (int i = 0; i < resturant!.products!.length; i++)
+          Tab(text: resturant!.products![i].nameProducts),
       ],
       controller: tabController,
     );

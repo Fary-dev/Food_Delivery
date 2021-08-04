@@ -23,10 +23,10 @@ class LoginFacebook extends GetxController {
         case FacebookLoginStatus.success:
           final fBToken = res.accessToken;
           final AuthCredential credential =
-              FacebookAuthProvider.credential(fBToken.token);
-          final User user=(await _auth.signInWithCredential(credential)).user;
+              FacebookAuthProvider.credential(fBToken!.token);
+          final User? user=(await _auth.signInWithCredential(credential)).user;
 
-          print(user.displayName);
+          print(user!.displayName);
           print(user.uid);
 
           userData.write('userName', user.displayName);

@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
 
-import 'package:mjam/Contants/Color.dart';
 import 'package:mjam/Screens/Resturants/PageResturant/pageResturant.dart';
 import 'package:mjam/Widgets/BottomNavBarWidget.dart';
 import 'package:mjam/models_and_data/Class/models_and_data.dart';
@@ -54,7 +53,7 @@ class _SearchingState extends State<Searching> {
                 child: TextField(
                   style: Theme.of(context)
                       .primaryTextTheme
-                      .headline3
+                      .headline3!
                       .apply(fontSizeDelta: 2),
                   keyboardType: TextInputType.text,
                   controller: _textEditingController,
@@ -159,7 +158,7 @@ class _SearchingState extends State<Searching> {
 
       if (value.isNotEmpty) {
         res.forEach((element) {
-          if (element.nameResturant
+          if (element.nameResturant!
               .toLowerCase()
               .contains(value.toLowerCase())) {
             setState(() {

@@ -5,7 +5,7 @@ import 'package:smooth_star_rating/smooth_star_rating.dart';
 class Rating extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return rating(20.0, 105.0, 20.0, Theme.of(context).bottomAppBarTheme.color);
+    return rating(20.0, 105.0, 20.0, Theme.of(context).bottomAppBarTheme.color!);
   }
 }
 

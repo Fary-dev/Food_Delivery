@@ -44,7 +44,7 @@ class ShoppingCarts extends StatelessWidget {
                   padding: const EdgeInsets.only(top: 10, left: 10),
                   child: Text(
                     orderController.cartOrder.length > 0
-                        ? 'Deine Bestellung bei ${orderController.cartOrder[0].resturant.nameResturant}'
+                        ? 'Deine Bestellung bei ${orderController.cartOrder[0].resturant!.nameResturant}'
                         : '',
                     style: TextStyle(fontWeight: FontWeight.bold),
                   ),
@@ -157,10 +157,10 @@ class ShoppingCarts extends StatelessWidget {
                                           MainAxisAlignment.spaceBetween,
                                       children: [
                                         Text(
-                                          _order.nameProduct,
+                                          _order.nameProduct!,
                                         ),
                                         Text(
-                                          '\€ ${(count * _order.price).toStringAsFixed(2)}',
+                                          '\€ ${(count * _order.price!).toStringAsFixed(2)}',
                                         )
                                       ],
                                     ),
@@ -219,7 +219,7 @@ class ShoppingCarts extends StatelessWidget {
                                                   TextAlignVertical.bottom,
                                               style: Theme.of(context)
                                                   .primaryTextTheme
-                                                  .headline3
+                                                  .headline3!
                                                   .copyWith(fontSize: 14),
                                               controller: shoppingCartController
                                                   .listController[index],
@@ -231,7 +231,7 @@ class ShoppingCarts extends StatelessWidget {
                                                 if (value != '') {
                                                   shoppingCartController
                                                       .listController[index]
-                                                      .text = value;
+                                                      .text = value!;
                                                 }
                                               },
                                               maxLines: 1,
@@ -323,24 +323,24 @@ class ShoppingCarts extends StatelessWidget {
                                       text: 'Gesamt',
                                       style: Theme.of(context)
                                           .primaryTextTheme
-                                          .headline2
+                                          .headline2!
                                           .copyWith(fontSize: 18)),
                                   TextSpan(text: ' '),
                                   TextSpan(
                                     text: '(inkl.Mwst.)',
                                     style: Theme.of(context)
                                         .primaryTextTheme
-                                        .headline3
+                                        .headline3!
                                         .copyWith(fontSize: 10),
                                   ),
                                 ]),
                               ),
                               Spacer(),
                               Text(
-                                '${orderController.cartOrder.reduce((x, y) => Order(totalPrise: x.totalPrise + y.totalPrise)).totalPrise.toStringAsFixed(2)} \€',
+                                '${orderController.cartOrder.reduce((x, y) => Order(totalPrise: x.totalPrise! + y.totalPrise!)).totalPrise!.toStringAsFixed(2)} \€',
                                 style: Theme.of(context)
                                     .primaryTextTheme
-                                    .bodyText2
+                                    .bodyText2!
                                     .copyWith(fontSize: 18),
                               ),
                             ],
@@ -360,7 +360,7 @@ class ShoppingCarts extends StatelessWidget {
                                 "Zahlung und Adresse Überprüfen",
                                 style: Theme.of(context)
                                     .primaryTextTheme
-                                    .button
+                                    .button!
                                     .copyWith(
                                         fontSize: 14, color: Color(0xFFFFFFFF)),
                               ),
@@ -401,7 +401,7 @@ class ShoppingCarts extends StatelessWidget {
           Text(
             'Bitte lege etwas in den Warenkörb.',
             style:
-                Theme.of(context).textTheme.headline3.apply(fontSizeDelta: -30),
+                Theme.of(context).textTheme.headline3!.apply(fontSizeDelta: -30),
           ),
           SizedBox(
             height: 240,
@@ -415,7 +415,7 @@ class ShoppingCarts extends StatelessWidget {
               textAlign: TextAlign.center,
               style: Theme.of(context)
                   .textTheme
-                  .button
+                  .button!
                   .apply(color: primaryColor, fontSizeDelta: 1),
             ),
           ),

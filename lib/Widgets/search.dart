@@ -19,7 +19,7 @@ class _SearchState extends State<Search> {
   Widget build(BuildContext context) {
     return TextField(
       style:
-          Theme.of(context).primaryTextTheme.headline3.apply(fontSizeDelta: 2),
+          Theme.of(context).primaryTextTheme.headline3!.apply(fontSizeDelta: 2),
       keyboardType: TextInputType.text,
       controller: textEditingController,
       textAlignVertical: TextAlignVertical.center,

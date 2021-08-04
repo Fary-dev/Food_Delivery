@@ -6,10 +6,10 @@ import 'package:mjam/Contants/Color.dart';
 import 'package:mjam/Screens/Banner/banner_Screen_1.dart';
 
 class Banr extends StatefulWidget {
-  Banr({Key key}) : super(key: key);
+  Banr({Key? key}) : super(key: key);
   //CarouselDemo() : super();
 
-  final String title = "CarouselDemo";
+  final String? title = "CarouselDemo";
 
   @override
   BanrState createState() => BanrState();

@@ -7,16 +7,47 @@ import 'package:mjam/Screens/Login_and_SignUp/sign_up_screen.dart';
 import 'package:mjam/Screens/Resturants/PageResturant/FavoritController.dart';
 import 'package:mjam/Screens/Resturants/PageResturant/pageResturant.dart';
 import 'package:mjam/Widgets/Rating.dart';
+import 'package:mjam/models_and_data/Class/Sqlite/Database.dart';
 import 'package:mjam/models_and_data/Class/models_and_data.dart';
 
-class FavoritScreen extends StatelessWidget {
-  FavoritScreen({Key key}) : super(key: key);
+class FavoriteScreen extends StatefulWidget {
+  FavoriteScreen({Key? key}) : super(key: key);
 
-  final FavoritController favoritController = Get.put(FavoritController());
+  @override
+  State<FavoriteScreen> createState() => _FavoriteScreenState();
+}
+
+class _FavoriteScreenState extends State<FavoriteScreen> {
+  final FavoriteController favoriteController = Get.put(FavoriteController());
+
   final userData = GetStorage();
+
+  PageResturant? pageResturant;
+
+  @override
+  void initState() {
+    super.initState();
+    _refreshData();
+  }
+
+  void _refreshData() async {
+    final data = await DB.getData();
+    List<Resturant>a=[];
+    for(var i in data){
+      for(var x in resturants){
+        if(i.name==x.nameResturant&&i.owner==x.owner){
+          a.add(x);
+        }
+      }
+    }
+    setState(() {
+      favoriteController.userFavoriteList.value =a;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
+
     return Scaffold(
       appBar: AppBar(
         automaticallyImplyLeading: false,
@@ -80,7 +111,7 @@ class FavoritScreen extends StatelessWidget {
                     'KUNDENKONTO ERSTELLEN',
                     style: Theme.of(context)
                         .primaryTextTheme
-                        .button
+                        .button!
                         .apply(color: primaryColor),
                   ),
                   onPressed: () {
@@ -126,7 +157,7 @@ class FavoritScreen extends StatelessWidget {
                     'ANMELDEN',
                     style: Theme.of(context)
                         .primaryTextTheme
-                        .button
+                        .button!
                         .apply(color: whiteColor),
                   ),
                   onPressed: () {
@@ -138,22 +169,24 @@ class FavoritScreen extends StatelessWidget {
                 ),
               ],
             )
-          : favoritController.userFavoritList.isEmpty
+          : favoriteController.userFavoriteList.isEmpty
               ? Center(
                   child: Text(
                     'Wilkommen',
                     style: Theme.of(context)
                         .textTheme
-                        .headline3
+                        .headline3!
                         .apply(fontSizeDelta: -20),
                   ),
                 )
-              : GetBuilder<FavoritController>(builder: (_list) {
+              : GetBuilder<FavoriteController>(builder: (_list) {
                   return ListView.builder(
                     shrinkWrap: true,
-                    itemCount: _list.userFavoritList.length,
+                    itemCount: favoriteController.userFavoriteList.length,
                     itemBuilder: (context, index) {
-                      final Resturant _resturant = _list.userFavoritList[index];
+
+                       Resturant _resturant =
+                          _list.userFavoriteList[index];
 
                       return GestureDetector(
                         onTap: () {
@@ -174,7 +207,7 @@ class FavoritScreen extends StatelessWidget {
                                     child: ClipRRect(
                                       borderRadius: BorderRadius.circular(8),
                                       child: Image.asset(
-                                          _resturant.photoResturant,
+                                          _resturant.photoResturant!,
                                           height: 140,
                                           width:
                                               MediaQuery.of(context).size.width,
@@ -199,7 +232,7 @@ class FavoritScreen extends StatelessWidget {
                                               '${_resturant.deliveryDuration} min',
                                               style: Theme.of(context)
                                                   .primaryTextTheme
-                                                  .button
+                                                  .button!
                                                   .apply(fontSizeDelta: -1)),
                                         ),
                                         SizedBox(
@@ -215,10 +248,10 @@ class FavoritScreen extends StatelessWidget {
                                               borderRadius: BorderRadius.all(
                                                   Radius.circular(20))),
                                           child: Text(
-                                              '${(_resturant.distance / 1000).toStringAsFixed(1)} km',
+                                              '${(_resturant.distance! / 1000).toStringAsFixed(1)} km',
                                               style: Theme.of(context)
                                                   .primaryTextTheme
-                                                  .button
+                                                  .button!
                                                   .apply(fontSizeDelta: -1)),
                                         ),
                                       ],
@@ -242,7 +275,7 @@ class FavoritScreen extends StatelessWidget {
                                           margin:
                                               const EdgeInsets.only(left: 15),
                                           child: Text(
-                                            _resturant.nameResturant,
+                                            _resturant.nameResturant!,
                                             textAlign: TextAlign.center,
                                             textScaleFactor: 1.5,
                                             style: Theme.of(context)
@@ -256,7 +289,7 @@ class FavoritScreen extends StatelessWidget {
                                           margin: const EdgeInsets.only(
                                               left: 15, top: 3),
                                           child: Text(
-                                            _resturant.description,
+                                            _resturant.description!,
                                             textAlign: TextAlign.center,
                                             textScaleFactor: 1.0,
                                             style: Theme.of(context)
@@ -271,7 +304,7 @@ class FavoritScreen extends StatelessWidget {
                                       height: 40,
                                       width: 80,
                                       child: Image.asset(
-                                          _resturant.logoResturant,
+                                          _resturant.logoResturant!,
                                           height: 20,
                                           width:
                                               MediaQuery.of(context).size.width,
@@ -313,7 +346,7 @@ class FavoritScreen extends StatelessWidget {
                                               15.0,
                                               Theme.of(context)
                                                   .bottomAppBarTheme
-                                                  .color),
+                                                  .color!),
                                         ],
                                       ),
                                     ),

@@ -18,7 +18,7 @@ publish_to: 'none' # Remove this line if you wish to publish to pub.dev
 version: 1.0.0+1
 
 environment:
-  sdk: ">=2.7.0 <3.0.0"
+  sdk: ">=2.12.0 <3.0.0"
 
 dependencies:
   flutter:
@@ -29,25 +29,25 @@ dependencies:
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^1.0.3
   flutter_icons: ^1.1.0
-  flutter_launcher_icons: any
+  flutter_launcher_icons: ^0.9.1
   parallax_image: ^0.3.1+1
   intro_views_flutter: ^3.2.0
   carousel_slider: ^4.0.0
-  geolocator: any
+  geolocator: ^7.4.0
   geocoding: ^2.0.0
-  firebase_core: any
-  firebase_auth: any
-  cloud_firestore: any
+  firebase_core: ^1.4.0
+  firebase_auth: ^3.0.1
+  cloud_firestore: ^2.4.0
   google_maps_flutter: ^2.0.6
   http: ^0.13.3
-  google_sign_in: any
-  get: any
-  animations: any
-  get_storage: any
+  google_sign_in: ^5.0.7
+  get: ^4.3.4
+  animations: ^2.0.1
+  get_storage: ^2.0.3
   shared_preferences: ^2.0.6
   flutter_login_facebook: ^1.0.1
-  sqflite: any
-  path_provider: any
+  sqflite: ^2.0.0+3
+  path_provider: ^2.0.2
 
 dev_dependencies:
   flutter_test:

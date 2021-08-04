@@ -22,7 +22,7 @@ class _LoginScreenState extends State<LoginScreen> {
   TextEditingController _passwordController = TextEditingController();
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
-  String _email, _password;
+  String? _email, _password;
   bool showPassword = false;
 
   void click() {
@@ -211,12 +211,12 @@ class _LoginScreenState extends State<LoginScreen> {
                     child: Column(
                       children: [
                         TextFormField(
-                          inputFormatters: [BlacklistingTextInputFormatter(
+                          inputFormatters: [FilteringTextInputFormatter.deny(
                                RegExp(r"\s\b|\b\s")
                           )],
                           style: Theme.of(context)
                               .primaryTextTheme
-                              .headline3
+                              .headline3!
                               .apply(fontSizeDelta: 2),
                           keyboardType: TextInputType.emailAddress,
                           decoration: InputDecoration(
@@ -233,18 +233,18 @@ class _LoginScreenState extends State<LoginScreen> {
                             ),
                           ),
                           validator: validateEmail,
-                          onSaved: (input) => _email = input.trim(),
+                          onSaved: (input) => _email = input!.trim(),
                           controller: _emailController,
                         ),
                         SizedBox(height: 10),
                         TextFormField(
-                          inputFormatters: [BlacklistingTextInputFormatter(
+                          inputFormatters: [FilteringTextInputFormatter.deny(
                                RegExp(r"\s\b|\b\s")
                           )],
                           obscureText: !showPassword ? true : false,
                           style: Theme.of(context)
                               .primaryTextTheme
-                              .headline3
+                              .headline3!
                               .apply(fontSizeDelta: 2),
                           decoration: InputDecoration(
                             contentPadding:
@@ -279,7 +279,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                   ),
                           ),
                           validator: validatePassword,
-                          onSaved: (input) => _password = input.trim(),
+                          onSaved: (input) => _password = input!.trim(),
                           controller: _passwordController,
                         ),
                       ],
@@ -301,7 +301,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     child: Text('Anmelden'.toUpperCase(),
                         style: Theme.of(context)
                             .primaryTextTheme
-                            .button
+                            .button!
                             .copyWith(fontSize: 14, color: Color(0xFFFFFFFF))),
                   ),
                 ),
@@ -325,41 +325,41 @@ class _LoginScreenState extends State<LoginScreen> {
     );
   }
 
-  String validateEmail(String value) {
-    Pattern pattern =
-        r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$';
-    RegExp regex = new RegExp(pattern);
-    if (!regex.hasMatch(value))
+  String validateEmail(String? value) {
+    // Pattern pattern =
+    //     r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$';
+    RegExp regex = new RegExp(r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$');
+    if (!regex.hasMatch(value!))
       return 'Bitte gib eine gültige E-Mail-Adresse ein';
     else
-      return null;
+      return '';
   }
 
-  String validatePassword(String value) {
-    Pattern pattern = r'^(?=.*\d)(?=.*[a-zA-Z])[a-zA-Z0-9!@#$%&*]{6,20}$';
-    RegExp regex = new RegExp(pattern);
+  String validatePassword(String? value) {
+    // Pattern pattern = r'^(?=.*\d)(?=.*[a-zA-Z])[a-zA-Z0-9!@#$%&*]{6,20}$';
+    RegExp regex = new RegExp(r'^(?=.*\d)(?=.*[a-zA-Z])[a-zA-Z0-9!@#$%&*]{6,20}$');
     print(value);
-    if (value.isEmpty) {
+    if (value!.isEmpty) {
       return 'Please enter password';
     } else {
       if (!regex.hasMatch(value))
         return 'Bitte gib eine gültige Password ein';
       else
-        return null;
+        return '';
     }
   }
 
   Future<void> signIn() async {
     final formState = _formKey.currentState;
-    if (formState.validate()) {
+    if (formState!.validate()) {
       formState.save();
       try {
         print(_email);
-        final User user = (await FirebaseAuth.instance
-                .signInWithEmailAndPassword(email: _email, password: _password))
+        final User ?user = (await FirebaseAuth.instance
+                .signInWithEmailAndPassword(email: _email!, password: _password!))
             .user;
 
-        userData.write('userName',user.displayName);
+        userData.write('userName',user!.displayName);
         userData.write('userName',user.email);
         userData.write('isLogged', true);
         Get.offAll(BottomNavBarWidget());
@@ -367,7 +367,7 @@ class _LoginScreenState extends State<LoginScreen> {
 
       } catch (e) {
         Get.snackbar('Achtung', 'Kennword oder Email passt nicht!!');
-        print(e.message);
+        e.printError();
       }
     }
   }

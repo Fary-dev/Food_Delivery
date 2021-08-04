@@ -6,7 +6,7 @@ import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:mjam/Contants/Color.dart';
 import 'package:mjam/Screens/First_Page/First_Location_controller.dart';
-import 'package:mjam/Screens/Home_Page/HomePage.dart';
+import 'package:mjam/Screens/Resturants/PageResturant/FavoritController.dart';
 import 'package:mjam/Screens/Resturants/Resturant_List/Resturant_List_Controller.dart';
 import 'package:mjam/Widgets/BottomNavBarWidget.dart';
 import 'package:mjam/models_and_data/Class/models_and_data.dart';
@@ -17,12 +17,13 @@ class LocationSet extends StatefulWidget {
 }
 
 class _LocationSetState extends State<LocationSet> {
-  final userData=GetStorage();
+  final userData = GetStorage();
   final firstAdress = Get.put(FirstPageController());
   final ResturantListController ff = Get.put(ResturantListController());
   final Future<FirebaseApp> _fba = Firebase.initializeApp();
-
+  final FavoriteController favoritController = Get.put(FavoriteController());
   bool isLoading = false;
+
 
   @override
   void initState() {
@@ -30,7 +31,10 @@ class _LocationSetState extends State<LocationSet> {
     getCurrentLocation();
     isLoading = false;
     userData.writeIfNull('isLogged', false);
+
   }
+
+
 
   getCurrentLocation() async {
     await determinePosition().then((value) => {getPlace(value)});
@@ -39,7 +43,6 @@ class _LocationSetState extends State<LocationSet> {
     });
   }
 
-
   void getPlace(Position pos) async {
     List<Placemark> newPlace =
         await placemarkFromCoordinates(pos.latitude, pos.longitude);
@@ -47,18 +50,18 @@ class _LocationSetState extends State<LocationSet> {
       var distanceBetweenLastTwoLocations = Geolocator.distanceBetween(
         pos.latitude,
         pos.longitude,
-        res.lattut,
-        res.longtut,
+        res.lattut!,
+        res.longtut!,
       );
       var totalDistance = distanceBetweenLastTwoLocations;
       res.distance = totalDistance;
     }
 
     Placemark placemark = newPlace[0];
-    String plz = placemark.locality;
-    String bzirck = placemark.postalCode;
-    String hausNummer = placemark.subThoroughfare;
-    String strasse = placemark.thoroughfare;
+    String plz = placemark.locality!;
+    String bzirck = placemark.postalCode!;
+    String hausNummer = placemark.subThoroughfare!;
+    String strasse = placemark.thoroughfare!;
 
     firstAdress.fistUserLocation.value = '$strasse $hausNummer, $plz $bzirck';
   }
@@ -85,7 +88,6 @@ class _LocationSetState extends State<LocationSet> {
     return await Geolocator.getCurrentPosition();
   }
 
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -108,11 +110,15 @@ class _LocationSetState extends State<LocationSet> {
                 visible: isLoading,
                 replacement: Center(
                   child: Padding(
-                    padding: const EdgeInsets.only(left: 20.0,top: 50.0,right: 20.0,),
+                    padding: const EdgeInsets.only(
+                      left: 20.0,
+                      top: 50.0,
+                      right: 20.0,
+                    ),
                     child: Align(
                       // alignment: Alignment.topCenter,
                       child: LinearProgressIndicator(
-                        valueColor:  AlwaysStoppedAnimation<Color>(
+                        valueColor: AlwaysStoppedAnimation<Color>(
                           primaryColor,
                         ),
                         backgroundColor: Colors.black38,
@@ -170,6 +176,7 @@ class _LocationSetState extends State<LocationSet> {
                         ),
                       ),
                       onPressed: () {
+
                         Get.off(() => BottomNavBarWidget());
                       },
                     )
@@ -186,14 +193,18 @@ class _LocationSetState extends State<LocationSet> {
                   fit: BoxFit.cover,
                 ),
               ),
-              child:  Column(
+              child: Column(
                 children: [
                   Padding(
-                    padding: const EdgeInsets.only(left: 20.0,top: 50.0,right: 20.0,),
+                    padding: const EdgeInsets.only(
+                      left: 20.0,
+                      top: 50.0,
+                      right: 20.0,
+                    ),
                     child: Align(
                       alignment: Alignment.topCenter,
                       child: LinearProgressIndicator(
-                        valueColor:  AlwaysStoppedAnimation<Color>(
+                        valueColor: AlwaysStoppedAnimation<Color>(
                           primaryColor,
                         ),
                       ),
@@ -201,7 +212,8 @@ class _LocationSetState extends State<LocationSet> {
                   ),
                   Padding(
                     padding: const EdgeInsets.only(bottom: 100.0),
-                    child: Align(alignment: Alignment.bottomCenter,
+                    child: Align(
+                      alignment: Alignment.bottomCenter,
                       child: ElevatedButton(
                         style: ElevatedButton.styleFrom(
                             shape: RoundedRectangleBorder(
@@ -217,6 +229,7 @@ class _LocationSetState extends State<LocationSet> {
                           ),
                         ),
                         onPressed: () {
+
                           Get.off(() => BottomNavBarWidget());
                         },
                       ),
