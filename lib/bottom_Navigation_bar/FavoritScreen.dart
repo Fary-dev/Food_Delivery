@@ -52,7 +52,7 @@ class _FavoriteScreenState extends State<FavoriteScreen> {
         automaticallyImplyLeading: false,
         centerTitle: true,
         backgroundColor: Theme.of(context).appBarTheme.backgroundColor,
-        brightness: Theme.of(context).appBarTheme.brightness,
+        // brightness: Theme.of(context).appBarTheme.brightness,
         elevation: 0,
         title: Text(
           "Mein Foodo",

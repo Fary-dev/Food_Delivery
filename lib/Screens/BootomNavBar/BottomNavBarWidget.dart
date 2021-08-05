@@ -57,7 +57,9 @@ class _BottomNavBarWidgetState extends State<BottomNavBarWidget> {
               secondaryAnimation: secondaryAnimation,
             );
           },
-          child: screens[_selectedIndex],
+          child: Scrollbar(
+              radius: Radius.circular(50.0),
+              child: screens[_selectedIndex]),
         ),
         bottomNavigationBar: BottomNavigationBar(
           type: BottomNavigationBarType.fixed,

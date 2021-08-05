@@ -12,11 +12,11 @@ import 'package:flutter/foundation.dart';
 import 'package:mjam/Contants/Color.dart';
 import 'package:mjam/Widgets/Rating.dart';
 import 'package:mjam/Widgets/search.dart';
-import 'package:get_storage/get_storage.dart';
 import 'package:mjam/models_and_data/Class/models_and_data.dart';
 import 'package:mjam/bottom_Navigation_bar/Shopping/shopping_carts.dart';
 import 'package:mjam/bottom_Navigation_bar/Shopping/shopping_Controller.dart';
 import 'package:mjam/Screens/Resturants/Resturant_List/Clipper_Resturant_Photo.dart';
+import 'package:vertical_tab_bar_view/vertical_tab_bar_view.dart';
 
 class PageResturant extends StatefulWidget {
   final Resturant? resturant;
@@ -41,11 +41,6 @@ class _PageResturantState extends State<PageResturant>
   final ShoppingCartController shoppingCartController =
       Get.put(ShoppingCartController());
 
-  //save User DATA
-  final userData = GetStorage();
-  UserAccount? userAccount;
-  List<FavoriteModel> favoriteList = [];
-
   TabController? tabController;
   RxString changeText = 'HINZUFÜGEN'.obs;
   RxBool check = false.obs;
@@ -61,7 +56,7 @@ class _PageResturantState extends State<PageResturant>
   void _refreshData() async {
     final data = await DB.getData();
     setState(() {
-      favoriteList = data;
+      favoritController.favoriteList.value = data;
     });
   }
 
@@ -71,15 +66,17 @@ class _PageResturantState extends State<PageResturant>
       owner: '${res.owner}',
     );
     await DB.insertData(favoriteModel);
-    favoriteModel.id = favoriteList.isEmpty
+    favoriteModel.id = favoritController.favoriteList.isEmpty
         ? 0
-        : favoriteList[favoriteList.length - 1].id! + 1;
+        : favoritController
+                .favoriteList[favoritController.favoriteList.length - 1].id! +
+            1;
 
     _refreshData();
   }
 
   _removeFromFavoriteList(Resturant res) async {
-    for (var a in favoriteList) {
+    for (var a in favoritController.favoriteList) {
       if (a.name == res.nameResturant && a.owner == res.owner) {
         await DB.delete(a.id!);
       }
@@ -114,15 +111,6 @@ class _PageResturantState extends State<PageResturant>
                           color: primaryColor,
                         ),
                         onPressed: () {
-                          if (favoriteList.isNotEmpty) {
-                            for (var a in favoriteList) {
-                              print(a.name);
-                              print(a.id);
-                            }
-                            print(favoriteList.any(
-                                (e) => e.name == resturant!.nameResturant));
-                          }
-
                           Get.to(() => BottomNavBarWidget());
                         }),
                   ),
@@ -139,7 +127,7 @@ class _PageResturantState extends State<PageResturant>
                       ),
                       child: IconButton(
                         icon: Icon(
-                          (favoriteList.any((e) =>
+                          (favoritController.favoriteList.any((e) =>
                                       (e.name) == resturant!.nameResturant)) ==
                                   true
                               ? CupertinoIcons.heart_fill
@@ -147,14 +135,11 @@ class _PageResturantState extends State<PageResturant>
                           color: primaryColor,
                         ),
                         onPressed: () {
-                          (favoriteList.any((e) =>
+                          (favoritController.favoriteList.any((e) =>
                                       (e.name) == resturant!.nameResturant!)) ==
                                   true
                               ? _removeFromFavoriteList(resturant!)
                               : _addToFavoriteList(resturant!);
-
-                          // print(_favorite.data?.any((e) =>
-                          // e.name == resturant.nameResturant));
                         },
                       ),
                     ),
@@ -272,21 +257,20 @@ class _PageResturantState extends State<PageResturant>
           },
 //==================================== TabBarView ==============================
 
-          body: TabBarView(
+          body: VerticalTabBarView(
             controller: tabController,
             children: [
               for (int index = 0; index < resturant!.products!.length; index++)
-                ListView(
-                  shrinkWrap: true,
+                Column(
+                  // shrinkWrap: true,
                   children: [
-                    Card(
-                      child: Container(
-                          height: 100,
-                          child: Image.asset(
-                            resturant!.photoResturant!,
-                            fit: BoxFit.fitWidth,
-                          )),
-                    ),
+                    Container(
+                        height: 100,
+                        width: MediaQuery.of(context).size.width,
+                        child: Image.asset(
+                          resturant!.photoResturant!,
+                          fit: BoxFit.fitWidth,
+                        )),
                     for (Product product in resturant!.product!)
                       if (resturant!.products![index].id == product.id)
                         Card(
@@ -405,13 +389,12 @@ class _PageResturantState extends State<PageResturant>
                         shoppingCartController.listController.length == 0) {
                       shoppingCartController.setTextFieldController(
                           orderController.setMyCart.length);
-                    } else if (orderController.setMyCart.length >
+                    }
+                    if (orderController.setMyCart.length >
                         shoppingCartController.listController.length) {
                       int result = orderController.setMyCart.length -
                           shoppingCartController.listController.length;
                       shoppingCartController.setTextFieldController(result);
-                    } else {
-                      print('Controller is Equal List Item!');
                     }
 
                     Get.to(() => ShoppingCarts());
