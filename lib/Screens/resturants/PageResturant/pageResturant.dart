@@ -1,7 +1,8 @@
 import 'package:get/get.dart';
 import 'package:mjam/Screens/BootomNavBar/BottomNavBarWidget.dart';
-import 'package:mjam/models_and_data/Class/Sqlite/Database.dart';
-import 'package:mjam/models_and_data/Class/Sqlite/FavoriteModel.dart';
+import 'package:mjam/Sqlite/Database.dart';
+import 'package:mjam/Sqlite/FavoriteModel.dart';
+import 'package:mjam/Sqlite/OrderModel.dart';
 import 'orderController.dart';
 import 'FavoritController.dart';
 import 'counterController.dart';
@@ -44,20 +45,20 @@ class _PageResturantState extends State<PageResturant>
   TabController? tabController;
   RxString changeText = 'HINZUFÜGEN'.obs;
   RxBool check = false.obs;
+  DateTime dateTime = DateTime.now();
 
   @override
   void initState() {
     super.initState();
     tabController =
         TabController(length: resturant!.products!.length, vsync: this);
-    _refreshData();
+    _refreshDataFavoriteList();
+    _refreshDataOrderList();
   }
 
-  void _refreshData() async {
-    final data = await DB.getData();
-    setState(() {
-      favoritController.favoriteList.value = data;
-    });
+   _refreshDataFavoriteList() async {
+    final data = await DB.getDataFavoriteList();
+    favoritController.favoriteList.value = data;
   }
 
   _addToFavoriteList(Resturant res) async {
@@ -65,23 +66,54 @@ class _PageResturantState extends State<PageResturant>
       name: '${res.nameResturant}',
       owner: '${res.owner}',
     );
-    await DB.insertData(favoriteModel);
+    await DB.insertToFavoriteList(favoriteModel);
     favoriteModel.id = favoritController.favoriteList.isEmpty
         ? 0
         : favoritController
                 .favoriteList[favoritController.favoriteList.length - 1].id! +
             1;
 
-    _refreshData();
+    _refreshDataFavoriteList();
   }
 
   _removeFromFavoriteList(Resturant res) async {
     for (var a in favoritController.favoriteList) {
       if (a.name == res.nameResturant && a.owner == res.owner) {
-        await DB.delete(a.id!);
+        await DB.deleteFromFavoriteList(a.id!);
       }
     }
-    _refreshData();
+    _refreshDataFavoriteList();
+  }
+
+  _addToOrderList(Resturant res, Product pro) async {
+    OrderModel order = OrderModel(
+      idProduct: pro.id,
+      nameResturant: '${res.nameResturant}',
+      nameProduct: '${pro.nameProduct}',
+      priceProduct: pro.price,
+      dateTime: '${dateTime.toString()}',
+    );
+    await DB.insertToOrderCard(order);
+    order.id = shoppingCartController.orderList.isEmpty
+        ? 0
+        : shoppingCartController
+                .orderList[shoppingCartController.orderList.length - 1].id! +
+            1;
+    _refreshDataOrderList();
+  }
+
+  _removeFromOrderList(Resturant res, Product pro) async {
+    for (var s in shoppingCartController.orderList) {
+      if (s.nameProduct == pro.nameProduct && s.idProduct == pro.id) {
+        await DB.deleteFromOrderCard(s.id!);
+      }
+    }
+    _refreshDataOrderList();
+  }
+
+   _refreshDataOrderList() async {
+    final data = await DB.getDataOrderCard();
+    shoppingCartController.orderList.value = data;
   }
 
   void updateScreen() {
@@ -126,13 +158,16 @@ class _PageResturantState extends State<PageResturant>
                         color: Color(0xFFFFFFFF),
                       ),
                       child: IconButton(
-                        icon: Icon(
-                          (favoritController.favoriteList.any((e) =>
-                                      (e.name) == resturant!.nameResturant)) ==
-                                  true
-                              ? CupertinoIcons.heart_fill
-                              : CupertinoIcons.heart,
-                          color: primaryColor,
+                        icon: Obx(
+                          () => Icon(
+                            (favoritController.favoriteList.any((e) =>
+                                        (e.name) ==
+                                        resturant!.nameResturant)) ==
+                                    true
+                                ? CupertinoIcons.heart_fill
+                                : CupertinoIcons.heart,
+                            color: primaryColor,
+                          ),
                         ),
                         onPressed: () {
                           (favoritController.favoriteList.any((e) =>
@@ -330,7 +365,8 @@ class _PageResturantState extends State<PageResturant>
 
 //==================================================================================== HINZUFÜGEN =========================
 
-                                            hinzufugen(product, context),
+                                            hinzufugen(
+                                                resturant!, product, context),
                                           ],
                                         );
                                       },
@@ -453,26 +489,30 @@ class _PageResturantState extends State<PageResturant>
     );
   }
 
-  Expanded hinzufugen(Product product, BuildContext context) {
+  Expanded hinzufugen(
+      Resturant resturant, Product product, BuildContext context) {
     return Expanded(
       flex: 1,
       child: MaterialButton(
         color: primaryColor,
         onPressed: () {
-          if (orderController.cartOrder.isEmpty ||
-              orderController.cartOrder[0].resturant!.nameResturant ==
-                  resturant!.nameResturant) {
+          if (shoppingCartController.orderList.isEmpty ||
+              orderController.cartOrder.isEmpty &&
+                  orderController.cartOrder[0].resturant!.nameResturant ==
+                      resturant.nameResturant) {
             counterController.showBottomSheet.value = true;
             counterController.itemCount.value >= 1
                 ? changeText.value = 'WARENKORB ÖFFNEN'
                 : changeText.value = 'HINZUFÜGEN';
             if (counterController.itemCount.value == 1) {
+              _addToOrderList(resturant, product);
+
               orderController.addToCart(
                 Order(
                   product: product,
                   totalPrise: product.price,
                   quantity: 1,
-                  resturant: resturant!,
+                  resturant: resturant,
                 ),
               );
 
@@ -743,6 +783,7 @@ class _PageResturantState extends State<PageResturant>
                   quantity: 1,
                   resturant: resturant,
                 ));
+                _removeFromOrderList(resturant, product);
               } else {
                 counterController.counter.value;
               }
@@ -766,10 +807,14 @@ class _PageResturantState extends State<PageResturant>
               color: primaryColor,
             ),
             onPressed: () {
-              if (orderController.cartOrder.isEmpty ||
-                  orderController.cartOrder[0].resturant!.nameResturant ==
-                      resturant.nameResturant) {
+              if (shoppingCartController.orderList.isEmpty ||
+                  orderController.cartOrder.isEmpty &&
+                      orderController.cartOrder[0].resturant!.nameResturant ==
+                          resturant.nameResturant) {
                 if (counterController.counter.value == 1) {
+                  _addToOrderList(resturant, product);
+                  _addToOrderList(resturant, product);
+
                   orderController.addToCart(
                     Order(
                       product: product,
@@ -789,6 +834,8 @@ class _PageResturantState extends State<PageResturant>
                   );
                   counterController.increment();
                 } else {
+                  _addToOrderList(resturant, product);
+
                   orderController.addToCart(
                     Order(
                       product: product,

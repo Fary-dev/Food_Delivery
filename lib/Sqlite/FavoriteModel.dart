@@ -13,7 +13,6 @@ class FavoriteModel {
       );
 
   Map<String, dynamic> toMap() => {
-
         "id": id,
         "name": name,
         "owner": owner,

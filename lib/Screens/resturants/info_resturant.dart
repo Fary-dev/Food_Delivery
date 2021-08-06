@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:mjam/Contants/Color.dart';
+import 'package:mjam/Sqlite/Database.dart';
+import 'package:mjam/Sqlite/FavoriteModel.dart';
 import 'package:mjam/Widgets/Rating.dart';
 import 'package:mjam/models_and_data/Class/models_and_data.dart';
 
@@ -12,10 +14,46 @@ import 'Resturant_List/Clipper_Resturant_Photo.dart';
 class InfoResturant extends StatefulWidget {
   final Resturant? resturant;
 
-  const InfoResturant({this.resturant});
+  InfoResturant({Key? key, this.resturant}) : super(key: key);
 
   @override
   State<InfoResturant> createState() => _InfoResturantState();
+}
+
+final FavoriteController favoritController = Get.put(FavoriteController());
+
+@override
+void initState() {
+  _refreshData();
+}
+
+void _refreshData() async {
+  final data = await DB.getDataFavoriteList();
+
+  favoritController.favoriteList.value = data;
+}
+
+_addToFavoriteList(Resturant res) async {
+  FavoriteModel favoriteModel = FavoriteModel(
+    name: '${res.nameResturant}',
+    owner: '${res.owner}',
+  );
+  await DB.insertToFavoriteList(favoriteModel);
+  favoriteModel.id = favoritController.favoriteList.isEmpty
+      ? 0
+      : favoritController
+              .favoriteList[favoritController.favoriteList.length - 1].id! +
+          1;
+  _refreshData();
+}
+
+_removeFromFavoriteList(Resturant res) async {
+  for (var a in favoritController.favoriteList) {
+    if (a.name == res.nameResturant && a.owner == res.owner) {
+      await DB.deleteFromFavoriteList(a.id!);
+    }
+  }
+  _refreshData();
 }
 
 class _InfoResturantState extends State<InfoResturant> {
@@ -68,27 +106,24 @@ class _InfoResturantState extends State<InfoResturant> {
                     color: Color(0xFFFFFFFF),
                   ),
                   child: IconButton(
-                    icon: Icon(
-                      favoritController.userFavoriteList
-                                  .contains(widget.resturant) ==
-                              true
-                          ? CupertinoIcons.heart_fill
-                          : CupertinoIcons.heart,
-                      color: primaryColor,
+                    icon: Obx(
+                      () => Icon(
+                        (favoritController.favoriteList.any((e) =>
+                                    (e.name) ==
+                                    widget.resturant!.nameResturant)) ==
+                                true
+                            ? CupertinoIcons.heart_fill
+                            : CupertinoIcons.heart,
+                        color: primaryColor,
+                      ),
                     ),
                     onPressed: () {
-                      widget.resturant!.licked == null
-                          ? widget.resturant!.licked = true
-                          : widget.resturant!.licked =
-                              !widget.resturant!.licked!;
-                      setState(() {});
-                      if (widget.resturant!.licked == true) {
-                        favoritController.userFavoriteList
-                            .add(widget.resturant!);
-                      } else {
-                        favoritController.userFavoriteList
-                            .remove(widget.resturant);
-                      }
+                      (favoritController.favoriteList.any((e) =>
+                                  (e.name) ==
+                                  widget.resturant!.nameResturant!)) ==
+                              true
+                          ? _removeFromFavoriteList(widget.resturant!)
+                          : _addToFavoriteList(widget.resturant!);
                     },
                   ),
                 ),

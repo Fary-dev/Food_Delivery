@@ -6,8 +6,8 @@ import 'package:mjam/Screens/Login_and_SignUp/login_screen.dart';
 import 'package:mjam/Screens/Login_and_SignUp/sign_up_screen.dart';
 import 'package:mjam/Screens/Resturants/PageResturant/FavoritController.dart';
 import 'package:mjam/Screens/Resturants/PageResturant/pageResturant.dart';
+import 'package:mjam/Sqlite/Database.dart';
 import 'package:mjam/Widgets/Rating.dart';
-import 'package:mjam/models_and_data/Class/Sqlite/Database.dart';
 import 'package:mjam/models_and_data/Class/models_and_data.dart';
 
 class FavoriteScreen extends StatefulWidget {
@@ -31,7 +31,7 @@ class _FavoriteScreenState extends State<FavoriteScreen> {
   }
 
   void _refreshData() async {
-    final data = await DB.getData();
+    final data = await DB.getDataFavoriteList();
     List<Resturant> a = [];
     for (var i in data) {
       for (var x in resturants) {
@@ -170,58 +170,47 @@ class _FavoriteScreenState extends State<FavoriteScreen> {
             )
           : favoriteController.userFavoriteList.isEmpty
               ? Center(
-                child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          SizedBox(
-            height: 40,
-            width: 40,
-            child: ColorFiltered(
-                child: Image.asset(
-                  "assets/shop.png",
-                  fit: BoxFit.cover,
-
-                ),
-                colorFilter: ColorFilter.mode(Colors.grey, BlendMode.srcIn),
-            ),
-          ),
-          SizedBox(
-            height: 35,
-          ),
-          Text(
-            'Es ist leer hier',
-            style: TextStyle(
-                  fontSize: 20,
-                  fontWeight: FontWeight.w900,
-                  color: greyColor),
-          ),
-          SizedBox(
-            height: 10,
-          ),
-          Text(
-            'Du musst angemeldet sein, um diese '
-                  'Information sehen zu können',
-            style: TextStyle(
-                  fontSize: 12,
-                  fontWeight: FontWeight.w900,
-                  color: greyColor),
-            textAlign: TextAlign.center,
-          ),
-
-
-        ],
-      ),
-              )
-      // Center(
-      //             child: Text(
-      //               'Wilkommen',
-      //               style: Theme.of(context)
-      //                   .textTheme
-      //                   .headline3!
-      //                   .apply(fontSizeDelta: -20),
-      //             ),
-      //           )
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      SizedBox(
+                        height: 40,
+                        width: 40,
+                        child: ColorFiltered(
+                          child: Image.asset(
+                            "assets/shop.png",
+                            fit: BoxFit.cover,
+                          ),
+                          colorFilter:
+                              ColorFilter.mode(Colors.grey, BlendMode.srcIn),
+                        ),
+                      ),
+                      SizedBox(
+                        height: 35,
+                      ),
+                      Text(
+                        'Es ist leer hier',
+                        style: TextStyle(
+                            fontSize: 20,
+                            fontWeight: FontWeight.w900,
+                            color: greyColor),
+                      ),
+                      SizedBox(
+                        height: 10,
+                      ),
+                      Text(
+                        'Du musst angemeldet sein, um diese '
+                        'Information sehen zu können',
+                        style: TextStyle(
+                            fontSize: 12,
+                            fontWeight: FontWeight.w900,
+                            color: greyColor),
+                        textAlign: TextAlign.center,
+                      ),
+                    ],
+                  ),
+                )
               : GetBuilder<FavoriteController>(builder: (_list) {
                   return ListView.builder(
                     shrinkWrap: true,
