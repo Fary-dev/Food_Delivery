@@ -6,70 +6,59 @@ import 'OrderModel.dart';
 
 class DB {
 
-  static Database? _database;
-  Future<Database> get database async {
-    if (_database != null) return _database!;
-    _database = await initDB();
-    return _database!;
-  }
-
   static Future<Database> initDB() async {
     String path = await getDatabasesPath();
-    return await openDatabase(
-      join(path, "DATA.db"),
+    return openDatabase(
+      join(path, "DATABASE.db"),
       onCreate: (Database db,int version) async {
-        await db.execute("""
-        CREATE TABLE FavoriteTable(
-        id INTEGER PRIMARY KEY AUTOINCREMENT,
-        name TEXT NOT NULL,
-        owner TEXT NOT NULL
-        )
-        """);
-        await db.execute("""
-        CREATE TABLE OrderTable(
-        ID INTEGER PRIMARY KEY AUTOINCREMENT,
-        idProduct INTEGER NOT NULL,
-        dateTime TEXT NOT NULL,
-        nameResturant TEXT NOT NULL,
-        nameProduct TEXT NOT NULL,
-        priceProduct DOUBLE NOT NULL,
-        )
-        """);
+        await db.execute(
+          "CREATE TABLE OrderTab(id1 INTEGER PRIMARY KEY AUTOINCREMENT, idProduct INTEGER NOT NULL, dateTime TEXT NOT NULL, nameResturant TEXT NOT NULL, nameProduct TEXT NOT NULL, priceProduct DOUBLE NOT NULL)"
+        );
+        await db.execute(
+            "CREATE TABLE FavoriteTab(id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT NOT NULL, owner TEXT NOT NULL)"
+     );
+
       },
       version: 1,
+
     );
+  }
+
+  static Future<void> deleteAllDataFromOrderList()async{
+    final Database db = await initDB();
+    db.delete('OrderTab');
   }
 
   static Future<List<FavoriteModel>> getDataFavoriteList() async {
     final Database db = await initDB();
-    final List<Map<String, Object?>> allData = await db.query('FavoriteTable');
+    final List<Map<String, Object?>> allData = await db.query('FavoriteTab');
     return allData.map((e) => FavoriteModel.fromMap(e)).toList();
   }
 
   static Future<List<OrderModel>> getDataOrderCard() async {
     final Database db = await initDB();
-    final List<Map<String, Object?>> allData = await db.query('OrderTable');
+    final List<Map<String, Object?>> allData = await db.query('OrderTab');
     return allData.map((e) => OrderModel.fromMap(e)).toList();
   }
 
   static Future<int> insertToFavoriteList(FavoriteModel favoriteModel) async {
     final Database db = await initDB();
-    return await db.insert('FavoriteTable', favoriteModel.toMap());
+    return await db.insert('FavoriteTab', favoriteModel.toMap());
   }
 
   static Future<int> insertToOrderCard(OrderModel orderModel) async {
     final Database db = await initDB();
-    return await db.insert('OrderTable', orderModel.toMap());
+    return await db.insert('OrderTab', orderModel.toMap());
   }
 
   static  Future<int> deleteFromFavoriteList(int id) async {
     final Database db = await initDB();
-    return db.delete('FavoriteTable', where: "id=?", whereArgs: [id]);
+    return db.delete('FavoriteTab', where: "id=?", whereArgs: [id]);
   }
 
   static  Future<int> deleteFromOrderCard(int id) async {
     final Database db = await initDB();
-    return db.delete('OrderTable', where: "ID=?", whereArgs: [id]);
+    return db.delete('OrderTab', where: "id1=?", whereArgs: [id]);
   }
 
 }

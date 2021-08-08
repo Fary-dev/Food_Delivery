@@ -4,6 +4,7 @@ import 'package:mjam/Sqlite/OrderModel.dart';
 
 class ShoppingCartController extends GetxController {
   RxList<OrderModel> orderList=<OrderModel>[].obs;
+  RxList<OrderModel>orderSet=<OrderModel>[].obs;
   RxList<TextEditingController> listController = <TextEditingController>[].obs;
   RxList<bool> commendSelect = <bool>[].obs;
   RxList<bool> buttonCheck = <bool>[].obs;

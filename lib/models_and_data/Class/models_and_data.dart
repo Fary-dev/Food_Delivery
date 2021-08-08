@@ -294,7 +294,7 @@ class Product extends Products {
     String? nameProducts,
     @required this.id,
     @required this.nameProduct,
-    this.price,
+    @required this.price,
     this.isNoVeg,
     this.allergy,
   });
@@ -417,26 +417,31 @@ final eisTee = Product(
 final a = Product(
   id: 9,
   nameProduct: 'A',
+  price: 0.0,
   isNoVeg: true,
 );
 final b = Product(
   id: 9,
   nameProduct: 'B',
+  price: 0.0,
   isNoVeg: true,
 );
 final c = Product(
   id: 9,
   nameProduct: 'C',
+  price: 0.0,
   isNoVeg: true,
 );
 final d = Product(
   id: 9,
   nameProduct: 'D',
+  price: 0.0,
   isNoVeg: true,
 );
 final f = Product(
   id: 9,
   nameProduct: 'F',
+  price: 0.0,
   isNoVeg: true,
 );
 

@@ -1,5 +1,5 @@
 class OrderModel {
-  int? id;
+  int? id1;
   int? idProduct;
   String? nameResturant;
   String? dateTime;
@@ -7,7 +7,7 @@ class OrderModel {
   double? priceProduct;
 
   OrderModel({
-    this.id,
+    this.id1,
     this.nameResturant,
     this.dateTime,
     this.idProduct,
@@ -15,19 +15,21 @@ class OrderModel {
     this.priceProduct,
   });
 
-  OrderModel.fromMap(Map<String, dynamic> map) {
-    id = map['id'];
-    idProduct = map['idProduct'];
-    nameResturant = map['nameResturant'];
-    dateTime = map['dateTime'];
-    nameProduct = map['nameProduct'];
-    priceProduct = map['priceProduct'];
-  }
+
+
+  factory OrderModel.fromMap(Map<String, dynamic> json) => OrderModel(
+        id1: json['id1'],
+        idProduct: json['idProduct'],
+        nameResturant: json['nameResturant'],
+        dateTime: json['dateTime'],
+        nameProduct: json['nameProduct'],
+        priceProduct: json['priceProduct'],
+      );
 
   Map<String, dynamic> toMap() {
     var map = Map<String, dynamic>();
-    if (id != null) {
-      map['id'] = id;
+    if (id1 != null) {
+      map['id1'] = id1;
     }
     map['idProduct'] = idProduct;
     map['nameResturant'] = nameResturant;

@@ -5,11 +5,13 @@ import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 import 'package:mjam/Contants/Color.dart';
 import 'package:mjam/Screens/Menu_Screen/Menu.dart';
-import 'package:mjam/Screens/Resturants/PageResturant/orderController.dart';
-import 'package:mjam/bottom_Navigation_bar/FavoritScreen.dart';
-import 'package:mjam/bottom_Navigation_bar/Profil.dart';
-import 'package:mjam/bottom_Navigation_bar/search_Screen.dart';
-import 'package:mjam/bottom_Navigation_bar/Shopping/shopping_carts.dart';
+import 'package:mjam/Screens/bottom_Navigation_bar/FavoritScreen.dart';
+import 'package:mjam/Screens/bottom_Navigation_bar/Profil.dart';
+import 'package:mjam/Screens/bottom_Navigation_bar/Shopping/shopping_Controller.dart';
+import 'package:mjam/Screens/bottom_Navigation_bar/Shopping/shopping_carts.dart';
+import 'package:mjam/Screens/bottom_Navigation_bar/search_Screen.dart';
+import 'package:mjam/Sqlite/Database.dart';
+import 'package:mjam/Sqlite/OrderModel.dart';
 
 
 class BottomNavBarWidget extends StatefulWidget {
@@ -20,7 +22,8 @@ class BottomNavBarWidget extends StatefulWidget {
 }
 
 class _BottomNavBarWidgetState extends State<BottomNavBarWidget> {
-  final OrderController orderController = Get.put(OrderController());
+  final ShoppingCartController shoppingCartController =
+  Get.put(ShoppingCartController());
   PageController pageController = PageController();
 
   int _selectedIndex = 0;
@@ -38,6 +41,29 @@ class _BottomNavBarWidgetState extends State<BottomNavBarWidget> {
     });
   }
 
+  _refreshDataOrderList() async {
+    final data = await DB.getDataOrderCard();
+    shoppingCartController.orderList.value = data;
+    _refreshSetList();
+  }
+
+  _refreshSetList() {
+    shoppingCartController.orderSet.clear();
+
+    final Map<String, OrderModel> profileMap = new Map();
+    shoppingCartController.orderList.forEach((item) {
+      profileMap[item.nameProduct!] = item;
+    });
+    shoppingCartController.orderSet.value=profileMap.values.toList();
+    shoppingCartController
+        .setTextFieldController(shoppingCartController.orderSet.length);
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    _refreshDataOrderList();
+  }
   @override
   void dispose() {
     pageController.dispose();
@@ -57,9 +83,10 @@ class _BottomNavBarWidgetState extends State<BottomNavBarWidget> {
               secondaryAnimation: secondaryAnimation,
             );
           },
-          child: Scrollbar(
-              radius: Radius.circular(50.0),
-              child: screens[_selectedIndex]),
+          child: screens[_selectedIndex],
+          // Scrollbar(
+          //     radius: Radius.circular(50.0),
+          //     child: screens[_selectedIndex]),
         ),
         bottomNavigationBar: BottomNavigationBar(
           type: BottomNavigationBarType.fixed,
@@ -100,7 +127,7 @@ class _BottomNavBarWidgetState extends State<BottomNavBarWidget> {
                     () => Positioned(
                       top: 0,
                       right: 0,
-                      child: orderController.cartOrder.isNotEmpty
+                      child: shoppingCartController.orderList.isNotEmpty
                           ? Container(
                               padding: EdgeInsets.all(1),
                               decoration: BoxDecoration(

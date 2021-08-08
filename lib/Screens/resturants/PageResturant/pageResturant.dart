@@ -1,5 +1,7 @@
 import 'package:get/get.dart';
 import 'package:mjam/Screens/BootomNavBar/BottomNavBarWidget.dart';
+import 'package:mjam/Screens/bottom_Navigation_bar/Shopping/shopping_Controller.dart';
+import 'package:mjam/Screens/bottom_Navigation_bar/Shopping/shopping_carts.dart';
 import 'package:mjam/Sqlite/Database.dart';
 import 'package:mjam/Sqlite/FavoriteModel.dart';
 import 'package:mjam/Sqlite/OrderModel.dart';
@@ -14,8 +16,6 @@ import 'package:mjam/Contants/Color.dart';
 import 'package:mjam/Widgets/Rating.dart';
 import 'package:mjam/Widgets/search.dart';
 import 'package:mjam/models_and_data/Class/models_and_data.dart';
-import 'package:mjam/bottom_Navigation_bar/Shopping/shopping_carts.dart';
-import 'package:mjam/bottom_Navigation_bar/Shopping/shopping_Controller.dart';
 import 'package:mjam/Screens/Resturants/Resturant_List/Clipper_Resturant_Photo.dart';
 import 'package:vertical_tab_bar_view/vertical_tab_bar_view.dart';
 
@@ -45,7 +45,6 @@ class _PageResturantState extends State<PageResturant>
   TabController? tabController;
   RxString changeText = 'HINZUFÜGEN'.obs;
   RxBool check = false.obs;
-  DateTime dateTime = DateTime.now();
 
   @override
   void initState() {
@@ -56,7 +55,7 @@ class _PageResturantState extends State<PageResturant>
     _refreshDataOrderList();
   }
 
-   _refreshDataFavoriteList() async {
+  _refreshDataFavoriteList() async {
     final data = await DB.getDataFavoriteList();
     favoritController.favoriteList.value = data;
   }
@@ -91,13 +90,13 @@ class _PageResturantState extends State<PageResturant>
       nameResturant: '${res.nameResturant}',
       nameProduct: '${pro.nameProduct}',
       priceProduct: pro.price,
-      dateTime: '${dateTime.toString()}',
+      dateTime: '${DateTime.now()}',
     );
     await DB.insertToOrderCard(order);
-    order.id = shoppingCartController.orderList.isEmpty
+    order.id1 = shoppingCartController.orderList.isEmpty
         ? 0
         : shoppingCartController
-                .orderList[shoppingCartController.orderList.length - 1].id! +
+                .orderList[shoppingCartController.orderList.length - 1].id1! +
             1;
     _refreshDataOrderList();
   }
@@ -105,15 +104,25 @@ class _PageResturantState extends State<PageResturant>
   _removeFromOrderList(Resturant res, Product pro) async {
     for (var s in shoppingCartController.orderList) {
       if (s.nameProduct == pro.nameProduct && s.idProduct == pro.id) {
-        await DB.deleteFromOrderCard(s.id!);
+        await DB.deleteFromOrderCard(s.id1!);
       }
     }
     _refreshDataOrderList();
   }
 
-   _refreshDataOrderList() async {
+  _refreshDataOrderList() async {
     final data = await DB.getDataOrderCard();
     shoppingCartController.orderList.value = data;
+    final a=data.toSet();
+    print (a);
+
+  }
+
+  _removeAllDataFromOrderList() async {
+    await DB.deleteAllDataFromOrderList();
+    shoppingCartController.orderList.value = [];
+    _refreshDataOrderList();
+    shoppingCartController.orderSet.clear();
   }
 
   void updateScreen() {
@@ -123,34 +132,14 @@ class _PageResturantState extends State<PageResturant>
   @override
   Widget build(BuildContext context) {
     return SafeArea(
-      child: Scaffold(
-        body: NestedScrollView(
-          headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
-            return [
-              SliverAppBar(
-                actions: [
-                  Container(
-                    margin: EdgeInsets.only(left: 15),
-                    height: 35,
-                    width: 35,
-                    decoration: BoxDecoration(
-                      shape: BoxShape.circle,
-                      color: Color(0xFFFFFFFF),
-                    ),
-                    child: IconButton(
-                        icon: Icon(
-                          CupertinoIcons.arrow_left,
-                          color: primaryColor,
-                        ),
-                        onPressed: () {
-                          Get.to(() => BottomNavBarWidget());
-                        }),
-                  ),
-                  Spacer(),
-                  AnimatedContainer(
-                    duration: Duration(seconds: 2),
-                    child: Container(
-                      margin: EdgeInsets.only(right: 15),
+      child: Obx(()=> Scaffold(
+          body: NestedScrollView(
+            headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
+              return [
+                SliverAppBar(
+                  actions: [
+                    Container(
+                      margin: EdgeInsets.only(left: 15),
                       height: 35,
                       width: 35,
                       decoration: BoxDecoration(
@@ -158,333 +147,377 @@ class _PageResturantState extends State<PageResturant>
                         color: Color(0xFFFFFFFF),
                       ),
                       child: IconButton(
-                        icon: Obx(
-                          () => Icon(
-                            (favoritController.favoriteList.any((e) =>
-                                        (e.name) ==
-                                        resturant!.nameResturant)) ==
-                                    true
-                                ? CupertinoIcons.heart_fill
-                                : CupertinoIcons.heart,
+                          icon: Icon(
+                            CupertinoIcons.arrow_left,
                             color: primaryColor,
                           ),
+                          onPressed: () {
+                            shoppingCartController.orderList.forEach((e) {
+                              print(e.nameProduct);
+                            });
+                            Get.to(() => BottomNavBarWidget());
+                          }),
+                    ),
+                    Spacer(),
+                    AnimatedContainer(
+                      duration: Duration(seconds: 2),
+                      child: Container(
+                        margin: EdgeInsets.only(right: 15),
+                        height: 35,
+                        width: 35,
+                        decoration: BoxDecoration(
+                          shape: BoxShape.circle,
+                          color: Color(0xFFFFFFFF),
                         ),
-                        onPressed: () {
-                          (favoritController.favoriteList.any((e) =>
-                                      (e.name) == resturant!.nameResturant!)) ==
-                                  true
-                              ? _removeFromFavoriteList(resturant!)
-                              : _addToFavoriteList(resturant!);
-                        },
+                        child: IconButton(
+                          icon: Obx(
+                            () => Icon(
+                              (favoritController.favoriteList.any((e) =>
+                                          (e.name) ==
+                                          resturant!.nameResturant)) ==
+                                      true
+                                  ? CupertinoIcons.heart_fill
+                                  : CupertinoIcons.heart,
+                              color: primaryColor,
+                            ),
+                          ),
+                          onPressed: () {
+                            (favoritController.favoriteList.any((e) =>
+                                        (e.name) == resturant!.nameResturant!)) ==
+                                    true
+                                ? _removeFromFavoriteList(resturant!)
+                                : _addToFavoriteList(resturant!);
+                          },
+                        ),
                       ),
                     ),
-                  ),
-                ],
-                elevation: 10,
-                pinned: true,
-                automaticallyImplyLeading: false,
-                backgroundColor: Theme.of(context).bottomAppBarTheme.color,
-                flexibleSpace: FlexibleSpaceBar(
-                  collapseMode: CollapseMode.pin,
-                  background: Column(
-                    children: <Widget>[
-                      ClipPath(
-                        child: Image.asset(
-                          resturant!.photoResturant!,
-                          height: 230.0,
-                          width: double.infinity,
-                          fit: BoxFit.cover,
-                        ),
-                        clipper: CliperHpmePageResturant(),
-                      ),
-                      Padding(
-                        padding: EdgeInsets.symmetric(horizontal: 10),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Text(
-                              resturant!.nameResturant!,
-                              textAlign: TextAlign.left,
-                              textScaleFactor: 1.5,
-                              style:
-                                  Theme.of(context).primaryTextTheme.headline2,
-                            ),
-                            IconButton(
-                              icon: Icon(
-                                CupertinoIcons.info_circle,
-                                size: 35,
-                              ),
-                              onPressed: () {
-                                Get.to(InfoResturant(resturant: resturant!));
-                              },
-                            ),
-                          ],
-                        ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 10),
-                        child: Row(
-                          children: [
-                            rating(5.0, 0.0, 15.0, Colors.amber),
-                            SizedBox(
-                              width: 5,
-                            ),
-                            Text(
-                              resturant!.ratingResturant.toString(),
-                              textAlign: TextAlign.left,
-                              style:
-                                  Theme.of(context).primaryTextTheme.headline3,
-                            ),
-                          ],
-                        ),
-                      ),
-                      SizedBox(
-                        height: 5,
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 10),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          children: [
-                            Icon(
-                              CupertinoIcons.timer,
-                              size: 20,
-                            ),
-                            Text(
-                              " ca.${resturant!.deliveryDuration}min",
-                              textAlign: TextAlign.center,
-                              style:
-                                  Theme.of(context).primaryTextTheme.headline3,
-                            ),
-                            SizedBox(width: 10),
-                            Icon(
-                              CupertinoIcons.location,
-                              size: 20,
-                            ),
-                            Text(
-                              "${(resturant!.distance! / 1000).toStringAsFixed(1)} km",
-                              textAlign: TextAlign.center,
-                              style:
-                                  Theme.of(context).primaryTextTheme.headline3,
-                            ),
-                          ],
-                        ),
-                      ),
-                      SizedBox(
-                        height: 10,
-                      ),
-                      Container(
-                        color: Theme.of(context).backgroundColor,
-                        child: Container(
-                          color: whiteColor,
-                          margin: EdgeInsets.only(top: 8, bottom: 8),
-                          child: Search(),
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-                expandedHeight: 440.0,
-//========================================= TabBar =============================
-                bottom: tabBar(context),
-              ),
-            ];
-          },
-//==================================== TabBarView ==============================
-
-          body: VerticalTabBarView(
-            controller: tabController,
-            children: [
-              for (int index = 0; index < resturant!.products!.length; index++)
-                Column(
-                  // shrinkWrap: true,
-                  children: [
-                    Container(
-                        height: 100,
-                        width: MediaQuery.of(context).size.width,
-                        child: Image.asset(
-                          resturant!.photoResturant!,
-                          fit: BoxFit.fitWidth,
-                        )),
-                    for (Product product in resturant!.product!)
-                      if (resturant!.products![index].id == product.id)
-                        Card(
-                          child: Container(
-                            padding: EdgeInsets.only(left: 15, right: 15),
-                            height: 40,
-                            child: MaterialButton(
-                              onPressed: () {
-                                counterController.counter.value = 1;
-
-                                showModalBottomSheet(
-                                  isScrollControlled: false,
-
-                                  enableDrag: false,
-                                  // backgroundColor: Colors.transparent,
-                                  context: context,
-                                  shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.only(
-                                        topLeft: Radius.circular(10.0),
-                                        topRight: Radius.circular(10.0)),
-                                  ),
-                                  builder: (BuildContext context) {
-                                    return StatefulBuilder(
-                                      builder: (BuildContext context,
-                                          StateSetter setState) {
-                                        return Column(
-                                          mainAxisSize: MainAxisSize.min,
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.start,
-                                          children: [
-//==================================================================================== Product Name =======================
-                                            productInfo(product, context),
-
-//======================================================================== Allergene & Zusatzstoffe =======================
-                                            allergeneAndZusatzstoffe(),
-                                            Container(
-                                              color: greyColor,
-                                              width: double.infinity,
-                                              height: 2,
-                                            ),
-//=================================================================================== Extraauflagen =======================
-                                            extraauflagen(context),
-
-                                            Container(
-                                              color: greyColor,
-                                              height: 2,
-                                              width: MediaQuery.of(context)
-                                                  .size
-                                                  .width,
-                                            ),
-
-//============================================================================ Kommentare hinzufügen =======================
-                                            comment(),
-//========================================================================================= - and + =======================
-                                            incrementAndDicrement(
-                                                product, resturant!),
-
-//==================================================================================== HINZUFÜGEN =========================
-
-                                            hinzufugen(
-                                                resturant!, product, context),
-                                          ],
-                                        );
-                                      },
-                                    );
-                                  },
-                                );
-                              },
-                              child: SizedBox(
-                                width: MediaQuery.of(context).size.width,
-                                child: Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    Text(
-                                      product.nameProduct!,
-                                      style: Theme.of(context)
-                                          .primaryTextTheme
-                                          .headline2,
-                                    ),
-                                    Spacer(),
-                                    Text(
-                                      '\€ ' + product.price.toString(),
-                                      style: Theme.of(context)
-                                          .primaryTextTheme
-                                          .headline2,
-                                    ),
-                                    SizedBox(width: 10),
-                                    Icon(
-                                      CupertinoIcons.plus_square,
-                                      color: primaryColor,
-                                      size: 20,
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            ),
-                          ),
-                        ),
                   ],
-                ),
-            ],
-          ),
-        ),
-        bottomSheet: counterController.showBottomSheet.value == true
-            ? Container(
-                height: 50,
-                width: MediaQuery.of(context).size.width,
-                color: primaryColor,
-                child: MaterialButton(
-                  color: primaryColor,
-                  onPressed: () {
-                    counterController.itemCount.value = 1;
-                    counterController.clear();
-
-                    if (orderController.setMyCart.length != 0 &&
-                        shoppingCartController.listController.length == 0) {
-                      shoppingCartController.setTextFieldController(
-                          orderController.setMyCart.length);
-                    }
-                    if (orderController.setMyCart.length >
-                        shoppingCartController.listController.length) {
-                      int result = orderController.setMyCart.length -
-                          shoppingCartController.listController.length;
-                      shoppingCartController.setTextFieldController(result);
-                    }
-
-                    Get.to(() => ShoppingCarts());
-                  },
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(vertical: 10),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Container(
-                          height: 40,
-                          width: 40,
-                          decoration: BoxDecoration(
-                            shape: BoxShape.circle,
-                            color: whiteColor,
+                  elevation: 10,
+                  pinned: true,
+                  automaticallyImplyLeading: false,
+                  backgroundColor: Theme.of(context).bottomAppBarTheme.color,
+                  flexibleSpace: FlexibleSpaceBar(
+                    collapseMode: CollapseMode.pin,
+                    background: Column(
+                      children: <Widget>[
+                        ClipPath(
+                          child: Image.asset(
+                            resturant!.photoResturant!,
+                            height: 230.0,
+                            width: double.infinity,
+                            fit: BoxFit.cover,
                           ),
-                          child: Center(
-                            child: Text(
-                              orderController.cartOrder.isEmpty
-                                  // productBloc.cartOrder.isEmpty
-                                  ? ''
-                                  : orderController.cartOrder.length.toString(),
-                              style: Theme.of(context)
-                                  .primaryTextTheme
-                                  .button!
-                                  .apply(color: primaryColor, fontSizeDelta: 4),
-                            ),
+                          clipper: CliperHpmePageResturant(),
+                        ),
+                        Padding(
+                          padding: EdgeInsets.symmetric(horizontal: 10),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Text(
+                                resturant!.nameResturant!,
+                                textAlign: TextAlign.left,
+                                textScaleFactor: 1.5,
+                                style:
+                                    Theme.of(context).primaryTextTheme.headline2,
+                              ),
+                              IconButton(
+                                icon: Icon(
+                                  CupertinoIcons.info_circle,
+                                  size: 35,
+                                ),
+                                onPressed: () {
+                                  Get.to(InfoResturant(resturant: resturant!));
+                                },
+                              ),
+                            ],
                           ),
                         ),
-                        Text(changeText.value,
-                            style: Theme.of(context)
-                                .primaryTextTheme
-                                .button!
-                                .apply(color: whiteColor)),
-                        Text(
-                          orderController.cartOrder.isEmpty
-                              ? ''
-                              : orderController.cartOrder
-                                  .reduce((x, y) => Order(
-                                      totalPrise:
-                                          x.totalPrise! + y.totalPrise!))
-                                  .totalPrise!
-                                  .toStringAsFixed(2),
-                          style: Theme.of(context)
-                              .primaryTextTheme
-                              .button!
-                              .apply(color: whiteColor, fontSizeDelta: 4),
+                        Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 10),
+                          child: Row(
+                            children: [
+                              rating(5.0, 0.0, 15.0, Colors.amber),
+                              SizedBox(
+                                width: 5,
+                              ),
+                              Text(
+                                resturant!.ratingResturant.toString(),
+                                textAlign: TextAlign.left,
+                                style:
+                                    Theme.of(context).primaryTextTheme.headline3,
+                              ),
+                            ],
+                          ),
+                        ),
+                        SizedBox(
+                          height: 5,
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 10),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            children: [
+                              Icon(
+                                CupertinoIcons.timer,
+                                size: 20,
+                              ),
+                              Text(
+                                " ca.${resturant!.deliveryDuration}min",
+                                textAlign: TextAlign.center,
+                                style:
+                                    Theme.of(context).primaryTextTheme.headline3,
+                              ),
+                              SizedBox(width: 10),
+                              Icon(
+                                CupertinoIcons.location,
+                                size: 20,
+                              ),
+                              Text(
+                                "${(resturant!.distance! / 1000).toStringAsFixed(1)} km",
+                                textAlign: TextAlign.center,
+                                style:
+                                    Theme.of(context).primaryTextTheme.headline3,
+                              ),
+                            ],
+                          ),
+                        ),
+                        SizedBox(
+                          height: 10,
+                        ),
+                        Container(
+                          color: Theme.of(context).backgroundColor,
+                          child: Container(
+                            color: whiteColor,
+                            margin: EdgeInsets.only(top: 8, bottom: 8),
+                            child: Search(),
+                          ),
                         ),
                       ],
                     ),
                   ),
+                  expandedHeight: 440.0,
+//========================================= TabBar =============================
+                  bottom: tabBar(context),
                 ),
-              )
-            : Text(''),
+              ];
+            },
+//==================================== TabBarView ==============================
+
+            body: VerticalTabBarView(
+              controller: tabController,
+              children: [
+                for (int index = 0; index < resturant!.products!.length; index++)
+                  ListView(
+                    shrinkWrap: true,
+                    children: [
+                      Container(
+                          height: 100,
+                          width: MediaQuery.of(context).size.width,
+                          child: Image.asset(
+                            resturant!.photoResturant!,
+                            fit: BoxFit.fitWidth,
+                          )),
+                      for (Product product in resturant!.product!)
+                        if (resturant!.products![index].id == product.id)
+                          Card(
+                            child: Container(
+                              padding: EdgeInsets.only(left: 15, right: 15),
+                              height: 40,
+                              child: MaterialButton(
+                                onPressed: () {
+                                  counterController.counter.value = 1;
+
+                                  showModalBottomSheet(
+                                    isScrollControlled: false,
+
+                                    enableDrag: false,
+                                    // backgroundColor: Colors.transparent,
+                                    context: context,
+                                    shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.only(
+                                          topLeft: Radius.circular(10.0),
+                                          topRight: Radius.circular(10.0)),
+                                    ),
+                                    builder: (BuildContext context) {
+                                      return StatefulBuilder(
+                                        builder: (BuildContext context,
+                                            StateSetter setState) {
+                                          return Column(
+                                            mainAxisSize: MainAxisSize.min,
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.start,
+                                            children: [
+//==================================================================================== Product Name =======================
+                                              productInfo(product, context),
+
+//======================================================================== Allergene & Zusatzstoffe =======================
+                                              allergeneAndZusatzstoffe(),
+                                              Container(
+                                                color: greyColor,
+                                                width: double.infinity,
+                                                height: 2,
+                                              ),
+//=================================================================================== Extraauflagen =======================
+                                              extraauflagen(context),
+
+                                              Container(
+                                                color: greyColor,
+                                                height: 2,
+                                                width: MediaQuery.of(context)
+                                                    .size
+                                                    .width,
+                                              ),
+
+//============================================================================ Kommentare hinzufügen =======================
+                                              comment(),
+//========================================================================================= - and + =======================
+                                              incrementAndDicrement(
+                                                  product, resturant!),
+
+//==================================================================================== HINZUFÜGEN =========================
+
+                                              hinzufugen(
+                                                  resturant!, product, context),
+                                            ],
+                                          );
+                                        },
+                                      );
+                                    },
+                                  );
+                                },
+                                child: SizedBox(
+                                  width: MediaQuery.of(context).size.width,
+                                  child: Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      Text(
+                                        product.nameProduct!,
+                                        style: Theme.of(context)
+                                            .primaryTextTheme
+                                            .headline2,
+                                      ),
+                                      Spacer(),
+                                      Text(
+                                        '€ ${product.price!.toStringAsFixed(2)}',
+                                        style: Theme.of(context)
+                                            .primaryTextTheme
+                                            .headline2,
+                                      ),
+                                      SizedBox(width: 10),
+                                      Icon(
+                                        CupertinoIcons.plus_square,
+                                        color: primaryColor,
+                                        size: 20,
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ),
+                    ],
+                  ),
+              ],
+            ),
+          ),
+          bottomSheet: counterController.showBottomSheet.value == true||shoppingCartController.orderList.isNotEmpty
+              ? Container(
+                  height: 50,
+                  width: MediaQuery.of(context).size.width,
+                  color: primaryColor,
+                  child: MaterialButton(
+                    color: primaryColor,
+                    onPressed: () {
+                      counterController.itemCount.value = 1;
+                      counterController.clear();
+
+                      final Map<String, OrderModel> profileMap = new Map();
+                      shoppingCartController.orderList.forEach((item) {
+                        profileMap[item.nameProduct!] = item;
+                      });
+                      shoppingCartController.orderSet.value=profileMap.values.toList();
+
+                      shoppingCartController
+                          .setTextFieldController(shoppingCartController.orderSet.length);
+
+                      // if(shoppingCartController.orderSet.length!=0&& shoppingCartController.listController.length == 0){
+                      //   shoppingCartController.setTextFieldController(shoppingCartController.orderSet.length);
+                      // }
+                      //
+                      // if(shoppingCartController.orderSet.length>shoppingCartController.listController.length){
+                      //   int result=shoppingCartController.orderSet.length-shoppingCartController.listController.length;
+                      //   shoppingCartController.setTextFieldController(result);
+                      // }
+                      Get.to(() => ShoppingCarts());
+                    },
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 10),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Container(
+                            height: 40,
+                            width: 40,
+                            decoration: BoxDecoration(
+                              shape: BoxShape.circle,
+                              color: whiteColor,
+                            ),
+                            child: Center(
+                              child: Obx(
+                                () => Text(
+                                  // orderController.cartOrder.isEmpty
+                                  shoppingCartController.orderList.isEmpty
+                                      ? ''
+                                      : '${shoppingCartController.orderList.length}',
+                                  // : orderController.cartOrder.length.toString(),
+                                  style: Theme.of(context)
+                                      .primaryTextTheme
+                                      .button!
+                                      .apply(
+                                          color: primaryColor, fontSizeDelta: 4),
+                                ),
+                              ),
+                            ),
+                          ),
+                          Obx(
+                            () => Text(changeText.value,
+                                style: Theme.of(context)
+                                    .primaryTextTheme
+                                    .button!
+                                    .apply(color: whiteColor)),
+                          ),
+                          Obx(
+                            () => Text(
+                              // orderController.cartOrder.isEmpty
+                              shoppingCartController.orderList.isEmpty
+                                  ? ''
+                                  // : orderController.cartOrder
+                                  //     .reduce((x, y) => Order(
+                                  //         totalPrise:
+                                  //             x.totalPrise! + y.totalPrise!))
+                                  //     .totalPrise!
+                                  //     .toStringAsFixed(2),
+                                  : shoppingCartController.orderList
+                                      .reduce((x, y) => OrderModel(
+                                          priceProduct:
+                                              x.priceProduct! + y.priceProduct!))
+                                      .priceProduct!
+                                      .toStringAsFixed(2),
+                              style: Theme.of(context)
+                                  .primaryTextTheme
+                                  .button!
+                                  .apply(color: whiteColor, fontSizeDelta: 4),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                )
+              : Text(''),
+        ),
       ),
     );
   }
@@ -497,9 +530,12 @@ class _PageResturantState extends State<PageResturant>
         color: primaryColor,
         onPressed: () {
           if (shoppingCartController.orderList.isEmpty ||
-              orderController.cartOrder.isEmpty &&
-                  orderController.cartOrder[0].resturant!.nameResturant ==
-                      resturant.nameResturant) {
+                  shoppingCartController.orderList[0].nameResturant ==
+                      resturant.nameResturant
+              // orderController.cartOrder.isEmpty &&
+              //     orderController.cartOrder[0].resturant!.nameResturant ==
+              //         resturant.nameResturant
+              ) {
             counterController.showBottomSheet.value = true;
             counterController.itemCount.value >= 1
                 ? changeText.value = 'WARENKORB ÖFFNEN'
@@ -507,14 +543,14 @@ class _PageResturantState extends State<PageResturant>
             if (counterController.itemCount.value == 1) {
               _addToOrderList(resturant, product);
 
-              orderController.addToCart(
-                Order(
-                  product: product,
-                  totalPrise: product.price,
-                  quantity: 1,
-                  resturant: resturant,
-                ),
-              );
+              // orderController.addToCart(
+              //   Order(
+              //     product: product,
+              //     totalPrise: product.price,
+              //     quantity: 1,
+              //     resturant: resturant,
+              //   ),
+              // );
 
               counterController.clear();
 
@@ -528,7 +564,7 @@ class _PageResturantState extends State<PageResturant>
               updateScreen();
             }
           } else {
-            showDialogForCheckResturantHinzufugen(context, product);
+            showDialogForCheckResturantHinzufugen(context, resturant, product);
             updateScreen();
           }
         },
@@ -569,7 +605,7 @@ class _PageResturantState extends State<PageResturant>
   }
 
   Future<dynamic> showDialogForCheckResturantHinzufugen(
-      BuildContext context, Product product) {
+      BuildContext context, Resturant resturant, Product product) {
     return showDialog(
       context: context,
       builder: (context) => AlertDialog(
@@ -609,20 +645,22 @@ class _PageResturantState extends State<PageResturant>
                     color: Color(0xFF10D401),
                   ),
                   onPressed: () {
-                    orderController.clearAllCart();
+                    // orderController.clearAllCart();
+                    _removeAllDataFromOrderList();
                     counterController.showBottomSheet.value = true;
                     counterController.itemCount.value >= 1
                         ? changeText.value = 'WARENKORB ÖFFNEN'
                         : changeText.value = 'HINZUFÜGEN';
                     if (counterController.itemCount.value == 1) {
-                      orderController.addToCart(
-                        Order(
-                          product: product,
-                          totalPrise: product.price,
-                          quantity: 1,
-                          resturant: resturant!,
-                        ),
-                      );
+                      _addToOrderList(resturant, product);
+                      // orderController.addToCart(
+                      //   Order(
+                      //     product: product,
+                      //     totalPrise: product.price,
+                      //     quantity: 1,
+                      //     resturant: resturant!,
+                      //   ),
+                      // );
 
                       counterController.clear();
 
@@ -661,7 +699,8 @@ class _PageResturantState extends State<PageResturant>
     );
   }
 
-  Future<dynamic> showDialogForCheckResturant(Product product) {
+  Future<dynamic> showDialogForCheckResturant(
+      Resturant resturant, Product product) {
     return showDialog(
       context: context,
       builder: (context) => AlertDialog(
@@ -701,35 +740,40 @@ class _PageResturantState extends State<PageResturant>
                     color: Color(0xFF10D401),
                   ),
                   onPressed: () {
-                    orderController.clearAllCart();
-                    if (counterController.counter.value == 1) {
-                      orderController.addToCart(
-                        Order(
-                          product: product,
-                          totalPrise: product.price,
-                          quantity: 1,
-                          resturant: resturant!,
-                        ),
-                      );
+                    // orderController.clearAllCart();
+                    _removeAllDataFromOrderList();
 
-                      orderController.addToCart(
-                        Order(
-                          product: product,
-                          totalPrise: product.price,
-                          quantity: 1,
-                          resturant: resturant!,
-                        ),
-                      );
+                    if (counterController.counter.value == 1) {
+                      _addToOrderList(resturant, product);
+                      _addToOrderList(resturant, product);
+                      // orderController.addToCart(
+                      //   Order(
+                      //     product: product,
+                      //     totalPrise: product.price,
+                      //     quantity: 1,
+                      //     resturant: resturant!,
+                      //   ),
+                      // );
+                      //
+                      // orderController.addToCart(
+                      //   Order(
+                      //     product: product,
+                      //     totalPrise: product.price,
+                      //     quantity: 1,
+                      //     resturant: resturant!,
+                      //   ),
+                      // );
                       counterController.increment();
                     } else {
-                      orderController.addToCart(
-                        Order(
-                          product: product,
-                          totalPrise: product.price,
-                          quantity: 1,
-                          resturant: resturant!,
-                        ),
-                      );
+                      _addToOrderList(resturant, product);
+                      // orderController.addToCart(
+                      //   Order(
+                      //     product: product,
+                      //     totalPrise: product.price,
+                      //     quantity: 1,
+                      //     resturant: resturant!,
+                      //   ),
+                      // );
                       counterController.increment();
                     }
                     Get.back();
@@ -777,12 +821,12 @@ class _PageResturantState extends State<PageResturant>
             onPressed: () {
               if (counterController.counter.value > 1) {
                 counterController.decrement();
-                orderController.removeFromCart(Order(
-                  product: product,
-                  totalPrise: product.price,
-                  quantity: 1,
-                  resturant: resturant,
-                ));
+                // orderController.removeFromCart(Order(
+                //   product: product,
+                //   totalPrise: product.price,
+                //   quantity: 1,
+                //   resturant: resturant,
+                // ));
                 _removeFromOrderList(resturant, product);
               } else {
                 counterController.counter.value;
@@ -808,46 +852,49 @@ class _PageResturantState extends State<PageResturant>
             ),
             onPressed: () {
               if (shoppingCartController.orderList.isEmpty ||
-                  orderController.cartOrder.isEmpty &&
-                      orderController.cartOrder[0].resturant!.nameResturant ==
-                          resturant.nameResturant) {
+                      shoppingCartController.orderList[0].nameResturant ==
+                          resturant.nameResturant
+                  //     orderController.cartOrder.isEmpty ||
+                  //         orderController.cartOrder[0].resturant!.nameResturant ==
+                  //             resturant.nameResturant
+                  ) {
                 if (counterController.counter.value == 1) {
                   _addToOrderList(resturant, product);
                   _addToOrderList(resturant, product);
 
-                  orderController.addToCart(
-                    Order(
-                      product: product,
-                      totalPrise: product.price,
-                      quantity: 1,
-                      resturant: resturant,
-                    ),
-                  );
+                  // orderController.addToCart(
+                  //   Order(
+                  //     product: product,
+                  //     totalPrise: product.price,
+                  //     quantity: 1,
+                  //     resturant: resturant,
+                  //   ),
+                  // );
+                  // orderController.addToCart(
+                  //   Order(
+                  //     product: product,
+                  //     totalPrise: product.price,
+                  //     quantity: 1,
+                  //     resturant: resturant,
+                  //   ),
+                  // );
 
-                  orderController.addToCart(
-                    Order(
-                      product: product,
-                      totalPrise: product.price,
-                      quantity: 1,
-                      resturant: resturant,
-                    ),
-                  );
                   counterController.increment();
                 } else {
                   _addToOrderList(resturant, product);
 
-                  orderController.addToCart(
-                    Order(
-                      product: product,
-                      totalPrise: product.price,
-                      quantity: 1,
-                      resturant: resturant,
-                    ),
-                  );
+                  // orderController.addToCart(
+                  //   Order(
+                  //     product: product,
+                  //     totalPrise: product.price,
+                  //     quantity: 1,
+                  //     resturant: resturant,
+                  //   ),
+                  // );
                   counterController.increment();
                 }
               } else {
-                showDialogForCheckResturant(product);
+                showDialogForCheckResturant(resturant, product);
               }
             },
           ),
