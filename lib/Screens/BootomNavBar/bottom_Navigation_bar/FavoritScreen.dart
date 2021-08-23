@@ -5,8 +5,8 @@ import 'package:mjam/Contants/Color.dart';
 import 'package:mjam/Screens/Login_and_SignUp/login_screen.dart';
 import 'package:mjam/Screens/Login_and_SignUp/sign_up_screen.dart';
 import 'package:mjam/Screens/Resturants/PageResturant/FavoritController.dart';
-import 'package:mjam/Screens/Resturants/PageResturant/pageResturant.dart';
 import 'package:mjam/Sqlite/Database.dart';
+import 'package:mjam/Screens/Resturants/PageResturant/NewScreen/pageResturant.dart';
 import 'package:mjam/Widgets/Rating.dart';
 import 'package:mjam/models_and_data/Class/models_and_data.dart';
 
@@ -21,13 +21,15 @@ class _FavoriteScreenState extends State<FavoriteScreen> {
   final FavoriteController favoriteController = Get.put(FavoriteController());
 
   final userData = GetStorage();
-
   PageResturant? pageResturant;
+  ScrollController? cs=ScrollController();
+  RxDouble aa=0.0.obs;
 
   @override
   void initState() {
-    super.initState();
     _refreshData();
+    cs!.addListener(() { aa.value=cs!.offset/cs!.position.maxScrollExtent<0?0:cs!.offset/cs!.position.maxScrollExtent>1?1:cs!.offset/cs!.position.maxScrollExtent;});
+    super.initState();
   }
 
   void _refreshData() async {
@@ -47,17 +49,20 @@ class _FavoriteScreenState extends State<FavoriteScreen> {
 
   @override
   Widget build(BuildContext context) {
+
     return Scaffold(
       appBar: AppBar(
         automaticallyImplyLeading: false,
         centerTitle: true,
         backgroundColor: Theme.of(context).appBarTheme.backgroundColor,
-        // brightness: Theme.of(context).appBarTheme.brightness,
         elevation: 0,
-        title: Text(
-          "Mein Foodo",
-          style: Theme.of(context).primaryTextTheme.button,
-        ),
+        title:   Opacity(opacity:/*aa.value*/1,
+              child: Text(
+                "Mein Foodo",
+                style: Theme.of(context).primaryTextTheme.button,
+              ),
+          ),
+
       ),
       body: userData.read('isLogged') == false
           ? Column(
@@ -213,11 +218,12 @@ class _FavoriteScreenState extends State<FavoriteScreen> {
                 )
               : GetBuilder<FavoriteController>(builder: (_list) {
                   return ListView.builder(
+                    controller: cs,
+                    physics: const BouncingScrollPhysics(),
                     shrinkWrap: true,
                     itemCount: favoriteController.userFavoriteList.length,
                     itemBuilder: (context, index) {
                       Resturant _resturant = _list.userFavoriteList[index];
-
                       return GestureDetector(
                         onTap: () {
                           Get.to(() => PageResturant(

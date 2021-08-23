@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:mjam/Contants/Color.dart';
+import 'package:mjam/Widgets/customTextField.dart';
 
 import 'login_screen.dart';
 
@@ -24,6 +25,8 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
     return SafeArea(
       child: Scaffold(
         appBar: AppBar(
+          title: Text('Kennwort zrücksetzen', style: Theme.of(context).primaryTextTheme.button,),
+          centerTitle: true,
           elevation: 0,
           leading: IconButton(
             icon: Icon(
@@ -63,7 +66,23 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
               //________________________________________E-Mail_______
               Form(
                 key: _formKey,
-                child: TextFormField(
+                child: CustomTextField(
+                  lable: 'E-Mail',
+                  controller: _emailController,
+                  obscureText: false,
+                  inputFormatters:FilteringTextInputFormatter.deny(
+                      RegExp(r"\s\b|\b\s")
+                  ) ,
+                  textInputType:TextInputType.emailAddress,
+                  onSave: (input) => _email = input!.trim(),
+                  prefixIcon:Icon(
+                    CupertinoIcons.mail,
+                    color: Colors.grey[500],
+                    size: 18,
+                  ),
+                validator:validateEmail ,
+                ),
+                /*TextFormField(
                   inputFormatters: [FilteringTextInputFormatter.deny(
                        RegExp(r"\s\b|\b\s")
                   )],
@@ -87,7 +106,7 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
                   validator: validateEmail,
                   onSaved: (input) => _email = input!.trim(),
                   controller: _emailController,
-                ),
+                ),*/
               ),
               SizedBox(
                 height: 40,
@@ -120,7 +139,8 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
   String validateEmail(String? value) {
     // Pattern pattern =
     //     r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$';
-    RegExp regex =  RegExp(r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$');
+    RegExp regex = RegExp(
+        r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$');
     if (!regex.hasMatch(value!.trim()))
       return 'Enter Valid Email';
     else
@@ -136,8 +156,7 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
         Navigator.push(
             context, MaterialPageRoute(builder: (context) => LoginScreen()));
       } catch (e) {
-
-      e.printError();
+        e.printError();
       }
     }
   }

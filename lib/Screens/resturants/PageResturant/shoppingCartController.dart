@@ -3,7 +3,6 @@ import 'package:mjam/models_and_data/Class/models_and_data.dart';
 
 class ShoppingCartController extends GetxController{
   ShoppingCart? shoppingCart;
-
   RxList<ShoppingCart> shoppingCartOrder = <ShoppingCart>[].obs;
   RxSet<ShoppingCart> setShoppingCartOrder = <ShoppingCart>{}.obs;
 

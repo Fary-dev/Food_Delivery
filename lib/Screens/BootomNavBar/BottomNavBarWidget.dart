@@ -4,14 +4,15 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 import 'package:mjam/Contants/Color.dart';
+import 'package:mjam/Screens/BootomNavBar/bottom_Navigation_bar/FavoritScreen.dart';
+import 'package:mjam/Screens/BootomNavBar/bottom_Navigation_bar/Shopping/shopping_Controller.dart';
+import 'package:mjam/Screens/BootomNavBar/bottom_Navigation_bar/search_Screen.dart';
 import 'package:mjam/Screens/Menu_Screen/Menu.dart';
-import 'package:mjam/Screens/bottom_Navigation_bar/FavoritScreen.dart';
-import 'package:mjam/Screens/bottom_Navigation_bar/Profil.dart';
-import 'package:mjam/Screens/bottom_Navigation_bar/Shopping/shopping_Controller.dart';
-import 'package:mjam/Screens/bottom_Navigation_bar/Shopping/shopping_carts.dart';
-import 'package:mjam/Screens/bottom_Navigation_bar/search_Screen.dart';
 import 'package:mjam/Sqlite/Database.dart';
 import 'package:mjam/Sqlite/OrderModel.dart';
+
+import 'bottom_Navigation_bar/Profil.dart';
+import 'bottom_Navigation_bar/Shopping/shopping_carts.dart';
 
 
 class BottomNavBarWidget extends StatefulWidget {
@@ -84,9 +85,7 @@ class _BottomNavBarWidgetState extends State<BottomNavBarWidget> {
             );
           },
           child: screens[_selectedIndex],
-          // Scrollbar(
-          //     radius: Radius.circular(50.0),
-          //     child: screens[_selectedIndex]),
+
         ),
         bottomNavigationBar: BottomNavigationBar(
           type: BottomNavigationBarType.fixed,

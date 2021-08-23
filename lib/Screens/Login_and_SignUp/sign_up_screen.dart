@@ -6,6 +6,7 @@ import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:mjam/Contants/Color.dart';
 import 'package:mjam/Screens/BootomNavBar/BottomNavBarWidget.dart';
+import 'package:mjam/Widgets/customTextField.dart';
 import 'auch_with_Google.dart';
 import 'auch_with_facebook.dart';
 
@@ -24,7 +25,6 @@ class _SignUpScreenState extends State<SignUpScreen> {
   bool showPassword = false;
   String? _email, _name, _password;
 
-
   void click() {
     setState(() {
       signInWithGoogle().whenComplete(() => Get.to(BottomNavBarWidget()));
@@ -36,17 +36,18 @@ class _SignUpScreenState extends State<SignUpScreen> {
     showPassword = false;
     super.initState();
   }
+
   @override
   Widget build(BuildContext context) {
-
     return SafeArea(
       child: Scaffold(
         appBar: AppBar(
           elevation: 0,
           title: Text(
-            '',
-            style: TextStyle(fontSize: 15),
+            'Kundenkonto erstellen',
+            style: Theme.of(context).primaryTextTheme.button,
           ),
+          centerTitle: true,
           leading: IconButton(
             icon: Icon(
               CupertinoIcons.arrow_left,
@@ -110,8 +111,10 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                       ),
                                       SizedBox(height: 30),
                                       Center(
-                                          child:
-                                              Text(userData.read('userName'),style: Theme.of(context).textTheme.button)),
+                                          child: Text(userData.read('userName'),
+                                              style: Theme.of(context)
+                                                  .textTheme
+                                                  .button)),
                                       SizedBox(height: 30),
                                       ElevatedButton.icon(
                                         style: Theme.of(context)
@@ -257,7 +260,23 @@ class _SignUpScreenState extends State<SignUpScreen> {
                   key: _formKey,
                   child: Column(
                     children: [
-                      TextFormField(
+                      CustomTextField(
+                        lable: 'Name',
+                        obscureText: false,
+                        controller: _nameController,
+                        validator: validateName,
+                        onSave: (String? value) {
+                          _name = value!.trim();
+                        },
+                        prefixIcon: Icon(
+                          CupertinoIcons.person,
+                          color: Colors.grey[500],
+                          size: 18,
+                        ),
+                        inputFormatters: FilteringTextInputFormatter.deny(
+                            RegExp(r"\s\b|\b\s")),
+                      ),
+                      /* TextFormField(
                         controller: _nameController,
                         style: Theme.of(context)
                             .primaryTextTheme
@@ -279,9 +298,26 @@ class _SignUpScreenState extends State<SignUpScreen> {
                             size: 18,
                           ),
                         ),
-                      ),
+                      ),*/
                       SizedBox(height: 10),
-                      TextFormField(
+                      CustomTextField(
+                        textInputType: TextInputType.emailAddress,
+                        lable: 'E-Mail',
+                        obscureText: false,
+                        controller: _emailController,
+                        validator: validateEmail,
+                        onSave: (String? value) {
+                          _email = value!.trim();
+                        },
+                        prefixIcon: Icon(
+                          CupertinoIcons.mail,
+                          color: Colors.grey[500],
+                          size: 18,
+                        ),
+                        inputFormatters: FilteringTextInputFormatter.deny(
+                            RegExp(r"\s\b|\b\s")),
+                      ),
+                      /*TextFormField(
                         inputFormatters: [
                           FilteringTextInputFormatter.deny(RegExp(r"\s\b|\b\s"))
                         ],
@@ -307,9 +343,44 @@ class _SignUpScreenState extends State<SignUpScreen> {
                             size: 18,
                           ),
                         ),
-                      ),
+                      ),*/
                       SizedBox(height: 10),
-                      TextFormField(
+                      CustomTextField(
+                        lable: 'Password',
+                        obscureText: !showPassword ? true : false,
+                        controller: _passController,
+                        onSave: (String? value) {
+                          _password = value!.trim();
+                        },
+                        prefixIcon: !showPassword
+                            ? IconButton(
+                                onPressed: () {
+                                  setState(() {
+                                    showPassword = true;
+                                  });
+                                },
+                                icon: Icon(
+                                  CupertinoIcons.eye,
+                                  size: 20,
+                                  color: Colors.grey[500],
+                                ),
+                              )
+                            : IconButton(
+                                onPressed: () {
+                                  setState(() {
+                                    showPassword = false;
+                                  });
+                                },
+                                icon: Icon(
+                                  CupertinoIcons.eye_slash,
+                                  color: Colors.grey[500],
+                                ),
+                              ),
+                        validator: validatePassword,
+                        inputFormatters: FilteringTextInputFormatter.deny(
+                            RegExp(r"\s\b|\b\s")),
+                      ),
+                      /* TextFormField(
                         inputFormatters: [
                           FilteringTextInputFormatter.deny(RegExp(r"\s\b|\b\s"))
                         ],
@@ -354,7 +425,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                   ),
                                 ),
                         ),
-                      ),
+                      ),*/
                     ],
                   ),
                 ),
@@ -433,7 +504,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
   String validateEmail(String? value) {
     // Pattern pattern =
     //     r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$';
-    RegExp regex = new RegExp(r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$');
+    RegExp regex = new RegExp(
+        r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$');
 
     if (!regex.hasMatch(value!))
       return 'Bitte gib eine gültige E-Mail-Adresse ein';
@@ -443,7 +515,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
 
   String validatePassword(String? value) {
     // Pattern pattern = r'^(?=.*\d)(?=.*[a-zA-Z])[a-zA-Z0-9!@#$%&*]{6,20}$';
-    RegExp regex = new RegExp((r'^(?=.*\d)(?=.*[a-zA-Z])[a-zA-Z0-9!@#$%&*]{6,20}$').toString());
+    RegExp regex = new RegExp(
+        (r'^(?=.*\d)(?=.*[a-zA-Z])[a-zA-Z0-9!@#$%&*]{6,20}$').toString());
     if (value!.isEmpty) {
       return 'Please enter password';
     } else {

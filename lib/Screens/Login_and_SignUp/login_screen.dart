@@ -7,6 +7,7 @@ import 'package:get_storage/get_storage.dart';
 import 'package:mjam/Contants/Color.dart';
 import 'package:mjam/Screens/Login_and_SignUp/reset_password.dart';
 import 'package:mjam/Screens/BootomNavBar/BottomNavBarWidget.dart';
+import 'package:mjam/Widgets/customTextField.dart';
 
 import 'auch_with_Google.dart';
 
@@ -16,7 +17,7 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
-  final userData=GetStorage();
+  final userData = GetStorage();
   TextStyle txtBtnStyle = TextStyle(color: Colors.black, fontSize: 16);
   TextEditingController _emailController = TextEditingController();
   TextEditingController _passwordController = TextEditingController();
@@ -50,6 +51,8 @@ class _LoginScreenState extends State<LoginScreen> {
     return SafeArea(
       child: Scaffold(
         appBar: AppBar(
+          title: Text('Anmelden', style: Theme.of(context).primaryTextTheme.button,),
+          centerTitle: true,
           elevation: 0,
           leading: IconButton(
             icon: Icon(
@@ -210,10 +213,26 @@ class _LoginScreenState extends State<LoginScreen> {
                     key: _formKey,
                     child: Column(
                       children: [
-                        TextFormField(
-                          inputFormatters: [FilteringTextInputFormatter.deny(
-                               RegExp(r"\s\b|\b\s")
-                          )],
+                        CustomTextField(
+                          lable: 'E-Mail',
+                          controller: _emailController,
+                          obscureText: false,
+                          inputFormatters: FilteringTextInputFormatter.deny(
+                              RegExp(r"\s\b|\b\s")),
+                          textInputType: TextInputType.emailAddress,
+                          prefixIcon: Icon(
+                            CupertinoIcons.mail,
+                            color: Colors.grey[500],
+                            size: 18,
+                          ),
+                          onSave: (input) => _email = input!.trim(),
+                          validator: validateEmail,
+                        ),
+                        /*TextFormField(
+                          inputFormatters: [
+                            FilteringTextInputFormatter.deny(
+                                RegExp(r"\s\b|\b\s"))
+                          ],
                           style: Theme.of(context)
                               .primaryTextTheme
                               .headline3!
@@ -235,12 +254,47 @@ class _LoginScreenState extends State<LoginScreen> {
                           validator: validateEmail,
                           onSaved: (input) => _email = input!.trim(),
                           controller: _emailController,
-                        ),
+                        ),*/
                         SizedBox(height: 10),
-                        TextFormField(
-                          inputFormatters: [FilteringTextInputFormatter.deny(
-                               RegExp(r"\s\b|\b\s")
-                          )],
+                        CustomTextField(
+                          lable: 'Password',
+                          controller: _passwordController,
+                          obscureText: !showPassword ? true : false,
+                          inputFormatters: FilteringTextInputFormatter.deny(
+                              RegExp(r"\s\b|\b\s")),
+                          textInputType: TextInputType.emailAddress,
+                          prefixIcon: !showPassword
+                              ? IconButton(
+                                  onPressed: () {
+                                    setState(() {
+                                      showPassword = true;
+                                    });
+                                  },
+                                  icon: Icon(
+                                    CupertinoIcons.eye,
+                                    size: 20,
+                                    color: Colors.grey[500],
+                                  ),
+                                )
+                              : IconButton(
+                                  onPressed: () {
+                                    setState(() {
+                                      showPassword = false;
+                                    });
+                                  },
+                                  icon: Icon(
+                                    CupertinoIcons.eye_slash,
+                                    color: Colors.grey[500],
+                                  ),
+                                ),
+                          onSave: (input) => _password = input!.trim(),
+                          validator: validatePassword,
+                        ),
+                        /*TextFormField(
+                          inputFormatters: [
+                            FilteringTextInputFormatter.deny(
+                                RegExp(r"\s\b|\b\s"))
+                          ],
                           obscureText: !showPassword ? true : false,
                           style: Theme.of(context)
                               .primaryTextTheme
@@ -281,7 +335,7 @@ class _LoginScreenState extends State<LoginScreen> {
                           validator: validatePassword,
                           onSaved: (input) => _password = input!.trim(),
                           controller: _passwordController,
-                        ),
+                        ),*/
                       ],
                     ),
                   ),
@@ -328,7 +382,8 @@ class _LoginScreenState extends State<LoginScreen> {
   String validateEmail(String? value) {
     // Pattern pattern =
     //     r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$';
-    RegExp regex = new RegExp(r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$');
+    RegExp regex = new RegExp(
+        r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$');
     if (!regex.hasMatch(value!))
       return 'Bitte gib eine gültige E-Mail-Adresse ein';
     else
@@ -337,7 +392,8 @@ class _LoginScreenState extends State<LoginScreen> {
 
   String validatePassword(String? value) {
     // Pattern pattern = r'^(?=.*\d)(?=.*[a-zA-Z])[a-zA-Z0-9!@#$%&*]{6,20}$';
-    RegExp regex = new RegExp(r'^(?=.*\d)(?=.*[a-zA-Z])[a-zA-Z0-9!@#$%&*]{6,20}$');
+    RegExp regex =
+        new RegExp(r'^(?=.*\d)(?=.*[a-zA-Z])[a-zA-Z0-9!@#$%&*]{6,20}$');
     print(value);
     if (value!.isEmpty) {
       return 'Please enter password';
@@ -355,16 +411,15 @@ class _LoginScreenState extends State<LoginScreen> {
       formState.save();
       try {
         print(_email);
-        final User ?user = (await FirebaseAuth.instance
-                .signInWithEmailAndPassword(email: _email!, password: _password!))
+        final User? user = (await FirebaseAuth.instance
+                .signInWithEmailAndPassword(
+                    email: _email!, password: _password!))
             .user;
 
-        userData.write('userName',user!.displayName);
-        userData.write('userName',user.email);
+        userData.write('userName', user!.displayName);
+        userData.write('userName', user.email);
         userData.write('isLogged', true);
         Get.offAll(BottomNavBarWidget());
-
-
       } catch (e) {
         Get.snackbar('Achtung', 'Kennword oder Email passt nicht!!');
         e.printError();

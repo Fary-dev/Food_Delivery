@@ -4,7 +4,7 @@ import 'package:get/get.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:mjam/Contants/Color.dart';
 import 'package:mjam/Screens/First_Page/First_Location_controller.dart';
-import 'package:mjam/Screens/Resturants/PageResturant/pageResturant.dart';
+import 'package:mjam/Screens/Resturants/PageResturant/NewScreen/pageResturant.dart';
 import 'package:mjam/Widgets/Rating.dart';
 import 'package:mjam/models_and_data/Class/models_and_data.dart';
 

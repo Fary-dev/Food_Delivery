@@ -67,7 +67,7 @@ class _InfoResturantState extends State<InfoResturant> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Theme.of(context).bottomAppBarTheme.color,
+      backgroundColor: Theme.of(context).primaryColor,
       body: NestedScrollView(
         physics: NeverScrollableScrollPhysics(),
         headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
@@ -77,7 +77,7 @@ class _InfoResturantState extends State<InfoResturant> {
               expandedHeight: 350.0,
               elevation: 0,
               pinned: true,
-              backgroundColor: Theme.of(context).bottomAppBarTheme.color,
+              backgroundColor: Theme.of(context).primaryColor,
               actions: [
                 Container(
                   margin: EdgeInsets.only(left: 15),
@@ -85,7 +85,7 @@ class _InfoResturantState extends State<InfoResturant> {
                   width: 35,
                   decoration: BoxDecoration(
                     shape: BoxShape.circle,
-                    color: Color(0xFFFFFFFF),
+                    color: Theme.of(context).primaryColor,
                   ),
                   child: IconButton(
                       icon: Icon(
@@ -103,7 +103,7 @@ class _InfoResturantState extends State<InfoResturant> {
                   width: 35,
                   decoration: BoxDecoration(
                     shape: BoxShape.circle,
-                    color: Color(0xFFFFFFFF),
+                    color: Theme.of(context).primaryColor,
                   ),
                   child: IconButton(
                     icon: Obx(

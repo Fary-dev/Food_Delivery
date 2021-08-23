@@ -9,7 +9,6 @@ import 'package:mjam/Screens/Login_and_SignUp/auch_with_Google.dart';
 import 'package:mjam/Screens/Login_and_SignUp/auch_with_facebook.dart';
 import 'package:mjam/Screens/Login_and_SignUp/login_screen.dart';
 import 'package:mjam/Screens/Login_and_SignUp/sign_up_screen.dart';
-import 'package:mjam/Screens/Resturants/PageResturant/orderController.dart';
 
 class Profil extends StatefulWidget {
   Profil({Key? key}) : super(key: key);
@@ -21,7 +20,6 @@ class Profil extends StatefulWidget {
 class _ProfilState extends State<Profil> {
    final LoginFacebook loginFacebook=Get.put(LoginFacebook());
 
-  final OrderController orderController = Get.put(OrderController());
   FirebaseAuth _auth = FirebaseAuth.instance;
   final userData = GetStorage();
 
@@ -49,14 +47,11 @@ class _ProfilState extends State<Profil> {
                               .copyWith(color: primaryColor, fontSize: 10),
                         ),
                         onPressed: () {
-                          if (orderController.cartOrder.isEmpty) {
                             logOut();
                             signOutGoogle();
                             loginFacebook.signOutFacebook();
                             Get.offAll(HomePage());
-                          } else {
-                            showDialogLogout(context);
-                          }
+
                         },
                       )
                     : TextButton(
@@ -240,75 +235,6 @@ class _ProfilState extends State<Profil> {
                 ),
               ),
             ])),
-      ),
-    );
-  }
-
-  Future<dynamic> showDialogLogout(BuildContext context) {
-    return showDialog(
-      context: context,
-      builder: (context) => AlertDialog(
-        backgroundColor: Theme.of(context).primaryColor,
-        shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.all(Radius.circular(15.0))),
-        title: Text(
-          "Achtung!!",
-          style: Theme.of(context)
-              .primaryTextTheme
-              .button!
-              .copyWith(color: primaryColor, fontSize: 14),
-        ),
-        content: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Text(
-              "Ihre aktuelle Bestellung wird gelöscht.",
-              style: Theme.of(context)
-                  .primaryTextTheme
-                  .button!
-                  .copyWith(fontSize: 12),
-            ),
-            SizedBox(
-              height: 40,
-            ),
-            Row(
-              children: [
-                ElevatedButton.icon(
-                  style: Theme.of(context).elevatedButtonTheme.style,
-                  label: Text(
-                    'JA',
-                    style: Theme.of(context).primaryTextTheme.button,
-                  ),
-                  icon: Icon(
-                    CupertinoIcons.checkmark_alt,
-                    color: Color(0xFF10D401),
-                  ),
-                  onPressed: () {
-                    orderController.clearAllCart();
-                    logOut();
-                    signOutGoogle();
-                    Get.offAll(HomePage());
-                  },
-                ),
-                Spacer(),
-                ElevatedButton.icon(
-                  style: Theme.of(context).elevatedButtonTheme.style,
-                  label: Text(
-                    'NEIN',
-                    style: Theme.of(context).primaryTextTheme.button,
-                  ),
-                  icon: Icon(
-                    CupertinoIcons.clear,
-                    color: primaryColor,
-                  ),
-                  onPressed: () {
-                    Get.back();
-                  },
-                ),
-              ],
-            ),
-          ],
-        ),
       ),
     );
   }
