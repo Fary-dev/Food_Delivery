@@ -18,14 +18,20 @@ class Profil extends StatefulWidget {
 }
 
 class _ProfilState extends State<Profil> {
-   final LoginFacebook loginFacebook=Get.put(LoginFacebook());
-
+  final LoginFacebook loginFacebook = Get.put(LoginFacebook());
   FirebaseAuth _auth = FirebaseAuth.instance;
   final userData = GetStorage();
 
   logOut() async {
-    await _auth.signOut().then((_) {});
-    Get.snackbar('Abmelden', ' has successfully signed out.');
+    try {
+      await _auth.signOut().whenComplete(
+          () => Get.snackbar('Abmeldung', 'has successfully signed out.',icon:Icon(CupertinoIcons.person_alt_circle,color: primaryColor,),) );
+      userData.write('isLogged', false);
+      userData.remove('userName');
+      userData.remove('method');
+    } on FirebaseAuthException catch (e) {
+      return e.message;
+    }
   }
 
   @override
@@ -47,10 +53,26 @@ class _ProfilState extends State<Profil> {
                               .copyWith(color: primaryColor, fontSize: 10),
                         ),
                         onPressed: () {
-                            logOut();
-                            signOutGoogle();
-                            loginFacebook.signOutFacebook();
-                            Get.offAll(HomePage());
+                          switch (userData.read('method')) {
+                            case 'google':
+                              print(userData.read('method'));
+                              signOutGoogle();
+                              Get.offAll(HomePage());
+                              break;
+                            case 'signUp':
+                              print(userData.read('method'));
+                              logOut();
+                              Get.offAll(HomePage());
+                              break;
+                            case 'facebook':
+                              print(userData.read('method'));
+                              loginFacebook.signOutFacebook();
+                              Get.offAll(HomePage());
+                              break;
+                          }
+                         /* logOut();
+                          signOutGoogle();
+                          loginFacebook.signOutFacebook();*/
 
                         },
                       )
@@ -65,7 +87,7 @@ class _ProfilState extends State<Profil> {
               centerTitle: true,
               elevation: 0,
               title: Text(
-                userData.read('isLogged') == false
+                !(userData.read('isLogged'))
                     ? 'Profil'
                     : userData.read('userName'),
                 style: Theme.of(context).primaryTextTheme.button,

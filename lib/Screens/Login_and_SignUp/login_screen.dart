@@ -23,19 +23,19 @@ class _LoginScreenState extends State<LoginScreen> {
   TextEditingController _passwordController = TextEditingController();
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
-  String? _email, _password;
   bool showPassword = false;
 
   void click() {
     setState(() {
       signInWithGoogle().whenComplete(() {
-        Navigator.of(context).push(
+        Get.to(() => BottomNavBarWidget());
+        /* Navigator.of(context).push(
           MaterialPageRoute(
             builder: (context) {
               return BottomNavBarWidget();
             },
           ),
-        );
+        );*/
       });
     });
   }
@@ -51,12 +51,16 @@ class _LoginScreenState extends State<LoginScreen> {
     return SafeArea(
       child: Scaffold(
         appBar: AppBar(
-          title: Text('Anmelden', style: Theme.of(context).primaryTextTheme.button,),
+          title: Text(
+            'Anmelden',
+            style: Theme.of(context).primaryTextTheme.button,
+          ),
           centerTitle: true,
           elevation: 0,
           leading: IconButton(
             icon: Icon(
               CupertinoIcons.arrow_left,
+              color: Theme.of(context).iconTheme.color,
             ),
             onPressed: () {
               Get.back();
@@ -211,21 +215,23 @@ class _LoginScreenState extends State<LoginScreen> {
                 Container(
                   child: Form(
                     key: _formKey,
+                    autovalidateMode:AutovalidateMode.onUserInteraction ,
                     child: Column(
                       children: [
                         CustomTextField(
                           lable: 'E-Mail',
                           controller: _emailController,
                           obscureText: false,
-                          inputFormatters: FilteringTextInputFormatter.deny(
-                              RegExp(r"\s\b|\b\s")),
+                          // inputFormatters: FilteringTextInputFormatter.deny(
+                          //     RegExp(r"\s\b|\b\s")),
                           textInputType: TextInputType.emailAddress,
                           prefixIcon: Icon(
                             CupertinoIcons.mail,
                             color: Colors.grey[500],
                             size: 18,
                           ),
-                          onSave: (input) => _email = input!.trim(),
+                          onSave: (input) =>
+                              _emailController.text = input!.trim(),
                           validator: validateEmail,
                         ),
                         /*TextFormField(
@@ -260,8 +266,8 @@ class _LoginScreenState extends State<LoginScreen> {
                           lable: 'Password',
                           controller: _passwordController,
                           obscureText: !showPassword ? true : false,
-                          inputFormatters: FilteringTextInputFormatter.deny(
-                              RegExp(r"\s\b|\b\s")),
+                          // inputFormatters: FilteringTextInputFormatter.deny(
+                          //     RegExp(r"\s\b|\b\s")),
                           textInputType: TextInputType.emailAddress,
                           prefixIcon: !showPassword
                               ? IconButton(
@@ -287,7 +293,8 @@ class _LoginScreenState extends State<LoginScreen> {
                                     color: Colors.grey[500],
                                   ),
                                 ),
-                          onSave: (input) => _password = input!.trim(),
+                          onSave: (input) =>
+                              _passwordController.text = input!.trim(),
                           validator: validatePassword,
                         ),
                         /*TextFormField(
@@ -379,43 +386,39 @@ class _LoginScreenState extends State<LoginScreen> {
     );
   }
 
-  String validateEmail(String? value) {
-    // Pattern pattern =
-    //     r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$';
-    RegExp regex = new RegExp(
-        r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$');
-    if (!regex.hasMatch(value!))
-      return 'Bitte gib eine gültige E-Mail-Adresse ein';
-    else
-      return '';
+  String? validateEmail(String? value) {
+    final pattern =
+        r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$';
+    RegExp regex = RegExp(pattern);
+    return !regex.hasMatch(value!)?
+       'Bitte gib eine gültige E-Mail-Adresse ein':
+       null;
+
   }
 
-  String validatePassword(String? value) {
-    // Pattern pattern = r'^(?=.*\d)(?=.*[a-zA-Z])[a-zA-Z0-9!@#$%&*]{6,20}$';
-    RegExp regex =
-        new RegExp(r'^(?=.*\d)(?=.*[a-zA-Z])[a-zA-Z0-9!@#$%&*]{6,20}$');
-    print(value);
-    if (value!.isEmpty) {
-      return 'Please enter password';
-    } else {
-      if (!regex.hasMatch(value))
-        return 'Bitte gib eine gültige Password ein';
-      else
-        return '';
+  String? validatePassword(String? value) {
+    final pattern = r'^(?=.*\d)(?=.*[a-zA-Z])[a-zA-Z0-9!@#$%&*]{6,20}$';
+    RegExp regex = RegExp(pattern);
+
+   return value!.isEmpty?
+       'Please enter password':
+     !regex.hasMatch(value) ?
+
+        'Bitte gib eine gültige Password ein':
+         null;
+
     }
-  }
 
   Future<void> signIn() async {
     final formState = _formKey.currentState;
     if (formState!.validate()) {
       formState.save();
       try {
-        print(_email);
         final User? user = (await FirebaseAuth.instance
                 .signInWithEmailAndPassword(
-                    email: _email!, password: _password!))
+                    email: _emailController.text,
+                    password: _passwordController.text))
             .user;
-
         userData.write('userName', user!.displayName);
         userData.write('userName', user.email);
         userData.write('isLogged', true);

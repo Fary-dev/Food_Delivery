@@ -8,11 +8,11 @@ class CustomTextField extends StatelessWidget {
   late final String? lable;
   late final Function(String?)? onChange;
   late final Function(String?)? onSave;
-  late final String Function(String?)? validator;
+  late final FormFieldValidator<String>? validator;
   late final bool autoFocus;
-  late final bool obscureText;
+  late final bool? obscureText;
   late final TextEditingController controller;
-  late final TextInputFormatter? inputFormatters;
+  late final List<TextInputFormatter>? inputFormatters;
   late final TextInputType?textInputType;
 
   CustomTextField({
@@ -24,7 +24,7 @@ class CustomTextField extends StatelessWidget {
     this.autoFocus = false,
     this.onChange,
     this.onSave,
-    required this.obscureText,
+    this.obscureText=false,
     this.inputFormatters,
     this.textInputType,
   });
@@ -33,11 +33,11 @@ class CustomTextField extends StatelessWidget {
   Widget build(BuildContext context) {
     return TextFormField(
       keyboardType: this.textInputType,
-      inputFormatters:[this.inputFormatters!],
+      inputFormatters:this.inputFormatters,
       controller: this.controller,
       style:
           Theme.of(context).primaryTextTheme.headline3!.apply(fontSizeDelta: 2),
-      obscureText: this.obscureText,
+      obscureText: this.obscureText!,
       validator: this.validator,
       onSaved: this.onSave,
       decoration: InputDecoration(

@@ -11,29 +11,26 @@ class LoginFacebook extends GetxController {
 
   Future signInFacebook() async {
     try {
-      final FacebookLoginResult res =
-          await facebookLogin.logIn(
-              permissions: [
-                FacebookPermission.publicProfile,
-                FacebookPermission.email,
-              ],
-              );
+      final FacebookLoginResult res = await facebookLogin.logIn(
+        permissions: [
+          FacebookPermission.publicProfile,
+          FacebookPermission.email,
+        ],
+      );
 
       switch (res.status) {
         case FacebookLoginStatus.success:
           final fBToken = res.accessToken;
           final AuthCredential credential =
               FacebookAuthProvider.credential(fBToken!.token);
-          final User? user=(await _auth.signInWithCredential(credential)).user;
+          final User? user =
+              (await _auth.signInWithCredential(credential)).user;
 
-          print(user!.displayName);
-          print(user.uid);
-
-          userData.write('userName', user.displayName);
+          userData.write('userName', user!.displayName);
+          userData.write('method', 'facebook');
           userData.write('isLogged', true);
           userData.write('email', user.email);
           userData.write('photo', user.photoURL);
-
 
           break;
         case FacebookLoginStatus.cancel:
@@ -54,6 +51,6 @@ class LoginFacebook extends GetxController {
     await facebookLogin.logOut();
     userData.write('isLogged', false);
     userData.remove('userName');
+    userData.remove('method');
   }
 }
-

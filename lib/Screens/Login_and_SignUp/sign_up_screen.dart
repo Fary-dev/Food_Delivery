@@ -23,7 +23,6 @@ class _SignUpScreenState extends State<SignUpScreen> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   final userData = GetStorage();
   bool showPassword = false;
-  String? _email, _name, _password;
 
   void click() {
     setState(() {
@@ -258,47 +257,25 @@ class _SignUpScreenState extends State<SignUpScreen> {
                 //_____________________Name_E-Mail_Password________
                 Form(
                   key: _formKey,
+                  autovalidateMode: AutovalidateMode.onUserInteraction,
                   child: Column(
                     children: [
                       CustomTextField(
                         lable: 'Name',
-                        obscureText: false,
                         controller: _nameController,
                         validator: validateName,
                         onSave: (String? value) {
-                          _name = value!.trim();
+                          _nameController.text = value!.trim();
                         },
                         prefixIcon: Icon(
                           CupertinoIcons.person,
                           color: Colors.grey[500],
                           size: 18,
                         ),
-                        inputFormatters: FilteringTextInputFormatter.deny(
-                            RegExp(r"\s\b|\b\s")),
+                        inputFormatters: [
+                          FilteringTextInputFormatter.deny(RegExp(r"\s\b|\b\s"))
+                        ],
                       ),
-                      /* TextFormField(
-                        controller: _nameController,
-                        style: Theme.of(context)
-                            .primaryTextTheme
-                            .headline3!
-                            .apply(fontSizeDelta: 2),
-                        validator: validateName,
-                        onSaved: (String? value) {
-                          _name = value!.trim();
-                        },
-                        decoration: InputDecoration(
-                          contentPadding: EdgeInsets.symmetric(horizontal: 15),
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(10),
-                          ),
-                          labelText: 'Name',
-                          suffixIcon: Icon(
-                            CupertinoIcons.person,
-                            color: Colors.grey[500],
-                            size: 18,
-                          ),
-                        ),
-                      ),*/
                       SizedBox(height: 10),
                       CustomTextField(
                         textInputType: TextInputType.emailAddress,
@@ -307,50 +284,25 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         controller: _emailController,
                         validator: validateEmail,
                         onSave: (String? value) {
-                          _email = value!.trim();
+                          _emailController.text = value!.trim();
                         },
                         prefixIcon: Icon(
                           CupertinoIcons.mail,
                           color: Colors.grey[500],
                           size: 18,
                         ),
-                        inputFormatters: FilteringTextInputFormatter.deny(
-                            RegExp(r"\s\b|\b\s")),
-                      ),
-                      /*TextFormField(
                         inputFormatters: [
                           FilteringTextInputFormatter.deny(RegExp(r"\s\b|\b\s"))
                         ],
-                        controller: _emailController,
-                        style: Theme.of(context)
-                            .primaryTextTheme
-                            .headline3!
-                            .apply(fontSizeDelta: 2),
-                        keyboardType: TextInputType.emailAddress,
-                        validator: validateEmail,
-                        onSaved: (String? value) {
-                          _email = value!.trim();
-                        },
-                        decoration: InputDecoration(
-                          contentPadding: EdgeInsets.symmetric(horizontal: 15),
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(10),
-                          ),
-                          labelText: 'E-Mail',
-                          suffixIcon: Icon(
-                            CupertinoIcons.mail,
-                            color: Colors.grey[500],
-                            size: 18,
-                          ),
-                        ),
-                      ),*/
+                      ),
+
                       SizedBox(height: 10),
                       CustomTextField(
                         lable: 'Password',
                         obscureText: !showPassword ? true : false,
                         controller: _passController,
                         onSave: (String? value) {
-                          _password = value!.trim();
+                          _passController.text = value!.trim();
                         },
                         prefixIcon: !showPassword
                             ? IconButton(
@@ -377,55 +329,10 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                 ),
                               ),
                         validator: validatePassword,
-                        inputFormatters: FilteringTextInputFormatter.deny(
-                            RegExp(r"\s\b|\b\s")),
-                      ),
-                      /* TextFormField(
                         inputFormatters: [
                           FilteringTextInputFormatter.deny(RegExp(r"\s\b|\b\s"))
                         ],
-                        controller: _passController,
-                        obscureText: !showPassword ? true : false,
-                        style: Theme.of(context)
-                            .primaryTextTheme
-                            .headline3!
-                            .apply(fontSizeDelta: 2),
-                        validator: validatePassword,
-                        onSaved: (String? value) {
-                          _password = value!.trim();
-                        },
-                        decoration: InputDecoration(
-                          contentPadding: EdgeInsets.symmetric(horizontal: 15),
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(10),
-                          ),
-                          labelText: 'Password',
-                          suffixIcon: !showPassword
-                              ? IconButton(
-                                  onPressed: () {
-                                    setState(() {
-                                      showPassword = true;
-                                    });
-                                  },
-                                  icon: Icon(
-                                    CupertinoIcons.eye,
-                                    size: 20,
-                                    color: Colors.grey[500],
-                                  ),
-                                )
-                              : IconButton(
-                                  onPressed: () {
-                                    setState(() {
-                                      showPassword = false;
-                                    });
-                                  },
-                                  icon: Icon(
-                                    CupertinoIcons.eye_slash,
-                                    color: Colors.grey[500],
-                                  ),
-                                ),
-                        ),
-                      ),*/
+                      ),
                     ],
                   ),
                 ),
@@ -494,56 +401,54 @@ class _SignUpScreenState extends State<SignUpScreen> {
     );
   }
 
-  String validateName(String? value) {
-    if (value!.length < 3)
-      return 'Name muss mehr als 2 Charakter sein';
-    else
-      return '';
+  String? validateName(String? value) {
+    return value!.length < 3 ? 'Name muss mehr als 2 Charakter sein' : null;
   }
 
-  String validateEmail(String? value) {
-    // Pattern pattern =
-    //     r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$';
-    RegExp regex = new RegExp(
-        r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$');
-
-    if (!regex.hasMatch(value!))
-      return 'Bitte gib eine gültige E-Mail-Adresse ein';
-    else
-      return '';
+  String? validateEmail(String? value) {
+    String pattern =
+        r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$';
+    RegExp regex = RegExp(pattern);
+    return !regex.hasMatch(value!)
+        ? 'Bitte gib eine gültige E-Mail-Adresse ein'
+        : null;
   }
 
-  String validatePassword(String? value) {
-    // Pattern pattern = r'^(?=.*\d)(?=.*[a-zA-Z])[a-zA-Z0-9!@#$%&*]{6,20}$';
-    RegExp regex = new RegExp(
-        (r'^(?=.*\d)(?=.*[a-zA-Z])[a-zA-Z0-9!@#$%&*]{6,20}$').toString());
-    if (value!.isEmpty) {
-      return 'Please enter password';
-    } else {
-      if (!regex.hasMatch(value))
-        return 'Bitte gib eine gültige Password ein';
-      else
-        return '';
-    }
+  String? validatePassword(String? value) {
+    String pattern = r'^(?=.*\d)(?=.*[a-zA-Z])[a-zA-Z0-9!@#$%&*]{6,20}$';
+    RegExp regex = new RegExp(pattern);
+    return value!.isEmpty
+        ? 'Bitte Ihre password hinzufügen'
+        : !regex.hasMatch(value)
+            ? 'Bitte gib eine gültige Password ein'
+            : null;
   }
 
-  void signUp() async {
-    final formState = _formKey.currentState;
-    if (formState!.validate()) {
-      formState.save();
-      try {
+ void signUp() async {
+    try {
+      if (_formKey.currentState!.validate()) {
+        _formKey.currentState!.save();
+
         final User? user = (await FirebaseAuth.instance
                 .createUserWithEmailAndPassword(
-                    email: _email!.trim(), password: _password!.trim()))
+                    email: _emailController.text,
+                    password: _passController.text))
             .user;
         userData.write('userName', _nameController.text);
+        userData.write('method', 'signUp');
         userData.write('isLogged', true);
         user!.sendEmailVerification();
         Get.to(BottomNavBarWidget());
-      } catch (e) {
-        Get.snackbar('Achtung', 'Mit Diese Email gibt es ein Konto!!');
-        e.printError();
+        // assert(user != null);
+        // assert(await user.getIdToken() != null);
+        var a = await user.getIdToken();
+        print(a);
+        // return user;
       }
+    } catch (e) {
+      e.printError();
+      // return null;
     }
   }
+
 }

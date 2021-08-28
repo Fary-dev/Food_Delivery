@@ -60,12 +60,11 @@ class _SearchingState extends State<Searching> {
     searchingController.searchListWord.value = data;
     searchingController.historyList.clear();
     data.forEach((e) => searchingController.historyList.add(e.word!));
-    setState((){});
+    setState(() {});
   }
 
   _addToWordList(String word) async {
-      if(searchingController.searchListWord.length<historyLength){
-
+    if (searchingController.searchListWord.length < historyLength) {
       SearchWord searchWord = SearchWord(
         word: word,
       );
@@ -73,14 +72,13 @@ class _SearchingState extends State<Searching> {
       searchWord.id = searchingController.searchListWord.isEmpty
           ? 0
           : searchingController
-          .searchListWord[searchingController.searchListWord.length - 1]
-          .id! +
-          1;
+                  .searchListWord[searchingController.searchListWord.length - 1]
+                  .id! +
+              1;
       _refreshData();
-      }else
-      {
-        var a=  searchingController.searchListWord.first;
-        _removeWortFromList(a.word!);
+    } else {
+      var a = searchingController.searchListWord.first;
+      _removeWortFromList(a.word!);
       SearchWord searchWord = SearchWord(
         word: word,
       );
@@ -95,13 +93,12 @@ class _SearchingState extends State<Searching> {
     }
 
     filteredSearchHistory = filterSearchDatabase(filter: '')!;
-
   }
 
   _removeWortFromList(String word) async {
     final s = searchingController.searchListWord
         .firstWhere((element) => element.word == word);
-        await DB.deleteSearchWord(s.id!);
+    await DB.deleteSearchWord(s.id!);
     _refreshData();
     filteredSearchHistory = filterSearchDatabase(filter: '')!;
   }
@@ -118,6 +115,7 @@ class _SearchingState extends State<Searching> {
           ),
           Obx(
             () => FloatingSearchBar(
+              elevation: 0,
               automaticallyImplyBackButton: false,
               transition: CircularFloatingSearchBarTransition(),
               physics: BouncingScrollPhysics(),
@@ -141,7 +139,6 @@ class _SearchingState extends State<Searching> {
                           searchList.clear();
                         })
                     : FloatingSearchBarAction.searchToClear(
-
                         color: Colors.grey[500],
                         size: 26,
                       ),
@@ -183,11 +180,8 @@ class _SearchingState extends State<Searching> {
 
                         return GestureDetector(
                           onTap: () {
-                            Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => PageResturant(
-                                        resturant: listViewSearch)));
+                            Get.to(
+                                () => PageResturant(resturant: listViewSearch));
                           },
                           child: Card(
                             color: Theme.of(context).cardColor,
@@ -305,7 +299,7 @@ class _SearchingState extends State<Searching> {
                                                     },
                                                   ),
                                                   onTap: () {
-                                                      selectedTerm.value = e;
+                                                    selectedTerm.value = e;
                                                     _onChange(e);
                                                     controller!.close();
                                                   },
@@ -332,9 +326,9 @@ class _SearchingState extends State<Searching> {
       () {
         res.forEach((e) =>
             e.nameResturant!.toLowerCase().contains(text.toLowerCase()) == true
-                ? setState((){
-              searchList.add(e);
-            })
+                ? setState(() {
+                    searchList.add(e);
+                  })
                 : null);
       },
     );

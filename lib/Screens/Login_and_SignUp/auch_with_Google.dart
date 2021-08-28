@@ -27,7 +27,6 @@ Future<String> signInWithGoogle() async {
       await _auth.signInWithCredential(credential);
   final User? user = authResult.user;
 
-  // Checking if email and name is null
   assert(user!.email != null);
   assert(user!.displayName != null);
   assert(user!.photoURL != null);
@@ -37,7 +36,6 @@ Future<String> signInWithGoogle() async {
   googleUserImageUrl = user.photoURL;
   signInOrNot = true;
 
-  // Only taking the first part of the name, i.e., First Name
   if (googleUserName!.contains(" ")) {
     googleUserName = googleUserName!.substring(0, googleUserName!.indexOf(" "));
   }
@@ -47,9 +45,10 @@ Future<String> signInWithGoogle() async {
 
   final User? currentUser = _auth.currentUser;
   assert(user.uid == currentUser!.uid);
-  // googleUser = user;
+
   userData.write('isLogged', true);
   userData.write('userName', user.displayName);
+  userData.write('method', 'google');
 
   log('data:  $user');
   return 'signInWithGoogle succeeded: $user';
@@ -60,4 +59,5 @@ Future<void> signOutGoogle() async {
   signInOrNot = false;
   userData.write('isLogged', false);
   userData.remove('userName');
+  userData.remove('method');
 }
