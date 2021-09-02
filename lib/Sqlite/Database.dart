@@ -1,3 +1,4 @@
+import 'package:mjam/Sqlite/ExtraZutaten.dart';
 import 'package:mjam/Sqlite/OrderModel.dart';
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
@@ -5,18 +6,25 @@ import 'FavoriteModel.dart';
 import 'OrderModel.dart';
 import 'findWortModel.dart';
 
+
 class DB {
   static Future<Database> initDB() async {
     String path = await getDatabasesPath();
     return openDatabase(
-      join(path, "DATABASE7.db"),
+      join(path, "DATABASE8.db"),
       onCreate: (Database db, int version) async {
-        await db.execute("CREATE TABLE WordTab(id INTEGER PRIMARY KEY AUTOINCREMENT, word TEXT NOT NULL)");
-        await db.execute("CREATE TABLE OrderTab(id1 INTEGER PRIMARY KEY AUTOINCREMENT, idProduct INTEGER NOT NULL, dateTime TEXT NOT NULL, nameResturant TEXT NOT NULL, nameProduct TEXT NOT NULL, priceProduct DOUBLE NOT NULL)");
-        await db.execute("CREATE TABLE FavoriteTab(id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT NOT NULL, owner TEXT NOT NULL)");
+        await db.execute("CREATE TABLE IF NOT EXISTS ExtraZutatenTab(id INTEGER PRIMARY KEY AUTOINCREMENT, idProduct INTEGER NOT NULL, nameResturant TEXT NOT NULL, zutatenName TEXT NOT NULL, dateTime TEXT NOT NULL, nameProduct TEXT NOT NULL, price DOUBLE NOT NULL, FOREIGN KEY(nameProduct) REFERENCES OrderTab(nameProduct), FOREIGN KEY(nameResturant) REFERENCES OrderTab(nameResturant))");
+        await db.execute("CREATE TABLE IF NOT EXISTS WordTab(id INTEGER PRIMARY KEY AUTOINCREMENT, word TEXT NOT NULL)");
+        await db.execute("CREATE TABLE IF NOT EXISTS OrderTab(id1 INTEGER PRIMARY KEY AUTOINCREMENT, idProduct INTEGER NOT NULL, dateTime TEXT NOT NULL, nameResturant TEXT NOT NULL, nameProduct TEXT NOT NULL, priceProduct DOUBLE NOT NULL)");
+        await db.execute("CREATE TABLE IF NOT EXISTS FavoriteTab(id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT NOT NULL, owner TEXT NOT NULL)");
       },
       version: 1,
     );
+  }
+
+  static Future<void> deleteAllDataFromExtraZutatenList() async {
+    final Database db = await initDB();
+    db.delete('ExtraZutatenTab');
   }
 
   static Future<void> deleteAllDataFromOrderList() async {
@@ -27,6 +35,14 @@ class DB {
   static Future<void> deleteAllDataSearchList() async {
     final Database db = await initDB();
     db.delete('WordTab');
+  }
+
+
+
+  static Future<List<ExtraZutatenModel>> getDataExtraZutaten() async {
+    final Database db = await initDB();
+    final List<Map<String, Object?>> allData = await db.query('ExtraZutatenTab');
+    return allData.map((e) => ExtraZutatenModel.fromMap(e)).toList();
   }
 
   static Future<List<FavoriteModel>> getDataFavoriteList() async {
@@ -47,6 +63,13 @@ class DB {
     return allData.map((e) => SearchWord.fromMap(e)).toList();
   }
 
+
+
+  static Future<int> insertToExtraZutatenList(ExtraZutatenModel extraZutatenModel) async {
+    final Database db = await initDB();
+    return await db.insert('ExtraZutatenTab', extraZutatenModel.toMap());
+  }
+
   static Future<int> insertToFavoriteList(FavoriteModel favoriteModel) async {
     final Database db = await initDB();
     return await db.insert('FavoriteTab', favoriteModel.toMap());
@@ -60,6 +83,13 @@ class DB {
   static Future<int> insertSearchWord(SearchWord searchWord) async {
     final Database db = await initDB();
     return await db.insert('WordTab', searchWord.toMap());
+  }
+
+
+
+  static Future<int> deleteFromExtraZutatenList(int id) async {
+    final Database db = await initDB();
+    return db.delete('ExtraZutatenTab', where: "id=?", whereArgs: [id]);
   }
 
   static Future<int> deleteFromFavoriteList(int id) async {
@@ -76,4 +106,6 @@ class DB {
     final Database db = await initDB();
     return db.delete('WordTab', where: "id=?", whereArgs: [id]);
   }
+
+
 }

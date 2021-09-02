@@ -7,6 +7,7 @@ import 'package:mjam/Screens/Home_Page/HomePage.dart';
 import 'package:mjam/Screens/Resturants/PageResturant/counterController.dart';
 import 'package:mjam/Screens/BootomNavBar/BottomNavBarWidget.dart';
 import 'package:mjam/Sqlite/Database.dart';
+import 'package:mjam/Sqlite/ExtraZutaten.dart';
 import 'package:mjam/Sqlite/OrderModel.dart';
 import 'package:mjam/Screens/Resturants/PageResturant/NewScreen/pageResturant.dart';
 import 'package:mjam/models_and_data/Class/models_and_data.dart';
@@ -28,6 +29,49 @@ class _ShoppingCartsState extends State<ShoppingCarts> {
   void initState() {
     super.initState();
     _refreshDataOrderList();
+    _refreshDataExtraZutaten();
+  }
+
+  _refreshDataExtraZutaten() async {
+    final data = await DB.getDataExtraZutaten();
+    shoppingCartController.extraZutatenList.value = data;
+  }
+
+  _addToExtraZutatenList(Extra extra,Product product,Resturant resturant) async {
+    ExtraZutatenModel extraZutatenModel =ExtraZutatenModel(
+      idProduct: product.id,
+      nameProduct: product.nameProduct,
+      nameResturant: resturant.nameResturant,
+      dateTime: DateTime.now().toString(),
+      zutatenName: extra.name,
+      price: extra.price,
+    );
+    await DB.insertToExtraZutatenList(extraZutatenModel);
+    extraZutatenModel.id = shoppingCartController.extraZutatenList.isEmpty
+        ? 0
+        : shoppingCartController
+        .extraZutatenList[shoppingCartController.extraZutatenList.length - 1].id! +
+        1;
+
+    _refreshDataExtraZutaten();
+  }
+
+  _removeFromExtraZutatenList(Extra extra,Resturant resturant) async {
+    for (var a in shoppingCartController.extraZutatenList) {
+      for(var t in resturant.extra!) {
+        if (a.zutatenName == extra.name &&
+            a.nameResturant == resturant.nameResturant&&extra.name==t.name) {
+          await DB.deleteFromExtraZutatenList(a.id!);
+        }
+      }
+    }
+    _refreshDataExtraZutaten();
+  }
+
+  _removeAllDataFromzutatenList() async {
+    await DB.deleteAllDataFromExtraZutatenList();
+    shoppingCartController.extraZutatenList.value = [];
+    _refreshDataExtraZutaten();
   }
 
   _addToOrderList(OrderModel ord) async {
@@ -147,7 +191,12 @@ class _ShoppingCartsState extends State<ShoppingCarts> {
                     int count = _ord.orderList
                         .where((a) => a.nameProduct == _order.nameProduct)
                         .length;
-
+                    List<ExtraZutatenModel> zutaten=[];
+                    shoppingCartController.extraZutatenList.forEach((e) {
+                      if(e.nameProduct==_order.nameProduct&&e.nameResturant==_order.nameResturant){
+                        zutaten.add(e);
+                      }
+                    });
                     return Container(
                       padding: EdgeInsets.only(right: 10.0),
                       width: MediaQuery.of(context).size.width - 30,
@@ -170,40 +219,17 @@ class _ShoppingCartsState extends State<ShoppingCarts> {
                                       onPressed: () {
                                         if (count > 1) {
                                           _removeFromOrderList(_order);
-                                          // orderController.removeFromCart(Order(
-                                          //   product: _order,
-                                          //   totalPrise: _order.price,
-                                          //   quantity: 1,
-                                          //   resturant:
-                                          //       _ord.cartOrder[0].resturant,
-                                          // ));
+
                                         } else if (_ord.orderList.length == 1) {
-                                          // _ord.clearAllCart();
                                           _removeAllDataFromOrderList();
                                           counterController.itemCount.value = 1;
                                           counterController
                                               .showBottomSheet.value = false;
                                         } else {
                                           _removeFromOrderList(_order);
-                                          // orderController.removeFromCart(Order(
-                                          //   product: _order,
-                                          //   totalPrise: _order.price,
-                                          //   quantity: 1,
-                                          //   resturant:
-                                          //       _ord.cartOrder[0].resturant,
-                                          // ));
 
-                                          // _ord.setMyCart.remove(_order);
                                           _ord.revomeController(index);
                                         }
-                                        // if (_ord.setMyCart.isEmpty) {
-                                        //   _ord.clearAllCart();
-                                        //
-                                        //   counterController.itemCount.value = 1;
-                                        //   counterController
-                                        //       .showBottomSheet.value = false;
-                                        //   orderController.clearAllCart();
-                                        // }
                                       },
                                     ),
                                     AnimatedSwitcher(
@@ -240,18 +266,28 @@ class _ShoppingCartsState extends State<ShoppingCarts> {
                                               MainAxisAlignment.spaceBetween,
                                           children: [
                                             Text(
-                                              _order.nameProduct!,
+                                              _order.nameProduct!,style: Theme.of(context).primaryTextTheme.button,
                                             ),
                                             Text(
-                                              '\€ ${(count * _order.priceProduct!).toStringAsFixed(2)}',
+                                              '\€ ${(count * _order.priceProduct!).toStringAsFixed(2)}'
+                                                ,style: Theme.of(context).primaryTextTheme.button,
                                             )
                                           ],
                                         ),
-                                        Container(
-                                            padding: EdgeInsets.only(left: 0.0),
-                                            child: Text('+ Zutaten',
-                                                style:
-                                                    TextStyle(color: greyColor))),
+                                        ListView.builder(
+                                          shrinkWrap: true,
+                                            physics: NeverScrollableScrollPhysics(),
+                                            itemCount:zutaten.length ,
+                                            itemBuilder: (_,index){
+                                              return Row(children: [
+                                                Text('${zutaten[index].zutatenName}'
+                                                  ,style: Theme.of(context).primaryTextTheme.headline3!.copyWith(color: Color(0xff000000).withOpacity(0.6)),),
+                                                Spacer(),
+                                                Text('\€ ${zutaten[index].price}'
+                                                  ,style: Theme.of(context).primaryTextTheme.headline3,),
+                                              ],);
+                                            }),
+
                                         shoppingCartController
                                                     .commendSelect[index] ==
                                                 false
@@ -554,7 +590,6 @@ class _ShoppingCartsState extends State<ShoppingCarts> {
                     color: primaryColor,
                   ),
                   onPressed: () {
-                    // orderController.clearAllCart();
                     _removeAllDataFromOrderList();
                     counterController.itemCount.value = 1;
                     counterController.showBottomSheet.value = false;

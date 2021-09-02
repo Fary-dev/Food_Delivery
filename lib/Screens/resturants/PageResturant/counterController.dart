@@ -1,7 +1,7 @@
 import 'package:get/get.dart';
 
 class CounterController extends GetxController {
-
+  RxBool isOpen=false.obs;
   RxInt itemCount = 1.obs;
   final counter = 1.obs;
   RxBool showBottomSheet = false.obs;

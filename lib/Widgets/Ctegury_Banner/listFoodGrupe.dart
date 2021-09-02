@@ -75,7 +75,7 @@ class _FoodGrupeState extends State<FoodGrupe> {
                           if (categuryFilter.list.isNotEmpty) {
                             for (var res in resturants) {
                               for (var pro in res.products!) {
-                                if (pro.nameProducts == categury.name) {
+                                if (pro.nameProductType == categury.name) {
                                   if ((categuryFilter.categuryListSet
                                           .contains(categury.name)) ==
                                       false)
@@ -91,7 +91,7 @@ class _FoodGrupeState extends State<FoodGrupe> {
                           } else {
                             for (var res in resturants) {
                               for (var pro in res.products!) {
-                                if (pro.nameProducts == categury.name) {
+                                if (pro.nameProductType == categury.name) {
                                   categuryFilter.categuryListSet
                                       .add(categury.name);
                                   categuryFilter.list.add(res);
@@ -112,7 +112,7 @@ class _FoodGrupeState extends State<FoodGrupe> {
                               if (categuryFilter.list.isNotEmpty) {
                                 for (var res in resturants) {
                                   for (var pro in res.products!) {
-                                    if (pro.nameProducts ==
+                                    if (pro.nameProductType ==
                                         categuryFilter.categuryListSet
                                             .elementAt(i)) {
                                       if (categuryFilter.list.contains(res) ==
@@ -128,7 +128,7 @@ class _FoodGrupeState extends State<FoodGrupe> {
                               } else {
                                 for (var res in resturants) {
                                   for (var pro in res.products!) {
-                                    if (pro.nameProducts ==
+                                    if (pro.nameProductType ==
                                         categuryFilter.categuryListSet
                                             .elementAt(i)) {
                                       categuryFilter.list.add(res);

@@ -133,93 +133,10 @@ class BottomFilterAbholungSort extends StatelessWidget {
 
 void containerSortirung(context) {
   final ResturantListController sortList = Get.put(ResturantListController());
-
-  Widget btnSort(IconData iconn, String txt, Color colorIcon, Color colorBtn) {
-    Color colorIcon = primaryColor;
-    Color colorBtn = greyLightColor;
-    return StatefulBuilder(
-      builder: (BuildContext context, StateSetter setState) {
-        return Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 30),
-          child: GestureDetector(
-            onTap: () {
-              sortList.selectSortItem.value = txt;
-              if (sortList.list.isEmpty) {
-                if (sortList.selectSortItem.value == 'Qualität') {
-                  sortList.defaultListResturant
-                    ..sort((a, b) =>
-                        b.ratingResturant.compareTo(a.ratingResturant));
-                } else if (sortList.selectSortItem.value == 'Zeit') {
-                  sortList.defaultListResturant
-                    ..sort((a, b) =>
-                        a.deliveryDuration.compareTo(b.deliveryDuration));
-                } else if (sortList.selectSortItem.value == 'Entfernung') {
-                  sortList.defaultListResturant
-                    ..sort((a, b) => a.distance.compareTo(b.distance));
-                } else if (sortList.selectSortItem.value == 'Beliebtheit') {
-                  sortList.defaultListResturant
-                    ..sort((a, b) => b.distance.compareTo(a.distance));
-                }
-              } else {
-                if (sortList.selectSortItem.value == 'Qualität') {
-                  sortList.list
-                    ..sort((a, b) =>
-                        b.ratingResturant!.compareTo(a.ratingResturant!));
-                } else if (sortList.selectSortItem.value == 'Zeit') {
-                  sortList.list
-                    ..sort((a, b) =>
-                        a.deliveryDuration!.compareTo(b.deliveryDuration!));
-                } else if (sortList.selectSortItem.value == 'Entfernung') {
-                  sortList.list
-                    ..sort((a, b) => a.distance!.compareTo(b.distance!));
-                } else if (sortList.selectSortItem.value == 'Beliebtheit') {
-                  sortList.list
-                    ..sort((a, b) => b.distance!.compareTo(a.distance!));
-                }
-              }
-            },
-            child: Row(
-              children: [
-                Obx(
-                  () => Container(
-                    height: 40,
-                    width: 40,
-                    decoration: BoxDecoration(
-                      color: sortList.selectSortItem.value == txt
-                          ? colorIcon
-                          : colorBtn,
-                      shape: BoxShape.circle,
-                    ),
-                    child: Icon(
-                      iconn,
-                      color: sortList.selectSortItem.value == txt
-                          ? colorBtn
-                          : colorIcon,
-                    ),
-                  ),
-                ),
-                SizedBox(
-                  width: 10,
-                ),
-                Text(
-                  txt,
-                  style: Theme.of(context)
-                      .primaryTextTheme
-                      .button!
-                      .copyWith(fontSize: 14),
-                )
-              ],
-            ),
-          ),
-        );
-      },
-    );
-  }
-
   showModalBottomSheet(
     isScrollControlled: true,
     shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.vertical(top: Radius.circular(10))),
+        borderRadius: BorderRadius.vertical(top: Radius.circular(18))),
     context: context,
     builder: (BuildContext context) {
       return StatefulBuilder(
@@ -227,11 +144,12 @@ void containerSortirung(context) {
           return Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-              SizedBox(
-                height: 10,
-              ),
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 15),
+              Container(
+                decoration: BoxDecoration(
+                    color: Theme.of(context).cardColor,
+                    borderRadius:
+                        BorderRadius.vertical(top: Radius.circular(18))),
+                padding: const EdgeInsets.symmetric(horizontal: 16),
                 child: Row(
                   children: [
                     Text(
@@ -254,56 +172,311 @@ void containerSortirung(context) {
                   ],
                 ),
               ),
-              SizedBox(
-                height: 10,
-              ),
               Column(
                 children: [
-                  btnSort(CupertinoIcons.star_fill, 'Qualität', primaryColor,
-                      greyLightColor),
-                  SizedBox(
-                    height: 10,
-                  ),
-                  btnSort(CupertinoIcons.flame_fill, 'Beliebtheit',
-                      primaryColor, greyLightColor),
-                  SizedBox(
-                    height: 10,
-                  ),
-                  btnSort(CupertinoIcons.timer, 'Zeit', primaryColor,
-                      greyLightColor),
-                  SizedBox(
-                    height: 10,
-                  ),
-                  btnSort(CupertinoIcons.location_solid, 'Entfernung',
-                      primaryColor, greyLightColor),
-                ],
-              ),
-              SizedBox(
-                height: 30,
-              ),
-              SizedBox(
-                height: 50,
-                width: MediaQuery.of(context).size.width,
-                child: Obx(
-                  () => MaterialButton(
-                    elevation: 10,
-                    color: sortList.selectSortItem.value == ''
-                        ? Theme.of(context).cardColor
-                        : primaryColor,
-                    child: Obx(() => Text(
-                          'ÜBERNEHMEN',
-                          style: TextStyle(
-                              fontFamily: 'Open_Sans_Bold',
-                              fontSize: 14,
-                              color: sortList.selectSortItem.value == ''
-                                  ? Theme.of(context).iconTheme.color
-                                  : whiteColor),
-                        )),
-                    onPressed: () {
-                      if (sortList.selectSortItem.value != '') Get.back();
+                  SizedBox(height:8),
+                  ListTile(
+                    contentPadding: EdgeInsets.symmetric(vertical: 0.0, horizontal: 16.0),
+                    dense:true,
+                    leading: Obx(
+                      () => Container(
+                        // margin: EdgeInsets.all(10),
+                        height: 33,
+                        width: 33,
+                        decoration: BoxDecoration(
+                          color: sortList.selectSortItem.value == 'Qualität'
+                              ? primaryColor
+                              : greyLightColor,
+                          shape: BoxShape.circle,
+                        ),
+                        child: Icon(
+                          CupertinoIcons.star_fill,
+                          color: sortList.selectSortItem.value == 'Qualität'
+                              ? greyLightColor
+                              : primaryColor,
+                        ),
+                      ),
+                    ),
+                    title: Text(
+                      'Qualität',
+                      style: Theme.of(context)
+                          .primaryTextTheme
+                          .button,
+                    ),
+                    onTap: () {
+                      sortList.selectSortItem.value = 'Qualität';
+                      if (sortList.list.isEmpty) {
+                        if (sortList.selectSortItem.value == 'Qualität') {
+                          sortList.defaultListResturant
+                            ..sort((a, b) =>
+                                b.ratingResturant.compareTo(a.ratingResturant));
+                        } else if (sortList.selectSortItem.value == 'Zeit') {
+                          sortList.defaultListResturant
+                            ..sort((a, b) => a.deliveryDuration
+                                .compareTo(b.deliveryDuration));
+                        } else if (sortList.selectSortItem.value ==
+                            'Entfernung') {
+                          sortList.defaultListResturant
+                            ..sort((a, b) => a.distance.compareTo(b.distance));
+                        } else if (sortList.selectSortItem.value ==
+                            'Beliebtheit') {
+                          sortList.defaultListResturant
+                            ..sort((a, b) => b.distance.compareTo(a.distance));
+                        }
+                      } else {
+                        if (sortList.selectSortItem.value == 'Qualität') {
+                          sortList.list
+                            ..sort((a, b) => b.ratingResturant!
+                                .compareTo(a.ratingResturant!));
+                        } else if (sortList.selectSortItem.value == 'Zeit') {
+                          sortList.list
+                            ..sort((a, b) => a.deliveryDuration!
+                                .compareTo(b.deliveryDuration!));
+                        } else if (sortList.selectSortItem.value ==
+                            'Entfernung') {
+                          sortList.list
+                            ..sort(
+                                (a, b) => a.distance!.compareTo(b.distance!));
+                        } else if (sortList.selectSortItem.value ==
+                            'Beliebtheit') {
+                          sortList.list
+                            ..sort(
+                                (a, b) => b.distance!.compareTo(a.distance!));
+                        }
+                      }
+                      Get.back();
                     },
                   ),
-                ),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 15),
+                    child: Divider(height: 1,),
+                  ),
+                  ListTile(
+                    contentPadding: EdgeInsets.symmetric(vertical: 0.0, horizontal: 16.0),
+                    dense:true,
+                    leading: Obx(
+                      () => Container(
+                        // margin: EdgeInsets.all(10),
+                        height: 33,
+                        width: 33,
+                        decoration: BoxDecoration(
+                          color: sortList.selectSortItem.value == 'Beliebtheit'
+                              ? primaryColor
+                              : greyLightColor,
+                          shape: BoxShape.circle,
+                        ),
+                        child: Icon(
+                          CupertinoIcons.flame_fill,
+                          color: sortList.selectSortItem.value == 'Beliebtheit'
+                              ? greyLightColor
+                              : primaryColor,
+                        ),
+                      ),
+                    ),
+                    title: Text(
+                      'Beliebtheit',
+                      style: Theme.of(context)
+                          .primaryTextTheme
+                          .button,
+                    ),
+                    onTap: () {
+                      sortList.selectSortItem.value = 'Beliebtheit';
+                      if (sortList.list.isEmpty) {
+                        if (sortList.selectSortItem.value == 'Qualität') {
+                          sortList.defaultListResturant
+                            ..sort((a, b) =>
+                                b.ratingResturant.compareTo(a.ratingResturant));
+                        } else if (sortList.selectSortItem.value == 'Zeit') {
+                          sortList.defaultListResturant
+                            ..sort((a, b) => a.deliveryDuration
+                                .compareTo(b.deliveryDuration));
+                        } else if (sortList.selectSortItem.value ==
+                            'Entfernung') {
+                          sortList.defaultListResturant
+                            ..sort((a, b) => a.distance.compareTo(b.distance));
+                        } else if (sortList.selectSortItem.value ==
+                            'Beliebtheit') {
+                          sortList.defaultListResturant
+                            ..sort((a, b) => b.distance.compareTo(a.distance));
+                        }
+                      } else {
+                        if (sortList.selectSortItem.value == 'Qualität') {
+                          sortList.list
+                            ..sort((a, b) => b.ratingResturant!
+                                .compareTo(a.ratingResturant!));
+                        } else if (sortList.selectSortItem.value == 'Zeit') {
+                          sortList.list
+                            ..sort((a, b) => a.deliveryDuration!
+                                .compareTo(b.deliveryDuration!));
+                        } else if (sortList.selectSortItem.value ==
+                            'Entfernung') {
+                          sortList.list
+                            ..sort(
+                                (a, b) => a.distance!.compareTo(b.distance!));
+                        } else if (sortList.selectSortItem.value ==
+                            'Beliebtheit') {
+                          sortList.list
+                            ..sort(
+                                (a, b) => b.distance!.compareTo(a.distance!));
+                        }
+                      }
+                      Get.back();
+                    },
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 15),
+                    child: Divider(height: 1,),
+                  ),
+                  ListTile(
+                    contentPadding: EdgeInsets.symmetric(vertical: 0.0, horizontal: 16.0),
+                    dense:true,
+                    leading: Obx(
+                      () => Container(
+                        // margin: EdgeInsets.all(10),
+                        height: 33,
+                        width: 33,
+                        decoration: BoxDecoration(
+                          color: sortList.selectSortItem.value == 'Zeit'
+                              ? primaryColor
+                              : greyLightColor,
+                          shape: BoxShape.circle,
+                        ),
+                        child: Icon(
+                          CupertinoIcons.timer,
+                          color: sortList.selectSortItem.value == 'Zeit'
+                              ? greyLightColor
+                              : primaryColor,
+                        ),
+                      ),
+                    ),
+                    title: Text(
+                      'Zeit',
+                      style: Theme.of(context)
+                          .primaryTextTheme
+                          .button,
+                    ),
+                    onTap: () {
+                      sortList.selectSortItem.value = 'Zeit';
+                      if (sortList.list.isEmpty) {
+                        if (sortList.selectSortItem.value == 'Qualität') {
+                          sortList.defaultListResturant
+                            ..sort((a, b) =>
+                                b.ratingResturant.compareTo(a.ratingResturant));
+                        } else if (sortList.selectSortItem.value == 'Zeit') {
+                          sortList.defaultListResturant
+                            ..sort((a, b) => a.deliveryDuration
+                                .compareTo(b.deliveryDuration));
+                        } else if (sortList.selectSortItem.value ==
+                            'Entfernung') {
+                          sortList.defaultListResturant
+                            ..sort((a, b) => a.distance.compareTo(b.distance));
+                        } else if (sortList.selectSortItem.value ==
+                            'Beliebtheit') {
+                          sortList.defaultListResturant
+                            ..sort((a, b) => b.distance.compareTo(a.distance));
+                        }
+                      } else {
+                        if (sortList.selectSortItem.value == 'Qualität') {
+                          sortList.list
+                            ..sort((a, b) => b.ratingResturant!
+                                .compareTo(a.ratingResturant!));
+                        } else if (sortList.selectSortItem.value == 'Zeit') {
+                          sortList.list
+                            ..sort((a, b) => a.deliveryDuration!
+                                .compareTo(b.deliveryDuration!));
+                        } else if (sortList.selectSortItem.value ==
+                            'Entfernung') {
+                          sortList.list
+                            ..sort(
+                                (a, b) => a.distance!.compareTo(b.distance!));
+                        } else if (sortList.selectSortItem.value ==
+                            'Beliebtheit') {
+                          sortList.list
+                            ..sort(
+                                (a, b) => b.distance!.compareTo(a.distance!));
+                        }
+                      }
+                      Get.back();
+                    },
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 15),
+                    child: Divider(height: 1,),
+                  ),
+                  ListTile(
+                    contentPadding: EdgeInsets.symmetric(vertical: 0.0, horizontal: 16.0),
+                    dense:true,
+                    leading: Obx(
+                      () => Container(
+                        // margin: EdgeInsets.all(10),
+                        height: 33,
+                        width: 33,
+                        decoration: BoxDecoration(
+                          color: sortList.selectSortItem.value == 'Entfernung'
+                              ? primaryColor
+                              : greyLightColor,
+                          shape: BoxShape.circle,
+                        ),
+                        child: Icon(
+                          CupertinoIcons.location_solid,
+                          color: sortList.selectSortItem.value == 'Entfernung'
+                              ? greyLightColor
+                              : primaryColor,
+                        ),
+                      ),
+                    ),
+                    title: Text(
+                      'Entfernung',
+                      style: Theme.of(context)
+                          .primaryTextTheme
+                          .button,
+                    ),
+                    onTap: () {
+                      sortList.selectSortItem.value = 'Entfernung';
+                      if (sortList.list.isEmpty) {
+                        if (sortList.selectSortItem.value == 'Qualität') {
+                          sortList.defaultListResturant
+                            ..sort((a, b) =>
+                                b.ratingResturant.compareTo(a.ratingResturant));
+                        } else if (sortList.selectSortItem.value == 'Zeit') {
+                          sortList.defaultListResturant
+                            ..sort((a, b) => a.deliveryDuration
+                                .compareTo(b.deliveryDuration));
+                        } else if (sortList.selectSortItem.value ==
+                            'Entfernung') {
+                          sortList.defaultListResturant
+                            ..sort((a, b) => a.distance.compareTo(b.distance));
+                        } else if (sortList.selectSortItem.value ==
+                            'Beliebtheit') {
+                          sortList.defaultListResturant
+                            ..sort((a, b) => b.distance.compareTo(a.distance));
+                        }
+                      } else {
+                        if (sortList.selectSortItem.value == 'Qualität') {
+                          sortList.list
+                            ..sort((a, b) => b.ratingResturant!
+                                .compareTo(a.ratingResturant!));
+                        } else if (sortList.selectSortItem.value == 'Zeit') {
+                          sortList.list
+                            ..sort((a, b) => a.deliveryDuration!
+                                .compareTo(b.deliveryDuration!));
+                        } else if (sortList.selectSortItem.value ==
+                            'Entfernung') {
+                          sortList.list
+                            ..sort(
+                                (a, b) => a.distance!.compareTo(b.distance!));
+                        } else if (sortList.selectSortItem.value ==
+                            'Beliebtheit') {
+                          sortList.list
+                            ..sort(
+                                (a, b) => b.distance!.compareTo(a.distance!));
+                        }
+                      }
+                      Get.back();
+                    },
+                  ),
+                  SizedBox(height:8),
+                ],
               ),
             ],
           );
@@ -395,7 +568,7 @@ void containerFilter(context) {
   showModalBottomSheet(
     isScrollControlled: true,
     shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.vertical(top: Radius.circular(10))),
+        borderRadius: BorderRadius.vertical(top: Radius.circular(18))),
     context: context,
     builder: (BuildContext context) {
       return StatefulBuilder(
@@ -404,38 +577,43 @@ void containerFilter(context) {
             mainAxisSize: MainAxisSize.min,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Padding(
-                padding: EdgeInsets.all(15),
+              Container(
+                decoration: BoxDecoration(
+                    color: Theme.of(context).cardColor,
+                    borderRadius:
+                    BorderRadius.vertical(top: Radius.circular(18))),
+                padding: const EdgeInsets.symmetric(horizontal: 15),
                 child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Text('Filtern nach...',
-                        style: Theme.of(context)
-                            .primaryTextTheme
-                            .button!
-                            .copyWith(fontSize: 14)),
+                    Text(
+                      'Filtern nach...',
+                      style: Theme.of(context)
+                          .primaryTextTheme
+                          .button!
+                          .copyWith(fontSize: 14),
+                    ),
+                    Spacer(),
                     IconButton(
-                        icon: Icon(CupertinoIcons.clear_circled_solid),
-                        onPressed: () {
-                          Get.back();
-                          filterList.selectFilterItem.value = '';
-                          listItemCount.value = 0;
-                        })
+                      icon: Icon(
+                        CupertinoIcons.clear_circled_solid,
+                      ),
+                      onPressed: () {
+                        Get.back();
+                        filterList.selectFilterItem.value = '';
+                        listItemCount.value = 0;
+                      },
+                    ),
                   ],
                 ),
               ),
               Padding(
-                padding: const EdgeInsets.only(left: 15),
+                padding: const EdgeInsets.all( 15),
                 child: Text(
                   'Mindestbestellwert',
                   style: Theme.of(context)
                       .primaryTextTheme
-                      .button!
-                      .copyWith(fontSize: 14),
+                      .button,
                 ),
-              ),
-              SizedBox(
-                height: 25,
               ),
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 20),

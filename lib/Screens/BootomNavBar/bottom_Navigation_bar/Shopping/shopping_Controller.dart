@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:get/state_manager.dart';
+import 'package:mjam/Sqlite/ExtraZutaten.dart';
 import 'package:mjam/Sqlite/OrderModel.dart';
 
 class ShoppingCartController extends GetxController {
+  RxList<ExtraZutatenModel> extraZutatenList=<ExtraZutatenModel>[].obs;
   RxList<OrderModel> orderList=<OrderModel>[].obs;
   RxList<OrderModel>orderSet=<OrderModel>[].obs;
   RxList<TextEditingController> listController = <TextEditingController>[].obs;
@@ -22,4 +24,5 @@ class ShoppingCartController extends GetxController {
     commendSelect.removeAt(indexList);
     buttonCheck.removeAt(indexList);
   }
+
 }
