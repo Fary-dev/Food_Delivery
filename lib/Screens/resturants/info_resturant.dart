@@ -1,258 +1,256 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:mjam/Contants/Color.dart';
 import 'package:mjam/Widgets/Rating.dart';
 import 'package:mjam/models_and_data/Class/models_and_data.dart';
 
-class InfoResturant extends StatelessWidget {
+class InfoResturant extends StatefulWidget {
   final Resturant resturant;
-  InfoResturant(this.resturant);
+
+ const InfoResturant({this.resturant});
+
+  @override
+  State<InfoResturant> createState() => _InfoResturantState();
+}
+
+class _InfoResturantState extends State<InfoResturant> {
+  bool likeBottumPress = false;
+
+  TabController tabController;
+
+  String changeText;
+
+  bool showBottomSheet = false;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: whiteColor,
-      body: SingleChildScrollView(
-          child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Stack(
-            children: [
-              Container(
-                height: 350.0,
-                width: double.infinity,
-                color: greyColor,
-                child: Image.asset(
-                  resturant.photoInfoPage.toString(),
-                  fit: BoxFit.cover,
+      backgroundColor: Theme.of(context).bottomAppBarTheme.color,
+      body: NestedScrollView(
+        physics: NeverScrollableScrollPhysics(),
+        headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
+          return [
+            SliverAppBar(
+              automaticallyImplyLeading: false,
+              expandedHeight: 350.0,
+              elevation: 0,
+              pinned: true,
+              backgroundColor: Theme.of(context).bottomAppBarTheme.color,
+              actions: [
+                Container(
+                  margin: EdgeInsets.only(left: 15),
+                  height: 35,
+                  width: 35,
+                  decoration: BoxDecoration(
+                    shape: BoxShape.circle,
+                    color: Color(0xFFFFFFFF),
+                  ),
+                  child: IconButton(
+                      icon: Icon(
+                        CupertinoIcons.arrow_left,
+                        color: primaryColor,
+                      ),
+                      onPressed: () {
+                        Get.back();
+                      }),
                 ),
-              ),
-              Positioned(
-                top: 53,
-                left: 4,
-                child: IconButton(
+                Spacer(),
+                Container(
+                  margin: EdgeInsets.only(right: 15),
+                  height: 35,
+                  width: 35,
+                  decoration: BoxDecoration(
+                    shape: BoxShape.circle,
+                    color: Color(0xFFFFFFFF),
+                  ),
+                  child: IconButton(
                     icon: Icon(
-                      Icons.arrow_back,
-                      size: 30,
+                      likeBottumPress
+                          ? CupertinoIcons.heart_fill
+                          : CupertinoIcons.heart,
                       color: primaryColor,
                     ),
                     onPressed: () {
-                      Navigator.pop(context);
-                    }),
-              )
-            ],
-          ),
-          Padding(
-            padding: EdgeInsets.all(0),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Container(
-                  padding: EdgeInsets.all(15),
-                  alignment: Alignment.topLeft,
-                  child: Text(
-                    resturant.nameResturant,
-                    textAlign: TextAlign.left,
-                    style: TextStyle(
-                      decoration: TextDecoration.none,
-                      fontSize: 20,
-                      color: blackColor,
-                      fontWeight: FontWeight.bold,
-                    ),
+                      setState(
+                        () {
+                          likeBottumPress = !likeBottumPress;
+                        },
+                      );
+                    },
                   ),
                 ),
               ],
-            ),
-          ),
-          Container(
-            padding: EdgeInsets.only(left: 15),
-            child: Row(
+              flexibleSpace: FlexibleSpaceBar(
+                collapseMode: CollapseMode.pin,
+                background: Hero(tag:widget.resturant.photoResturant,
+                  child: Image.asset(
+                    widget.resturant.photoInfoPage,
+                    height: 350.0,
+                    width: double.infinity,
+                    fit: BoxFit.cover,
+                  ),
+                ),
+              ),
+            )
+          ];
+        },
+        body: Column(
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                Container(
-                  height: 20,
-                  width: 100,
-                  child: Rating(),
+                Text(
+                  widget.resturant.nameResturant,
+                  textAlign: TextAlign.left,
+                  textScaleFactor: 1.5,
+                  style: Theme.of(context)
+                      .primaryTextTheme
+                      .headline2
+                      .copyWith(fontSize: 16),
                 ),
                 SizedBox(
-                  width: 5,
+                  height: 20,
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    rating(20.0, 105.0, 20.0,
+                        Theme.of(context).bottomAppBarTheme.color),
+                    SizedBox(
+                      width: 5,
+                    ),
+                    Text(
+                      widget.resturant.ratingResturant.toString(),
+                      textAlign: TextAlign.left,
+                      style: Theme.of(context).primaryTextTheme.headline3,
+                    ),
+                  ],
+                ),
+                SizedBox(
+                  height: 7,
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Icon(
+                      CupertinoIcons.timer,
+                      // Icons.timer_outlined,
+                      size: 20,
+                    ),
+                    Text(
+                      " ca.${widget.resturant.deliveryDuration}min",
+                      textAlign: TextAlign.center,
+                      style: Theme.of(context).primaryTextTheme.headline3,
+                    ),
+                    SizedBox(width: 10),
+                    Icon(
+                      CupertinoIcons.location,
+                      size: 20,
+                    ),
+                    Text(
+                      "${(widget.resturant.distance / 1000).toStringAsFixed(1)} km",
+                      textAlign: TextAlign.center,
+                      style: Theme.of(context).primaryTextTheme.headline3,
+                    ),
+                  ],
+                ),
+                SizedBox(
+                  height: 5,
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Icon(
+                      CupertinoIcons.money_euro_circle,
+                      size: 20,
+                    ),
+                    Text(
+                      "  \€ ${widget.resturant.deliveryPrice}",
+                      textAlign: TextAlign.center,
+                      style: Theme.of(context).primaryTextTheme.headline3,
+                    ),
+                    SizedBox(width: 15),
+                    Icon(
+                      CupertinoIcons.bag,
+                      size: 20,
+                    ),
+                    Text(
+                      "  \€ ${widget.resturant.deliveryPrice}",
+                      textAlign: TextAlign.center,
+                      style: Theme.of(context).primaryTextTheme.headline3,
+                    ),
+                  ],
+                ),
+              ],
+            ),
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Text(
+                  'Öffnungszeiten',
+                  style: Theme.of(context)
+                      .primaryTextTheme
+                      .headline3
+                      .copyWith(fontSize: 16),
+                ),
+                SizedBox(
+                  height: 10,
                 ),
                 Text(
-                  resturant.ratingResturant.toString(),
-                  textAlign: TextAlign.left,
-                  style: TextStyle(
-                    decoration: TextDecoration.none,
-                    fontSize: 10,
-                    color: blackColor,
-                    fontWeight: FontWeight.w500,
-                  ),
+                  '${widget.resturant.openingTime}',
+                  style: Theme.of(context)
+                      .primaryTextTheme
+                      .subtitle1
+                      .copyWith(fontSize: 12.0),
+                ),
+                SizedBox(
+                  height: 20,
+                ),
+                Text(
+                  'Adresse',
+                  style: Theme.of(context)
+                      .primaryTextTheme
+                      .headline3
+                      .copyWith(fontSize: 16),
+                ),
+                SizedBox(
+                  height: 10,
+                ),
+                Text(
+                  widget.resturant.address.toString(),
+                  style: Theme.of(context)
+                      .primaryTextTheme
+                      .subtitle1
+                      .copyWith(fontSize: 12.0),
+                ),
+                SizedBox(
+                  height: 20,
+                ),
+                Text(
+                  'Eigentümer',
+                  style: Theme.of(context)
+                      .primaryTextTheme
+                      .headline3
+                      .copyWith(fontSize: 16),
+                ),
+                SizedBox(
+                  height: 10,
+                ),
+                Text(
+                  widget.resturant.owner,
+                  style: Theme.of(context)
+                      .primaryTextTheme
+                      .subtitle1
+                      .copyWith(fontSize: 14.0),
                 ),
               ],
-            ),
-          ),
-          SizedBox(
-            height: 7,
-          ),
-          Container(
-            margin: EdgeInsets.only(top: 5, left: 15),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: [
-                Container(
-                    padding: EdgeInsets.only(left: 0),
-                    child: Icon(
-                      Icons.timer_outlined,
-                      size: 20,
-                    )),
-                Container(
-                  alignment: Alignment.centerLeft,
-                  child: Text(
-                    " ca.${resturant.deliveryDuration}min",
-                    textAlign: TextAlign.center,
-                    style: TextStyle(
-                      letterSpacing: 0.4,
-                      decoration: TextDecoration.none,
-                      fontSize: 14,
-                      color: blackColor,
-                      fontWeight: FontWeight.w500,
-                    ),
-                  ),
-                ),
-                SizedBox(width: 10),
-                Container(
-                    padding: EdgeInsets.only(left: 0),
-                    child: Icon(
-                      Icons.location_on_outlined,
-                      size: 20,
-                    )),
-                Container(
-                  alignment: Alignment.centerLeft,
-                  child: Text(
-                    "${resturant.distance} km",
-                    textAlign: TextAlign.center,
-                    style: TextStyle(
-                      letterSpacing: 0.4,
-                      decoration: TextDecoration.none,
-                      fontSize: 14,
-                      color: blackColor,
-                      fontWeight: FontWeight.w500,
-                    ),
-                  ),
-                ),
-              ],
-            ),
-          ),
-          SizedBox(
-            height: 5,
-          ),
-          Container(
-            margin: EdgeInsets.only(top: 5, left: 15),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: [
-                Container(
-                    padding: EdgeInsets.only(left: 0),
-                    child: Icon(
-                      Icons.delivery_dining,
-                      size: 20,
-                    )),
-                Container(
-                  alignment: Alignment.centerLeft,
-                  child: Text(
-                    "  \€ ${resturant.deliveryPrice}",
-                    textAlign: TextAlign.center,
-                    style: TextStyle(
-                      letterSpacing: 0.4,
-                      decoration: TextDecoration.none,
-                      fontSize: 14,
-                      color: blackColor,
-                      fontWeight: FontWeight.w500,
-                    ),
-                  ),
-                ),
-                SizedBox(width: 15),
-                Container(
-                    child: Icon(
-                  Icons.shopping_cart_outlined,
-                  size: 20,
-                )),
-                Container(
-                  alignment: Alignment.centerLeft,
-                  child: Text(
-                    "  \€ ${resturant.deliveryPrice}",
-                    textAlign: TextAlign.center,
-                    style: TextStyle(
-                      letterSpacing: 0.4,
-                      decoration: TextDecoration.none,
-                      fontSize: 14,
-                      color: blackColor,
-                      fontWeight: FontWeight.w500,
-                    ),
-                  ),
-                ),
-              ],
-            ),
-          ),
-          SizedBox(
-            height: 20,
-          ),
-          Padding(
-            padding: const EdgeInsets.only(left: 15),
-            child: Text(
-              'Öffnungszeiten',
-              style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-            ),
-          ),
-          SizedBox(
-            height: 10,
-          ),
-          Padding(
-            padding: const EdgeInsets.only(left: 15),
-            child: Text(
-              '${resturant.openingTime}',
-              style: TextStyle(fontSize: 14, color: greyColor),
-            ),
-          ),
-          SizedBox(
-            height: 20,
-          ),
-          Padding(
-            padding: const EdgeInsets.only(left: 15),
-            child: Text(
-              'Adresse',
-              style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-            ),
-          ),
-          SizedBox(
-            height: 10,
-          ),
-          Padding(
-            padding: const EdgeInsets.only(left: 15),
-            child: Text(
-              resturant.address.toString(),
-              style: TextStyle(fontSize: 14, color: greyColor),
-            ),
-          ),
-          SizedBox(
-            height: 20,
-          ),
-          Padding(
-            padding: const EdgeInsets.only(left: 15),
-            child: Text(
-              'Eigentümer',
-              style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-            ),
-          ),
-          SizedBox(
-            height: 10,
-          ),
-          Padding(
-            padding: const EdgeInsets.only(left: 15),
-            child: Text(
-              resturant.owner,
-              style: TextStyle(fontSize: 14, color: greyColor),
-            ),
-          )
-        ],
-      )),
+            )
+          ],
+        ),
+      ),
     );
   }
 }

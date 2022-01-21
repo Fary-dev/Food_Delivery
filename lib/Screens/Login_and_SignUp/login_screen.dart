@@ -1,5 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:mjam/Contants/Color.dart';
 import 'package:mjam/Screens/Login_and_SignUp/reset_password.dart';
 import 'package:mjam/Widgets/BottomNavBarWidget.dart';
@@ -17,6 +19,7 @@ class _LoginScreenState extends State<LoginScreen> {
   TextEditingController _passwordController = TextEditingController();
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   String _email, _password;
+  bool showPassword = false;
 
   void click() {
     setState(() {
@@ -33,182 +36,166 @@ class _LoginScreenState extends State<LoginScreen> {
   }
 
   @override
+  void initState() {
+    showPassword = false;
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
-    return Stack(
-      children: [
-        //WidgetLogin(),
-        Scaffold(
-          appBar: AppBar(
-            backgroundColor: greyLightColor,
-            elevation: 0,
-            title: Text(
-              '',
-              style: TextStyle(fontSize: 15),
+    return SafeArea(
+      child: Scaffold(
+        appBar: AppBar(
+          elevation: 0,
+          leading: IconButton(
+            icon: Icon(
+              CupertinoIcons.arrow_left,
             ),
-            leading: IconButton(
-              icon: Icon(
-                Icons.arrow_back_ios,
-                color: primaryColor,
-              ),
-              onPressed: () {
-                Navigator.pop(context);
-              },
-            ),
+            onPressed: () {
+              Get.back();
+            },
           ),
-          body: SafeArea(
-            child: ListView(
+        ),
+        body: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 20),
+          child: SingleChildScrollView(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 SizedBox(
                   height: 10,
                 ),
                 //__________________Foode_Kundenkonto_erstellen____
-                Container(
-                  padding: const EdgeInsets.symmetric(horizontal: 20),
-                  child: Text(
-                    'Anmelden',
-                    style: TextStyle(
-                        fontSize: 13,
-                        color: blackColor,
-                        fontWeight: FontWeight.bold,
-                        letterSpacing: 0.5),
-                  ),
-                ),
+                Text('Anmelden',
+                    style: Theme.of(context).primaryTextTheme.headline2),
+
                 SizedBox(
                   height: 15,
                 ),
                 //____________________Facebook_____Google__________
-                Container(
-                  padding: const EdgeInsets.symmetric(horizontal: 20),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      //___________________Facebook_______________
-                      Expanded(
-                        flex: 25,
-                        // ignore: deprecated_member_use
-                        child: RaisedButton(
-                          color: whiteColor,
-                          onPressed: () {
-                            print('Facebook');
-                          },
-                          child: Row(
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            children: [
-                              Container(
-                                margin: EdgeInsets.symmetric(vertical: 10),
-                                decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(5),
-                                    image: DecorationImage(
-                                      image: AssetImage('assets/facebook.jpg'),
-                                    )),
-                                height: 25,
-                                width: 25,
-                              ),
-                              SizedBox(
-                                width: 10,
-                              ),
-                              Text(
-                                'Facebook',
-                                style: TextStyle(
-                                    color: blackColor, letterSpacing: 0.5),
-                              ),
-                            ],
-                          ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    //___________________Facebook_______________
+                    Expanded(
+                      flex: 25,
+                      child: MaterialButton(
+                        shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.all(Radius.circular(5))),
+                        color: Theme.of(context).cardColor,
+                        onPressed: () {
+                          print('Facebook');
+                        },
+                        child: Row(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            Container(
+                              margin: EdgeInsets.symmetric(vertical: 10),
+                              decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(5),
+                                  image: DecorationImage(
+                                    image: AssetImage('assets/facebook.jpg'),
+                                  )),
+                              height: 25,
+                              width: 25,
+                            ),
+                            SizedBox(
+                              width: 10,
+                            ),
+                            Text('Facebook',
+                                style:
+                                    Theme.of(context).primaryTextTheme.button),
+                          ],
                         ),
                       ),
-                      Expanded(
-                        flex: 1,
-                        child: SizedBox(
-                          width: 10,
+                    ),
+                    Expanded(
+                      flex: 1,
+                      child: SizedBox(
+                        width: 10,
+                      ),
+                    ),
+                    //____________________Google________________
+                    Expanded(
+                      flex: 25,
+                      child: MaterialButton(
+                        shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.all(Radius.circular(5))),
+                        color: Theme.of(context).cardColor,
+                        onPressed: () {
+                          setState(() {
+                            click();
+                          });
+                        },
+                        child: Row(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            Container(
+                              margin: EdgeInsets.symmetric(vertical: 7),
+                              decoration: BoxDecoration(
+                                  image: DecorationImage(
+                                image: AssetImage('assets/google.png'),
+                              )),
+                              height: 30,
+                              width: 30,
+                            ),
+                            SizedBox(
+                              width: 10,
+                            ),
+                            Text(
+                              'Google',
+                              style: Theme.of(context).primaryTextTheme.button,
+                            ),
+                          ],
                         ),
                       ),
-                      //____________________Google________________
-                      Expanded(
-                        flex: 25,
-                        // ignore: deprecated_member_use
-                        child: RaisedButton(
-                          color: whiteColor,
-                          onPressed: () {
-                            setState(() {
-                              click();
-                            });
-                          },
-                          child: Row(
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            children: [
-                              Container(
-                                margin: EdgeInsets.symmetric(vertical: 7),
-                                decoration: BoxDecoration(
-                                    image: DecorationImage(
-                                  image: AssetImage('assets/google.png'),
-                                )),
-                                height: 30,
-                                width: 30,
-                              ),
-                              SizedBox(
-                                width: 10,
-                              ),
-                              Text(
-                                'Google',
-                                style: TextStyle(
-                                    color: blackColor, letterSpacing: 0.5),
-                              ),
-                            ],
-                          ),
-                        ),
-                      )
-                    ],
-                  ),
+                    )
+                  ],
                 ),
-
+                SizedBox(
+                  height: 25,
+                ),
                 //____________________________Oder_________________
-                Container(
-                  padding: EdgeInsets.only(top: 25),
-                  child: Row(
-                    children: [
-                      Expanded(
-                        child: Container(
-                          height: 2,
-                          color: Colors.black26,
-                          margin: EdgeInsets.only(left: 20, right: 15),
-                          child: Divider(
-                            color: blackColor,
-                            height: 25,
-                          ),
-                        ),
-                      ),
-                      Text(
-                        'oder',
-                        style: TextStyle(fontSize: 13, color: blackColor),
-                      ),
-                      Expanded(
-                        child: Container(
-                          height: 2,
+                Row(
+                  children: [
+                    Expanded(
+                      child: Container(
+                        height: 2,
+                        color: Theme.of(context).hoverColor,
+                        margin: EdgeInsets.only(right: 15),
+                        child: Divider(
                           color: blackColor,
-                          margin: EdgeInsets.only(left: 10, right: 20),
-                          child: Divider(
-                            color: blackColor,
-                            height: 30,
-                          ),
+                          height: 25,
                         ),
                       ),
-                    ],
-                  ),
+                    ),
+                    Text(
+                      'oder',
+                      style: TextStyle(
+                        fontSize: 13,
+                        color: Theme.of(context).hoverColor,
+                      ),
+                    ),
+                    Expanded(
+                      child: Container(
+                        height: 2,
+                        color: Theme.of(context).hoverColor,
+                        margin: EdgeInsets.only(left: 10),
+                        child: Divider(
+                          color: blackColor,
+                          height: 30,
+                        ),
+                      ),
+                    ),
+                  ],
                 ),
                 SizedBox(
                   height: 40,
                 ),
                 //_____________________Mit E-Mail registrieren_____
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 20),
-                  child: Text(
-                    'Mit E-Mail einloggen',
-                    style: TextStyle(
-                        fontSize: 13,
-                        color: blackColor,
-                        letterSpacing: 0.5,
-                        fontWeight: FontWeight.bold),
-                  ),
+                Text(
+                  'Mit E-Mail einloggen',
+                  style: Theme.of(context).primaryTextTheme.headline2,
                 ),
                 SizedBox(
                   height: 40,
@@ -219,68 +206,93 @@ class _LoginScreenState extends State<LoginScreen> {
                     key: _formKey,
                     child: Column(
                       children: [
-                        Container(
-                          margin: EdgeInsets.symmetric(horizontal: 20),
-                          decoration: BoxDecoration(
-                              color: greyColor,
-                              borderRadius: BorderRadius.circular(0)),
-                          child: TextFormField(
-                            validator: validateEmail,
-                            onSaved: (input) => _email = input,
-                            controller: _emailController,
-                            style: txtBtnStyle,
-                            decoration: InputDecoration(
-                                contentPadding:
-                                    EdgeInsets.symmetric(horizontal: 15),
-                                border: InputBorder.none,
-                                hintText: 'E-Mail',
-                                hintStyle:
-                                    TextStyle(color: whiteColor, fontSize: 12)),
+                        TextFormField(
+                          style: Theme.of(context)
+                              .primaryTextTheme
+                              .headline3
+                              .apply(fontSizeDelta: 2),
+                          keyboardType: TextInputType.emailAddress,
+                          decoration: InputDecoration(
+                            contentPadding:
+                                EdgeInsets.symmetric(horizontal: 15),
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(10),
+                            ),
+                            labelText: 'E-Mail',
+                            suffixIcon: Icon(
+                              CupertinoIcons.mail,
+                              color: Colors.grey[500],
+                              size: 18,
+                            ),
                           ),
+                          validator: validateEmail,
+                          onSaved: (input) => _email = input,
+                          controller: _emailController,
                         ),
                         SizedBox(height: 10),
-                        Container(
-                          margin: EdgeInsets.symmetric(horizontal: 20),
-                          decoration: BoxDecoration(
-                              color: greyColor,
-                              borderRadius: BorderRadius.circular(0)),
-                          child: TextFormField(
-                            validator: validatePassword,
-                            onSaved: (input) => _password = input,
-                            controller: _passwordController,
-                            obscureText: true,
-                            style: txtBtnStyle,
-                            decoration: InputDecoration(
-                                contentPadding:
-                                    EdgeInsets.symmetric(horizontal: 15),
-                                border: InputBorder.none,
-                                hintText: 'Password',
-                                hintStyle:
-                                    TextStyle(color: whiteColor, fontSize: 12)),
+                        TextFormField(
+                          obscureText: !showPassword ? true : false,
+                          style: Theme.of(context)
+                              .primaryTextTheme
+                              .headline3
+                              .apply(fontSizeDelta: 2),
+                          decoration: InputDecoration(
+                            contentPadding:
+                                EdgeInsets.symmetric(horizontal: 15),
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(10),
+                            ),
+                            labelText: 'Password',
+                            suffixIcon: !showPassword
+                                ? IconButton(
+                                    onPressed: () {
+                                      setState(() {
+                                        showPassword = true;
+                                      });
+                                    },
+                                    icon: Icon(
+                                      CupertinoIcons.eye,
+                                      size: 20,
+                                      color: Colors.grey[500],
+                                    ),
+                                  )
+                                : IconButton(
+                                    onPressed: () {
+                                      setState(() {
+                                        showPassword = false;
+                                      });
+                                    },
+                                    icon: Icon(
+                                      CupertinoIcons.eye_slash,
+                                      color: Colors.grey[500],
+                                    ),
+                                  ),
                           ),
+                          validator: validatePassword,
+                          onSaved: (input) => _password = input,
+                          controller: _passwordController,
                         ),
                       ],
                     ),
                   ),
                 ),
                 SizedBox(
-                  height: 40,
+                  height: 200,
                 ),
                 //__________________KUNDENKONTO_ERSTELLE___________
-                Container(
-                  height: 50,
-                  padding: const EdgeInsets.symmetric(horizontal: 20),
+                SizedBox(
+                  width: MediaQuery.of(context).size.width,
+                  height: 40,
                   child: MaterialButton(
                     color: primaryColor,
                     onPressed: signin,
-                    child: Text(
-                      'KUNDENKONTO  ERSTELLE',
-                      style: TextStyle(
-                          color: whiteColor,
-                          letterSpacing: 0.5,
-                          fontWeight: FontWeight.bold,
-                          fontSize: 13),
-                    ),
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.all(Radius.circular(5))),
+                    child: Text('KUNDENKONTO  ERSTELLE',
+                        style: Theme.of(context)
+                            .primaryTextTheme
+                            .button
+                            .copyWith(fontSize: 14, color: Color(0xFFFFFFFF))),
                   ),
                 ),
                 SizedBox(
@@ -288,21 +300,18 @@ class _LoginScreenState extends State<LoginScreen> {
                 ),
                 Center(
                   child: TextButton(
-                    onPressed: () => Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => ResetPasswordScreen())),
+                    onPressed: () => Get.to(() => ResetPasswordScreen()),
                     child: Text(
                       'Password vergessen?',
                       style: TextStyle(color: primaryColor, fontSize: 11),
                     ),
                   ),
-                )
+                ),
               ],
             ),
           ),
-        )
-      ],
+        ),
+      ),
     );
   }
 
@@ -311,7 +320,7 @@ class _LoginScreenState extends State<LoginScreen> {
         r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$';
     RegExp regex = new RegExp(pattern);
     if (!regex.hasMatch(value))
-      return 'Enter Valid Email';
+      return 'Bitte gib eine gültige E-Mail-Adresse ein';
     else
       return null;
   }
@@ -324,7 +333,7 @@ class _LoginScreenState extends State<LoginScreen> {
       return 'Please enter password';
     } else {
       if (!regex.hasMatch(value))
-        return 'Enter valid password';
+        return 'Bitte gib eine gültige Password ein';
       else
         return null;
     }

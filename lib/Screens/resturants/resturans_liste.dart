@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
-import 'package:mjam/Screens/Resturants/Resturant_List/Resturant_List_Controller.dart';
+import 'package:mjam/Contants/Color.dart';
 import 'package:mjam/models_and_data/Class/models_and_data.dart';
 import 'package:mjam/Widgets/Rating.dart';
-import '../pageResturant.dart';
+
+import 'pageResturant.dart';
 
 class ResturantListe extends StatefulWidget {
   ResturantListe({Key key}) : super(key: key);
@@ -12,95 +12,36 @@ class ResturantListe extends StatefulWidget {
 }
 
 class _ResturantListeState extends State<ResturantListe> {
-  final ResturantListController sortList = Get.put(ResturantListController());
-  final GlobalKey _globalKey = GlobalKey();
-
   @override
   Widget build(BuildContext context) {
-    return Obx(
-      () => ListView.builder(
-        key: _globalKey,
+    return new Container(
+      child: new ListView.builder(
         shrinkWrap: true,
         physics: const NeverScrollableScrollPhysics(),
-        itemCount: sortList.sort.value == ''
-            ? resturants.length
-            : sortList.list.length,
+        itemCount: resturants.length,
         itemBuilder: (context, index) {
-          final Resturant resturant = sortList.sort.value == ''
-              ? resturants[index]
-              : sortList.list[index];
+          final Resturant _resturant = resturants[index];
           return GestureDetector(
             onTap: () {
-              Get.to(() => PageResturant(resturant: resturant));
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) =>
+                          PageResturant(resturant: _resturant)));
             },
             child: Container(
-              color: Theme.of(context).bottomAppBarTheme.color,
+              color: whiteColor,
               child: Column(
                 children: [
                   /////__________________ List Resturant _________/////////////////////////////7////
-                  Stack(
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.fromLTRB(15, 15, 15, 5),
-                        child: ClipRRect(
-                          borderRadius: BorderRadius.circular(8),
-                          child: GestureDetector(
-                            onTap: () {
-                              // Navigator.push(
-                              //     context,
-                              //     PageRouteBuilder(
-                              //         transitionDuration: Duration(seconds: 2),
-                              //         pageBuilder: (_, __, ___) => PageResturant(
-                              //               resturant: resturant,
-                              //             )));
-                              Get.to(() => PageResturant(resturant: resturant));
-                            },
-                            child: Image.asset(resturant.photoResturant,
-                                height: 140,
-                                width: MediaQuery.of(context).size.width,
-                                fit: BoxFit.fitWidth),
-                          ),
-                        ),
-                      ),
-                      Positioned(
-                        bottom: 10,
-                        left: 20,
-                        child: Row(
-                          children: [
-                            Container(
-                              padding: EdgeInsets.fromLTRB(5, 3, 5, 3),
-                              alignment: Alignment.center,
-                              decoration: BoxDecoration(
-                                  color: Theme.of(context).primaryColor,
-                                  borderRadius:
-                                      BorderRadius.all(Radius.circular(20))),
-                              child: Text('${resturant.deliveryDuration} min',
-                                  style: Theme.of(context)
-                                      .primaryTextTheme
-                                      .button
-                                      .apply(fontSizeDelta: -1)),
-                            ),
-                            SizedBox(
-                              width: 5,
-                            ),
-                            Container(
-                              padding: EdgeInsets.fromLTRB(5, 3, 5, 3),
-                              alignment: Alignment.center,
-                              decoration: BoxDecoration(
-                                  color: Theme.of(context).primaryColor,
-                                  borderRadius:
-                                      BorderRadius.all(Radius.circular(20))),
-                              child: Text(
-                                  '${(resturant.distance / 1000).toStringAsFixed(1)} km',
-                                  style: Theme.of(context)
-                                      .primaryTextTheme
-                                      .button
-                                      .apply(fontSizeDelta: -1)),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ],
+                  Container(
+                    margin: const EdgeInsets.fromLTRB(15, 15, 15, 5),
+                    decoration: const BoxDecoration(
+                        borderRadius: BorderRadius.all(Radius.circular(20))),
+                    child: Image.asset(_resturant.photoResturant,
+                        height: 140,
+                        width: MediaQuery.of(context).size.width,
+                        fit: BoxFit.fitWidth),
                   ),
                   Container(
                     margin: const EdgeInsets.only(top: 8),
@@ -115,12 +56,13 @@ class _ResturantListeState extends State<ResturantListe> {
                               alignment: Alignment.topLeft,
                               margin: const EdgeInsets.only(left: 15),
                               child: Text(
-                                resturant.nameResturant,
+                                _resturant.nameResturant,
                                 textAlign: TextAlign.center,
                                 textScaleFactor: 1.5,
-                                style: Theme.of(context)
-                                    .primaryTextTheme
-                                    .headline2,
+                                style: const TextStyle(
+                                    color: blackColor,
+                                    fontSize: 12,
+                                    fontWeight: FontWeight.w600),
                               ),
                             ),
                             Container(
@@ -128,12 +70,11 @@ class _ResturantListeState extends State<ResturantListe> {
                               alignment: Alignment.topLeft,
                               margin: const EdgeInsets.only(left: 15, top: 3),
                               child: Text(
-                                resturant.description,
+                                _resturant.description,
                                 textAlign: TextAlign.center,
                                 textScaleFactor: 1.0,
-                                style: Theme.of(context)
-                                    .primaryTextTheme
-                                    .subtitle1,
+                                style: const TextStyle(
+                                    color: blackColor, fontSize: 11),
                               ),
                             )
                           ],
@@ -142,7 +83,7 @@ class _ResturantListeState extends State<ResturantListe> {
                           margin: const EdgeInsets.only(right: 15),
                           height: 40,
                           width: 80,
-                          child: Image.asset(resturant.logoResturant,
+                          child: Image.asset(_resturant.logoResturant,
                               height: 20,
                               width: MediaQuery.of(context).size.width,
                               fit: BoxFit.contain),
@@ -164,16 +105,19 @@ class _ResturantListeState extends State<ResturantListe> {
                                 alignment: Alignment.topLeft,
                                 margin: const EdgeInsets.only(left: 15, top: 7),
                                 child: Text(
-                                  resturant.ratingResturant.toString(),
+                                  _resturant.ratingResturant.toString(),
                                   textAlign: TextAlign.center,
                                   textScaleFactor: 1.0,
-                                  style: Theme.of(context)
-                                      .primaryTextTheme
-                                      .headline3,
+                                  style: const TextStyle(
+                                      color: blackColor, fontSize: 11),
                                 ),
                               ),
-                              rating(20.0, 105.0, 15.0,
-                                  Theme.of(context).bottomAppBarTheme.color),
+                              Container(
+                                child: Rating(),
+                                margin: const EdgeInsets.only(left: 15),
+                                height: 20,
+                                width: 100,
+                              ),
                             ],
                           ),
                         ),
@@ -185,23 +129,20 @@ class _ResturantListeState extends State<ResturantListe> {
                                 alignment: Alignment.topLeft,
                                 margin:
                                     const EdgeInsets.only(left: 15, top: 11),
-                                child: Text(
+                                child: const Text(
                                   "Liefergebühr",
                                   textAlign: TextAlign.center,
                                   textScaleFactor: 1.0,
-                                  style: Theme.of(context)
-                                      .primaryTextTheme
-                                      .headline3,
+                                  style: TextStyle(
+                                      color: blackColor, fontSize: 11),
                                 ),
                               ),
                               Container(
                                 child: Text(
-                                  "\€ ${resturant.deliveryPrice.toString().padRight(4, '0')}",
+                                  "\€ ${_resturant.deliveryPrice.toString().padRight(4, '0')}",
                                   textAlign: TextAlign.center,
                                   textScaleFactor: 1.0,
-                                  style: Theme.of(context)
-                                      .primaryTextTheme
-                                      .headline3,
+                                  style: const TextStyle(color: blackColor),
                                 ),
                               )
                             ],
@@ -215,23 +156,20 @@ class _ResturantListeState extends State<ResturantListe> {
                                 alignment: Alignment.topLeft,
                                 margin: const EdgeInsets.only(
                                     left: 15, top: 11, right: 15),
-                                child: Text(
+                                child: const Text(
                                   "Minimum",
                                   textAlign: TextAlign.center,
                                   textScaleFactor: 1.0,
-                                  style: Theme.of(context)
-                                      .primaryTextTheme
-                                      .headline3,
+                                  style: TextStyle(
+                                      color: blackColor, fontSize: 11),
                                 ),
                               ),
                               Container(
                                 child: Text(
-                                  "\€ ${resturant.minimumOrder.toString().padRight(5, '0')}",
+                                  "\€ ${_resturant.minimumOrder.toString().padRight(5, '0')}",
                                   textAlign: TextAlign.center,
                                   textScaleFactor: 1.0,
-                                  style: Theme.of(context)
-                                      .primaryTextTheme
-                                      .headline3,
+                                  style: const TextStyle(color: blackColor),
                                 ),
                               )
                             ],
@@ -243,7 +181,7 @@ class _ResturantListeState extends State<ResturantListe> {
                   SizedBox(
                     height: 10,
                     child: Container(
-                      color: Theme.of(context).backgroundColor,
+                      color: greyLightColor,
                     ),
                   ),
                 ],

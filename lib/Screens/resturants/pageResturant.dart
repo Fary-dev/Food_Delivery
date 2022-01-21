@@ -1,18 +1,18 @@
 import 'package:flutter/cupertino.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get/get.dart';
+
 import 'package:mjam/Contants/Color.dart';
-import 'package:mjam/Widgets/search.dart';
 import 'package:mjam/Widgets/Rating.dart';
+import 'package:mjam/Widgets/search.dart';
 import 'package:mjam/bloc/Counter_Bloc/counter_select_product.dart';
 import 'package:mjam/bloc/Order_Bloc/events.dart';
+import 'package:mjam/bloc/Order_Bloc/productBloc.dart';
 import 'package:mjam/bloc/Order_Bloc/states.dart';
 import 'package:mjam/bottom_Navigation_bar/Shopping/shopping_Controller.dart';
 import 'package:mjam/bottom_Navigation_bar/Shopping/shopping_carts.dart';
 import 'package:mjam/models_and_data/Class/models_and_data.dart';
-import 'package:mjam/bloc/Order_Bloc/productBloc.dart';
 
 import 'info_resturant.dart';
 
@@ -57,117 +57,123 @@ class _PageResturantState extends State<PageResturant>
           return [
             SliverAppBar(
               actions: [
-                Padding(
-                  padding: const EdgeInsets.only(right: 20.0),
-                  child: IconButton(
-                    icon: Icon(
-                        likeBottumPress
-                            ? Icons.favorite
-                            : Icons.favorite_border,
-                        color: likeBottumPress ? primaryColor : primaryColor),
-                    onPressed: () {
-                      setState(() {
-                        likeBottumPress = !likeBottumPress;
-                      });
-                    },
+                Container(
+                  margin: EdgeInsets.only(left: 15),
+                  height: 35,
+                  width: 35,
+                  decoration: BoxDecoration(
+                    shape: BoxShape.circle,
+                    color: Color(0xFFFFFFFF),
                   ),
-                )
+                  child: IconButton(
+                      icon: Icon(
+                        CupertinoIcons.arrow_left,
+                        color: primaryColor,
+                      ),
+                      onPressed: () {
+                        Get.back();
+                      }),
+                ),
+                Spacer(),
+                AnimatedContainer(
+                  duration: Duration(seconds: 2),
+                  child: Container(
+                    margin: EdgeInsets.only(right: 15),
+                    height: 35,
+                    width: 35,
+                    decoration: BoxDecoration(
+                      shape: BoxShape.circle,
+                      color: Color(0xFFFFFFFF),
+                    ),
+                    child: IconButton(
+                      icon: Icon(
+                        likeBottumPress
+                            ? CupertinoIcons.heart_fill
+                            : CupertinoIcons.heart,
+                        color: primaryColor,
+                      ),
+                      onPressed: () {
+                        setState(
+                          () {
+                            likeBottumPress = !likeBottumPress;
+                          },
+                        );
+                      },
+                    ),
+                  ),
+                ),
               ],
               elevation: 10,
-              leading: BottomAppBar(
-                elevation: 0,
-                color: Colors.transparent,
-                child: IconButton(
-                    icon: Icon(
-                      Icons.arrow_back,
-                      size: 30,
-                      color: primaryColor,
-                    ),
-                    onPressed: () {
-                      Navigator.of(context).pop();
-                    }),
-              ),
               pinned: true,
-              backgroundColor: whiteColor,
+              automaticallyImplyLeading: false,
+              backgroundColor: Theme.of(context).bottomAppBarTheme.color,
               flexibleSpace: FlexibleSpaceBar(
                 collapseMode: CollapseMode.pin,
                 background: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
-                    Container(
-                      height: 180.0,
-                      width: double.infinity,
-                      color: greyColor,
+                    Hero(
+                      tag: resturant.photoResturant,
                       child: Image.asset(
-                        resturant.photoResturant.toString(),
+                        resturant.photoResturant,
+                        height: 180.0,
                         width: double.infinity,
                         fit: BoxFit.fitWidth,
                       ),
                     ),
-                    Padding(
-                      padding: EdgeInsets.all(0),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Container(
-                            padding: EdgeInsets.all(15),
-                            alignment: Alignment.topLeft,
-                            child: Text(
-                              resturant.nameResturant,
-                              textAlign: TextAlign.left,
-                              style: Theme.of(context)
-                                  .primaryTextTheme
-                                  .headline2
-                                  .apply(fontSizeDelta: 7),
-                            ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Container(
+                          padding: EdgeInsets.all(15),
+                          alignment: Alignment.topLeft,
+                          child: Text(
+                            resturant.nameResturant,
+                            textAlign: TextAlign.left,
+                            textScaleFactor: 1.5,
+                            style: Theme.of(context).primaryTextTheme.headline2,
                           ),
-                          Container(
-                            padding: EdgeInsets.all(10),
-                            child: IconButton(
-                              icon: Icon(
-                                Icons.info_outline,
-                                size: 38,
-                              ),
-                              onPressed: () {
-                                Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                      builder: (context) =>
-                                          InfoResturant(resturant),
-                                    ));
-                              },
+                        ),
+                        Container(
+                          padding: EdgeInsets.all(10),
+                          child: IconButton(
+                            icon: Icon(
+                              CupertinoIcons.info_circle,
+                              size: 35,
                             ),
+                            onPressed: () {
+                              Navigator.push(
+                                  context,
+                                  PageRouteBuilder(
+                                      transitionDuration:
+                                          Duration(milliseconds: 800),
+                                      pageBuilder: (_, __, ___) =>
+                                          InfoResturant(resturant: resturant)));
+                              // Get.to( InfoResturant(resturant: resturant));
+                            },
                           ),
-                        ],
-                      ),
+                        ),
+                      ],
                     ),
                     Container(
                       padding: EdgeInsets.only(left: 15),
                       child: Row(
                         children: [
-                          Container(
-                            height: 20,
-                            width: 100,
-                            child: Rating(),
-                          ),
+                          rating(20.0, 105.0, 20.0,
+                              Theme.of(context).bottomAppBarTheme.color),
                           SizedBox(
                             width: 5,
                           ),
                           Text(
                             resturant.ratingResturant.toString(),
                             textAlign: TextAlign.left,
-                            style: TextStyle(
-                              decoration: TextDecoration.none,
-                              fontSize: 10,
-                              color: blackColor,
-                              fontWeight: FontWeight.w500,
-                            ),
+                            style: Theme.of(context).primaryTextTheme.headline3,
                           ),
                         ],
                       ),
                     ),
                     SizedBox(
-                      height: 15,
+                      height: 5,
                     ),
                     Container(
                       margin: EdgeInsets.only(top: 5, left: 15),
@@ -177,7 +183,7 @@ class _PageResturantState extends State<PageResturant>
                           Container(
                               padding: EdgeInsets.only(left: 0),
                               child: Icon(
-                                Icons.timer_outlined,
+                                CupertinoIcons.timer,
                                 size: 20,
                               )),
                           Container(
@@ -185,20 +191,15 @@ class _PageResturantState extends State<PageResturant>
                             child: Text(
                               " ca.${resturant.deliveryDuration}min",
                               textAlign: TextAlign.center,
-                              style: TextStyle(
-                                letterSpacing: 0.4,
-                                decoration: TextDecoration.none,
-                                fontSize: 11,
-                                color: blackColor,
-                                fontWeight: FontWeight.w500,
-                              ),
+                              style:
+                                  Theme.of(context).primaryTextTheme.headline3,
                             ),
                           ),
                           SizedBox(width: 10),
                           Container(
                               padding: EdgeInsets.only(left: 0),
                               child: Icon(
-                                Icons.location_on_outlined,
+                                CupertinoIcons.location,
                                 size: 20,
                               )),
                           Container(
@@ -206,13 +207,8 @@ class _PageResturantState extends State<PageResturant>
                             child: Text(
                               "${(resturant.distance / 1000).toStringAsFixed(1)} km",
                               textAlign: TextAlign.center,
-                              style: TextStyle(
-                                letterSpacing: 0.4,
-                                decoration: TextDecoration.none,
-                                fontSize: 11,
-                                color: blackColor,
-                                fontWeight: FontWeight.w500,
-                              ),
+                              style:
+                                  Theme.of(context).primaryTextTheme.headline3,
                             ),
                           ),
                         ],
@@ -223,7 +219,7 @@ class _PageResturantState extends State<PageResturant>
                       borderOnForeground: false,
                       margin: EdgeInsets.only(top: 10),
                       child: Container(
-                        color: greyLightColor,
+                        color: Theme.of(context).backgroundColor,
                         child: Container(
                           color: whiteColor,
                           margin: EdgeInsets.only(top: 8, bottom: 8),
@@ -237,13 +233,15 @@ class _PageResturantState extends State<PageResturant>
               expandedHeight: 400.0,
 //========================================= TabBar =============================
               bottom: TabBar(
-                labelStyle:
-                    TextStyle(fontSize: 12, fontWeight: FontWeight.w500),
+                labelStyle: Theme.of(context).tabBarTheme.labelStyle,
                 isScrollable: true,
                 indicatorColor: primaryColor,
-                labelColor: blackColor,
-                unselectedLabelColor: blackColor,
+                labelColor: Theme.of(context).tabBarTheme.labelColor,
+                unselectedLabelColor:
+                    Theme.of(context).tabBarTheme.unselectedLabelColor,
                 indicatorWeight: 4,
+                unselectedLabelStyle:
+                    Theme.of(context).tabBarTheme.unselectedLabelStyle,
                 tabs: [
                   for (int i = 0; i < resturant.products.length; i++)
                     Tab(text: resturant.products[i].nameProducts),
@@ -298,7 +296,8 @@ class _PageResturantState extends State<PageResturant>
                                                 .size
                                                 .width,
                                             decoration: BoxDecoration(
-                                              color: whiteColor,
+                                              color: Theme.of(context)
+                                                  .scaffoldBackgroundColor,
                                               borderRadius: BorderRadius.only(
                                                 topRight: Radius.circular(
                                                   20,
@@ -353,8 +352,8 @@ class _PageResturantState extends State<PageResturant>
                                                                 ),
                                                                 IconButton(
                                                                   icon: Icon(
-                                                                    Icons
-                                                                        .cancel,
+                                                                    CupertinoIcons
+                                                                        .clear_circled_solid,
                                                                   ),
                                                                   onPressed:
                                                                       () {
@@ -366,18 +365,19 @@ class _PageResturantState extends State<PageResturant>
                                                             ),
                                                             Text(
                                                               'subTitle',
-                                                              style: TextStyle(
-                                                                fontSize: 12,
-                                                                color:
-                                                                    blackColor,
-                                                              ),
-                                                            ),
-                                                            SizedBox(
-                                                              height: 3,
+                                                              style: Theme.of(
+                                                                      context)
+                                                                  .primaryTextTheme
+                                                                  .subtitle1,
                                                             ),
                                                           ],
                                                         ),
                                                       ),
+                                                    ),
+                                                    Container(
+                                                      color: greyColor,
+                                                      width: double.infinity,
+                                                      height: 2,
                                                     ),
 
 //======================================================================== Allergene & Zusatzstoffe =======================
@@ -392,8 +392,8 @@ class _PageResturantState extends State<PageResturant>
                                                         child: Row(
                                                           children: [
                                                             Icon(
-                                                              Icons
-                                                                  .error_outline_sharp,
+                                                              CupertinoIcons
+                                                                  .info,
                                                               color:
                                                                   primaryColor,
                                                             ),
@@ -413,66 +413,62 @@ class _PageResturantState extends State<PageResturant>
                                                       ),
                                                     ),
                                                     Container(
+                                                      color: greyColor,
                                                       width: double.infinity,
-                                                      height: 10,
-                                                      color: greyLightColor,
+                                                      height: 2,
                                                     ),
 //=================================================================================== Extraauflagen =======================
                                                     Expanded(
                                                       flex: 1,
-                                                      child: Padding(
-                                                        padding:
-                                                            const EdgeInsets
-                                                                .symmetric(
-                                                          vertical: 8,
-                                                        ),
-                                                        child: MaterialButton(
-                                                          onPressed: () {},
-                                                          child: Row(
-                                                            mainAxisAlignment:
-                                                                MainAxisAlignment
-                                                                    .spaceBetween,
-                                                            children: [
-                                                              Column(
-                                                                crossAxisAlignment:
-                                                                    CrossAxisAlignment
-                                                                        .start,
-                                                                children: [
-                                                                  Text(
-                                                                    '1. Extraauflagen',
-                                                                    style:
-                                                                        TextStyle(
-                                                                      fontSize:
-                                                                          14,
-                                                                    ),
+                                                      child: MaterialButton(
+                                                        onPressed: () {},
+                                                        child: Row(
+                                                          mainAxisAlignment:
+                                                              MainAxisAlignment
+                                                                  .spaceBetween,
+                                                          children: [
+                                                            Column(
+                                                              mainAxisAlignment:
+                                                                  MainAxisAlignment
+                                                                      .center,
+                                                              crossAxisAlignment:
+                                                                  CrossAxisAlignment
+                                                                      .start,
+                                                              children: [
+                                                                Text(
+                                                                  '1. Extraauflagen',
+                                                                  style:
+                                                                      TextStyle(
+                                                                    fontSize:
+                                                                        14,
                                                                   ),
-                                                                  Text(
-                                                                    'Optional',
-                                                                    style:
-                                                                        TextStyle(
-                                                                      fontSize:
-                                                                          12,
-                                                                      color:
-                                                                          blackColor,
-                                                                    ),
-                                                                  ),
-                                                                ],
-                                                              ),
-                                                              Icon(
-                                                                Icons
-                                                                    .keyboard_arrow_down_outlined,
-                                                                color:
-                                                                    primaryColor,
-                                                                size: 50,
-                                                              )
-                                                            ],
-                                                          ),
+                                                                ),
+                                                                SizedBox(
+                                                                  height: 5,
+                                                                ),
+                                                                Text(
+                                                                  'Optional',
+                                                                  style: Theme.of(
+                                                                          context)
+                                                                      .primaryTextTheme
+                                                                      .subtitle1,
+                                                                ),
+                                                              ],
+                                                            ),
+                                                            Icon(
+                                                              CupertinoIcons
+                                                                  .chevron_down,
+                                                              color:
+                                                                  primaryColor,
+                                                              size: 30,
+                                                            )
+                                                          ],
                                                         ),
                                                       ),
                                                     ),
 
                                                     Container(
-                                                      color: greyLightColor,
+                                                      color: greyColor,
                                                       height: 2,
                                                       width:
                                                           MediaQuery.of(context)
@@ -483,40 +479,34 @@ class _PageResturantState extends State<PageResturant>
 //============================================================================ Kommentare hinzufügen =======================
                                                     Expanded(
                                                       flex: 1,
-                                                      child: Padding(
-                                                        padding:
-                                                            const EdgeInsets
-                                                                .symmetric(
-                                                          vertical: 10,
-                                                        ),
-                                                        // ignore: deprecated_member_use
-                                                        child: FlatButton(
-                                                          onPressed: () {},
-                                                          child: Row(
-                                                            children: [
-                                                              Icon(
-                                                                Icons
-                                                                    .comment_rounded,
-                                                                size: 25,
+                                                      child: MaterialButton(
+                                                        onPressed: () {},
+                                                        child: Row(
+                                                          children: [
+                                                            Icon(
+                                                              CupertinoIcons
+                                                                  .bubble_right,
+                                                              size: 25,
+                                                              color:
+                                                                  primaryColor,
+                                                            ),
+                                                            SizedBox(
+                                                              width: 5,
+                                                            ),
+                                                            Text(
+                                                              'Kommentar hinzufügen',
+                                                              style: TextStyle(
                                                                 color:
                                                                     primaryColor,
+                                                                fontSize: 14,
                                                               ),
-                                                              Text(
-                                                                'Kommentar hinzufügen',
-                                                                style:
-                                                                    TextStyle(
-                                                                  color:
-                                                                      primaryColor,
-                                                                  fontSize: 14,
-                                                                ),
-                                                              ),
-                                                            ],
-                                                          ),
+                                                            ),
+                                                          ],
                                                         ),
                                                       ),
                                                     ),
                                                     Container(
-                                                      color: greyLightColor,
+                                                      color: greyColor,
                                                       height: 2,
                                                       width:
                                                           MediaQuery.of(context)
@@ -533,8 +523,8 @@ class _PageResturantState extends State<PageResturant>
                                                         children: [
                                                           IconButton(
                                                             icon: Icon(
-                                                              Icons
-                                                                  .do_disturb_on_outlined,
+                                                              CupertinoIcons
+                                                                  .minus_circle,
                                                               size: 40,
                                                               color: counterBloc
                                                                           .state <
@@ -589,8 +579,8 @@ class _PageResturantState extends State<PageResturant>
                                                           ),
                                                           IconButton(
                                                             icon: Icon(
-                                                              Icons
-                                                                  .add_circle_outline_sharp,
+                                                              CupertinoIcons
+                                                                  .add_circled,
                                                               size: 40,
                                                               color:
                                                                   primaryColor,
@@ -732,8 +722,8 @@ class _PageResturantState extends State<PageResturant>
                                                                     .spaceBetween,
                                                             children: [
                                                               Icon(
-                                                                Icons
-                                                                    .shopping_bag,
+                                                                CupertinoIcons
+                                                                    .bag,
                                                                 color:
                                                                     whiteColor,
                                                                 size: 35,
@@ -787,8 +777,9 @@ class _PageResturantState extends State<PageResturant>
                                   children: [
                                     Text(
                                       product.nameProduct,
-                                      style: TextStyle(
-                                          fontWeight: FontWeight.w400),
+                                      style: Theme.of(context)
+                                          .primaryTextTheme
+                                          .headline2,
                                     ),
                                   ],
                                 ),
@@ -796,8 +787,9 @@ class _PageResturantState extends State<PageResturant>
                                   children: [
                                     Text(
                                       '\€ ${product.price.toString().padRight(4, "0")}',
-                                      style: TextStyle(
-                                          fontWeight: FontWeight.w400),
+                                      style: Theme.of(context)
+                                          .primaryTextTheme
+                                          .headline2,
                                     ),
                                     SizedBox(width: 10),
                                     Stack(
@@ -810,12 +802,11 @@ class _PageResturantState extends State<PageResturant>
                                               border: Border.all(
                                                 color: greyColor,
                                               ),
-                                              // color: Colors.green[700],
                                               borderRadius:
                                                   BorderRadius.circular(3)),
                                         ),
                                         Icon(
-                                          Icons.add_sharp,
+                                          CupertinoIcons.add,
                                           color: primaryColor,
                                           size: 20,
                                         ),

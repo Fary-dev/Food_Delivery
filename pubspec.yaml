@@ -37,15 +37,17 @@ dependencies:
   provider: ^5.0.0
   firebase_core: ^1.0.3
   firebase_database: ^6.1.2
-  firebase_analytics: ^8.0.0 
+  firebase_analytics: ^9.0.5 
   firebase_auth: ^1.0.3
   cloud_firestore: ^1.0.4
   flutter_bloc: ^7.0.0
-  bloc: ^7.0.0
+  bloc: ^7.2.1
   google_maps_flutter: ^2.0.3
   http: ^0.13.2
   google_sign_in: ^5.0.2
   get: ^4.1.4
+  geocoding: ^2.0.2
+  animations: ^2.0.2
 
 
 dev_dependencies:

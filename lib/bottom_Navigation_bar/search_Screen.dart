@@ -1,7 +1,11 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+
+import 'package:get/get.dart';
 
 import 'package:mjam/Contants/Color.dart';
 import 'package:mjam/Screens/Resturants/pageResturant.dart';
+import 'package:mjam/Widgets/BottomNavBarWidget.dart';
 import 'package:mjam/models_and_data/Class/models_and_data.dart';
 
 class Searching extends StatefulWidget {
@@ -34,26 +38,62 @@ class _SearchingState extends State<Searching> {
     return SafeArea(
       child: Scaffold(
         appBar: AppBar(
+          backgroundColor: Theme.of(context).appBarTheme.backgroundColor,
           automaticallyImplyLeading: false,
-          flexibleSpace: Container(
-            color: whiteColor,
-            height: 60,
-            width: MediaQuery.of(context).size.width,
-            child: TextField(
-              keyboardType: TextInputType.text,
-              controller: _textEditingController,
-              decoration: InputDecoration(
-                hintText: "Resturant suchen...",
-                prefixIcon: Icon(
-                  Icons.search,
-                  size: 25,
-                  color: primaryColor,
+          flexibleSpace: Row(
+            children: [
+              IconButton(
+                  onPressed: () {
+                    Get.to(() => BottomNavBarWidget());
+                  },
+                  icon: Icon(
+                    CupertinoIcons.arrow_left,
+                  )),
+              Expanded(
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 7.0),
+                  child: TextField(
+                    style: Theme.of(context)
+                        .primaryTextTheme
+                        .headline3
+                        .apply(fontSizeDelta: 2),
+                    keyboardType: TextInputType.text,
+                    controller: _textEditingController,
+                    textAlignVertical: TextAlignVertical.center,
+                    decoration: InputDecoration(
+                      hintTextDirection: TextDirection.ltr,
+                      filled: true,
+                      contentPadding: EdgeInsets.symmetric(horizontal: 10.0),
+                      fillColor: Theme.of(context).scaffoldBackgroundColor,
+                      hintText: "Resturant suchen...",
+                      hintStyle: Theme.of(context).primaryTextTheme.subtitle1,
+                      suffixIcon: _textEditingController.text != ''
+                          ? IconButton(
+                              onPressed: () {
+                                _textEditingController.clear();
+                                searchList.clear();
+                                setState(() {});
+                              },
+                              icon: Icon(
+                                CupertinoIcons.clear_circled_solid,
+                                // Icons.cancel_outlined,
+                                size: 20,
+                                color: primaryColor,
+                              ),
+                            )
+                          : Icon(
+                              CupertinoIcons.search,
+                              color: Colors.grey[500],
+                            ),
+                      border: OutlineInputBorder(
+                          borderSide: BorderSide.none,
+                          borderRadius: BorderRadius.circular(10)),
+                    ),
+                    onChanged: _onChange,
+                  ),
                 ),
-                border:
-                    OutlineInputBorder(borderRadius: BorderRadius.circular(0)),
               ),
-              onChanged: _onChange,
-            ),
+            ],
           ),
         ),
         body: ListView.builder(
@@ -72,10 +112,11 @@ class _SearchingState extends State<Searching> {
                             PageResturant(resturant: listViewSearch)));
               },
               child: Card(
+                color: Theme.of(context).cardColor,
                 child: Row(
                   children: [
                     Padding(
-                      padding: const EdgeInsets.only(left: 10),
+                      padding: const EdgeInsets.all(10.0),
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
@@ -88,7 +129,7 @@ class _SearchingState extends State<Searching> {
                           ),
                           Text(
                             listViewSearch.description,
-                            style: Theme.of(context).primaryTextTheme.bodyText2,
+                            style: Theme.of(context).primaryTextTheme.subtitle1,
                           ),
                         ],
                       ),

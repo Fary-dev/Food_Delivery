@@ -1,6 +1,5 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get/get.dart';
 import 'package:mjam/Contants/Color.dart';
@@ -25,16 +24,11 @@ class _ShoppingCartsState extends State<ShoppingCarts> {
   final ShoppingCartController shoppingCartController =
       Get.put(ShoppingCartController());
 
-  // List<bool> commendSelect =[];
-  // List<bool> buttonCheck=[] ;
-  /*  @override
-  void dispose() {
-   super.dispose();
-   for (TextEditingController c in listController) {
-      c.dispose();
-     }
-   }
-*/
+  @override
+  void initState() {
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     final CounterBloc counterBloc = BlocProvider.of<CounterBloc>(context);
@@ -47,7 +41,7 @@ class _ShoppingCartsState extends State<ShoppingCarts> {
         leading: productBloc.cartOrder.length != 0
             ? IconButton(
                 icon: Icon(
-                  Icons.menu,
+                  CupertinoIcons.arrow_left,
                   color: primaryColor,
                 ),
                 onPressed: () {
@@ -57,12 +51,12 @@ class _ShoppingCartsState extends State<ShoppingCarts> {
                 },
               )
             : Icon(
-                Icons.menu,
+                CupertinoIcons.arrow_left,
                 color: Colors.transparent,
               ),
         title: Text(
           "Deine Warenkörbe",
-          style: Theme.of(context).primaryTextTheme.headline6,
+          style: Theme.of(context).primaryTextTheme.button,
         ),
         actions: [
           productBloc.cartOrder.length != 0
@@ -338,6 +332,15 @@ class _ShoppingCartsState extends State<ShoppingCarts> {
                                                                             10.0),
                                                                     child:
                                                                         TextFormField(
+                                                                      textAlignVertical:
+                                                                          TextAlignVertical
+                                                                              .bottom,
+                                                                      style: Theme.of(
+                                                                              context)
+                                                                          .primaryTextTheme
+                                                                          .headline3
+                                                                          .copyWith(
+                                                                              fontSize: 14),
                                                                       controller:
                                                                           shoppingCartController
                                                                               .listController[index],
@@ -360,11 +363,6 @@ class _ShoppingCartsState extends State<ShoppingCarts> {
                                                                       },
                                                                       maxLines:
                                                                           1,
-                                                                      style: TextStyle(
-                                                                          color:
-                                                                              blackColor,
-                                                                          fontSize:
-                                                                              14),
                                                                     ),
                                                                   ),
                                                                 ),
@@ -439,259 +437,145 @@ class _ShoppingCartsState extends State<ShoppingCarts> {
                                         padding: const EdgeInsets.all(20),
                                         child: Container(
                                           child: state.orderList.length == 0
-                                              ? Text(
-                                                  '0.00',
-                                                  style: TextStyle(
-                                                      color: primaryColor,
-                                                      fontSize: 30),
-                                                )
-                                              : Center(
-                                                  child: Text(
-                                                    state.orderList
-                                                        .reduce((x, y) => Order(
-                                                            totalPrise: x
-                                                                    .totalPrise +
-                                                                y.totalPrise))
-                                                        .totalPrise
-                                                        .toStringAsFixed(2),
-                                                    style: TextStyle(
-                                                        color: primaryColor,
-                                                        fontSize: 30),
-                                                  ),
+                                              ? Text('')
+                                              : Column(
+                                                  children: [
+                                                    Row(
+                                                      children: [
+                                                        RichText(
+                                                          text: TextSpan(
+                                                              children: [
+                                                                TextSpan(
+                                                                    text:
+                                                                        'Gesamt',
+                                                                    style: Theme.of(
+                                                                            context)
+                                                                        .primaryTextTheme
+                                                                        .headline2
+                                                                        .copyWith(
+                                                                            fontSize:
+                                                                                18)),
+                                                                TextSpan(
+                                                                    text: ' '),
+                                                                TextSpan(
+                                                                  text:
+                                                                      '(inkl.Mwst.)',
+                                                                  style: Theme.of(
+                                                                          context)
+                                                                      .primaryTextTheme
+                                                                      .headline3
+                                                                      .copyWith(
+                                                                          fontSize:
+                                                                              10),
+                                                                ),
+                                                              ]),
+                                                        ),
+                                                        Spacer(),
+                                                        Text(
+                                                          '${state.orderList.reduce((x, y) => Order(totalPrise: x.totalPrise + y.totalPrise)).totalPrise.toStringAsFixed(2)} \€',
+                                                          style: Theme.of(
+                                                                  context)
+                                                              .primaryTextTheme
+                                                              .bodyText2
+                                                              .copyWith(
+                                                                  fontSize: 18),
+                                                        ),
+                                                      ],
+                                                    ),
+                                                    SizedBox(
+                                                      width:
+                                                          MediaQuery.of(context)
+                                                              .size
+                                                              .width,
+                                                      child: ElevatedButton(
+                                                        style: ElevatedButton
+                                                            .styleFrom(
+                                                          shape: RoundedRectangleBorder(
+                                                              borderRadius:
+                                                                  BorderRadius
+                                                                      .circular(
+                                                                          10)),
+                                                          primary: primaryColor,
+                                                          textStyle: Theme.of(
+                                                                  context)
+                                                              .primaryTextTheme
+                                                              .button,
+                                                        ),
+                                                        child: Text(
+                                                          "Zahlung und Adresse Überprüfen",
+                                                          style: Theme.of(
+                                                                  context)
+                                                              .primaryTextTheme
+                                                              .button
+                                                              .copyWith(
+                                                                  fontSize: 14),
+                                                        ),
+                                                        onPressed: () {
+                                                          Get.off(
+                                                              () => HomePage());
+                                                        },
+                                                      ),
+                                                    )
+                                                  ],
                                                 ),
                                         ),
                                       )
                                     ],
                                   )
-                                : null,
+                                : Container(),
                   ),
                 ),
               ],
             )
           : Center(
               child: Column(
+                mainAxisAlignment: MainAxisAlignment.end,
                 children: <Widget>[
-                  Container(
-                    margin: EdgeInsets.all(60),
-                    child: Text('Bitte lege etwas in den Warenkorb.'),
-                  ),
-                  Container(
+                  SizedBox(
                     height: 80,
                     width: 80,
-                    margin: EdgeInsets.all(0),
-                    child: Image.asset('assets/korb.png'),
-                  ),
-                  Container(
-                      child: CupertinoButton(
-                    child: new Text(
-                      "Zur Resturantliste",
-                      textAlign: TextAlign.center,
-                      style: new TextStyle(color: primaryColor),
+                    child: ColorFiltered(
+                      child: Image.asset(
+                        "assets/korb.png",
+                        fit: BoxFit.fitWidth,
+                      ),
+                      colorFilter:
+                          ColorFilter.mode(Colors.grey, BlendMode.srcIn),
                     ),
+                  ),
+                  SizedBox(
+                    height: 10,
+                  ),
+                  Text(
+                    'Bitte lege etwas in den Warenkörb.',
+                    style: Theme.of(context)
+                        .textTheme
+                        .headline3
+                        .apply(fontSizeDelta: -30),
+                  ),
+                  SizedBox(
+                    height: 240,
+                  ),
+                  TextButton(
                     onPressed: () {
                       Get.to(() => HomePage());
                     },
-                  )),
+                    child: Text(
+                      "Zur Resturantliste",
+                      textAlign: TextAlign.center,
+                      style: Theme.of(context)
+                          .textTheme
+                          .button
+                          .apply(color: primaryColor, fontSizeDelta: 1),
+                    ),
+                  ),
+                  SizedBox(
+                    height: 50,
+                  ),
                 ],
               ),
             ),
+      //
     );
   }
-/*
-  buildColumn(
-      BuildContext context,
-      SuccessState state,
-      int count,
-      Product _order,
-      ProductBloc productBloc,
-      CounterBloc counterBloc,
-      int index,
-      listController) {
-    return Container(
-      padding: EdgeInsets.only(right: 10.0),
-      width: MediaQuery.of(context).size.width - 30,
-      child: Obx(
-        ()=> Column(
-          children: [
-            Row(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: [
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: [
-                    IconButton(
-                      icon: Icon(
-                        CupertinoIcons.minus,
-                        size: 20,
-                        color: primaryColor,
-                      ),
-                      onPressed: () {
-                        print(state.orderList.length);
-                        if (count > 1) {
-                          var selectProduct = state.orderList
-                              .firstWhere((order) => order.product == _order);
-                          state.orderList.remove(selectProduct);
-                        } else if (state.orderList.length == 1) {
-                          productBloc.add(ClearAllCart());
-                          counterBloc.add(CounterEvent(
-                              value: 1, status: EventStatus.clearAll));
-                        } else {
-                          var selectProduct = state.orderList
-                              .firstWhere((order) => order.product == _order);
-                          state.orderList.remove(selectProduct);
-                          state.setMyProductsList.remove(_order);
-                        }
-                        if (state.setMyProductsList.isEmpty) {
-                          productBloc.add(ClearAllCart());
-                          counterBloc.add(CounterEvent(
-                              value: 1, status: EventStatus.clearAll));
-                        }
-
-                        print(state.orderList.length);
-                        setState(() {});
-                      },
-                    ),
-                    Text(
-                      count.toString(),
-                    ),
-                    IconButton(
-                      icon: Icon(
-                        CupertinoIcons.add,
-                        size: 20,
-                        color: primaryColor,
-                      ),
-                      onPressed: () {
-                        setState(() {
-                          productBloc.add(AddToCart(
-                              product: _order,
-                              order: Order(
-                                  totalPrise: _order.price,
-                                  quantity: 1,
-                                  product: _order,
-                                  resturant: state.orderList[index].resturant)));
-                        });
-                      },
-                    ),
-                  ],
-                ),
-                Expanded(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      SizedBox(height: 15),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Text(
-                            _order.nameProduct,
-                          ),
-                          Text(
-                            '\€ ${(count * _order.price).toStringAsFixed(2)}',
-                          )
-                        ],
-                      ),
-                      Container(
-                          padding: EdgeInsets.only(left: 0.0),
-                          child: Text('+ souce',
-                              style: TextStyle(color: greyColor))),
-                      Obx(
-                          ()=> Container(
-                          padding: EdgeInsets.only(left: 0.0),
-                          child: shoppingCartController.commendSelect[index] == false && listController[index].text==''
-                              ? SizedBox(
-                                  height: 32,
-                                  child: TextButton(
-                                      onPressed: () {
-
-                                          shoppingCartController.commendSelect[index] = true;
-                                          shoppingCartController.buttonCheck[index] = false;
-
-                                      },
-                                      child: Text(
-                                        'Kommentar hinzufügen',
-                                        style: TextStyle(color: primaryColor),
-                                      )),
-                                )
-                              : null,
-                        ),
-                      ),
-                    ],
-                  ),
-                )
-              ],
-            ),
-            shoppingCartController.commendSelect[index] == true||listController[index].text!=''
-                ? SizedBox(
-                    height: 35,
-                    child: Row(
-                      children: [
-                        Expanded(
-                          child: Padding(
-                            padding: const EdgeInsets.symmetric(horizontal: 10.0),
-                            child: TextFormField(
-                                controller: listController[index],
-                                keyboardType: TextInputType.text,
-                                decoration: InputDecoration(
-                                  hintText: 'Kommentare..',
-                                ),
-                                onSaved: (value) {
-                                  setState(() {
-                                    if (value != null) {
-                                      listController[index].text =
-                                          value;
-
-                                    }
-                                  });
-                                },
-                                maxLines: 1,
-                                style: TextStyle(color: blackColor, fontSize: 14),
-                              ),
-
-                          ),
-                        ),
-                         MaterialButton(
-                            padding: EdgeInsets.all(5),
-                            onPressed: () {
-                              if (listController[index].text !=
-                                      '' &&
-                                  shoppingCartController.buttonCheck[index] == false) {
-                                shoppingCartController. buttonCheck[index] = true;
-                              } else {
-                                shoppingCartController.commendSelect[index] = false;
-                                listController[index].text='';
-
-                              }
-                              setState(() {});
-                            },
-                            child: Text(
-                                listController[index].text != ''
-                                     && shoppingCartController.buttonCheck[index] == true
-
-                                    ? 'Entfernen'.toUpperCase()
-                                    : 'Hinzufügen'.toUpperCase(),
-                                style: TextStyle(
-                                  fontSize: 12,
-                                  color: Colors.white,
-                                ),
-                              ),
-
-                            color: listController[index].text !=
-                                        '' &&
-                                shoppingCartController.buttonCheck[index] == true &&
-                                    listController[index].text !=
-                                        null
-                                ? Colors.red
-                                : Colors.green,
-                          ),
-
-                      ],
-                    ),
-                  )
-                : Text(''),
-          ],
-        ),
-      ),
-    );
-  }*/
 }

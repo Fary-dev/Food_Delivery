@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:mjam/Contants/Color.dart';
 import 'package:mjam/Screens/First_Page/First_Location_controller.dart';
+import 'package:mjam/Screens/Resturants/pageResturant.dart';
 import 'package:mjam/Widgets/Rating.dart';
 import 'package:mjam/models_and_data/Class/models_and_data.dart';
 
@@ -67,140 +68,158 @@ class _MapScreenState extends State<MapScreen> {
         );
       },
       child: InkWell(
-        onTap: () {},
+        onTap: () {
+          Get.to(PageResturant(
+            resturant: resturants[index],
+          ));
+        },
         child: Stack(
           children: [
-            Center(
+            Container(
+              margin: EdgeInsets.symmetric(horizontal: 10, vertical: 20),
+              height: 200.0,
+              width: 280.0,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(10.0),
+                boxShadow: [
+                  BoxShadow(
+                      color: Theme.of(context).iconTheme.color,
+                      blurRadius: 5,
+                      offset: Offset(0.0, 1.0)),
+                  BoxShadow(
+                      color: Theme.of(context).iconTheme.color,
+                      blurRadius: 5,
+                      offset: Offset(1.0, 0.0))
+                ],
+              ),
               child: Container(
-                margin: EdgeInsets.symmetric(horizontal: 10, vertical: 20),
-                height: 200.0,
-                width: 280.0,
                 decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(10.0),
-                  boxShadow: [
-                    BoxShadow(
-                        color: blackColor,
-                        blurRadius: 10,
-                        offset: Offset(0.0, 4.0))
-                  ],
-                ),
-                child: Container(
-                  decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(10),
-                      color: whiteColor),
-                  child: Stack(
-                    children: [
-                      Positioned(
-                          top: 15,
-                          left: 10,
-                          child: Text(
-                            resturants[index].nameResturant,
-                            style: TextStyle(
-                                fontWeight: FontWeight.bold, fontSize: 12),
-                          )),
-                      Positioned(
-                          top: 35,
-                          left: 10,
-                          child: Text(
-                            resturants[index].description,
-                            style: TextStyle(fontSize: 10, color: greyColor),
-                          )),
-                      Positioned(
-                          top: 70,
-                          left: 10,
-                          child: Row(
-                            children: [
-                              Icon(
-                                Icons.location_on_outlined,
-                                color: primaryColor,
-                                size: 15,
-                              ),
-                              Text(
-                                resturants[index].address,
-                                style: TextStyle(
-                                    color: primaryColor, fontSize: 10),
-                              ),
-                            ],
-                          )),
-                      Positioned(
+                    borderRadius: BorderRadius.circular(10),
+                    color: Theme.of(context).scaffoldBackgroundColor),
+                child: Stack(
+                  children: [
+                    Positioned(
                         top: 15,
-                        right: 15,
-                        child: Container(
-                          height: 30,
-                          width: 60,
-                          decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(5),
-                              image: DecorationImage(
-                                  image: ExactAssetImage(
-                                    resturants[index].logoResturant,
-                                  ),
-                                  fit: BoxFit.fill)),
-                        ),
-                      ),
-                      Positioned(
-                          bottom: 10,
-                          child: Padding(
-                            padding: EdgeInsets.symmetric(horizontal: 10),
-                            child: Container(
-                              width: 255,
-                              child: Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Column(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    children: [
-                                      Text(
-                                        '${resturants[index].ratingResturant} Bewertungen',
-                                        style: TextStyle(
-                                            color: greyColor, fontSize: 10),
-                                      ),
-                                      Container(
-                                        height: 20,
-                                        width: 85,
-                                        child: rating(20.0, 80.0, 15.0),
-                                      )
-                                    ],
-                                  ),
-                                  Column(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    children: [
-                                      Text(
-                                        'Distanz',
-                                        style: TextStyle(
-                                            color: greyColor, fontSize: 10),
-                                      ),
-                                      Text(
-                                        '${resturants[index].distance} km',
-                                        style: TextStyle(
-                                            fontSize: 11,
-                                            fontWeight: FontWeight.bold),
-                                      )
-                                    ],
-                                  ),
-                                  Column(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    children: [
-                                      Text(
-                                        'AbholZeit',
-                                        style: TextStyle(
-                                            color: greyColor, fontSize: 10),
-                                      ),
-                                      Text(
-                                        'ca.${resturants[index].deliveryDuration} min',
-                                        style: TextStyle(
-                                            fontSize: 11,
-                                            fontWeight: FontWeight.bold),
-                                      )
-                                    ],
-                                  )
-                                ],
+                        left: 10,
+                        child: Text(resturants[index].nameResturant,
+                            style: Theme.of(context)
+                                .primaryTextTheme
+                                .headline2
+                                .copyWith(fontSize: 14))),
+                    Positioned(
+                        top: 35,
+                        left: 10,
+                        child: Text(
+                          resturants[index].description,
+                          style: Theme.of(context).primaryTextTheme.subtitle1,
+                        )),
+                    Positioned(
+                        top: 70,
+                        left: 10,
+                        child: Row(
+                          children: [
+                            Icon(
+                              CupertinoIcons.map_pin,
+                              color: primaryColor,
+                              size: 15,
+                            ),
+                            Text(
+                              resturants[index].address,
+                              style: TextStyle(
+                                color: primaryColor,
+                                fontSize: 10,
+                                fontFamily: 'Open_Sans-Regular',
                               ),
                             ),
-                          )),
-                    ],
-                  ),
+                          ],
+                        )),
+                    Positioned(
+                      top: 15,
+                      right: 15,
+                      child: Container(
+                        height: 30,
+                        width: 60,
+                        decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(5),
+                            image: DecorationImage(
+                                image: ExactAssetImage(
+                                  resturants[index].logoResturant,
+                                ),
+                                fit: BoxFit.fill)),
+                      ),
+                    ),
+                    Positioned(
+                        bottom: 10,
+                        child: Padding(
+                          padding: EdgeInsets.symmetric(horizontal: 10),
+                          child: Container(
+                            width: 245,
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Column(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Text(
+                                      '${resturants[index].ratingResturant} Bewertungen',
+                                      style: Theme.of(context)
+                                          .primaryTextTheme
+                                          .headline3
+                                          .copyWith(fontSize: 10),
+                                    ),
+                                    rating(
+                                        20.0,
+                                        105.0,
+                                        12.0,
+                                        Theme.of(context)
+                                            .bottomAppBarTheme
+                                            .color),
+                                  ],
+                                ),
+                                Column(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Text(
+                                      'Distanz',
+                                      style: Theme.of(context)
+                                          .primaryTextTheme
+                                          .headline3
+                                          .copyWith(fontSize: 10),
+                                    ),
+                                    Text(
+                                      '${(resturants[index].distance / 1000).toStringAsFixed(1)} km',
+                                      style: Theme.of(context)
+                                          .primaryTextTheme
+                                          .headline3
+                                          .copyWith(fontSize: 10),
+                                    )
+                                  ],
+                                ),
+                                Column(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Text(
+                                      'AbholZeit',
+                                      style: Theme.of(context)
+                                          .primaryTextTheme
+                                          .headline3
+                                          .copyWith(fontSize: 10),
+                                    ),
+                                    Text(
+                                      'ca.${resturants[index].deliveryDuration} min',
+                                      style: Theme.of(context)
+                                          .primaryTextTheme
+                                          .headline3
+                                          .copyWith(fontSize: 10),
+                                    )
+                                  ],
+                                )
+                              ],
+                            ),
+                          ),
+                        )),
+                  ],
                 ),
               ),
             ),
@@ -251,14 +270,12 @@ class _MapScreenState extends State<MapScreen> {
               ),
             ),
           ),
-
           Positioned(
             top: 60,
-            left: 15,
+            left: 20,
             child: Container(
-              padding: EdgeInsets.all(0),
               decoration: BoxDecoration(
-                  color: whiteColor,
+                  color: Theme.of(context).cardColor,
                   shape: BoxShape.circle,
                   boxShadow: [
                     BoxShadow(
@@ -269,80 +286,14 @@ class _MapScreenState extends State<MapScreen> {
                   ]),
               child: IconButton(
                   icon: Icon(
-                    CupertinoIcons.back,
-                    color: blackColor,
+                    CupertinoIcons.arrow_left,
+                    color: Theme.of(context).iconTheme.color,
                   ),
                   onPressed: () {
                     Get.back();
                   }),
             ),
           ),
-
-          // Positioned(
-          //   top: 60,
-          //   left: 0,
-          //   right: 0,
-          //   child: Padding(
-          //     padding: const EdgeInsets.symmetric(horizontal: 0),
-          //     child: Container(
-          //       decoration: BoxDecoration(
-          //           color: whiteColor,
-          //           borderRadius: BorderRadius.circular(10),
-          //           boxShadow: [
-          //             BoxShadow(
-          //                 color: blackColor.withOpacity(0.4),
-          //                 blurRadius: 10,
-          //                 offset: Offset.zero)
-          //           ]),
-          //       child: Row(
-          //         crossAxisAlignment: CrossAxisAlignment.center,
-          //         children: [
-          //           IconButton(
-          //               icon: Icon(
-          //                 CupertinoIcons.back,
-          //                 color: blackColor,
-          //               ),
-          //               onPressed: () => Navigator.pop(context)),
-          //           //   Spacer(),
-          //           //   SizedBox(
-          //           //     width: MediaQuery.of(context).size.width * 0.60,
-          //           //     child: RichText(
-          //           //       maxLines: 1,
-          //           //       overflow: TextOverflow.ellipsis,
-          //           //       text: TextSpan(
-          //           //         children: [
-          //           //           TextSpan(
-          //           //               text: 'Abholen ',
-          //           //               style: TextStyle(
-          //           //                   color: blackColor,
-          //           //                   fontWeight: FontWeight.bold)),
-          //           //           TextSpan(
-          //           //             text: adress.defaltAdress.value.toString(),
-          //           //             style: TextStyle(
-          //           //                 color: primaryColor,
-          //           //                 fontWeight: FontWeight.bold),
-          //           //           ),
-          //           //         ],
-          //           //       ),
-          //           //     ),
-          //           //   ),
-          //           //   Spacer(),
-          //           //   IconButton(
-          //           //     icon: Icon(
-          //           //       CupertinoIcons.location_solid,
-          //           //       color: primaryColor,
-          //           //     ),
-          //           //     onPressed: () => FirebaseFirestore.instance
-          //           //         .collection('Testing')
-          //           //         .add({
-          //           //       'Timestamp': Timestamp.fromDate(DateTime.now())
-          //           //     }),
-          //           //   ),
-          //         ],
-          //       ),
-          //     ),
-          //   ),
-          // ),
           Positioned(
             bottom: 10,
             child: Container(

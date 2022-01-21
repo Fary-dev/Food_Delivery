@@ -1,14 +1,11 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'package:geocoding/geocoding.dart';
-
+import 'package:geocoder/geocoder.dart';
 import 'package:geolocator/geolocator.dart';
-import 'package:get/get.dart';
 import 'package:mjam/Contants/Color.dart';
-import 'package:mjam/Screens/First_Page/First_Location_controller.dart';
 import 'package:mjam/Screens/Home_Page/HomePage.dart';
-import 'package:mjam/Screens/Resturants/Resturant_List/Resturant_List_Controller.dart';
-import 'package:mjam/models_and_data/Class/models_and_data.dart';
+import 'package:mjam/bloc/Location_Bloc/firstLocation.dart';
+import 'package:provider/provider.dart';
 
 class LocationSet extends StatefulWidget {
   @override
@@ -16,10 +13,8 @@ class LocationSet extends StatefulWidget {
 }
 
 class _LocationSetState extends State<LocationSet> {
-  final firstAdress = Get.put(FirstPageController());
-  final ResturantListController ff = Get.put(ResturantListController());
   final Future<FirebaseApp> _fba = Firebase.initializeApp();
-
+  String strasse, hausNummer, bzirck, plz;
   bool isLoading = false;
 
   @override
@@ -29,56 +24,23 @@ class _LocationSetState extends State<LocationSet> {
     isLoading = false;
   }
 
-  getCurrentLocation() async {
-    await determinePosition().then((value) => {getPlace(value)});
+  void getCurrentLocation() async {
+    final position = await Geolocator.getCurrentPosition(
+        desiredAccuracy: LocationAccuracy.high);
+
+    final coordinates = Coordinates(position.latitude, position.longitude);
+
+    final address =
+        await Geocoder.local.findAddressesFromCoordinates(coordinates);
+    address.isNotEmpty ? isLoading = true : isLoading = false;
     setState(() {
-      isLoading = true;
+      plz = address.first.locality;
+      bzirck = address.first.postalCode;
+      hausNummer = address.first.subThoroughfare;
+      strasse = address.first.thoroughfare;
+      DefultLocation myBloc = Provider.of(context, listen: false);
+      myBloc.setLocation('$strasse $hausNummer, $plz $bzirck');
     });
-  }
-
-  void getPlace(Position pos) async {
-    List<Placemark> newPlace =
-        await placemarkFromCoordinates(pos.latitude, pos.longitude);
-    for (var res in resturants) {
-      var distanceBetweenLastTwoLocations = Geolocator.distanceBetween(
-        pos.latitude,
-        pos.longitude,
-        res.lattut,
-        res.longtut,
-      );
-      var totalDistance = distanceBetweenLastTwoLocations;
-      res.distance = totalDistance;
-    }
-
-    Placemark placemark = newPlace[0];
-    String plz = placemark.locality;
-    String bzirck = placemark.postalCode;
-    String hausNummer = placemark.subThoroughfare;
-    String strasse = placemark.thoroughfare;
-
-    firstAdress.fistUserLocation.value = '$strasse $hausNummer, $plz $bzirck';
-  }
-
-  Future<Position> determinePosition() async {
-    bool serviceEnable;
-    LocationPermission permission;
-
-    serviceEnable = await Geolocator.isLocationServiceEnabled();
-    if (!serviceEnable) {
-      return Future.error('Location service are disable.');
-    }
-    permission = await Geolocator.checkPermission();
-    if (permission == LocationPermission.denied) {
-      permission = await Geolocator.requestPermission();
-      if (permission == LocationPermission.denied) {
-        return Future.error('Location permission are denied.');
-      }
-    }
-    if (permission == LocationPermission.deniedForever) {
-      return Future.error(
-          'Location permission are permanently denied,we cannot request permission!');
-    }
-    return await Geolocator.getCurrentPosition();
   }
 
   @override
@@ -145,24 +107,30 @@ class _LocationSetState extends State<LocationSet> {
                     SizedBox(
                       height: 400,
                     ),
-                    ElevatedButton(
-                      style: ElevatedButton.styleFrom(
-                          shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(15)),
-                          primary: primaryColor,
-                          textStyle: TextStyle(
-                              fontSize: 30, fontWeight: FontWeight.bold)),
-                      child: Text(
-                        "Los geht's",
-                        style: TextStyle(
-                          fontSize: 15,
-                          color: whiteColor,
+                    InkWell(
+                      onTap: () => Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => HomePage()),
+                      ),
+                      child: Container(
+                        height: 100,
+                        width: 100,
+                        padding: const EdgeInsets.all(15.0),
+                        decoration: BoxDecoration(
+                          shape: BoxShape.circle,
+                          color: primaryColor.withOpacity(0.80),
+                        ),
+                        child: Center(
+                          child: Text(
+                            "Los geht's",
+                            style: TextStyle(
+                              fontSize: 15,
+                              color: whiteColor,
+                            ),
+                          ),
                         ),
                       ),
-                      onPressed: () {
-                        Get.off(() => HomePage());
-                      },
-                    )
+                    ),
                   ],
                 ),
               ),

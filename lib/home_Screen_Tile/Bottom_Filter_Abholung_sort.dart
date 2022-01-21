@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:mjam/Contants/Color.dart';
@@ -10,8 +11,8 @@ class BottomFilterAbholungSort extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: EdgeInsets.only(bottom: 10),
-      height: 50,
+      color: Theme.of(context).backgroundColor,
+      padding: EdgeInsets.symmetric(vertical: 5),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: <Widget>[
@@ -21,7 +22,7 @@ class BottomFilterAbholungSort extends StatelessWidget {
               containerSortirung(context);
             },
             icon: Icon(
-              Icons.sort,
+              CupertinoIcons.sort_down,
               color: primaryColor,
             ),
             label: Text(
@@ -37,7 +38,8 @@ class BottomFilterAbholungSort extends StatelessWidget {
                     borderRadius: BorderRadius.circular(10.0),
                   ),
                 ),
-                backgroundColor: MaterialStateProperty.all(whiteColor)),
+                backgroundColor: MaterialStateProperty.all(
+                    Theme.of(context).bottomAppBarTheme.color)),
           ),
 
           //____________________________Filter________________________________
@@ -63,7 +65,8 @@ class BottomFilterAbholungSort extends StatelessWidget {
                     borderRadius: BorderRadius.circular(10.0),
                   ),
                 ),
-                backgroundColor: MaterialStateProperty.all(whiteColor)),
+                backgroundColor: MaterialStateProperty.all(
+                    Theme.of(context).bottomAppBarTheme.color)),
           ),
 
           //__________________________Abholung________________________________
@@ -89,7 +92,8 @@ class BottomFilterAbholungSort extends StatelessWidget {
                     borderRadius: BorderRadius.circular(10.0),
                   ),
                 ),
-                backgroundColor: MaterialStateProperty.all(whiteColor)),
+                backgroundColor: MaterialStateProperty.all(
+                    Theme.of(context).bottomAppBarTheme.color)),
           ),
         ],
       ),
@@ -150,7 +154,10 @@ void containerSortirung(context) {
                 ),
                 Text(
                   txt,
-                  style: TextStyle(fontSize: 14, color: Colors.black),
+                  style: Theme.of(context)
+                      .primaryTextTheme
+                      .button
+                      .copyWith(fontSize: 14),
                 )
               ],
             ),
@@ -161,103 +168,95 @@ void containerSortirung(context) {
   }
 
   showModalBottomSheet(
+    isScrollControlled: true,
+    shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(top: Radius.circular(10))),
     context: context,
     builder: (BuildContext context) {
       return StatefulBuilder(
         builder: (BuildContext context, StateSetter setState) {
-          return Container(
-            color: Color(0xFF737373),
-            child: Container(
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.only(
-                  topLeft: Radius.circular(15),
-                  topRight: Radius.circular(15),
-                ),
-                color: Colors.grey[50],
+          return Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              SizedBox(
+                height: 10,
               ),
-              width: MediaQuery.of(context).size.width,
-              child: SingleChildScrollView(
-                child: Column(
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 15),
+                child: Row(
                   children: [
-                    SizedBox(
-                      height: 10,
+                    Text(
+                      'Sortiren nach...',
+                      style: Theme.of(context)
+                          .primaryTextTheme
+                          .button
+                          .copyWith(fontSize: 14),
                     ),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 15),
-                      child: Row(
-                        children: [
-                          Text(
-                            'Sortiren nach...',
-                            style: TextStyle(
-                                fontSize: 14,
-                                fontWeight: FontWeight.w500,
-                                letterSpacing: 0.5),
-                          ),
-                          Spacer(),
-                          IconButton(
-                            icon: Icon(Icons.cancel),
-                            onPressed: () {
-                              sortList.sort.value = '';
-                              Get.back();
-                            },
-                          ),
-                        ],
+                    Spacer(),
+                    IconButton(
+                      icon: Icon(
+                        CupertinoIcons.clear_circled_solid,
                       ),
-                    ),
-                    SizedBox(
-                      height: 10,
-                    ),
-                    Column(
-                      children: [
-                        btnSort(Icons.star, 'Qualität', primaryColor,
-                            greyLightColor),
-                        SizedBox(
-                          height: 10,
-                        ),
-                        btnSort(Icons.local_fire_department_rounded,
-                            'Beliebtheit', primaryColor, greyLightColor),
-                        SizedBox(
-                          height: 10,
-                        ),
-                        btnSort(
-                            Icons.timer, 'Zeit', primaryColor, greyLightColor),
-                        SizedBox(
-                          height: 10,
-                        ),
-                        btnSort(Icons.location_pin, 'Entfernung', primaryColor,
-                            greyLightColor),
-                      ],
-                    ),
-                    SizedBox(
-                      height: 30,
-                    ),
-                    Container(
-                      width: MediaQuery.of(context).size.width,
-                      height: 65,
-                      child: Obx(
-                        () => MaterialButton(
-                          elevation: 10,
-                          color: sortList.sort.value == ''
-                              ? whiteColor
-                              : primaryColor,
-                          child: Obx(() => Text(
-                                'ÜBERNEHMEN',
-                                style: TextStyle(
-                                    color: sortList.sort.value == ''
-                                        ? primaryColor
-                                        : whiteColor),
-                              )),
-                          onPressed: () {
-                            if (sortList.sort.value != '') Get.back();
-                          },
-                        ),
-                      ),
+                      onPressed: () {
+                        sortList.sort.value = '';
+                        Get.back();
+                      },
                     ),
                   ],
                 ),
               ),
-              height: 350,
-            ),
+              SizedBox(
+                height: 10,
+              ),
+              Column(
+                children: [
+                  btnSort(CupertinoIcons.star_fill, 'Qualität', primaryColor,
+                      greyLightColor),
+                  SizedBox(
+                    height: 10,
+                  ),
+                  btnSort(CupertinoIcons.flame_fill, 'Beliebtheit',
+                      primaryColor, greyLightColor),
+                  SizedBox(
+                    height: 10,
+                  ),
+                  btnSort(CupertinoIcons.timer, 'Zeit', primaryColor,
+                      greyLightColor),
+                  SizedBox(
+                    height: 10,
+                  ),
+                  btnSort(CupertinoIcons.location_solid, 'Entfernung',
+                      primaryColor, greyLightColor),
+                ],
+              ),
+              SizedBox(
+                height: 30,
+              ),
+              SizedBox(
+                height: 50,
+                width: MediaQuery.of(context).size.width,
+                child: Obx(
+                  () => MaterialButton(
+                    elevation: 10,
+                    color: sortList.sort.value == ''
+                        ? Theme.of(context).cardColor
+                        : primaryColor,
+                    child: Obx(() => Text(
+                          'ÜBERNEHMEN',
+                          style: TextStyle(
+                              fontFamily: 'Open_Sans_Bold',
+                              fontSize: 14,
+                              color: sortList.sort.value == ''
+                                  ? Theme.of(context).iconTheme.color
+                                  : whiteColor),
+                        )),
+                    onPressed: () {
+                      if (sortList.sort.value != '') Get.back();
+                    },
+                  ),
+                ),
+              ),
+            ],
           );
         },
       );
@@ -313,143 +312,122 @@ void containerFilter(context) {
               ),
             ),
           ),
-          color:
-              selectFilterItem.value == btnName ? primaryColor : greyLightColor,
+          color: selectFilterItem.value == btnName
+              ? primaryColor
+              : Theme.of(context).cardColor,
         ),
       );
     });
   }
 
   showModalBottomSheet(
+    isScrollControlled: true,
+    shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(top: Radius.circular(10))),
     context: context,
     builder: (BuildContext context) {
       return StatefulBuilder(
         builder: (BuildContext context, StateSetter setState) {
-          return Container(
-            color: Color(0xFF737373),
-            child: Container(
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.only(
-                  topLeft: Radius.circular(15),
-                  topRight: Radius.circular(15),
-                ),
-                color: Colors.grey[50],
-              ),
-              height: MediaQuery.of(context).size.height / 2.4,
-              width: MediaQuery.of(context).size.width,
-              child: SingleChildScrollView(
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  crossAxisAlignment: CrossAxisAlignment.start,
+          return Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Padding(
+                padding: EdgeInsets.all(15),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Padding(
-                      padding: EdgeInsets.all(15),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Padding(
-                            padding: const EdgeInsets.symmetric(horizontal: 20),
-                            child: Text(
-                              'Filtern nach...',
-                              style: TextStyle(
-                                  fontSize: 14,
-                                  fontWeight: FontWeight.w500,
-                                  letterSpacing: 0.5),
-                            ),
-                          ),
-                          IconButton(
-                              icon: Icon(Icons.cancel),
-                              onPressed: () {
-                                Get.back();
-                                selectFilterItem.value = '';
-                                listItemCount.value = 0;
-                              })
-                        ],
-                      ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 20),
-                      child: Text(
-                        'Mindestbestellwert',
-                        style: TextStyle(
-                            fontSize: 14,
-                            letterSpacing: 0.5,
-                            fontWeight: FontWeight.w500),
-                      ),
-                    ),
-                    SizedBox(
-                      height: 25,
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 20),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        children: [
-                          buttomFilter('Bis 10 \€', 1),
-                          SizedBox(
-                            width: 15,
-                          ),
-                          buttomFilter('Bis 20 \€', 2),
-                          SizedBox(
-                            width: 15,
-                          ),
-                          buttomFilter('Egal', 3)
-                        ],
-                      ),
-                    ),
-                    SizedBox(
-                      height: 18,
-                    ),
-                    Center(
-                      child: TextButton(
+                    Text('Filtern nach...',
+                        style: Theme.of(context)
+                            .primaryTextTheme
+                            .button
+                            .copyWith(fontSize: 14)),
+                    IconButton(
+                        icon: Icon(CupertinoIcons.clear_circled_solid),
                         onPressed: () {
+                          Get.back();
                           selectFilterItem.value = '';
                           listItemCount.value = 0;
-                        },
-                        child: Obx(
-                          () => Text(
-                            'Zurücksetzen',
-                            style: TextStyle(
-                              color: selectFilterItem.value != ''
-                                  ? primaryColor
-                                  : greyColor,
-                            ),
-                          ),
-                        ),
-                      ),
-                    ),
-                    SizedBox(
-                      height: 23,
-                    ),
-                    Container(
-                      width: MediaQuery.of(context).size.width,
-                      height: 65,
-                      child: Obx(
-                        () => MaterialButton(
-                          elevation: 10,
-                          color: selectFilterItem.value == ''
-                              ? whiteColor
-                              : primaryColor,
-                          child: Obx(
-                            () => Text(
-                              'ZEIGE ${filterList.list.length} RESTURANTS',
-                              style: TextStyle(
-                                color: selectFilterItem.value == ''
-                                    ? primaryColor
-                                    : whiteColor,
-                              ),
-                            ),
-                          ),
-                          onPressed: () {
-                            if (selectFilterItem.value != '') Get.back();
-                          },
-                        ),
-                      ),
-                    ),
+                        })
                   ],
                 ),
               ),
-            ),
+              Padding(
+                padding: const EdgeInsets.only(left: 15),
+                child: Text(
+                  'Mindestbestellwert',
+                  style: Theme.of(context)
+                      .primaryTextTheme
+                      .button
+                      .copyWith(fontSize: 14),
+                ),
+              ),
+              SizedBox(
+                height: 25,
+              ),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 20),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    buttomFilter('Bis 10 \€', 1),
+                    buttomFilter('Bis 20 \€', 2),
+                    buttomFilter('Egal', 3)
+                  ],
+                ),
+              ),
+              SizedBox(
+                height: 18,
+              ),
+              Center(
+                child: TextButton(
+                  onPressed: () {
+                    selectFilterItem.value = '';
+                    listItemCount.value = 0;
+                  },
+                  child: Obx(
+                    () => Text(
+                      'Zurücksetzen',
+                      style: TextStyle(
+                        color: selectFilterItem.value != ''
+                            ? primaryColor
+                            : greyColor,
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+              SizedBox(
+                height: 23,
+              ),
+              SizedBox(
+                width: MediaQuery.of(context).size.width,
+                height: 50,
+                child: Obx(
+                  () => MaterialButton(
+                    elevation: 10,
+                    color: selectFilterItem.value == ''
+                        ? Theme.of(context).cardColor
+                        : primaryColor,
+                    child: Obx(
+                      () => Text(
+                        'ZEIGE ${filterList.list.length} RESTURANTS',
+                        style: TextStyle(
+                          fontFamily: 'Open_Sans_Bold',
+                          fontSize: 14,
+                          color: selectFilterItem.value == ''
+                              ? Theme.of(context).iconTheme.color
+                              : whiteColor,
+                        ),
+                      ),
+                    ),
+                    onPressed: () {
+                      if (selectFilterItem.value != '') Get.back();
+                    },
+                  ),
+                ),
+              ),
+            ],
           );
         },
       );

@@ -19,72 +19,71 @@ class _FavoritScreenState extends State<FavoritScreen> {
       appBar: AppBar(
         automaticallyImplyLeading: false,
         centerTitle: true,
-        backgroundColor: whiteColor,
+        backgroundColor: Theme.of(context).appBarTheme.backgroundColor,
+        brightness: Theme.of(context).appBarTheme.brightness,
         elevation: 0,
         title: Text(
           "Mein Foodo",
-          style: Theme.of(context).primaryTextTheme.headline6,
+          style: Theme.of(context).primaryTextTheme.button,
         ),
       ),
       body: signInOrNot == false
           ? Column(
-              mainAxisAlignment: MainAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.end,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 Container(
-                  padding: EdgeInsets.only(top: 150, bottom: 15),
-                  child: Container(
-                      height: 100,
-                      width: 130,
-                      child: Image.asset(
-                        'assets/Favorit.png',
-                        fit: BoxFit.fitHeight,
-                      )),
-                ),
-                Container(
-                  padding: EdgeInsets.only(bottom: 20),
-                  child: Text(
-                    'Es ist leer hier',
-                    style: TextStyle(
-                        fontSize: 24,
-                        fontWeight: FontWeight.w900,
-                        color: greyColor),
-                  ),
-                ),
-                Container(
-                  padding: EdgeInsets.only(bottom: 30),
-                  width: 200,
-                  child: Text(
-                    'Du musst angemeldet sein, um diese '
-                    'Information sehen zu können',
-                    style: TextStyle(
-                        fontSize: 12,
-                        fontWeight: FontWeight.w900,
-                        color: greyColor),
-                    textAlign: TextAlign.center,
-                  ),
-                ),
-                Container(
-                  child: MaterialButton(
-                    minWidth: 340,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(5.0),
-                      side: BorderSide(color: primaryColor, width: 2.0),
+                  height: 60,
+                  width: 60,
+                  child: ColorFiltered(
+                    child: Image.asset(
+                      "assets/shop.png",
+                      fit: BoxFit.cover,
                     ),
-                    child: Text(
-                      'KUNDENKONTO ERSTELLEN',
-                      style: Theme.of(context)
-                          .primaryTextTheme
-                          .button
-                          .apply(color: primaryColor),
-                    ),
-                    onPressed: () {
-                      Get.to(() => SignUpScreen());
-                    },
+                    colorFilter: ColorFilter.mode(Colors.grey, BlendMode.srcIn),
                   ),
                 ),
                 SizedBox(
-                  height: 15,
+                  height: 35,
+                ),
+                Text(
+                  'Es ist leer hier',
+                  style: TextStyle(
+                      fontSize: 24,
+                      fontWeight: FontWeight.w900,
+                      color: greyColor),
+                ),
+                SizedBox(
+                  height: 10,
+                ),
+                Text(
+                  'Du musst angemeldet sein, um diese '
+                  'Information sehen zu können',
+                  style: TextStyle(
+                      fontSize: 12,
+                      fontWeight: FontWeight.w900,
+                      color: greyColor),
+                  textAlign: TextAlign.center,
+                ),
+                SizedBox(
+                  height: 100,
+                ),
+                MaterialButton(
+                  minWidth: 340,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(5.0),
+                    side: BorderSide(color: primaryColor, width: 2.0),
+                  ),
+                  child: Text(
+                    'KUNDENKONTO ERSTELLEN',
+                    style: Theme.of(context)
+                        .primaryTextTheme
+                        .button
+                        .apply(color: primaryColor),
+                  ),
+                  onPressed: () {
+                    Get.to(() => SignUpScreen());
+                  },
                 ),
                 Container(
                   child: Row(
@@ -114,35 +113,36 @@ class _FavoritScreenState extends State<FavoritScreen> {
                     ],
                   ),
                 ),
-                SizedBox(
-                  height: 15,
-                ),
-                Container(
-                  child: MaterialButton(
-                    color: primaryColor,
-                    minWidth: 340,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(5.0),
-                      side: BorderSide(color: primaryColor),
-                    ),
-                    child: Text(
-                      'ANMELDEN',
-                      style: Theme.of(context)
-                          .primaryTextTheme
-                          .button
-                          .apply(color: whiteColor),
-                    ),
-                    onPressed: () {
-                      Get.to(() => LoginScreen());
-                    },
+                MaterialButton(
+                  color: primaryColor,
+                  minWidth: 340,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(5.0),
+                    side: BorderSide(color: primaryColor),
                   ),
+                  child: Text(
+                    'ANMELDEN',
+                    style: Theme.of(context)
+                        .primaryTextTheme
+                        .button
+                        .apply(color: whiteColor),
+                  ),
+                  onPressed: () {
+                    Get.to(() => LoginScreen());
+                  },
+                ),
+                SizedBox(
+                  height: 50,
                 ),
               ],
             )
           : Center(
               child: Text(
                 'Wilkommen',
-                style: TextStyle(fontSize: 18, color: primaryColor),
+                style: Theme.of(context)
+                    .textTheme
+                    .headline3
+                    .apply(fontSizeDelta: -20),
               ),
             ),
     );
