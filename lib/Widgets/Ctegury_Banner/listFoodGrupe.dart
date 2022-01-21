@@ -1,3 +1,14 @@
+<<<<<<< HEAD
+<<<<<<< HEAD
+import 'package:flutter/material.dart';
+
+class FoodGrupe extends StatefulWidget {
+  final CateguryBanner categuryBanner;
+
+  const FoodGrupe({Key key, this.categuryBanner}) : super(key: key);
+=======
+=======
+>>>>>>> 8b751dfdac8e3c1220590962ac203aec42fcd6e8
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
@@ -10,15 +21,28 @@ class FoodGrupe extends StatefulWidget {
 
   const FoodGrupe({Key? key, this.categuryBanner}) : super(key: key);
 
+<<<<<<< HEAD
+>>>>>>> 8b751dfdac8e3c1220590962ac203aec42fcd6e8
+=======
+>>>>>>> 8b751dfdac8e3c1220590962ac203aec42fcd6e8
   @override
   _FoodGrupeState createState() => _FoodGrupeState();
 }
 
 class _FoodGrupeState extends State<FoodGrupe> {
+<<<<<<< HEAD
+<<<<<<< HEAD
+=======
+=======
+>>>>>>> 8b751dfdac8e3c1220590962ac203aec42fcd6e8
   final ResturantListController categuryFilter =
       Get.put(ResturantListController());
   RxBool indexCategury = false.obs;
 
+<<<<<<< HEAD
+>>>>>>> 8b751dfdac8e3c1220590962ac203aec42fcd6e8
+=======
+>>>>>>> 8b751dfdac8e3c1220590962ac203aec42fcd6e8
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -47,7 +71,15 @@ class _FoodGrupeState extends State<FoodGrupe> {
                             offset: Offset(1, -1),
                             color: Theme.of(context)
                                 .iconTheme
+<<<<<<< HEAD
+<<<<<<< HEAD
+                                .color
+=======
                                 .color!
+>>>>>>> 8b751dfdac8e3c1220590962ac203aec42fcd6e8
+=======
+                                .color!
+>>>>>>> 8b751dfdac8e3c1220590962ac203aec42fcd6e8
                                 .withOpacity(0.5),
                             spreadRadius: 0.2,
                             blurRadius: 5),
@@ -55,7 +87,15 @@ class _FoodGrupeState extends State<FoodGrupe> {
                             offset: Offset(-1, 1),
                             color: Theme.of(context)
                                 .iconTheme
+<<<<<<< HEAD
+<<<<<<< HEAD
+                                .color
+=======
                                 .color!
+>>>>>>> 8b751dfdac8e3c1220590962ac203aec42fcd6e8
+=======
+                                .color!
+>>>>>>> 8b751dfdac8e3c1220590962ac203aec42fcd6e8
                                 .withOpacity(0.5),
                             spreadRadius: 0.2,
                             blurRadius: 5)
@@ -64,6 +104,11 @@ class _FoodGrupeState extends State<FoodGrupe> {
                     child: MaterialButton(
                       onPressed: () {
                         categury.selected = !categury.selected;
+<<<<<<< HEAD
+<<<<<<< HEAD
+=======
+=======
+>>>>>>> 8b751dfdac8e3c1220590962ac203aec42fcd6e8
                         categuryFilter.selectFilterItem.value='';
                         categuryFilter.selectSortItem.value='';
 
@@ -145,6 +190,10 @@ class _FoodGrupeState extends State<FoodGrupe> {
                             categuryFilter.selectSortItem.value='';
                           }
                         }
+<<<<<<< HEAD
+>>>>>>> 8b751dfdac8e3c1220590962ac203aec42fcd6e8
+=======
+>>>>>>> 8b751dfdac8e3c1220590962ac203aec42fcd6e8
                         setState(() {});
                       },
                       color: Theme.of(context).primaryColor,
@@ -176,7 +225,15 @@ class _FoodGrupeState extends State<FoodGrupe> {
                       textAlign: TextAlign.center,
                       style: Theme.of(context)
                           .primaryTextTheme
+<<<<<<< HEAD
+<<<<<<< HEAD
+                          .headline6
+=======
                           .headline6!
+>>>>>>> 8b751dfdac8e3c1220590962ac203aec42fcd6e8
+=======
+                          .headline6!
+>>>>>>> 8b751dfdac8e3c1220590962ac203aec42fcd6e8
                           .apply(fontSizeDelta: -3),
                     ),
                   ),
@@ -193,7 +250,14 @@ class CateguryBanner {
   String photo;
   bool selected;
   Color colorCategury;
+<<<<<<< HEAD
+<<<<<<< HEAD
+=======
 
+>>>>>>> 8b751dfdac8e3c1220590962ac203aec42fcd6e8
+=======
+
+>>>>>>> 8b751dfdac8e3c1220590962ac203aec42fcd6e8
   CateguryBanner(this.name, this.photo, this.selected, this.colorCategury);
 }
 
@@ -201,20 +265,47 @@ final pizza =
     CateguryBanner('Pizza', "assets/pizza-slice.png", false, Color(0xFFFC186A));
 final burger =
     CateguryBanner('Burger', "assets/ber1.png", false, Color(0xFF18B3FC));
+<<<<<<< HEAD
+<<<<<<< HEAD
+final salat =
+    CateguryBanner('Salat', "assets/sa1.png", false, Color(0xFF97B500));
+final pasta =
+    CateguryBanner('Pasta', "assets/sp1.png", false, Color(0xFFF08800));
+final kebap =
+    CateguryBanner('Kebap', "assets/ke1.png", false, Color(0xFF06716A));
+=======
+=======
+>>>>>>> 8b751dfdac8e3c1220590962ac203aec42fcd6e8
 final salate =
     CateguryBanner('Salate', "assets/sa1.png", false, Color(0xFF97B500));
 final pasta =
     CateguryBanner('Pasta', "assets/sp1.png", false, Color(0xFFF08800));
 // final kebap =
 //     CateguryBanner('Kebap', "assets/ke1.png", false, Color(0xFF06716A));
+<<<<<<< HEAD
+>>>>>>> 8b751dfdac8e3c1220590962ac203aec42fcd6e8
+=======
+>>>>>>> 8b751dfdac8e3c1220590962ac203aec42fcd6e8
 final mehr =
     CateguryBanner('Mehr', "assets/Mehr.png", false, Color(0xFFA7021C));
 
 final List<CateguryBanner> listCateguryBanner = [
   pizza,
   burger,
+<<<<<<< HEAD
+<<<<<<< HEAD
+  salat,
+  pasta,
+  kebap,
+=======
   salate,
   pasta,
   // kebap,
+>>>>>>> 8b751dfdac8e3c1220590962ac203aec42fcd6e8
+=======
+  salate,
+  pasta,
+  // kebap,
+>>>>>>> 8b751dfdac8e3c1220590962ac203aec42fcd6e8
   mehr,
 ];

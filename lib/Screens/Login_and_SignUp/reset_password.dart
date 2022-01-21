@@ -1,10 +1,21 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+<<<<<<< HEAD
+<<<<<<< HEAD
+import 'package:get/get.dart';
+import 'package:mjam/Contants/Color.dart';
+=======
+=======
+>>>>>>> 8b751dfdac8e3c1220590962ac203aec42fcd6e8
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:mjam/Contants/Color.dart';
 import 'package:mjam/Widgets/customTextField.dart';
+<<<<<<< HEAD
+>>>>>>> 8b751dfdac8e3c1220590962ac203aec42fcd6e8
+=======
+>>>>>>> 8b751dfdac8e3c1220590962ac203aec42fcd6e8
 
 import 'login_screen.dart';
 
@@ -36,13 +47,28 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
     return SafeArea(
       child: Scaffold(
         appBar: AppBar(
+<<<<<<< HEAD
+<<<<<<< HEAD
+=======
           title: Text('Kennwort zrücksetzen', style: Theme.of(context).primaryTextTheme.button,),
           centerTitle: true,
+>>>>>>> 8b751dfdac8e3c1220590962ac203aec42fcd6e8
+=======
+          title: Text('Kennwort zrücksetzen', style: Theme.of(context).primaryTextTheme.button,),
+          centerTitle: true,
+>>>>>>> 8b751dfdac8e3c1220590962ac203aec42fcd6e8
           elevation: 0,
           leading: IconButton(
             icon: Icon(
               CupertinoIcons.arrow_left,
+<<<<<<< HEAD
+<<<<<<< HEAD
+=======
               color: Theme.of(context).iconTheme.color,
+>>>>>>> 8b751dfdac8e3c1220590962ac203aec42fcd6e8
+=======
+              color: Theme.of(context).iconTheme.color,
+>>>>>>> 8b751dfdac8e3c1220590962ac203aec42fcd6e8
             ),
             onPressed: () {
               Get.back();
@@ -78,6 +104,15 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
               //________________________________________E-Mail_______
               Form(
                 key: _formKey,
+<<<<<<< HEAD
+<<<<<<< HEAD
+                child: TextFormField(
+                  style: Theme.of(context)
+                      .primaryTextTheme
+                      .headline3
+=======
+=======
+>>>>>>> 8b751dfdac8e3c1220590962ac203aec42fcd6e8
                 autovalidateMode: AutovalidateMode.onUserInteraction,
                 child: CustomTextField(
                   lable: 'E-Mail',
@@ -103,12 +138,18 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
                   style: Theme.of(context)
                       .primaryTextTheme
                       .headline3!
+<<<<<<< HEAD
+>>>>>>> 8b751dfdac8e3c1220590962ac203aec42fcd6e8
+=======
+>>>>>>> 8b751dfdac8e3c1220590962ac203aec42fcd6e8
                       .apply(fontSizeDelta: 2),
                   keyboardType: TextInputType.emailAddress,
                   decoration: InputDecoration(
                     contentPadding: EdgeInsets.symmetric(horizontal: 15),
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(10),
+<<<<<<< HEAD
+<<<<<<< HEAD
                     ),
                     labelText: 'E-Mail',
                     suffixIcon: Icon(
@@ -116,6 +157,66 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
                       color: Colors.grey[500],
                       size: 18,
                     ),
+                  ),
+                  validator: validateEmail,
+                  onSaved: (input) => _email = input,
+                  controller: _emailController,
+                ),
+              ),
+              SizedBox(
+                height: 40,
+              ),
+              //__________________KUNDENKONTO_ERSTELLE___________
+              SizedBox(
+                width: MediaQuery.of(context).size.width,
+                height: 40,
+                child: MaterialButton(
+                  color: primaryColor,
+                  onPressed: resetPassword,
+                  shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.all(Radius.circular(5))),
+                  child: Text(
+                    'SCHICKE MIR MEIN PASSWORT',
+                    style: Theme.of(context)
+                        .primaryTextTheme
+                        .button
+                        .copyWith(fontSize: 14, color: Color(0xFFFFFFFF)),
+=======
+                    ),
+=======
+                    ),
+>>>>>>> 8b751dfdac8e3c1220590962ac203aec42fcd6e8
+                    labelText: 'E-Mail',
+                    suffixIcon: Icon(
+                      CupertinoIcons.mail,
+                      color: Colors.grey[500],
+                      size: 18,
+                    ),
+>>>>>>> 8b751dfdac8e3c1220590962ac203aec42fcd6e8
+                  ),
+                  validator: validateEmail,
+                  onSaved: (input) => _email = input!.trim(),
+                  controller: _emailController,
+                ),*/
+              ),
+              SizedBox(
+                height: 40,
+              ),
+              //__________________KUNDENKONTO_ERSTELLE___________
+              SizedBox(
+                width: MediaQuery.of(context).size.width,
+                height: 40,
+                child: MaterialButton(
+                  color: primaryColor,
+                  onPressed: resetPassword,
+                  shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.all(Radius.circular(5))),
+                  child: Text(
+                    'SCHICKE MIR MEIN PASSWORT',
+                    style: Theme.of(context)
+                        .primaryTextTheme
+                        .button!
+                        .copyWith(fontSize: 14, color: Color(0xFFFFFFFF)),
                   ),
                   validator: validateEmail,
                   onSaved: (input) => _email = input!.trim(),
