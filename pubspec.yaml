@@ -18,16 +18,18 @@ publish_to: 'none' # Remove this line if you wish to publish to pub.dev
 version: 1.0.0+1
 
 environment:
-  sdk: ">=2.7.0 <3.0.0"
+  sdk: ">=2.12.0 <3.0.0"
 
 dependencies:
   flutter:
     sdk: flutter
-  
+
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
-  cupertino_icons: ^1.0.2
+  cupertino_icons: ^1.0.3
+  flutter_icons: ^1.1.0
+  flutter_launcher_icons: ^0.9.2
   parallax_image: ^0.3.1+1
   intro_views_flutter: ^3.0.0
   carousel_slider: ^3.0.0
@@ -53,18 +55,19 @@ dependencies:
 dev_dependencies:
   flutter_test:
     sdk: flutter
-  smooth_star_rating: ^1.1.1
-  material_design_icons_flutter: ^4.0.5955
-  flutter_launcher_icons: ^0.9.0
+  flutter_rating_bar: ^4.0.0
   flutter_images_slider: ^0.0.2
   change_app_package_name: ^1.0.0
   tuple: ^2.0.0
-  
-  
+  material_floating_search_bar: ^0.3.4
+
+
 
 
 flutter_icons:
-  image_path: "assets/icon.png"
+  image_path: "assets/Logo/FoodoLogo.png"
+  #  image_path_android: "assets/Logo/FoodoLogo.png"
+  #  image_path_ios: "assets/Logo/FoodoLogo.png"
   ios: true
   android: true
 
@@ -84,17 +87,19 @@ flutter:
   # To add assets to your application, add an assets section, like this:
   assets:
     - assets/gim1.jpg
+    - assets/flame.png
     - assets/ham1.jpg
     - assets/obs1.jpg
     - assets/pom1.jpg
     - assets/Mc1.png
+    - assets/menu.png
     - assets/mc2.jpg
     - assets/piz1.jpg
     - assets/gg1.jpg
-    - assets/ber1.jpg
-    - assets/sa1.jpg
-    - assets/sp1.jpg
-    - assets/ke1.jpg
+    - assets/ber1.png
+    - assets/sa1.png
+    - assets/sp1.png
+    - assets/ke1.png
     - assets/HornerPizzaa.jpg
     - assets/hornerpizza.png
     - assets/Milano.jpg
@@ -103,7 +108,7 @@ flutter:
     - assets/schnitzelp.png
     - assets/Ariana.jpg
     - assets/arian.jpg
-    - assets/Mehr.jpg
+    - assets/Mehr.png
     - assets/icon.png
     - assets/ico.png
     - assets/korb.png
@@ -126,6 +131,14 @@ flutter:
     - assets/google.png
     - assets/apple.png
     - assets/willkommen.jpg
+    - assets/pizza-slice.png
+    - assets/shop.png
+    - assets/bottomNavBar/service.png
+    - assets/bottomNavBar/search.png
+    - assets/bottomNavBar/favo.png
+    - assets/bottomNavBar/shop.png
+    - assets/bottomNavBar/user.png
+    - assets/Logo/FoodoLogo.png
 
 
   # An image asset can refer to one or more resolution-specific "variants", see
@@ -139,6 +152,7 @@ flutter:
   # "family" key with the font family name, and a "fonts" key with a
   # list giving the asset and other descriptors for the font. For
   # example:
+
   fonts:
     - family: Iconss
       fonts:
@@ -147,17 +161,27 @@ flutter:
     - family: Iconsss
       fonts:
         - asset: icons/Iconsss.ttf
-    
-    - family: Open_Sans
+
+    - family: Open_Sans_Bold
       fonts:
         - asset: Fonts/OpenSans-Bold.ttf
-          weight: 900
+
+    - family: Open_Sans-LightItalic
+      fonts:
         - asset: Fonts/OpenSans-LightItalic.ttf
-          weight: 300
+
+    - family: Open_Sans-Regular
+      fonts:
         - asset: Fonts/OpenSans-Regular.ttf
-          weight: 400
+
+    - family: Open_Sans-SemiBold
+      fonts:
         - asset: Fonts/OpenSans-SemiBold.ttf
-          weight: 600
+    - family: Montserrat-ExtraBold
+      fonts:
+        - asset: Fonts/Montserrat-ExtraBold.ttf
+          weight: 800
+
 
 
   #

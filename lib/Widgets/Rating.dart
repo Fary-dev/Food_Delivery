@@ -1,7 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:smooth_star_rating/smooth_star_rating.dart';
+import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 
+<<<<<<< HEAD
 class Rating extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -33,5 +34,22 @@ Widget rating(double height, width, size, Color color) {
         // print("rating value dd -> ${value.truncate()}");
       },
     )),
+=======
+Widget rating( height, padding, size, Color color) {
+  return RatingBar.builder(
+    initialRating: height,
+    itemSize: size,
+    minRating: 1,
+    direction: Axis.horizontal,
+    itemCount: 5,
+    itemPadding: EdgeInsets.all(padding),
+    itemBuilder: (context, _) => Icon(
+      CupertinoIcons.star_fill,
+      color: color,
+    ),
+    onRatingUpdate: (rating) {
+      print(rating);
+    },
+>>>>>>> 8b751dfdac8e3c1220590962ac203aec42fcd6e8
   );
 }

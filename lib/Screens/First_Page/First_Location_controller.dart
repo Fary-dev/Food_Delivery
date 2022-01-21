@@ -14,10 +14,17 @@ class FirstPageController extends GetxController {
         await placemarkFromCoordinates(pos.latitude, pos.longitude);
 
     Placemark placemark = newPlace[0];
+<<<<<<< HEAD
     String plz = placemark.locality;
     String bzirck = placemark.postalCode;
     String hausNummer = placemark.subThoroughfare;
     String strasse = placemark.thoroughfare;
+=======
+    String plz = placemark.locality!;
+    String bzirck = placemark.postalCode!;
+    String hausNummer = placemark.subThoroughfare!;
+    String strasse = placemark.thoroughfare!;
+>>>>>>> 8b751dfdac8e3c1220590962ac203aec42fcd6e8
 
     fistUserLocation.value = '$strasse $hausNummer, $plz $bzirck';
   }

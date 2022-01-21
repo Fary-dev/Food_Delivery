@@ -1,21 +1,28 @@
 buildscript {
+<<<<<<< HEAD
     ext.kotlin_version = '1.6.10'
+=======
+    ext.kotlin_version = '1.5.20'
+>>>>>>> 8b751dfdac8e3c1220590962ac203aec42fcd6e8
     repositories {
         google()
-        jcenter()
+        mavenCentral()
+//        jcenter()
     }
 
     dependencies {
-        classpath 'com.android.tools.build:gradle:4.0.2'
+        classpath 'com.android.tools.build:gradle:4.2.2'
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
-        classpath 'com.google.gms:google-services:4.3.0'
+        classpath 'com.google.gms:google-services:4.3.8'
+
     }
 }
 
 allprojects {
     repositories {
         google()
-        jcenter()
+        mavenCentral()
+//        jcenter()
     }
 }
 

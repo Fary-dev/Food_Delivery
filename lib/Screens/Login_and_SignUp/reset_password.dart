@@ -1,8 +1,15 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+<<<<<<< HEAD
 import 'package:get/get.dart';
 import 'package:mjam/Contants/Color.dart';
+=======
+import 'package:flutter/services.dart';
+import 'package:get/get.dart';
+import 'package:mjam/Contants/Color.dart';
+import 'package:mjam/Widgets/customTextField.dart';
+>>>>>>> 8b751dfdac8e3c1220590962ac203aec42fcd6e8
 
 import 'login_screen.dart';
 
@@ -13,20 +20,40 @@ class ResetPasswordScreen extends StatefulWidget {
 
 class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
   TextStyle txtBtnStyle = TextStyle(color: Colors.black, fontSize: 16);
-  TextEditingController _emailController = TextEditingController();
+  final _emailController = TextEditingController();
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   final auth = FirebaseAuth.instance;
-  String _email;
+
+
+  @override
+  void initState() {
+    _emailController.addListener(() {setState(() {});});
+    super.initState();
+  }
+  @override
+  void dispose() {
+    _emailController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
         appBar: AppBar(
+<<<<<<< HEAD
+=======
+          title: Text('Kennwort zrücksetzen', style: Theme.of(context).primaryTextTheme.button,),
+          centerTitle: true,
+>>>>>>> 8b751dfdac8e3c1220590962ac203aec42fcd6e8
           elevation: 0,
           leading: IconButton(
             icon: Icon(
               CupertinoIcons.arrow_left,
+<<<<<<< HEAD
+=======
+              color: Theme.of(context).iconTheme.color,
+>>>>>>> 8b751dfdac8e3c1220590962ac203aec42fcd6e8
             ),
             onPressed: () {
               Get.back();
@@ -62,16 +89,45 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
               //________________________________________E-Mail_______
               Form(
                 key: _formKey,
+<<<<<<< HEAD
                 child: TextFormField(
                   style: Theme.of(context)
                       .primaryTextTheme
                       .headline3
+=======
+                autovalidateMode: AutovalidateMode.onUserInteraction,
+                child: CustomTextField(
+                  lable: 'E-Mail',
+                  controller: _emailController,
+                  obscureText: false,
+                  inputFormatters:[
+                    FilteringTextInputFormatter.deny(RegExp(r"[]")),
+                  ],
+                  textInputType:TextInputType.emailAddress,
+                  onSave: (input) =>setState((){ _emailController.text = input!;}),
+                  suffixIcon:_emailController.text.isNotEmpty?IconButton(onPressed: (){ _emailController.clear();}, icon: Icon(CupertinoIcons.clear,size: 18,)):Container() ,
+                  prefixIcon:Icon(
+                    CupertinoIcons.mail,
+                    color: Colors.grey[500],
+                    size: 18,
+                  ),
+                validator:validateEmail ,
+                ),
+                /*TextFormField(
+                  inputFormatters: [FilteringTextInputFormatter.deny(
+                       RegExp(r"\s\b|\b\s")
+                  )],
+                  style: Theme.of(context)
+                      .primaryTextTheme
+                      .headline3!
+>>>>>>> 8b751dfdac8e3c1220590962ac203aec42fcd6e8
                       .apply(fontSizeDelta: 2),
                   keyboardType: TextInputType.emailAddress,
                   decoration: InputDecoration(
                     contentPadding: EdgeInsets.symmetric(horizontal: 15),
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(10),
+<<<<<<< HEAD
                     ),
                     labelText: 'E-Mail',
                     suffixIcon: Icon(
@@ -103,6 +159,39 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
                         .primaryTextTheme
                         .button
                         .copyWith(fontSize: 14, color: Color(0xFFFFFFFF)),
+=======
+                    ),
+                    labelText: 'E-Mail',
+                    suffixIcon: Icon(
+                      CupertinoIcons.mail,
+                      color: Colors.grey[500],
+                      size: 18,
+                    ),
+>>>>>>> 8b751dfdac8e3c1220590962ac203aec42fcd6e8
+                  ),
+                  validator: validateEmail,
+                  onSaved: (input) => _email = input!.trim(),
+                  controller: _emailController,
+                ),*/
+              ),
+              SizedBox(
+                height: 40,
+              ),
+              //__________________KUNDENKONTO_ERSTELLE___________
+              SizedBox(
+                width: MediaQuery.of(context).size.width,
+                height: 40,
+                child: MaterialButton(
+                  color: primaryColor,
+                  onPressed: resetPassword,
+                  shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.all(Radius.circular(5))),
+                  child: Text(
+                    'SCHICKE MIR MEIN PASSWORT',
+                    style: Theme.of(context)
+                        .primaryTextTheme
+                        .button!
+                        .copyWith(fontSize: 14, color: Color(0xFFFFFFFF)),
                   ),
                 ),
               ),
@@ -113,11 +202,11 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
     );
   }
 
-  String validateEmail(String value) {
-    Pattern pattern =
-        r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$';
-    RegExp regex = new RegExp(pattern);
-    if (!regex.hasMatch(value))
+
+   String? validateEmail(String? value) {
+    final pattern=(r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$');
+    RegExp regex = RegExp(pattern);
+    if (!regex.hasMatch(value!))
       return 'Enter Valid Email';
     else
       return null;
@@ -125,15 +214,16 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
 
   Future<void> resetPassword() async {
     final formState = _formKey.currentState;
+    print(formState!.validate());
     if (formState.validate()) {
       formState.save();
       try {
-        await auth.sendPasswordResetEmail(email: _email);
-        Navigator.push(
-            context, MaterialPageRoute(builder: (context) => LoginScreen()));
+        await auth.sendPasswordResetEmail(email: _emailController.text);
+        Get.offAll(()=> LoginScreen());
       } catch (e) {
-        print(e.message);
+        e.printError();
       }
     }
   }
 }
+

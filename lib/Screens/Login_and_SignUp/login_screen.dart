@@ -1,10 +1,17 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+<<<<<<< HEAD
 import 'package:get/get.dart';
+=======
+import 'package:flutter/services.dart';
+import 'package:get/get.dart';
+import 'package:get_storage/get_storage.dart';
+>>>>>>> 8b751dfdac8e3c1220590962ac203aec42fcd6e8
 import 'package:mjam/Contants/Color.dart';
 import 'package:mjam/Screens/Login_and_SignUp/reset_password.dart';
-import 'package:mjam/Widgets/BottomNavBarWidget.dart';
+import 'package:mjam/Screens/BootomNavBar/BottomNavBarWidget.dart';
+import 'package:mjam/Widgets/customTextField.dart';
 
 import 'auch_with_Google.dart';
 
@@ -14,23 +21,29 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
+  final userData = GetStorage();
   TextStyle txtBtnStyle = TextStyle(color: Colors.black, fontSize: 16);
   TextEditingController _emailController = TextEditingController();
   TextEditingController _passwordController = TextEditingController();
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+<<<<<<< HEAD
   String _email, _password;
+=======
+
+>>>>>>> 8b751dfdac8e3c1220590962ac203aec42fcd6e8
   bool showPassword = false;
 
   void click() {
     setState(() {
       signInWithGoogle().whenComplete(() {
-        Navigator.of(context).push(
+        Get.to(() => BottomNavBarWidget());
+        /* Navigator.of(context).push(
           MaterialPageRoute(
             builder: (context) {
               return BottomNavBarWidget();
             },
           ),
-        );
+        );*/
       });
     });
   }
@@ -46,10 +59,22 @@ class _LoginScreenState extends State<LoginScreen> {
     return SafeArea(
       child: Scaffold(
         appBar: AppBar(
+<<<<<<< HEAD
+=======
+          title: Text(
+            'Anmelden',
+            style: Theme.of(context).primaryTextTheme.button,
+          ),
+          centerTitle: true,
+>>>>>>> 8b751dfdac8e3c1220590962ac203aec42fcd6e8
           elevation: 0,
           leading: IconButton(
             icon: Icon(
               CupertinoIcons.arrow_left,
+<<<<<<< HEAD
+=======
+              color: Theme.of(context).iconTheme.color,
+>>>>>>> 8b751dfdac8e3c1220590962ac203aec42fcd6e8
             ),
             onPressed: () {
               Get.back();
@@ -204,8 +229,10 @@ class _LoginScreenState extends State<LoginScreen> {
                 Container(
                   child: Form(
                     key: _formKey,
+                    autovalidateMode:AutovalidateMode.onUserInteraction ,
                     child: Column(
                       children: [
+<<<<<<< HEAD
                         TextFormField(
                           style: Theme.of(context)
                               .primaryTextTheme
@@ -235,6 +262,129 @@ class _LoginScreenState extends State<LoginScreen> {
                           style: Theme.of(context)
                               .primaryTextTheme
                               .headline3
+                              .apply(fontSizeDelta: 2),
+=======
+                        CustomTextField(
+                          lable: 'E-Mail',
+                          controller: _emailController,
+                          obscureText: false,
+                          // inputFormatters: FilteringTextInputFormatter.deny(
+                          //     RegExp(r"\s\b|\b\s")),
+                          textInputType: TextInputType.emailAddress,
+                          prefixIcon: Icon(
+                            CupertinoIcons.mail,
+                            color: Colors.grey[500],
+                            size: 18,
+                          ),
+                          onSave: (input) =>
+                              _emailController.text = input!.trim(),
+                          validator: validateEmail,
+                        ),
+                        /*TextFormField(
+                          inputFormatters: [
+                            FilteringTextInputFormatter.deny(
+                                RegExp(r"\s\b|\b\s"))
+                          ],
+                          style: Theme.of(context)
+                              .primaryTextTheme
+                              .headline3!
+                              .apply(fontSizeDelta: 2),
+                          keyboardType: TextInputType.emailAddress,
+>>>>>>> 8b751dfdac8e3c1220590962ac203aec42fcd6e8
+                          decoration: InputDecoration(
+                            contentPadding:
+                                EdgeInsets.symmetric(horizontal: 15),
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(10),
+                            ),
+<<<<<<< HEAD
+                            labelText: 'Password',
+                            suffixIcon: !showPassword
+                                ? IconButton(
+                                    onPressed: () {
+                                      setState(() {
+                                        showPassword = true;
+                                      });
+                                    },
+                                    icon: Icon(
+                                      CupertinoIcons.eye,
+                                      size: 20,
+                                      color: Colors.grey[500],
+                                    ),
+                                  )
+                                : IconButton(
+                                    onPressed: () {
+                                      setState(() {
+                                        showPassword = false;
+                                      });
+                                    },
+                                    icon: Icon(
+                                      CupertinoIcons.eye_slash,
+                                      color: Colors.grey[500],
+                                    ),
+                                  ),
+                          ),
+                          validator: validatePassword,
+                          onSaved: (input) => _password = input,
+                          controller: _passwordController,
+=======
+                            labelText: 'E-Mail',
+                            suffixIcon: Icon(
+                              CupertinoIcons.mail,
+                              color: Colors.grey[500],
+                              size: 18,
+                            ),
+                          ),
+                          validator: validateEmail,
+                          onSaved: (input) => _email = input!.trim(),
+                          controller: _emailController,
+                        ),*/
+                        SizedBox(height: 10),
+                        CustomTextField(
+                          lable: 'Password',
+                          controller: _passwordController,
+                          obscureText: !showPassword ? true : false,
+                          // inputFormatters: FilteringTextInputFormatter.deny(
+                          //     RegExp(r"\s\b|\b\s")),
+                          textInputType: TextInputType.emailAddress,
+                          prefixIcon: !showPassword
+                              ? IconButton(
+                                  onPressed: () {
+                                    setState(() {
+                                      showPassword = true;
+                                    });
+                                  },
+                                  icon: Icon(
+                                    CupertinoIcons.eye,
+                                    size: 20,
+                                    color: Colors.grey[500],
+                                  ),
+                                )
+                              : IconButton(
+                                  onPressed: () {
+                                    setState(() {
+                                      showPassword = false;
+                                    });
+                                  },
+                                  icon: Icon(
+                                    CupertinoIcons.eye_slash,
+                                    color: Colors.grey[500],
+                                  ),
+                                ),
+                          onSave: (input) =>
+                              _passwordController.text = input!.trim(),
+                          validator: validatePassword,
+>>>>>>> 8b751dfdac8e3c1220590962ac203aec42fcd6e8
+                        ),
+                        /*TextFormField(
+                          inputFormatters: [
+                            FilteringTextInputFormatter.deny(
+                                RegExp(r"\s\b|\b\s"))
+                          ],
+                          obscureText: !showPassword ? true : false,
+                          style: Theme.of(context)
+                              .primaryTextTheme
+                              .headline3!
                               .apply(fontSizeDelta: 2),
                           decoration: InputDecoration(
                             contentPadding:
@@ -269,9 +419,9 @@ class _LoginScreenState extends State<LoginScreen> {
                                   ),
                           ),
                           validator: validatePassword,
-                          onSaved: (input) => _password = input,
+                          onSaved: (input) => _password = input!.trim(),
                           controller: _passwordController,
-                        ),
+                        ),*/
                       ],
                     ),
                   ),
@@ -285,6 +435,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   height: 40,
                   child: MaterialButton(
                     color: primaryColor,
+<<<<<<< HEAD
                     onPressed: signin,
                     shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.all(Radius.circular(5))),
@@ -292,6 +443,15 @@ class _LoginScreenState extends State<LoginScreen> {
                         style: Theme.of(context)
                             .primaryTextTheme
                             .button
+=======
+                    onPressed: signIn,
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.all(Radius.circular(5))),
+                    child: Text('Anmelden'.toUpperCase(),
+                        style: Theme.of(context)
+                            .primaryTextTheme
+                            .button!
+>>>>>>> 8b751dfdac8e3c1220590962ac203aec42fcd6e8
                             .copyWith(fontSize: 14, color: Color(0xFFFFFFFF))),
                   ),
                 ),
@@ -315,9 +475,10 @@ class _LoginScreenState extends State<LoginScreen> {
     );
   }
 
-  String validateEmail(String value) {
-    Pattern pattern =
+  String? validateEmail(String? value) {
+    final pattern =
         r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$';
+<<<<<<< HEAD
     RegExp regex = new RegExp(pattern);
     if (!regex.hasMatch(value))
       return 'Bitte gib eine gültige E-Mail-Adresse ein';
@@ -336,24 +497,45 @@ class _LoginScreenState extends State<LoginScreen> {
         return 'Bitte gib eine gültige Password ein';
       else
         return null;
-    }
+=======
+    RegExp regex = RegExp(pattern);
+    return !regex.hasMatch(value!)?
+       'Bitte gib eine gültige E-Mail-Adresse ein':
+       null;
+
   }
 
-  Future<void> signin() async {
+  String? validatePassword(String? value) {
+    final pattern = r'^(?=.*\d)(?=.*[a-zA-Z])[a-zA-Z0-9!@#$%&*]{6,20}$';
+    RegExp regex = RegExp(pattern);
+
+   return value!.isEmpty?
+       'Please enter password':
+     !regex.hasMatch(value) ?
+
+        'Bitte gib eine gültige Password ein':
+         null;
+
+>>>>>>> 8b751dfdac8e3c1220590962ac203aec42fcd6e8
+    }
+
+  Future<void> signIn() async {
     final formState = _formKey.currentState;
-    if (formState.validate()) {
+    if (formState!.validate()) {
       formState.save();
       try {
-        print(_email);
-        final User user = (await FirebaseAuth.instance
-                .signInWithEmailAndPassword(email: _email, password: _password))
+        final User? user = (await FirebaseAuth.instance
+                .signInWithEmailAndPassword(
+                    email: _emailController.text,
+                    password: _passwordController.text))
             .user;
-        Navigator.push(context,
-            MaterialPageRoute(builder: (context) => BottomNavBarWidget()));
-
-        print(user.email);
+        userData.write('userName', user!.displayName);
+        userData.write('userName', user.email);
+        userData.write('isLogged', true);
+        Get.offAll(BottomNavBarWidget());
       } catch (e) {
-        print(e.message);
+        Get.snackbar('Achtung', 'Kennword oder Email passt nicht!!');
+        e.printError();
       }
     }
   }

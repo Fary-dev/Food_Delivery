@@ -13,6 +13,7 @@ class Menu extends StatelessWidget {
   final adress = Get.find<FirstPageController>();
   @override
   Widget build(BuildContext context) {
+<<<<<<< HEAD
     return SafeArea(
       child: Scaffold(
         appBar: AppBar(
@@ -42,21 +43,50 @@ class Menu extends StatelessWidget {
                       ),
                     ],
                   ),
+=======
+    return Scaffold(
+      appBar: AppBar(
+        backgroundColor: Theme.of(context).appBarTheme.backgroundColor,
+        // brightness: Theme.of(context).appBarTheme.brightness,
+        automaticallyImplyLeading: false,
+        elevation: 0,
+        centerTitle: true,
+        title: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 15),
+          child: SizedBox(
+            child: Obx(
+              () => RichText(
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
+                text: TextSpan(
+                  children: [
+                    TextSpan(
+                        text: "Sofort zu ",
+                        style: Theme.of(context).primaryTextTheme.headline6),
+                    TextSpan(
+                      text: adress.fistUserLocation.value.toString(),
+                      style: Theme.of(context)
+                          .primaryTextTheme
+                          .headline6!
+                          .apply(color: primaryColor),
+                    ),
+                  ],
+>>>>>>> 8b751dfdac8e3c1220590962ac203aec42fcd6e8
                 ),
               ),
             ),
           ),
         ),
-        body: SingleChildScrollView(
-          child: Column(
-            children: [
-              SizedBox(height: 6),
-              FoodGrupe(),
-              BottomFilterAbholungSort(),
-              Banr(),
-              ResturantListe(),
-            ],
-          ),
+      ),
+      body: SingleChildScrollView(
+        child: Column(
+          children: [
+            SizedBox(height: 6),
+            FoodGrupe(),
+            BottomFilterAbholungSort(),
+            Banr(),
+            ResturantListe(),
+          ],
         ),
       ),
     );

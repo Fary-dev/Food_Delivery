@@ -1,19 +1,31 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:mjam/Screens/Resturants/Resturant_List/Resturant_List_Controller.dart';
+import 'package:mjam/Screens/Resturants/PageResturant/NewScreen/pageResturant.dart';
 import 'package:mjam/models_and_data/Class/models_and_data.dart';
 import 'package:mjam/Widgets/Rating.dart';
-import '../pageResturant.dart';
 
 class ResturantListe extends StatefulWidget {
-  ResturantListe({Key key}) : super(key: key);
+  ResturantListe({Key? key}) : super(key: key);
+
   @override
   _ResturantListeState createState() => _ResturantListeState();
 }
 
 class _ResturantListeState extends State<ResturantListe> {
+<<<<<<< HEAD
   final ResturantListController sortList = Get.put(ResturantListController());
   final GlobalKey _globalKey = GlobalKey();
+=======
+  final ResturantListController sortList = Get.find();
+
+  @override
+  void initState() {
+    super.initState();
+    if (sortList.defaultListResturant.isEmpty)
+      sortList.defaultListResturant.addAll(resturants);
+  }
+>>>>>>> 8b751dfdac8e3c1220590962ac203aec42fcd6e8
 
   @override
   Widget build(BuildContext context) {
@@ -21,17 +33,29 @@ class _ResturantListeState extends State<ResturantListe> {
       () => ListView.builder(
         key: _globalKey,
         shrinkWrap: true,
-        physics: const NeverScrollableScrollPhysics(),
-        itemCount: sortList.sort.value == ''
-            ? resturants.length
+        physics: const BouncingScrollPhysics(),
+        itemCount: sortList.list.isEmpty
+            ? sortList.defaultListResturant.length
             : sortList.list.length,
         itemBuilder: (context, index) {
+<<<<<<< HEAD
           final Resturant resturant = sortList.sort.value == ''
               ? resturants[index]
+=======
+          final Resturant _resturant = sortList.list.isEmpty
+              ? sortList.defaultListResturant[index]
+>>>>>>> 8b751dfdac8e3c1220590962ac203aec42fcd6e8
               : sortList.list[index];
+
           return GestureDetector(
             onTap: () {
+<<<<<<< HEAD
               Get.to(() => PageResturant(resturant: resturant));
+=======
+              Get.to(() => PageResturant(
+                    resturant: _resturant,
+                  ));
+>>>>>>> 8b751dfdac8e3c1220590962ac203aec42fcd6e8
             },
             child: Container(
               color: Theme.of(context).bottomAppBarTheme.color,
@@ -44,6 +68,7 @@ class _ResturantListeState extends State<ResturantListe> {
                         padding: const EdgeInsets.fromLTRB(15, 15, 15, 5),
                         child: ClipRRect(
                           borderRadius: BorderRadius.circular(8),
+<<<<<<< HEAD
                           child: GestureDetector(
                             onTap: () {
                               // Navigator.push(
@@ -60,6 +85,12 @@ class _ResturantListeState extends State<ResturantListe> {
                                 width: MediaQuery.of(context).size.width,
                                 fit: BoxFit.fitWidth),
                           ),
+=======
+                          child: Image.asset(_resturant.photoResturant!,
+                              height: 140,
+                              width: MediaQuery.of(context).size.width,
+                              fit: BoxFit.fitWidth),
+>>>>>>> 8b751dfdac8e3c1220590962ac203aec42fcd6e8
                         ),
                       ),
                       Positioned(
@@ -74,10 +105,17 @@ class _ResturantListeState extends State<ResturantListe> {
                                   color: Theme.of(context).primaryColor,
                                   borderRadius:
                                       BorderRadius.all(Radius.circular(20))),
+<<<<<<< HEAD
                               child: Text('${resturant.deliveryDuration} min',
                                   style: Theme.of(context)
                                       .primaryTextTheme
                                       .button
+=======
+                              child: Text('${_resturant.deliveryDuration} min',
+                                  style: Theme.of(context)
+                                      .primaryTextTheme
+                                      .button!
+>>>>>>> 8b751dfdac8e3c1220590962ac203aec42fcd6e8
                                       .apply(fontSizeDelta: -1)),
                             ),
                             SizedBox(
@@ -91,10 +129,17 @@ class _ResturantListeState extends State<ResturantListe> {
                                   borderRadius:
                                       BorderRadius.all(Radius.circular(20))),
                               child: Text(
+<<<<<<< HEAD
                                   '${(resturant.distance / 1000).toStringAsFixed(1)} km',
                                   style: Theme.of(context)
                                       .primaryTextTheme
                                       .button
+=======
+                                  '${(_resturant.distance! / 1000).toStringAsFixed(1)} km',
+                                  style: Theme.of(context)
+                                      .primaryTextTheme
+                                      .button!
+>>>>>>> 8b751dfdac8e3c1220590962ac203aec42fcd6e8
                                       .apply(fontSizeDelta: -1)),
                             ),
                           ],
@@ -115,7 +160,11 @@ class _ResturantListeState extends State<ResturantListe> {
                               alignment: Alignment.topLeft,
                               margin: const EdgeInsets.only(left: 15),
                               child: Text(
+<<<<<<< HEAD
                                 resturant.nameResturant,
+=======
+                                _resturant.nameResturant!,
+>>>>>>> 8b751dfdac8e3c1220590962ac203aec42fcd6e8
                                 textAlign: TextAlign.center,
                                 textScaleFactor: 1.5,
                                 style: Theme.of(context)
@@ -128,7 +177,11 @@ class _ResturantListeState extends State<ResturantListe> {
                               alignment: Alignment.topLeft,
                               margin: const EdgeInsets.only(left: 15, top: 3),
                               child: Text(
+<<<<<<< HEAD
                                 resturant.description,
+=======
+                                _resturant.description!,
+>>>>>>> 8b751dfdac8e3c1220590962ac203aec42fcd6e8
                                 textAlign: TextAlign.center,
                                 textScaleFactor: 1.0,
                                 style: Theme.of(context)
@@ -142,7 +195,11 @@ class _ResturantListeState extends State<ResturantListe> {
                           margin: const EdgeInsets.only(right: 15),
                           height: 40,
                           width: 80,
+<<<<<<< HEAD
                           child: Image.asset(resturant.logoResturant,
+=======
+                          child: Image.asset(_resturant.logoResturant!,
+>>>>>>> 8b751dfdac8e3c1220590962ac203aec42fcd6e8
                               height: 20,
                               width: MediaQuery.of(context).size.width,
                               fit: BoxFit.contain),
@@ -172,8 +229,15 @@ class _ResturantListeState extends State<ResturantListe> {
                                       .headline3,
                                 ),
                               ),
+<<<<<<< HEAD
                               rating(20.0, 105.0, 15.0,
                                   Theme.of(context).bottomAppBarTheme.color),
+=======
+                              Padding(
+                                padding: const EdgeInsets.only(left: 15.0),
+                                child: rating(5.0, 0.0, 15.0, Colors.amber),
+                              ),
+>>>>>>> 8b751dfdac8e3c1220590962ac203aec42fcd6e8
                             ],
                           ),
                         ),

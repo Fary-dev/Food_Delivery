@@ -4,7 +4,11 @@ import 'package:get/get.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:mjam/Contants/Color.dart';
 import 'package:mjam/Screens/First_Page/First_Location_controller.dart';
+<<<<<<< HEAD
 import 'package:mjam/Screens/Resturants/pageResturant.dart';
+=======
+import 'package:mjam/Screens/Resturants/PageResturant/NewScreen/pageResturant.dart';
+>>>>>>> 8b751dfdac8e3c1220590962ac203aec42fcd6e8
 import 'package:mjam/Widgets/Rating.dart';
 import 'package:mjam/models_and_data/Class/models_and_data.dart';
 
@@ -15,10 +19,10 @@ class MapScreen extends StatefulWidget {
 
 class _MapScreenState extends State<MapScreen> {
   final adress = Get.find<FirstPageController>();
-  int prevPage;
+  int? prevPage;
   Set<Marker> _list = {};
-  GoogleMapController _googleMapController;
-  PageController _pageController;
+  GoogleMapController? _googleMapController;
+  PageController? _pageController;
 
   void mapCreate(controller) {
     setState(() {
@@ -27,9 +31,9 @@ class _MapScreenState extends State<MapScreen> {
   }
 
   void moveCamera() async {
-    _googleMapController.animateCamera(CameraUpdate.newCameraPosition(
+    _googleMapController!.animateCamera(CameraUpdate.newCameraPosition(
         CameraPosition(
-            target: resturants[_pageController.page.toInt()].latlong,
+            target: resturants[_pageController!.page!.toInt()].latlong!,
             zoom: 17.0,
             bearing: 45.0,
             tilt: 45.0)));
@@ -43,7 +47,7 @@ class _MapScreenState extends State<MapScreen> {
           draggable: false,
           infoWindow: InfoWindow(title: d.nameResturant),
           markerId: MarkerId('${d.id}'),
-          position: d.latlong,
+          position: d.latlong!,
         );
         _list.add(marker);
       }
@@ -52,12 +56,12 @@ class _MapScreenState extends State<MapScreen> {
 
   _resturantListe(index) {
     return AnimatedBuilder(
-      animation: _pageController,
-      builder: (BuildContext context, Widget widget) {
-        double value = 1;
-        if (_pageController.position.haveDimensions) {
-          value = _pageController.page - index;
-          value = (1 - (value.abs() * 0.3) + 0.06).clamp(0.0, 1.0);
+      animation: _pageController!,
+      builder: (BuildContext context, Widget? widget) {
+        double value = 1.0;
+        if (_pageController!.position.haveDimensions) {
+          value = _pageController!.page! - index;
+          value = (1.0 - (value.abs() * 0.3) + 0.06).clamp(0.0, 1.0);
         }
         return Center(
           child: SizedBox(
@@ -83,11 +87,19 @@ class _MapScreenState extends State<MapScreen> {
                 borderRadius: BorderRadius.circular(10.0),
                 boxShadow: [
                   BoxShadow(
+<<<<<<< HEAD
                       color: Theme.of(context).iconTheme.color,
                       blurRadius: 5,
                       offset: Offset(0.0, 1.0)),
                   BoxShadow(
                       color: Theme.of(context).iconTheme.color,
+=======
+                      color: Theme.of(context).iconTheme.color!,
+                      blurRadius: 5,
+                      offset: Offset(0.0, 1.0)),
+                  BoxShadow(
+                      color: Theme.of(context).iconTheme.color!,
+>>>>>>> 8b751dfdac8e3c1220590962ac203aec42fcd6e8
                       blurRadius: 5,
                       offset: Offset(1.0, 0.0))
                 ],
@@ -101,16 +113,27 @@ class _MapScreenState extends State<MapScreen> {
                     Positioned(
                         top: 15,
                         left: 10,
+<<<<<<< HEAD
                         child: Text(resturants[index].nameResturant,
                             style: Theme.of(context)
                                 .primaryTextTheme
                                 .headline2
+=======
+                        child: Text(resturants[index].nameResturant!,
+                            style: Theme.of(context)
+                                .primaryTextTheme
+                                .headline2!
+>>>>>>> 8b751dfdac8e3c1220590962ac203aec42fcd6e8
                                 .copyWith(fontSize: 14))),
                     Positioned(
                         top: 35,
                         left: 10,
                         child: Text(
+<<<<<<< HEAD
                           resturants[index].description,
+=======
+                          resturants[index].description!,
+>>>>>>> 8b751dfdac8e3c1220590962ac203aec42fcd6e8
                           style: Theme.of(context).primaryTextTheme.subtitle1,
                         )),
                     Positioned(
@@ -124,7 +147,11 @@ class _MapScreenState extends State<MapScreen> {
                               size: 15,
                             ),
                             Text(
+<<<<<<< HEAD
                               resturants[index].address,
+=======
+                              resturants[index].address!,
+>>>>>>> 8b751dfdac8e3c1220590962ac203aec42fcd6e8
                               style: TextStyle(
                                 color: primaryColor,
                                 fontSize: 10,
@@ -143,7 +170,11 @@ class _MapScreenState extends State<MapScreen> {
                             borderRadius: BorderRadius.circular(5),
                             image: DecorationImage(
                                 image: ExactAssetImage(
+<<<<<<< HEAD
                                   resturants[index].logoResturant,
+=======
+                                  resturants[index].logoResturant!,
+>>>>>>> 8b751dfdac8e3c1220590962ac203aec42fcd6e8
                                 ),
                                 fit: BoxFit.fill)),
                       ),
@@ -165,6 +196,7 @@ class _MapScreenState extends State<MapScreen> {
                                       '${resturants[index].ratingResturant} Bewertungen',
                                       style: Theme.of(context)
                                           .primaryTextTheme
+<<<<<<< HEAD
                                           .headline3
                                           .copyWith(fontSize: 10),
                                     ),
@@ -175,6 +207,12 @@ class _MapScreenState extends State<MapScreen> {
                                         Theme.of(context)
                                             .bottomAppBarTheme
                                             .color),
+=======
+                                          .headline3!
+                                          .copyWith(fontSize: 10),
+                                    ),
+                                    rating(5.0, 0.0, 12.0, Colors.amber),
+>>>>>>> 8b751dfdac8e3c1220590962ac203aec42fcd6e8
                                   ],
                                 ),
                                 Column(
@@ -184,6 +222,7 @@ class _MapScreenState extends State<MapScreen> {
                                       'Distanz',
                                       style: Theme.of(context)
                                           .primaryTextTheme
+<<<<<<< HEAD
                                           .headline3
                                           .copyWith(fontSize: 10),
                                     ),
@@ -192,6 +231,16 @@ class _MapScreenState extends State<MapScreen> {
                                       style: Theme.of(context)
                                           .primaryTextTheme
                                           .headline3
+=======
+                                          .headline3!
+                                          .copyWith(fontSize: 10),
+                                    ),
+                                    Text(
+                                      '${(resturants[index].distance! / 1000).toStringAsFixed(1)} km',
+                                      style: Theme.of(context)
+                                          .primaryTextTheme
+                                          .headline3!
+>>>>>>> 8b751dfdac8e3c1220590962ac203aec42fcd6e8
                                           .copyWith(fontSize: 10),
                                     )
                                   ],
@@ -203,14 +252,22 @@ class _MapScreenState extends State<MapScreen> {
                                       'AbholZeit',
                                       style: Theme.of(context)
                                           .primaryTextTheme
+<<<<<<< HEAD
                                           .headline3
+=======
+                                          .headline3!
+>>>>>>> 8b751dfdac8e3c1220590962ac203aec42fcd6e8
                                           .copyWith(fontSize: 10),
                                     ),
                                     Text(
                                       'ca.${resturants[index].deliveryDuration} min',
                                       style: Theme.of(context)
                                           .primaryTextTheme
+<<<<<<< HEAD
                                           .headline3
+=======
+                                          .headline3!
+>>>>>>> 8b751dfdac8e3c1220590962ac203aec42fcd6e8
                                           .copyWith(fontSize: 10),
                                     )
                                   ],
@@ -238,15 +295,15 @@ class _MapScreenState extends State<MapScreen> {
   }
 
   void _onScroll() {
-    if (_pageController.page.toInt() != prevPage) {
-      prevPage = _pageController.page.toInt();
+    if (_pageController!.page!.toInt() != prevPage) {
+      prevPage = _pageController!.page!.toInt();
       moveCamera();
     }
   }
 
   @override
   void dispose() {
-    _googleMapController.dispose();
+    _googleMapController!.dispose();
     super.dispose();
   }
 

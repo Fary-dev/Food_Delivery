@@ -1,14 +1,20 @@
 import 'package:carousel_slider/carousel_slider.dart';
+<<<<<<< HEAD
 import 'package:flutter/material.dart';
+=======
+import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
+import 'package:animations/animations.dart';
+>>>>>>> 8b751dfdac8e3c1220590962ac203aec42fcd6e8
 import 'package:mjam/Contants/Color.dart';
 import 'package:mjam/Screens/Banner/banner_Screen_1.dart';
 import 'package:animations/animations.dart';
 
 class Banr extends StatefulWidget {
-  Banr({Key key}) : super(key: key);
+  Banr({Key? key}) : super(key: key);
   //CarouselDemo() : super();
 
-  final String title = "CarouselDemo";
+  final String? title = "CarouselDemo";
 
   @override
   BanrState createState() => BanrState();
