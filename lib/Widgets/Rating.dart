@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 class Rating extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -35,6 +36,8 @@ Widget rating(double height, width, size, Color color) {
       },
     )),
 =======
+=======
+>>>>>>> 8b751dfdac8e3c1220590962ac203aec42fcd6e8
 Widget rating( height, padding, size, Color color) {
   return RatingBar.builder(
     initialRating: height,
@@ -50,6 +53,9 @@ Widget rating( height, padding, size, Color color) {
     onRatingUpdate: (rating) {
       print(rating);
     },
+<<<<<<< HEAD
+>>>>>>> 8b751dfdac8e3c1220590962ac203aec42fcd6e8
+=======
 >>>>>>> 8b751dfdac8e3c1220590962ac203aec42fcd6e8
   );
 }

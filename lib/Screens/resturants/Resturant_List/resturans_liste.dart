@@ -14,9 +14,12 @@ class ResturantListe extends StatefulWidget {
 
 class _ResturantListeState extends State<ResturantListe> {
 <<<<<<< HEAD
+<<<<<<< HEAD
   final ResturantListController sortList = Get.put(ResturantListController());
   final GlobalKey _globalKey = GlobalKey();
 =======
+=======
+>>>>>>> 8b751dfdac8e3c1220590962ac203aec42fcd6e8
   final ResturantListController sortList = Get.find();
 
   @override
@@ -25,6 +28,9 @@ class _ResturantListeState extends State<ResturantListe> {
     if (sortList.defaultListResturant.isEmpty)
       sortList.defaultListResturant.addAll(resturants);
   }
+<<<<<<< HEAD
+>>>>>>> 8b751dfdac8e3c1220590962ac203aec42fcd6e8
+=======
 >>>>>>> 8b751dfdac8e3c1220590962ac203aec42fcd6e8
 
   @override
@@ -39,8 +45,13 @@ class _ResturantListeState extends State<ResturantListe> {
             : sortList.list.length,
         itemBuilder: (context, index) {
 <<<<<<< HEAD
+<<<<<<< HEAD
           final Resturant resturant = sortList.sort.value == ''
               ? resturants[index]
+=======
+          final Resturant _resturant = sortList.list.isEmpty
+              ? sortList.defaultListResturant[index]
+>>>>>>> 8b751dfdac8e3c1220590962ac203aec42fcd6e8
 =======
           final Resturant _resturant = sortList.list.isEmpty
               ? sortList.defaultListResturant[index]
@@ -50,8 +61,11 @@ class _ResturantListeState extends State<ResturantListe> {
           return GestureDetector(
             onTap: () {
 <<<<<<< HEAD
+<<<<<<< HEAD
               Get.to(() => PageResturant(resturant: resturant));
 =======
+=======
+>>>>>>> 8b751dfdac8e3c1220590962ac203aec42fcd6e8
               Get.to(() => PageResturant(
                     resturant: _resturant,
                   ));
@@ -68,6 +82,7 @@ class _ResturantListeState extends State<ResturantListe> {
                         padding: const EdgeInsets.fromLTRB(15, 15, 15, 5),
                         child: ClipRRect(
                           borderRadius: BorderRadius.circular(8),
+<<<<<<< HEAD
 <<<<<<< HEAD
                           child: GestureDetector(
                             onTap: () {
@@ -86,6 +101,8 @@ class _ResturantListeState extends State<ResturantListe> {
                                 fit: BoxFit.fitWidth),
                           ),
 =======
+=======
+>>>>>>> 8b751dfdac8e3c1220590962ac203aec42fcd6e8
                           child: Image.asset(_resturant.photoResturant!,
                               height: 140,
                               width: MediaQuery.of(context).size.width,
@@ -115,6 +132,9 @@ class _ResturantListeState extends State<ResturantListe> {
                                   style: Theme.of(context)
                                       .primaryTextTheme
                                       .button!
+<<<<<<< HEAD
+>>>>>>> 8b751dfdac8e3c1220590962ac203aec42fcd6e8
+=======
 >>>>>>> 8b751dfdac8e3c1220590962ac203aec42fcd6e8
                                       .apply(fontSizeDelta: -1)),
                             ),
@@ -130,15 +150,21 @@ class _ResturantListeState extends State<ResturantListe> {
                                       BorderRadius.all(Radius.circular(20))),
                               child: Text(
 <<<<<<< HEAD
+<<<<<<< HEAD
                                   '${(resturant.distance / 1000).toStringAsFixed(1)} km',
                                   style: Theme.of(context)
                                       .primaryTextTheme
                                       .button
 =======
+=======
+>>>>>>> 8b751dfdac8e3c1220590962ac203aec42fcd6e8
                                   '${(_resturant.distance! / 1000).toStringAsFixed(1)} km',
                                   style: Theme.of(context)
                                       .primaryTextTheme
                                       .button!
+<<<<<<< HEAD
+>>>>>>> 8b751dfdac8e3c1220590962ac203aec42fcd6e8
+=======
 >>>>>>> 8b751dfdac8e3c1220590962ac203aec42fcd6e8
                                       .apply(fontSizeDelta: -1)),
                             ),
@@ -161,7 +187,11 @@ class _ResturantListeState extends State<ResturantListe> {
                               margin: const EdgeInsets.only(left: 15),
                               child: Text(
 <<<<<<< HEAD
+<<<<<<< HEAD
                                 resturant.nameResturant,
+=======
+                                _resturant.nameResturant!,
+>>>>>>> 8b751dfdac8e3c1220590962ac203aec42fcd6e8
 =======
                                 _resturant.nameResturant!,
 >>>>>>> 8b751dfdac8e3c1220590962ac203aec42fcd6e8
@@ -178,7 +208,11 @@ class _ResturantListeState extends State<ResturantListe> {
                               margin: const EdgeInsets.only(left: 15, top: 3),
                               child: Text(
 <<<<<<< HEAD
+<<<<<<< HEAD
                                 resturant.description,
+=======
+                                _resturant.description!,
+>>>>>>> 8b751dfdac8e3c1220590962ac203aec42fcd6e8
 =======
                                 _resturant.description!,
 >>>>>>> 8b751dfdac8e3c1220590962ac203aec42fcd6e8
@@ -196,7 +230,11 @@ class _ResturantListeState extends State<ResturantListe> {
                           height: 40,
                           width: 80,
 <<<<<<< HEAD
+<<<<<<< HEAD
                           child: Image.asset(resturant.logoResturant,
+=======
+                          child: Image.asset(_resturant.logoResturant!,
+>>>>>>> 8b751dfdac8e3c1220590962ac203aec42fcd6e8
 =======
                           child: Image.asset(_resturant.logoResturant!,
 >>>>>>> 8b751dfdac8e3c1220590962ac203aec42fcd6e8
@@ -230,9 +268,12 @@ class _ResturantListeState extends State<ResturantListe> {
                                 ),
                               ),
 <<<<<<< HEAD
+<<<<<<< HEAD
                               rating(20.0, 105.0, 15.0,
                                   Theme.of(context).bottomAppBarTheme.color),
 =======
+=======
+>>>>>>> 8b751dfdac8e3c1220590962ac203aec42fcd6e8
                               Padding(
                                 padding: const EdgeInsets.only(left: 15.0),
                                 child: rating(5.0, 0.0, 15.0, Colors.amber),

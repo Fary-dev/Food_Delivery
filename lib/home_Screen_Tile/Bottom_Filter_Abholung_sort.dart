@@ -20,6 +20,7 @@ class BottomFilterAbholungSort extends StatelessWidget {
         children: <Widget>[
           //__________________________Sortierung______________________________
 <<<<<<< HEAD
+<<<<<<< HEAD
           ElevatedButton.icon(
             onPressed: () {
               containerSortirung(context);
@@ -43,6 +44,45 @@ class BottomFilterAbholungSort extends StatelessWidget {
                 ),
                 backgroundColor: MaterialStateProperty.all(
                     Theme.of(context).bottomAppBarTheme.color)),
+=======
+          Obx(
+            () => ElevatedButton.icon(
+              onPressed: () {
+                containerSortirung(context);
+              },
+              icon: Icon(
+                CupertinoIcons.sort_down,
+                color: primaryColor,
+              ),
+              label: Text(
+                'Sortierung',
+                style: Theme.of(context)
+                    .primaryTextTheme
+                    .button!
+                    .apply(fontSizeDelta: -3),
+              ),
+              style: _controller.selectSortItem.value != ''
+                  ? ButtonStyle(
+                      shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                        RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(10.0),
+                          side: BorderSide(color: primaryColor, width: 1),
+                        ),
+                      ),
+                      backgroundColor: MaterialStateProperty.all(
+                          Theme.of(context).bottomAppBarTheme.color),
+                    )
+                  : ButtonStyle(
+                      shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                        RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(10.0),
+                        ),
+                      ),
+                      backgroundColor: MaterialStateProperty.all(
+                          Theme.of(context).bottomAppBarTheme.color),
+                    ),
+            ),
+>>>>>>> 8b751dfdac8e3c1220590962ac203aec42fcd6e8
 =======
           Obx(
             () => ElevatedButton.icon(
@@ -124,6 +164,7 @@ class BottomFilterAbholungSort extends StatelessWidget {
                     ),
             ),
 <<<<<<< HEAD
+<<<<<<< HEAD
             style: ButtonStyle(
                 shape: MaterialStateProperty.all<RoundedRectangleBorder>(
                   RoundedRectangleBorder(
@@ -132,6 +173,8 @@ class BottomFilterAbholungSort extends StatelessWidget {
                 ),
                 backgroundColor: MaterialStateProperty.all(
                     Theme.of(context).bottomAppBarTheme.color)),
+=======
+>>>>>>> 8b751dfdac8e3c1220590962ac203aec42fcd6e8
 =======
 >>>>>>> 8b751dfdac8e3c1220590962ac203aec42fcd6e8
           ),
@@ -170,6 +213,7 @@ class BottomFilterAbholungSort extends StatelessWidget {
 
 void containerSortirung(context) {
   final ResturantListController sortList = Get.put(ResturantListController());
+<<<<<<< HEAD
 <<<<<<< HEAD
 
   Widget btnSort(IconData iconn, String txt, Color colorIcon, Color colorBtn) {
@@ -245,6 +289,12 @@ void containerSortirung(context) {
     shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.vertical(top: Radius.circular(18))),
 >>>>>>> 8b751dfdac8e3c1220590962ac203aec42fcd6e8
+=======
+  showModalBottomSheet(
+    isScrollControlled: true,
+    shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(top: Radius.circular(18))),
+>>>>>>> 8b751dfdac8e3c1220590962ac203aec42fcd6e8
     context: context,
     builder: (BuildContext context) {
       return StatefulBuilder(
@@ -253,18 +303,24 @@ void containerSortirung(context) {
             mainAxisSize: MainAxisSize.min,
             children: [
 <<<<<<< HEAD
+<<<<<<< HEAD
               SizedBox(
                 height: 10,
               ),
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 15),
 =======
+=======
+>>>>>>> 8b751dfdac8e3c1220590962ac203aec42fcd6e8
               Container(
                 decoration: BoxDecoration(
                     color: Theme.of(context).cardColor,
                     borderRadius:
                         BorderRadius.vertical(top: Radius.circular(18))),
                 padding: const EdgeInsets.symmetric(horizontal: 16),
+<<<<<<< HEAD
+>>>>>>> 8b751dfdac8e3c1220590962ac203aec42fcd6e8
+=======
 >>>>>>> 8b751dfdac8e3c1220590962ac203aec42fcd6e8
                 child: Row(
                   children: [
@@ -273,13 +329,18 @@ void containerSortirung(context) {
                       style: Theme.of(context)
                           .primaryTextTheme
 <<<<<<< HEAD
+<<<<<<< HEAD
                           .button
+=======
+                          .button!
+>>>>>>> 8b751dfdac8e3c1220590962ac203aec42fcd6e8
                           .copyWith(fontSize: 14),
                     ),
                     Spacer(),
                     IconButton(
                       icon: Icon(
                         CupertinoIcons.clear_circled_solid,
+<<<<<<< HEAD
 =======
                           .button!
                           .copyWith(fontSize: 14),
@@ -294,6 +355,14 @@ void containerSortirung(context) {
                         Get.back();
                       },
                     ),
+=======
+                      ),
+                      onPressed: () {
+                        sortList.selectSortItem.value = '';
+                        Get.back();
+                      },
+                    ),
+>>>>>>> 8b751dfdac8e3c1220590962ac203aec42fcd6e8
                   ],
                 ),
               ),
@@ -389,6 +458,7 @@ void containerSortirung(context) {
                               ? primaryColor
                               : greyLightColor,
                           shape: BoxShape.circle,
+<<<<<<< HEAD
                         ),
                         child: Icon(
                           CupertinoIcons.flame_fill,
@@ -472,6 +542,91 @@ void containerSortirung(context) {
                               ? greyLightColor
                               : primaryColor,
                         ),
+=======
+                        ),
+                        child: Icon(
+                          CupertinoIcons.flame_fill,
+                          color: sortList.selectSortItem.value == 'Beliebtheit'
+                              ? greyLightColor
+                              : primaryColor,
+                        ),
+                      ),
+                    ),
+                    title: Text(
+                      'Beliebtheit',
+                      style: Theme.of(context)
+                          .primaryTextTheme
+                          .button,
+                    ),
+                    onTap: () {
+                      sortList.selectSortItem.value = 'Beliebtheit';
+                      if (sortList.list.isEmpty) {
+                        if (sortList.selectSortItem.value == 'Qualität') {
+                          sortList.defaultListResturant
+                            ..sort((a, b) =>
+                                b.ratingResturant.compareTo(a.ratingResturant));
+                        } else if (sortList.selectSortItem.value == 'Zeit') {
+                          sortList.defaultListResturant
+                            ..sort((a, b) => a.deliveryDuration
+                                .compareTo(b.deliveryDuration));
+                        } else if (sortList.selectSortItem.value ==
+                            'Entfernung') {
+                          sortList.defaultListResturant
+                            ..sort((a, b) => a.distance.compareTo(b.distance));
+                        } else if (sortList.selectSortItem.value ==
+                            'Beliebtheit') {
+                          sortList.defaultListResturant
+                            ..sort((a, b) => b.distance.compareTo(a.distance));
+                        }
+                      } else {
+                        if (sortList.selectSortItem.value == 'Qualität') {
+                          sortList.list
+                            ..sort((a, b) => b.ratingResturant!
+                                .compareTo(a.ratingResturant!));
+                        } else if (sortList.selectSortItem.value == 'Zeit') {
+                          sortList.list
+                            ..sort((a, b) => a.deliveryDuration!
+                                .compareTo(b.deliveryDuration!));
+                        } else if (sortList.selectSortItem.value ==
+                            'Entfernung') {
+                          sortList.list
+                            ..sort(
+                                (a, b) => a.distance!.compareTo(b.distance!));
+                        } else if (sortList.selectSortItem.value ==
+                            'Beliebtheit') {
+                          sortList.list
+                            ..sort(
+                                (a, b) => b.distance!.compareTo(a.distance!));
+                        }
+                      }
+                      Get.back();
+                    },
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 15),
+                    child: Divider(height: 1,),
+                  ),
+                  ListTile(
+                    contentPadding: EdgeInsets.symmetric(vertical: 0.0, horizontal: 16.0),
+                    dense:true,
+                    leading: Obx(
+                      () => Container(
+                        // margin: EdgeInsets.all(10),
+                        height: 33,
+                        width: 33,
+                        decoration: BoxDecoration(
+                          color: sortList.selectSortItem.value == 'Zeit'
+                              ? primaryColor
+                              : greyLightColor,
+                          shape: BoxShape.circle,
+                        ),
+                        child: Icon(
+                          CupertinoIcons.timer,
+                          color: sortList.selectSortItem.value == 'Zeit'
+                              ? greyLightColor
+                              : primaryColor,
+                        ),
+>>>>>>> 8b751dfdac8e3c1220590962ac203aec42fcd6e8
                       ),
                     ),
                     title: Text(
@@ -607,6 +762,7 @@ void containerSortirung(context) {
                   ),
                   SizedBox(height:8),
                 ],
+<<<<<<< HEAD
               ),
 <<<<<<< HEAD
               SizedBox(
@@ -661,6 +817,9 @@ void containerSortirung(context) {
                 ),
               ),
 =======
+>>>>>>> 8b751dfdac8e3c1220590962ac203aec42fcd6e8
+=======
+              ),
 >>>>>>> 8b751dfdac8e3c1220590962ac203aec42fcd6e8
             ],
           );
@@ -742,7 +901,11 @@ void containerFilter(context) {
             ),
           ),
 <<<<<<< HEAD
+<<<<<<< HEAD
           color: selectFilterItem.value == btnName
+=======
+          color: filterList.selectFilterItem.value == btnName
+>>>>>>> 8b751dfdac8e3c1220590962ac203aec42fcd6e8
 =======
           color: filterList.selectFilterItem.value == btnName
 >>>>>>> 8b751dfdac8e3c1220590962ac203aec42fcd6e8
@@ -757,7 +920,11 @@ void containerFilter(context) {
     isScrollControlled: true,
     shape: RoundedRectangleBorder(
 <<<<<<< HEAD
+<<<<<<< HEAD
         borderRadius: BorderRadius.vertical(top: Radius.circular(10))),
+=======
+        borderRadius: BorderRadius.vertical(top: Radius.circular(18))),
+>>>>>>> 8b751dfdac8e3c1220590962ac203aec42fcd6e8
 =======
         borderRadius: BorderRadius.vertical(top: Radius.circular(18))),
 >>>>>>> 8b751dfdac8e3c1220590962ac203aec42fcd6e8
@@ -769,6 +936,7 @@ void containerFilter(context) {
             mainAxisSize: MainAxisSize.min,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
+<<<<<<< HEAD
 <<<<<<< HEAD
               Padding(
                 padding: EdgeInsets.all(15),
@@ -796,6 +964,16 @@ void containerFilter(context) {
                 padding: const EdgeInsets.symmetric(horizontal: 15),
                 child: Row(
                   children: [
+=======
+              Container(
+                decoration: BoxDecoration(
+                    color: Theme.of(context).cardColor,
+                    borderRadius:
+                    BorderRadius.vertical(top: Radius.circular(18))),
+                padding: const EdgeInsets.symmetric(horizontal: 15),
+                child: Row(
+                  children: [
+>>>>>>> 8b751dfdac8e3c1220590962ac203aec42fcd6e8
                     Text(
                       'Filtern nach...',
                       style: Theme.of(context)
@@ -807,6 +985,8 @@ void containerFilter(context) {
                     IconButton(
                       icon: Icon(
                         CupertinoIcons.clear_circled_solid,
+<<<<<<< HEAD
+=======
                       ),
                       onPressed: () {
                         Get.back();
@@ -814,6 +994,54 @@ void containerFilter(context) {
                         listItemCount.value = 0;
                       },
                     ),
+                  ],
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.all( 15),
+                child: Text(
+                  'Mindestbestellwert',
+                  style: Theme.of(context)
+                      .primaryTextTheme
+                      .button,
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 20),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    buttomFilter('Bis 10 \€', 1),
+                    buttomFilter('Bis 20 \€', 2),
+                    buttomFilter('Egal', 3)
+                  ],
+                ),
+              ),
+              SizedBox(
+                height: 18,
+              ),
+              Center(
+                child: TextButton(
+                  onPressed: () {
+                    filterList.selectFilterItem.value = '';
+                    listItemCount.value = 0;
+                  },
+                  child: Obx(
+                    () => Text(
+                      'Zurücksetzen',
+                      style: TextStyle(
+                        color: filterList.selectFilterItem.value != ''
+                            ? primaryColor
+                            : greyColor,
+>>>>>>> 8b751dfdac8e3c1220590962ac203aec42fcd6e8
+                      ),
+                      onPressed: () {
+                        Get.back();
+                        filterList.selectFilterItem.value = '';
+                        listItemCount.value = 0;
+                      },
+                    ),
+<<<<<<< HEAD
 >>>>>>> 8b751dfdac8e3c1220590962ac203aec42fcd6e8
                   ],
                 ),
@@ -878,6 +1106,8 @@ void containerFilter(context) {
                             : greyColor,
                       ),
                     ),
+=======
+>>>>>>> 8b751dfdac8e3c1220590962ac203aec42fcd6e8
                   ),
                 ),
               ),
@@ -891,7 +1121,11 @@ void containerFilter(context) {
                   () => MaterialButton(
                     elevation: 10,
 <<<<<<< HEAD
+<<<<<<< HEAD
                     color: selectFilterItem.value == ''
+=======
+                    color: filterList.selectFilterItem.value == ''
+>>>>>>> 8b751dfdac8e3c1220590962ac203aec42fcd6e8
 =======
                     color: filterList.selectFilterItem.value == ''
 >>>>>>> 8b751dfdac8e3c1220590962ac203aec42fcd6e8
@@ -904,7 +1138,11 @@ void containerFilter(context) {
                           fontFamily: 'Open_Sans_Bold',
                           fontSize: 14,
 <<<<<<< HEAD
+<<<<<<< HEAD
                           color: selectFilterItem.value == ''
+=======
+                          color: filterList.selectFilterItem.value == ''
+>>>>>>> 8b751dfdac8e3c1220590962ac203aec42fcd6e8
 =======
                           color: filterList.selectFilterItem.value == ''
 >>>>>>> 8b751dfdac8e3c1220590962ac203aec42fcd6e8
@@ -915,7 +1153,11 @@ void containerFilter(context) {
                     ),
                     onPressed: () {
 <<<<<<< HEAD
+<<<<<<< HEAD
                       if (selectFilterItem.value != '') Get.back();
+=======
+                      if (filterList.selectFilterItem.value != '') Get.back();
+>>>>>>> 8b751dfdac8e3c1220590962ac203aec42fcd6e8
 =======
                       if (filterList.selectFilterItem.value != '') Get.back();
 >>>>>>> 8b751dfdac8e3c1220590962ac203aec42fcd6e8

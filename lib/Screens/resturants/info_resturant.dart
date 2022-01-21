@@ -2,6 +2,10 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+import 'package:get_storage/get_storage.dart';
+>>>>>>> 8b751dfdac8e3c1220590962ac203aec42fcd6e8
 =======
 import 'package:get_storage/get_storage.dart';
 >>>>>>> 8b751dfdac8e3c1220590962ac203aec42fcd6e8
@@ -12,11 +16,14 @@ import 'package:mjam/Widgets/Rating.dart';
 import 'package:mjam/models_and_data/Class/models_and_data.dart';
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 class InfoResturant extends StatefulWidget {
   final Resturant resturant;
 
  const InfoResturant({this.resturant});
 =======
+=======
+>>>>>>> 8b751dfdac8e3c1220590962ac203aec42fcd6e8
 import 'PageResturant/FavoritController.dart';
 import 'Resturant_List/Clipper_Resturant_Photo.dart';
 
@@ -24,12 +31,16 @@ class InfoResturant extends StatefulWidget {
   final Resturant? resturant;
 
   InfoResturant({Key? key, this.resturant}) : super(key: key);
+<<<<<<< HEAD
+>>>>>>> 8b751dfdac8e3c1220590962ac203aec42fcd6e8
+=======
 >>>>>>> 8b751dfdac8e3c1220590962ac203aec42fcd6e8
 
   @override
   State<InfoResturant> createState() => _InfoResturantState();
 }
 
+<<<<<<< HEAD
 <<<<<<< HEAD
 class _InfoResturantState extends State<InfoResturant> {
   bool likeBottumPress = false;
@@ -40,6 +51,8 @@ class _InfoResturantState extends State<InfoResturant> {
 
   bool showBottomSheet = false;
 =======
+=======
+>>>>>>> 8b751dfdac8e3c1220590962ac203aec42fcd6e8
 final FavoriteController favoritController = Get.put(FavoriteController());
 
 @override
@@ -83,13 +96,20 @@ class _InfoResturantState extends State<InfoResturant> {
   String? changeText;
   bool showBottomSheet = false;
   final userData = GetStorage();
+<<<<<<< HEAD
+>>>>>>> 8b751dfdac8e3c1220590962ac203aec42fcd6e8
+=======
 >>>>>>> 8b751dfdac8e3c1220590962ac203aec42fcd6e8
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
 <<<<<<< HEAD
+<<<<<<< HEAD
       backgroundColor: Theme.of(context).bottomAppBarTheme.color,
+=======
+      backgroundColor: Theme.of(context).primaryColor,
+>>>>>>> 8b751dfdac8e3c1220590962ac203aec42fcd6e8
 =======
       backgroundColor: Theme.of(context).primaryColor,
 >>>>>>> 8b751dfdac8e3c1220590962ac203aec42fcd6e8
@@ -103,7 +123,11 @@ class _InfoResturantState extends State<InfoResturant> {
               elevation: 0,
               pinned: true,
 <<<<<<< HEAD
+<<<<<<< HEAD
               backgroundColor: Theme.of(context).bottomAppBarTheme.color,
+=======
+              backgroundColor: Theme.of(context).primaryColor,
+>>>>>>> 8b751dfdac8e3c1220590962ac203aec42fcd6e8
 =======
               backgroundColor: Theme.of(context).primaryColor,
 >>>>>>> 8b751dfdac8e3c1220590962ac203aec42fcd6e8
@@ -115,7 +139,11 @@ class _InfoResturantState extends State<InfoResturant> {
                   decoration: BoxDecoration(
                     shape: BoxShape.circle,
 <<<<<<< HEAD
+<<<<<<< HEAD
                     color: Color(0xFFFFFFFF),
+=======
+                    color: Theme.of(context).primaryColor,
+>>>>>>> 8b751dfdac8e3c1220590962ac203aec42fcd6e8
 =======
                     color: Theme.of(context).primaryColor,
 >>>>>>> 8b751dfdac8e3c1220590962ac203aec42fcd6e8
@@ -137,6 +165,7 @@ class _InfoResturantState extends State<InfoResturant> {
                   decoration: BoxDecoration(
                     shape: BoxShape.circle,
 <<<<<<< HEAD
+<<<<<<< HEAD
                     color: Color(0xFFFFFFFF),
                   ),
                   child: IconButton(
@@ -153,6 +182,8 @@ class _InfoResturantState extends State<InfoResturant> {
                         },
                       );
 =======
+=======
+>>>>>>> 8b751dfdac8e3c1220590962ac203aec42fcd6e8
                     color: Theme.of(context).primaryColor,
                   ),
                   child: IconButton(
@@ -174,6 +205,9 @@ class _InfoResturantState extends State<InfoResturant> {
                               true
                           ? _removeFromFavoriteList(widget.resturant!)
                           : _addToFavoriteList(widget.resturant!);
+<<<<<<< HEAD
+>>>>>>> 8b751dfdac8e3c1220590962ac203aec42fcd6e8
+=======
 >>>>>>> 8b751dfdac8e3c1220590962ac203aec42fcd6e8
                     },
                   ),
@@ -182,9 +216,15 @@ class _InfoResturantState extends State<InfoResturant> {
               flexibleSpace: FlexibleSpaceBar(
                 collapseMode: CollapseMode.pin,
 <<<<<<< HEAD
+<<<<<<< HEAD
                 background: Hero(tag:widget.resturant.photoResturant,
                   child: Image.asset(
                     widget.resturant.photoInfoPage,
+=======
+                background: ClipPath(
+                  child: Image.asset(
+                    widget.resturant!.photoInfoPage!,
+>>>>>>> 8b751dfdac8e3c1220590962ac203aec42fcd6e8
 =======
                 background: ClipPath(
                   child: Image.asset(
@@ -195,6 +235,10 @@ class _InfoResturantState extends State<InfoResturant> {
                     fit: BoxFit.cover,
                   ),
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+                  clipper: CliperHpmePageResturant(),
+>>>>>>> 8b751dfdac8e3c1220590962ac203aec42fcd6e8
 =======
                   clipper: CliperHpmePageResturant(),
 >>>>>>> 8b751dfdac8e3c1220590962ac203aec42fcd6e8
@@ -212,7 +256,11 @@ class _InfoResturantState extends State<InfoResturant> {
               children: [
                 Text(
 <<<<<<< HEAD
+<<<<<<< HEAD
                   widget.resturant.nameResturant,
+=======
+                  widget.resturant!.nameResturant!,
+>>>>>>> 8b751dfdac8e3c1220590962ac203aec42fcd6e8
 =======
                   widget.resturant!.nameResturant!,
 >>>>>>> 8b751dfdac8e3c1220590962ac203aec42fcd6e8
@@ -221,7 +269,11 @@ class _InfoResturantState extends State<InfoResturant> {
                   style: Theme.of(context)
                       .primaryTextTheme
 <<<<<<< HEAD
+<<<<<<< HEAD
                       .headline2
+=======
+                      .headline2!
+>>>>>>> 8b751dfdac8e3c1220590962ac203aec42fcd6e8
 =======
                       .headline2!
 >>>>>>> 8b751dfdac8e3c1220590962ac203aec42fcd6e8
@@ -234,8 +286,12 @@ class _InfoResturantState extends State<InfoResturant> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
 <<<<<<< HEAD
+<<<<<<< HEAD
                     rating(20.0, 105.0, 20.0,
                         Theme.of(context).bottomAppBarTheme.color),
+=======
+                    rating(5.0, 0.0, 15.0, Colors.amber),
+>>>>>>> 8b751dfdac8e3c1220590962ac203aec42fcd6e8
 =======
                     rating(5.0, 0.0, 15.0, Colors.amber),
 >>>>>>> 8b751dfdac8e3c1220590962ac203aec42fcd6e8
@@ -244,7 +300,11 @@ class _InfoResturantState extends State<InfoResturant> {
                     ),
                     Text(
 <<<<<<< HEAD
+<<<<<<< HEAD
                       widget.resturant.ratingResturant.toString(),
+=======
+                      widget.resturant!.ratingResturant.toString(),
+>>>>>>> 8b751dfdac8e3c1220590962ac203aec42fcd6e8
 =======
                       widget.resturant!.ratingResturant.toString(),
 >>>>>>> 8b751dfdac8e3c1220590962ac203aec42fcd6e8
@@ -266,7 +326,11 @@ class _InfoResturantState extends State<InfoResturant> {
                     ),
                     Text(
 <<<<<<< HEAD
+<<<<<<< HEAD
                       " ca.${widget.resturant.deliveryDuration}min",
+=======
+                      " ca.${widget.resturant!.deliveryDuration}min",
+>>>>>>> 8b751dfdac8e3c1220590962ac203aec42fcd6e8
 =======
                       " ca.${widget.resturant!.deliveryDuration}min",
 >>>>>>> 8b751dfdac8e3c1220590962ac203aec42fcd6e8
@@ -280,7 +344,11 @@ class _InfoResturantState extends State<InfoResturant> {
                     ),
                     Text(
 <<<<<<< HEAD
+<<<<<<< HEAD
                       "${(widget.resturant.distance / 1000).toStringAsFixed(1)} km",
+=======
+                      "${(widget.resturant!.distance! / 1000).toStringAsFixed(1)} km",
+>>>>>>> 8b751dfdac8e3c1220590962ac203aec42fcd6e8
 =======
                       "${(widget.resturant!.distance! / 1000).toStringAsFixed(1)} km",
 >>>>>>> 8b751dfdac8e3c1220590962ac203aec42fcd6e8
@@ -301,7 +369,11 @@ class _InfoResturantState extends State<InfoResturant> {
                     ),
                     Text(
 <<<<<<< HEAD
+<<<<<<< HEAD
                       "  \€ ${widget.resturant.deliveryPrice}",
+=======
+                      "  \€ ${widget.resturant!.deliveryPrice}",
+>>>>>>> 8b751dfdac8e3c1220590962ac203aec42fcd6e8
 =======
                       "  \€ ${widget.resturant!.deliveryPrice}",
 >>>>>>> 8b751dfdac8e3c1220590962ac203aec42fcd6e8
@@ -315,7 +387,11 @@ class _InfoResturantState extends State<InfoResturant> {
                     ),
                     Text(
 <<<<<<< HEAD
+<<<<<<< HEAD
                       "  \€ ${widget.resturant.deliveryPrice}",
+=======
+                      "  \€ ${widget.resturant!.deliveryPrice}",
+>>>>>>> 8b751dfdac8e3c1220590962ac203aec42fcd6e8
 =======
                       "  \€ ${widget.resturant!.deliveryPrice}",
 >>>>>>> 8b751dfdac8e3c1220590962ac203aec42fcd6e8
@@ -334,7 +410,11 @@ class _InfoResturantState extends State<InfoResturant> {
                   style: Theme.of(context)
                       .primaryTextTheme
 <<<<<<< HEAD
+<<<<<<< HEAD
                       .headline3
+=======
+                      .headline3!
+>>>>>>> 8b751dfdac8e3c1220590962ac203aec42fcd6e8
 =======
                       .headline3!
 >>>>>>> 8b751dfdac8e3c1220590962ac203aec42fcd6e8
@@ -345,15 +425,21 @@ class _InfoResturantState extends State<InfoResturant> {
                 ),
                 Text(
 <<<<<<< HEAD
+<<<<<<< HEAD
                   '${widget.resturant.openingTime}',
                   style: Theme.of(context)
                       .primaryTextTheme
                       .subtitle1
 =======
+=======
+>>>>>>> 8b751dfdac8e3c1220590962ac203aec42fcd6e8
                   '${widget.resturant!.openingTime}',
                   style: Theme.of(context)
                       .primaryTextTheme
                       .subtitle1!
+<<<<<<< HEAD
+>>>>>>> 8b751dfdac8e3c1220590962ac203aec42fcd6e8
+=======
 >>>>>>> 8b751dfdac8e3c1220590962ac203aec42fcd6e8
                       .copyWith(fontSize: 12.0),
                 ),
@@ -365,7 +451,11 @@ class _InfoResturantState extends State<InfoResturant> {
                   style: Theme.of(context)
                       .primaryTextTheme
 <<<<<<< HEAD
+<<<<<<< HEAD
                       .headline3
+=======
+                      .headline3!
+>>>>>>> 8b751dfdac8e3c1220590962ac203aec42fcd6e8
 =======
                       .headline3!
 >>>>>>> 8b751dfdac8e3c1220590962ac203aec42fcd6e8
@@ -376,15 +466,21 @@ class _InfoResturantState extends State<InfoResturant> {
                 ),
                 Text(
 <<<<<<< HEAD
+<<<<<<< HEAD
                   widget.resturant.address.toString(),
                   style: Theme.of(context)
                       .primaryTextTheme
                       .subtitle1
 =======
+=======
+>>>>>>> 8b751dfdac8e3c1220590962ac203aec42fcd6e8
                   widget.resturant!.address.toString(),
                   style: Theme.of(context)
                       .primaryTextTheme
                       .subtitle1!
+<<<<<<< HEAD
+>>>>>>> 8b751dfdac8e3c1220590962ac203aec42fcd6e8
+=======
 >>>>>>> 8b751dfdac8e3c1220590962ac203aec42fcd6e8
                       .copyWith(fontSize: 12.0),
                 ),
@@ -396,7 +492,11 @@ class _InfoResturantState extends State<InfoResturant> {
                   style: Theme.of(context)
                       .primaryTextTheme
 <<<<<<< HEAD
+<<<<<<< HEAD
                       .headline3
+=======
+                      .headline3!
+>>>>>>> 8b751dfdac8e3c1220590962ac203aec42fcd6e8
 =======
                       .headline3!
 >>>>>>> 8b751dfdac8e3c1220590962ac203aec42fcd6e8
@@ -407,15 +507,21 @@ class _InfoResturantState extends State<InfoResturant> {
                 ),
                 Text(
 <<<<<<< HEAD
+<<<<<<< HEAD
                   widget.resturant.owner,
                   style: Theme.of(context)
                       .primaryTextTheme
                       .subtitle1
 =======
+=======
+>>>>>>> 8b751dfdac8e3c1220590962ac203aec42fcd6e8
                   widget.resturant!.owner!,
                   style: Theme.of(context)
                       .primaryTextTheme
                       .subtitle1!
+<<<<<<< HEAD
+>>>>>>> 8b751dfdac8e3c1220590962ac203aec42fcd6e8
+=======
 >>>>>>> 8b751dfdac8e3c1220590962ac203aec42fcd6e8
                       .copyWith(fontSize: 14.0),
                 ),

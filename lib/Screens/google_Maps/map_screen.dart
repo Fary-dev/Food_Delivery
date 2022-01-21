@@ -5,7 +5,11 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:mjam/Contants/Color.dart';
 import 'package:mjam/Screens/First_Page/First_Location_controller.dart';
 <<<<<<< HEAD
+<<<<<<< HEAD
 import 'package:mjam/Screens/Resturants/pageResturant.dart';
+=======
+import 'package:mjam/Screens/Resturants/PageResturant/NewScreen/pageResturant.dart';
+>>>>>>> 8b751dfdac8e3c1220590962ac203aec42fcd6e8
 =======
 import 'package:mjam/Screens/Resturants/PageResturant/NewScreen/pageResturant.dart';
 >>>>>>> 8b751dfdac8e3c1220590962ac203aec42fcd6e8
@@ -88,17 +92,23 @@ class _MapScreenState extends State<MapScreen> {
                 boxShadow: [
                   BoxShadow(
 <<<<<<< HEAD
+<<<<<<< HEAD
                       color: Theme.of(context).iconTheme.color,
                       blurRadius: 5,
                       offset: Offset(0.0, 1.0)),
                   BoxShadow(
                       color: Theme.of(context).iconTheme.color,
 =======
+=======
+>>>>>>> 8b751dfdac8e3c1220590962ac203aec42fcd6e8
                       color: Theme.of(context).iconTheme.color!,
                       blurRadius: 5,
                       offset: Offset(0.0, 1.0)),
                   BoxShadow(
                       color: Theme.of(context).iconTheme.color!,
+<<<<<<< HEAD
+>>>>>>> 8b751dfdac8e3c1220590962ac203aec42fcd6e8
+=======
 >>>>>>> 8b751dfdac8e3c1220590962ac203aec42fcd6e8
                       blurRadius: 5,
                       offset: Offset(1.0, 0.0))
@@ -114,15 +124,21 @@ class _MapScreenState extends State<MapScreen> {
                         top: 15,
                         left: 10,
 <<<<<<< HEAD
+<<<<<<< HEAD
                         child: Text(resturants[index].nameResturant,
                             style: Theme.of(context)
                                 .primaryTextTheme
                                 .headline2
 =======
+=======
+>>>>>>> 8b751dfdac8e3c1220590962ac203aec42fcd6e8
                         child: Text(resturants[index].nameResturant!,
                             style: Theme.of(context)
                                 .primaryTextTheme
                                 .headline2!
+<<<<<<< HEAD
+>>>>>>> 8b751dfdac8e3c1220590962ac203aec42fcd6e8
+=======
 >>>>>>> 8b751dfdac8e3c1220590962ac203aec42fcd6e8
                                 .copyWith(fontSize: 14))),
                     Positioned(
@@ -130,7 +146,11 @@ class _MapScreenState extends State<MapScreen> {
                         left: 10,
                         child: Text(
 <<<<<<< HEAD
+<<<<<<< HEAD
                           resturants[index].description,
+=======
+                          resturants[index].description!,
+>>>>>>> 8b751dfdac8e3c1220590962ac203aec42fcd6e8
 =======
                           resturants[index].description!,
 >>>>>>> 8b751dfdac8e3c1220590962ac203aec42fcd6e8
@@ -148,7 +168,11 @@ class _MapScreenState extends State<MapScreen> {
                             ),
                             Text(
 <<<<<<< HEAD
+<<<<<<< HEAD
                               resturants[index].address,
+=======
+                              resturants[index].address!,
+>>>>>>> 8b751dfdac8e3c1220590962ac203aec42fcd6e8
 =======
                               resturants[index].address!,
 >>>>>>> 8b751dfdac8e3c1220590962ac203aec42fcd6e8
@@ -171,7 +195,11 @@ class _MapScreenState extends State<MapScreen> {
                             image: DecorationImage(
                                 image: ExactAssetImage(
 <<<<<<< HEAD
+<<<<<<< HEAD
                                   resturants[index].logoResturant,
+=======
+                                  resturants[index].logoResturant!,
+>>>>>>> 8b751dfdac8e3c1220590962ac203aec42fcd6e8
 =======
                                   resturants[index].logoResturant!,
 >>>>>>> 8b751dfdac8e3c1220590962ac203aec42fcd6e8
@@ -197,6 +225,7 @@ class _MapScreenState extends State<MapScreen> {
                                       style: Theme.of(context)
                                           .primaryTextTheme
 <<<<<<< HEAD
+<<<<<<< HEAD
                                           .headline3
                                           .copyWith(fontSize: 10),
                                     ),
@@ -208,10 +237,15 @@ class _MapScreenState extends State<MapScreen> {
                                             .bottomAppBarTheme
                                             .color),
 =======
+=======
+>>>>>>> 8b751dfdac8e3c1220590962ac203aec42fcd6e8
                                           .headline3!
                                           .copyWith(fontSize: 10),
                                     ),
                                     rating(5.0, 0.0, 12.0, Colors.amber),
+<<<<<<< HEAD
+>>>>>>> 8b751dfdac8e3c1220590962ac203aec42fcd6e8
+=======
 >>>>>>> 8b751dfdac8e3c1220590962ac203aec42fcd6e8
                                   ],
                                 ),
@@ -223,6 +257,7 @@ class _MapScreenState extends State<MapScreen> {
                                       style: Theme.of(context)
                                           .primaryTextTheme
 <<<<<<< HEAD
+<<<<<<< HEAD
                                           .headline3
                                           .copyWith(fontSize: 10),
                                     ),
@@ -232,6 +267,8 @@ class _MapScreenState extends State<MapScreen> {
                                           .primaryTextTheme
                                           .headline3
 =======
+=======
+>>>>>>> 8b751dfdac8e3c1220590962ac203aec42fcd6e8
                                           .headline3!
                                           .copyWith(fontSize: 10),
                                     ),
@@ -240,6 +277,9 @@ class _MapScreenState extends State<MapScreen> {
                                       style: Theme.of(context)
                                           .primaryTextTheme
                                           .headline3!
+<<<<<<< HEAD
+>>>>>>> 8b751dfdac8e3c1220590962ac203aec42fcd6e8
+=======
 >>>>>>> 8b751dfdac8e3c1220590962ac203aec42fcd6e8
                                           .copyWith(fontSize: 10),
                                     )
@@ -253,7 +293,11 @@ class _MapScreenState extends State<MapScreen> {
                                       style: Theme.of(context)
                                           .primaryTextTheme
 <<<<<<< HEAD
+<<<<<<< HEAD
                                           .headline3
+=======
+                                          .headline3!
+>>>>>>> 8b751dfdac8e3c1220590962ac203aec42fcd6e8
 =======
                                           .headline3!
 >>>>>>> 8b751dfdac8e3c1220590962ac203aec42fcd6e8
@@ -264,7 +308,11 @@ class _MapScreenState extends State<MapScreen> {
                                       style: Theme.of(context)
                                           .primaryTextTheme
 <<<<<<< HEAD
+<<<<<<< HEAD
                                           .headline3
+=======
+                                          .headline3!
+>>>>>>> 8b751dfdac8e3c1220590962ac203aec42fcd6e8
 =======
                                           .headline3!
 >>>>>>> 8b751dfdac8e3c1220590962ac203aec42fcd6e8

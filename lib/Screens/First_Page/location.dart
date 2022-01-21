@@ -2,7 +2,10 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:geocoding/geocoding.dart';
 <<<<<<< HEAD
+<<<<<<< HEAD
 
+=======
+>>>>>>> 8b751dfdac8e3c1220590962ac203aec42fcd6e8
 =======
 >>>>>>> 8b751dfdac8e3c1220590962ac203aec42fcd6e8
 import 'package:geolocator/geolocator.dart';
@@ -26,7 +29,11 @@ class _LocationSetState extends State<LocationSet> {
   final ResturantListController ff = Get.put(ResturantListController());
   final Future<FirebaseApp> _fba = Firebase.initializeApp();
 <<<<<<< HEAD
+<<<<<<< HEAD
 
+=======
+  final FavoriteController favoritController = Get.put(FavoriteController());
+>>>>>>> 8b751dfdac8e3c1220590962ac203aec42fcd6e8
 =======
   final FavoriteController favoritController = Get.put(FavoriteController());
 >>>>>>> 8b751dfdac8e3c1220590962ac203aec42fcd6e8
@@ -40,6 +47,7 @@ class _LocationSetState extends State<LocationSet> {
     isLoading = false;
     userData.writeIfNull('isLogged', false);
 
+<<<<<<< HEAD
   }
 
 <<<<<<< HEAD
@@ -51,6 +59,19 @@ class _LocationSetState extends State<LocationSet> {
   }
 
 =======
+
+
+  getCurrentLocation() async {
+    await determinePosition().then((value) => {getPlace(value)});
+    setState(() {
+      isLoading = true;
+    });
+  }
+
+>>>>>>> 8b751dfdac8e3c1220590962ac203aec42fcd6e8
+=======
+  }
+
 
 
   getCurrentLocation() async {
@@ -69,8 +90,13 @@ class _LocationSetState extends State<LocationSet> {
         pos.latitude,
         pos.longitude,
 <<<<<<< HEAD
+<<<<<<< HEAD
         res.lattut,
         res.longtut,
+=======
+        res.lattut!,
+        res.longtut!,
+>>>>>>> 8b751dfdac8e3c1220590962ac203aec42fcd6e8
 =======
         res.lattut!,
         res.longtut!,
@@ -82,15 +108,21 @@ class _LocationSetState extends State<LocationSet> {
 
     Placemark placemark = newPlace[0];
 <<<<<<< HEAD
+<<<<<<< HEAD
     String plz = placemark.locality;
     String bzirck = placemark.postalCode;
     String hausNummer = placemark.subThoroughfare;
     String strasse = placemark.thoroughfare;
 =======
+=======
+>>>>>>> 8b751dfdac8e3c1220590962ac203aec42fcd6e8
     String plz = placemark.locality!;
     String bzirck = placemark.postalCode!;
     String hausNummer = placemark.subThoroughfare!;
     String strasse = placemark.thoroughfare!;
+<<<<<<< HEAD
+>>>>>>> 8b751dfdac8e3c1220590962ac203aec42fcd6e8
+=======
 >>>>>>> 8b751dfdac8e3c1220590962ac203aec42fcd6e8
 
     firstAdress.fistUserLocation.value = '$strasse $hausNummer, $plz $bzirck';
@@ -207,7 +239,12 @@ class _LocationSetState extends State<LocationSet> {
                       ),
                       onPressed: () {
 <<<<<<< HEAD
+<<<<<<< HEAD
                         Get.off(() => HomePage());
+=======
+
+                        Get.off(() => BottomNavBarWidget());
+>>>>>>> 8b751dfdac8e3c1220590962ac203aec42fcd6e8
 =======
 
                         Get.off(() => BottomNavBarWidget());

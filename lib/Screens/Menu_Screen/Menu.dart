@@ -14,6 +14,7 @@ class Menu extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
 <<<<<<< HEAD
+<<<<<<< HEAD
     return SafeArea(
       child: Scaffold(
         appBar: AppBar(
@@ -44,6 +45,8 @@ class Menu extends StatelessWidget {
                     ],
                   ),
 =======
+=======
+>>>>>>> 8b751dfdac8e3c1220590962ac203aec42fcd6e8
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Theme.of(context).appBarTheme.backgroundColor,
@@ -71,6 +74,9 @@ class Menu extends StatelessWidget {
                           .apply(color: primaryColor),
                     ),
                   ],
+<<<<<<< HEAD
+>>>>>>> 8b751dfdac8e3c1220590962ac203aec42fcd6e8
+=======
 >>>>>>> 8b751dfdac8e3c1220590962ac203aec42fcd6e8
                 ),
               ),
