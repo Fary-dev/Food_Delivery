@@ -37,37 +37,6 @@ class _ShoppingCartsState extends State<ShoppingCarts> {
     shoppingCartController.extraZutatenList.value = data;
   }
 
-  _addToExtraZutatenList(Extra extra,Product product,Resturant resturant) async {
-    ExtraZutatenModel extraZutatenModel =ExtraZutatenModel(
-      idProduct: product.id,
-      nameProduct: product.nameProduct,
-      nameResturant: resturant.nameResturant,
-      dateTime: DateTime.now().toString(),
-      zutatenName: extra.name,
-      price: extra.price,
-    );
-    await DB.insertToExtraZutatenList(extraZutatenModel);
-    extraZutatenModel.id = shoppingCartController.extraZutatenList.isEmpty
-        ? 0
-        : shoppingCartController
-        .extraZutatenList[shoppingCartController.extraZutatenList.length - 1].id! +
-        1;
-
-    _refreshDataExtraZutaten();
-  }
-
-  _removeFromExtraZutatenList(Extra extra,Resturant resturant) async {
-    for (var a in shoppingCartController.extraZutatenList) {
-      for(var t in resturant.extra!) {
-        if (a.zutatenName == extra.name &&
-            a.nameResturant == resturant.nameResturant&&extra.name==t.name) {
-          await DB.deleteFromExtraZutatenList(a.id!);
-        }
-      }
-    }
-    _refreshDataExtraZutaten();
-  }
-
   _removeAllDataFromzutatenList() async {
     await DB.deleteAllDataFromExtraZutatenList();
     shoppingCartController.extraZutatenList.value = [];
@@ -81,19 +50,20 @@ class _ShoppingCartsState extends State<ShoppingCarts> {
       nameProduct: '${ord.nameProduct}',
       priceProduct: ord.priceProduct,
       dateTime: '${DateTime.now()}',
+      haveZutaten: ord.haveZutaten,
     );
     await DB.insertToOrderCard(order);
-    order.id1 = shoppingCartController.orderList.isEmpty
+    order.id = shoppingCartController.orderList.isEmpty
         ? 0
         : shoppingCartController
-                .orderList[shoppingCartController.orderList.length - 1].id1! +
+                .orderList[shoppingCartController.orderList.length - 1].id! +
             1;
     _refreshDataOrderList();
   }
 
   _removeFromOrderList(OrderModel ord) async {
     // final s= shoppingCartController.orderList.firstWhere((element) => element.nameProduct==ord.nameProduct).id1;
-    await DB.deleteFromOrderCard(ord.id1!);
+    await DB.deleteFromOrderCard(ord.id!);
 
     _refreshDataOrderList();
   }
@@ -115,7 +85,7 @@ class _ShoppingCartsState extends State<ShoppingCarts> {
 
     final Map<String, OrderModel> profileMap = new Map();
     shoppingCartController.orderList.forEach((item) {
-      profileMap[item.nameProduct!] = item;
+      profileMap[item.nameProduct] = item;
     });
     shoppingCartController.orderSet.value = profileMap.values.toList();
     shoppingCartController
@@ -153,14 +123,14 @@ class _ShoppingCartsState extends State<ShoppingCarts> {
         appBar: buildAppBar(context),
         body: Obx(
           () => shoppingCartController.orderList.isNotEmpty
-              ? screenAfterLogIn(context)
-              : screenBeforLogIn(context),
+              ? shoppingCartHasData(context)
+              : shoppingCartEmpety(context),
         ),
       ),
     );
   }
 
-  Column screenAfterLogIn(context) {
+  Column shoppingCartHasData(context) {
     return Column(
       children: [
         Expanded(
@@ -191,9 +161,12 @@ class _ShoppingCartsState extends State<ShoppingCarts> {
                     int count = _ord.orderList
                         .where((a) => a.nameProduct == _order.nameProduct)
                         .length;
+
+
                     List<ExtraZutatenModel> zutaten=[];
-                    shoppingCartController.extraZutatenList.forEach((e) {
-                      if(e.nameProduct==_order.nameProduct&&e.nameResturant==_order.nameResturant){
+                    _ord.extraZutatenList.forEach((e) {
+
+                      if(e.orderId==_ord.orderList[index].id){
                         zutaten.add(e);
                       }
                     });
@@ -266,10 +239,10 @@ class _ShoppingCartsState extends State<ShoppingCarts> {
                                               MainAxisAlignment.spaceBetween,
                                           children: [
                                             Text(
-                                              _order.nameProduct!,style: Theme.of(context).primaryTextTheme.button,
+                                              _order.nameProduct,style: Theme.of(context).primaryTextTheme.button,
                                             ),
                                             Text(
-                                              '\€ ${(count * _order.priceProduct!).toStringAsFixed(2)}'
+                                              '\€ ${(count * _order.priceProduct).toStringAsFixed(2)}'
                                                 ,style: Theme.of(context).primaryTextTheme.button,
                                             )
                                           ],
@@ -453,8 +426,8 @@ class _ShoppingCartsState extends State<ShoppingCarts> {
                                 Spacer(),
                                 Obx(
                                   () => Text(
-                                    // '${orderController.cartOrder.reduce((x, y) => Order(totalPrise: x.totalPrise! + y.totalPrise!)).totalPrise!.toStringAsFixed(2)} \€',
-                                    '${shoppingCartController.orderList.reduce((x, y) => OrderModel(priceProduct: x.priceProduct! + y.priceProduct!)).priceProduct!.toStringAsFixed(2)} €',
+                                    // '${shoppingCartController.orderList.reduce((x, y) => OrderModel(priceProduct: x.priceProduct! + y.priceProduct!)).priceProduct!.toStringAsFixed(2)} €',
+                                    '${shoppingCartController.orderList.reduce((x, y) => OrderModel(haveZutaten: 0,nameResturant: x.nameResturant, dateTime: x.dateTime, idProduct: x.idProduct, nameProduct: x.nameProduct, priceProduct: x.priceProduct + y.priceProduct)).priceProduct.toStringAsFixed(2)} €',
                                     style: Theme.of(context)
                                         .primaryTextTheme
                                         .bodyText2!
@@ -499,7 +472,7 @@ class _ShoppingCartsState extends State<ShoppingCarts> {
     );
   }
 
-  Center screenBeforLogIn(BuildContext context) {
+  Center shoppingCartEmpety(BuildContext context) {
     return Center(
       child: Column(
         mainAxisAlignment: MainAxisAlignment.end,
@@ -560,6 +533,9 @@ class _ShoppingCartsState extends State<ShoppingCarts> {
                 icon:ImageIcon(AssetImage('assets/menu.png',),
                 color: Theme.of(context).iconTheme.color,),
                 onPressed: () {
+                  shoppingCartController.setList.value=[];
+                  shoppingCartController.cleateSetList(shoppingCartController.orderList,shoppingCartController.extraZutatenList);
+                  print(shoppingCartController.setList.length);
                   Resturant? res;
                   for (var a in resturants) {
                     if (a.nameResturant ==
@@ -590,6 +566,7 @@ class _ShoppingCartsState extends State<ShoppingCarts> {
                     color: primaryColor,
                   ),
                   onPressed: () {
+                    _removeAllDataFromzutatenList();
                     _removeAllDataFromOrderList();
                     counterController.itemCount.value = 1;
                     counterController.showBottomSheet.value = false;

@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/painting.dart';
 import 'package:flutter/rendering.dart';
 import 'package:get/get.dart';
@@ -35,17 +37,15 @@ class _PageResturantState extends State<PageResturant>
 
   _PageResturantState(this.resturant);
 
-  RxInt showTheProductInShoppingCard = 0.obs;
-
   final CounterController counterController = Get.put(CounterController());
   final FavoriteController favoritController = Get.put(FavoriteController());
   final NotificationOfProduct notificationOfProduct =
       Get.put(NotificationOfProduct());
-
   final ShoppingCartController shoppingCartController =
       Get.put(ShoppingCartController());
 
   final scrollController = ScrollController();
+  RxInt showTheProductInShoppingCard = 0.obs;
   TabController? tabController;
   RxBool check = false.obs;
 
@@ -59,20 +59,30 @@ class _PageResturantState extends State<PageResturant>
     super.initState();
   }
 
+  _updateZutatenOrderId(
+      ExtraZutatenModel extraZutatenModel, int orderId) async {
+    await DB.updateIdZutaten(extraZutatenModel, orderId);
+    _refreshDataExtraZutaten();
+  }
+
+  // _updateZutatenOrderId(ExtraZutatenModel extraZutatenModel) async {
+  //   await DB.updateIdZutaten(extraZutatenModel);
+  //   _refreshDataExtraZutaten();
+  // }
+
   _refreshDataExtraZutaten() async {
     final data = await DB.getDataExtraZutaten();
     shoppingCartController.extraZutatenList.value = data;
   }
 
-  _addToExtraZutatenList(
-      Extra extra, Product product, Resturant resturant) async {
+  _addToExtraZutatenList(extraName, extraPrice, Product product) async {
     ExtraZutatenModel extraZutatenModel = ExtraZutatenModel(
-      idProduct: product.id,
-      nameProduct: product.nameProduct,
-      nameResturant: resturant.nameResturant,
+      orderId: 0,
+      nameProduct: product.nameProduct!,
+      nameResturant: resturant!.nameResturant!,
       dateTime: DateTime.now().toString(),
-      zutatenName: extra.name,
-      price: extra.price,
+      zutatenName: extraName,
+      price: extraPrice,
     );
     await DB.insertToExtraZutatenList(extraZutatenModel);
     extraZutatenModel.id = shoppingCartController.extraZutatenList.isEmpty
@@ -86,12 +96,12 @@ class _PageResturantState extends State<PageResturant>
     _refreshDataExtraZutaten();
   }
 
-  _removeFromExtraZutatenList(Extra extra, Resturant resturant) async {
+  void _removeFromExtraZutatenList(ExtraZutatenModel extraZutatenModel) async {
     for (var a in shoppingCartController.extraZutatenList) {
-      for (var t in resturant.extra!) {
-        if (a.zutatenName == extra.name &&
-            a.nameResturant == resturant.nameResturant &&
-            extra.name == t.name) {
+      for (var t in resturant!.extra!) {
+        if (a.zutatenName == extraZutatenModel.zutatenName &&
+            a.nameResturant == extraZutatenModel.nameResturant &&
+            extraZutatenModel.zutatenName == t.name) {
           await DB.deleteFromExtraZutatenList(a.id!);
         }
       }
@@ -136,17 +146,18 @@ class _PageResturantState extends State<PageResturant>
 
   _addToOrderList(Resturant res, Product pro) async {
     OrderModel order = OrderModel(
-      idProduct: pro.id,
+      idProduct: pro.id!,
       nameResturant: '${res.nameResturant}',
       nameProduct: '${pro.nameProduct}',
-      priceProduct: pro.price,
+      priceProduct: pro.price!,
       dateTime: '${DateTime.now()}',
+      haveZutaten: 0,
     );
     await DB.insertToOrderCard(order);
-    order.id1 = shoppingCartController.orderList.isEmpty
+    order.id = shoppingCartController.orderList.isEmpty
         ? 0
         : shoppingCartController
-                .orderList[shoppingCartController.orderList.length - 1].id1! +
+                .orderList[shoppingCartController.orderList.length - 1].id! +
             1;
     _refreshDataOrderList();
   }
@@ -154,7 +165,7 @@ class _PageResturantState extends State<PageResturant>
   _removeFromOrderList(Product pro) async {
     final s = shoppingCartController.orderList
         .firstWhere((element) => element.nameProduct == pro.nameProduct)
-        .id1;
+        .id;
     await DB.deleteFromOrderCard(s!);
 
     _refreshDataOrderList();
@@ -283,8 +294,6 @@ class _PageResturantState extends State<PageResturant>
                                 InkWell(
                                   onTap: () {
                                     counterController.counter.value = 1;
-                                    print(shoppingCartController
-                                        .extraZutatenList.length);
                                     showModalBottomSheet(
                                         isScrollControlled: true,
                                         enableDrag: true,
@@ -395,7 +404,12 @@ class _PageResturantState extends State<PageResturant>
                                                   ),
                                                 );
                                               },
-                                            ));
+                                            )).whenComplete(() {
+                                      shoppingCartController
+                                          .zutatenCheck.value = false;
+                                      shoppingCartController
+                                          .selectedZutatenList.value = [];
+                                    });
                                   },
                                   child: Container(
                                     padding: const EdgeInsets.symmetric(
@@ -591,7 +605,7 @@ class _PageResturantState extends State<PageResturant>
                             final Map<String, OrderModel> profileMap =
                                 new Map();
                             shoppingCartController.orderList.forEach((item) {
-                              profileMap[item.nameProduct!] = item;
+                              profileMap[item.nameProduct] = item;
                             });
                             shoppingCartController.orderSet.value =
                                 profileMap.values.toList();
@@ -607,6 +621,7 @@ class _PageResturantState extends State<PageResturant>
                             //   int result=shoppingCartController.orderSet.length-shoppingCartController.listController.length;
                             //   shoppingCartController.setTextFieldController(result);
                             // }
+
                             Get.to(() => ShoppingCarts());
                           },
                           child: Row(
@@ -644,7 +659,8 @@ class _PageResturantState extends State<PageResturant>
                                 () => Text(
                                   shoppingCartController.orderList.isEmpty
                                       ? ''
-                                      : '${shoppingCartController.orderList.reduce((x, y) => OrderModel(priceProduct: x.priceProduct! + y.priceProduct!)).priceProduct!.toStringAsFixed(2)} €',
+                                      // : '${shoppingCartController.orderList.reduce((x, y) => OrderModel(priceProduct: x.priceProduct! + y.priceProduct!)).priceProduct!.toStringAsFixed(2)} €',
+                                      : '${shoppingCartController.orderList.reduce((x, y) => OrderModel(haveZutaten: 0,nameResturant: x.nameResturant, dateTime: x.dateTime, idProduct: x.idProduct, nameProduct: x.nameProduct, priceProduct: x.priceProduct + y.priceProduct)).priceProduct.toStringAsFixed(2)} €',
                                   style: Theme.of(context)
                                       .primaryTextTheme
                                       .button!
@@ -687,6 +703,9 @@ class _PageResturantState extends State<PageResturant>
                 onPressed: () {
                   if (counterController.counter.value > 1) {
                     counterController.decrement();
+                    shoppingCartController.selectedZutatenList.forEach((e) {
+                      _removeFromExtraZutatenList(e);
+                    });
                     _removeFromOrderList(product);
                   } else {
                     counterController.counter.value;
@@ -717,11 +736,81 @@ class _PageResturantState extends State<PageResturant>
                           resturant.nameResturant) {
                     if (counterController.counter.value == 1) {
                       _addToOrderList(resturant, product);
+                      shoppingCartController.selectedZutatenList.forEach((e) {
+                        _addToExtraZutatenList(e.zutatenName, e.price, product);
+                      });
+
+                      Timer(Duration(milliseconds: 1200), () {
+                        int s = shoppingCartController.orderList.last.id!;
+                        shoppingCartController.extraZutatenList.forEach((e) {
+                          setState(() {
+                            ExtraZutatenModel extraZutatenModel =
+                                ExtraZutatenModel(
+                                    id: e.id!,
+                                    orderId: e.orderId!,
+                                    dateTime: e.dateTime!,
+                                    nameProduct: e.nameProduct,
+                                    nameResturant: e.nameResturant,
+                                    zutatenName: e.zutatenName,
+                                    price: e.price);
+                            if (e.orderId == 0) {
+                              _updateZutatenOrderId(extraZutatenModel, s);
+                            }
+                          });
+                        });
+                      });
+
                       _addToOrderList(resturant, product);
+                      shoppingCartController.selectedZutatenList.forEach((e) {
+                        _addToExtraZutatenList(e.zutatenName, e.price, product);
+                      });
+
+                      Timer(Duration(milliseconds: 1200), () {
+                        int s = shoppingCartController.orderList.last.id!;
+                        shoppingCartController.extraZutatenList.forEach((e) {
+                          setState(() {
+                            ExtraZutatenModel extraZutatenModel =
+                                ExtraZutatenModel(
+                                    id: e.id!,
+                                    orderId: e.orderId!,
+                                    dateTime: e.dateTime!,
+                                    nameProduct: e.nameProduct,
+                                    nameResturant: e.nameResturant,
+                                    zutatenName: e.zutatenName,
+                                    price: e.price);
+                            if (e.orderId == 0) {
+                              _updateZutatenOrderId(extraZutatenModel, s);
+                            }
+                          });
+                        });
+                      });
 
                       counterController.increment();
                     } else {
                       _addToOrderList(resturant, product);
+                      shoppingCartController.selectedZutatenList.forEach((e) {
+                        _addToExtraZutatenList(e.zutatenName, e.price, product);
+                      });
+
+                      Timer(Duration(milliseconds: 1200), () {
+                        int s = shoppingCartController.orderList.last.id!;
+                        shoppingCartController.extraZutatenList.forEach((e) {
+                          setState(() {
+                            ExtraZutatenModel extraZutatenModel =
+                                ExtraZutatenModel(
+                                    id: e.id!,
+                                    orderId: e.orderId!,
+                                    dateTime: e.dateTime!,
+                                    nameProduct: e.nameProduct,
+                                    nameResturant: e.nameResturant,
+                                    zutatenName: e.zutatenName,
+                                    price: e.price);
+                            if (e.orderId == 0) {
+                              _updateZutatenOrderId(extraZutatenModel, s);
+                            }
+                          });
+                        });
+                      });
 
                       counterController.increment();
                     }
@@ -753,6 +842,28 @@ class _PageResturantState extends State<PageResturant>
                           _addToOrderList(resturant, product);
                           counterController.clear();
                           counterController.showBottomSheet.value = true;
+
+                          Timer(Duration(milliseconds: 1200), () {
+                            int s = shoppingCartController.orderList.last.id!;
+                            shoppingCartController.extraZutatenList
+                                .forEach((e) {
+                              setState(() {
+                                ExtraZutatenModel extraZutatenModel =
+                                    ExtraZutatenModel(
+                                        id: e.id!,
+                                        orderId: e.orderId!,
+                                        dateTime: e.dateTime!,
+                                        nameProduct: e.nameProduct,
+                                        nameResturant: e.nameResturant,
+                                        zutatenName: e.zutatenName,
+                                        price: e.price);
+                                if (e.orderId == 0) {
+                                  _updateZutatenOrderId(extraZutatenModel, s);
+                                }
+                              });
+                            });
+                          });
+
                           updateScreen();
                           Get.back();
                         } else {
@@ -767,6 +878,7 @@ class _PageResturantState extends State<PageResturant>
                         updateScreen();
                       }
                       updateScreen();
+                      shoppingCartController.selectedZutatenList.value = [];
                     },
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -812,24 +924,22 @@ class _PageResturantState extends State<PageResturant>
       ),
       trailing: Icon(CupertinoIcons.add_circled_solid),
       onExpansionChanged: (value) {
-        List dd=[];
         setStateOfBottomSheet(() {
+          shoppingCartController.zutatenCheck.value = true;
           if (shoppingCartController.extraZutatenList.length > 0) {
-            if (shoppingCartController.extraZutatenList[0].nameResturant! !=
+            if (shoppingCartController.extraZutatenList[0].nameResturant !=
                 resturant.nameResturant) {
               showDialogForExtraZutaten(resturant, product);
             } else {
               if (resturant.extra != null) {
-                for (var b in shoppingCartController.extraZutatenList) {
-                  for (var a in resturant.extra!) {
-                    a.selected=false;
-                  }
+                for (var a in resturant.extra!) {
+                  a.selected = false;
                 }
               }
             }
           } else {
             for (var a in resturant.extra!) {
-              a.selected=false;
+              a.selected = false;
             }
             setStateOfBottomSheet(() {});
           }
@@ -837,130 +947,73 @@ class _PageResturantState extends State<PageResturant>
       },
       children: [
         ListView.builder(
-            physics: NeverScrollableScrollPhysics(),
+          physics: NeverScrollableScrollPhysics(),
           shrinkWrap: true,
           itemCount: resturant.extra!.length,
-          itemBuilder: (_,index){
-            var s=resturant.extra![index];
-            for(var a in shoppingCartController.extraZutatenList){
-              if(a.zutatenName==s.name&&a.nameProduct==product.nameProduct&&a.nameResturant==resturant.nameResturant){
-                s.selected=true;
+          itemBuilder: (_, index) {
+            var s = resturant.extra![index];
+            for (var a in shoppingCartController.selectedZutatenList) {
+              if (a.zutatenName == s.name &&
+                  a.nameProduct == product.nameProduct &&
+                  a.nameResturant == resturant.nameResturant) {
+                s.selected = true;
               }
             }
-        return Stack(
-          children: [
-            ListTile(
-              leading: Checkbox(
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(5),
-                ),
-                checkColor: Color(0xffffffff),
-                // color of tick Mark
-                activeColor: primaryColor,
-                value: s.selected,
-                onChanged: (value) {
-                  Extra extra = Extra(name: s.name, price: s.price);
-                  setStateOfBottomSheet(() {
-                    if (s.selected == true) {
-                      _removeFromExtraZutatenList(extra, resturant);
-                    } else {
-                      _addToExtraZutatenList(extra, product, resturant);
-                    }
-                    s.selected = !s.selected;
-                  });
-                },
-              ),
-              title: Text(
-                '${s.name}',
-                style: s.selected
-                    ? Theme.of(context)
-                    .primaryTextTheme
-                    .headline3!
-                    .copyWith(fontWeight: FontWeight.bold)
-                    : Theme.of(context).primaryTextTheme.headline3,
-              ),
-              onTap: () {
-                Extra extra = Extra(name: s.name, price: s.price);
-                setStateOfBottomSheet(() {
-                  if (s.selected == true) {
-                    _removeFromExtraZutatenList(extra, resturant);
-                  } else {
-                    _addToExtraZutatenList(extra, product, resturant);
-                  }
-                  s.selected = !s.selected;
-                });
-              },
-            ),
-            Positioned(
-              top: 0,
-              right: 10,
-              child: IconButton(
-                icon: Icon(CupertinoIcons.info),
-                onPressed: () {},
-              ),
-            ),
-            Positioned(
-              top: 20,
-              right: 70,
-              child: Text(
-                '\€  ${s.price.toStringAsFixed(2)}',
-                style: s.selected
-                    ? Theme.of(context)
-                    .primaryTextTheme
-                    .headline3!
-                    .copyWith(fontWeight: FontWeight.bold)
-                    : Theme.of(context).primaryTextTheme.headline3,
-              ),
-            ),
-          ],
-        );
-        })
-       /* if (resturant.extra != null)
-          for (var s in resturant.extra!)
-            Stack(
+
+            return Stack(
               children: [
                 ListTile(
-                  leading: Checkbox(
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(5),
+                    leading: Checkbox(
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(5),
+                      ),
+                      checkColor: Color(0xffffffff),
+                      // color of tick Mark
+                      activeColor: primaryColor,
+                      value: s.selected,
+                      onChanged: (value) {
+                        ExtraZutatenModel extraZutatenModel = ExtraZutatenModel(
+                            orderId: 0,
+                            zutatenName: s.name,
+                            price: s.price,
+                            nameResturant: resturant.nameResturant!,
+                            nameProduct: product.nameProduct!);
+                        setStateOfBottomSheet(() {
+                          if (s.selected == true) {
+                            _removeFromExtraZutatenList(extraZutatenModel);
+                          } else {
+                            _addToExtraZutatenList(s.name, s.price, product);
+                          }
+                          s.selected = !s.selected;
+                        });
+                      },
                     ),
-                    checkColor: Color(0xffffffff),
-                    // color of tick Mark
-                    activeColor: primaryColor,
-                    value: s.selected,
-                    onChanged: (value) {
-                      Extra extra = Extra(name: s.name, price: s.price);
+                    title: Text(
+                      '${s.name}',
+                      style: s.selected
+                          ? Theme.of(context)
+                              .primaryTextTheme
+                              .headline3!
+                              .copyWith(fontWeight: FontWeight.bold)
+                          : Theme.of(context).primaryTextTheme.headline3,
+                    ),
+                    onTap: () {
+                      ExtraZutatenModel extraZutatenModel = ExtraZutatenModel(
+                          orderId: 0,
+                          zutatenName: s.name,
+                          price: s.price,
+                          nameResturant: resturant.nameResturant!,
+                          nameProduct: product.nameProduct!);
                       setStateOfBottomSheet(() {
                         if (s.selected == true) {
-                          _removeFromExtraZutatenList(extra, resturant);
+                          _removeFromExtraZutatenList(extraZutatenModel);
                         } else {
-                          _addToExtraZutatenList(extra, product, resturant);
+                          _addToExtraZutatenList(s.name, s.price, product);
                         }
                         s.selected = !s.selected;
                       });
-                    },
-                  ),
-                  title: Text(
-                    '${s.name}',
-                    style: s.selected
-                        ? Theme.of(context)
-                            .primaryTextTheme
-                            .headline3!
-                            .copyWith(fontWeight: FontWeight.bold)
-                        : Theme.of(context).primaryTextTheme.headline3,
-                  ),
-                  onTap: () {
-                    Extra extra = Extra(name: s.name, price: s.price);
-                    setStateOfBottomSheet(() {
-                      if (s.selected == true) {
-                        _removeFromExtraZutatenList(extra, resturant);
-                      } else {
-                        _addToExtraZutatenList(extra, product, resturant);
-                      }
-                      s.selected = !s.selected;
-                    });
-                  },
-                ),
+                      setStateOfBottomSheet(() {});
+                    }),
                 Positioned(
                   top: 0,
                   right: 10,
@@ -983,77 +1036,10 @@ class _PageResturantState extends State<PageResturant>
                   ),
                 ),
               ],
-            ),*/
+            );
+          },
+        ),
       ],
-      /*children: product.extra!.asMap().entries.map((e) {
-        Extra extra=Extra(name: e.value.name, price: e.value.price);
-        return Stack(
-          children: [
-            ListTile(
-              leading: Checkbox(
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(5),
-                  ),
-                  checkColor: Color(0xffffffff),
-                  // color of tick Mark
-                  activeColor: primaryColor,
-                  value: e.value.selected,
-                  onChanged: (value) {
-                    setStateOfBottomSheet(() {
-                      if(e.value.selected==true){
-                        _removeFromExtraZutatenList(extra, product, resturant);
-                      }else{
-                        _addToExtraZutatenList(extra, product, resturant);
-                      }
-                      e.value.selected = !e.value.selected;
-                    });
-                  },
-                ),
-
-              title: Text(
-                '${e.value.name}',
-                style: e.value.selected
-                    ? Theme.of(context)
-                        .primaryTextTheme
-                        .headline3!
-                        .copyWith(fontWeight: FontWeight.bold)
-                    : Theme.of(context).primaryTextTheme.headline3,
-              ),
-              onTap: () {
-                setStateOfBottomSheet(() {
-                 if(e.value.selected==true){
-                   _removeFromExtraZutatenList(extra, product, resturant);
-                 }else{
-                   _addToExtraZutatenList(extra, product, resturant);
-                 }
-                 e.value.selected = !e.value.selected;
-                });
-              },
-            ),
-            Positioned(
-              top: 0,
-              right: 10,
-              child: IconButton(
-                icon: Icon(CupertinoIcons.info),
-                onPressed: () {},
-              ),
-            ),
-            Positioned(
-              top: 20,
-              right: 70,
-              child: Text(
-                '\€  ${e.value.price.toStringAsFixed(2)}',
-                style: e.value.selected
-                    ? Theme.of(context)
-                        .primaryTextTheme
-                        .headline3!
-                        .copyWith(fontWeight: FontWeight.bold)
-                    : Theme.of(context).primaryTextTheme.headline3,
-              ),
-            ),
-          ],
-        );
-      }).toList(),*/
     );
   }
 
@@ -1101,23 +1087,6 @@ class _PageResturantState extends State<PageResturant>
         ],
       ),
     );
-    /* ListTile(
-      contentPadding: EdgeInsets.symmetric(vertical: 0.0, horizontal: 16.0),
-      dense:true,
-      trailing: Icon(
-        CupertinoIcons.bubble_right,
-        size: 25,
-        // color: primaryColor,
-      ),
-      title:Text(
-        'Kommentar hinzufügen',
-        style: TextStyle(
-          // color: primaryColor,
-          fontSize: 14,
-        ),
-      ),
-      onTap: (){},
-    );*/
   }
 
   productInfo(Product product, BuildContext context) {
@@ -1208,6 +1177,10 @@ class _PageResturantState extends State<PageResturant>
 
                     if (counterController.itemCount.value == 1) {
                       _addToOrderList(resturant, product);
+                      shoppingCartController.selectedZutatenList.forEach((e) {
+                        _addToExtraZutatenList(e.zutatenName, e.price, product);
+                        // _updateZutatenId(e,shoppingCartController.orderList.last);
+                      });
 
                       counterController.clear();
 
@@ -1291,11 +1264,21 @@ class _PageResturantState extends State<PageResturant>
                     _removeAllDataFromzutatenList();
                     if (counterController.counter.value == 1) {
                       _addToOrderList(resturant, product);
+                      shoppingCartController.selectedZutatenList.forEach((e) {
+                        _addToExtraZutatenList(e.zutatenName, e.price, product);
+                      });
                       _addToOrderList(resturant, product);
+                      shoppingCartController.selectedZutatenList.forEach((e) {
+                        _addToExtraZutatenList(e.zutatenName, e.price, product);
+                      });
 
                       counterController.increment();
                     } else {
                       _addToOrderList(resturant, product);
+
+                      shoppingCartController.selectedZutatenList.forEach((e) {
+                        _addToExtraZutatenList(e.zutatenName, e.price, product);
+                      });
 
                       counterController.increment();
                     }

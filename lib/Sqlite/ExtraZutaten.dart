@@ -1,30 +1,30 @@
 class ExtraZutatenModel {
   int? id;
-  int? idProduct;
-  String? nameResturant;
-  String? zutatenName;
+  int? orderId;
+  String nameResturant;
+  String zutatenName;
   String? dateTime;
-  String? nameProduct;
-  double? price;
+  String nameProduct;
+  double price;
 
   ExtraZutatenModel({
     this.id,
-    this.nameProduct,
-    this.nameResturant,
-    this.zutatenName,
+    required this.orderId,
+    required this.nameProduct,
+    required this.nameResturant,
+    required this.zutatenName,
     this.dateTime,
-    this.idProduct,
-    this.price,
+    required this.price,
   });
 
   factory ExtraZutatenModel.fromMap(Map<String, dynamic> json) => ExtraZutatenModel(
     id: json['id'],
-    idProduct: json['idProduct'],
     nameResturant: json['nameResturant'],
     zutatenName: json['zutatenName'],
     dateTime: json['dateTime'],
     nameProduct: json['nameProduct'],
     price: json['price'],
+    orderId: json['orderId'],
   );
 
   Map<String, dynamic> toMap() {
@@ -32,12 +32,12 @@ class ExtraZutatenModel {
     if (id != null) {
       map['id'] = id;
     }
-    map['idProduct'] = idProduct;
     map['nameResturant'] = nameResturant;
     map['zutatenName'] = zutatenName;
     map['dateTime'] = dateTime;
     map['nameProduct'] = nameProduct;
     map['price'] = price;
+    map['orderId'] = orderId;
     return map;
   }
 }

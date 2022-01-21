@@ -53,7 +53,7 @@ class _BottomNavBarWidgetState extends State<BottomNavBarWidget> {
 
     final Map<String, OrderModel> profileMap = new Map();
     shoppingCartController.orderList.forEach((item) {
-      profileMap[item.nameProduct!] = item;
+      profileMap[item.nameProduct] = item;
     });
     shoppingCartController.orderSet.value=profileMap.values.toList();
     shoppingCartController
@@ -88,37 +88,32 @@ class _BottomNavBarWidgetState extends State<BottomNavBarWidget> {
 
         ),
         bottomNavigationBar: BottomNavigationBar(
+          showSelectedLabels: false,
+          showUnselectedLabels: false,
           type: BottomNavigationBarType.fixed,
           backgroundColor: Theme.of(context).primaryColor,
           selectedItemColor: primaryColor,
           unselectedItemColor: Theme.of(context).primaryIconTheme.color,
           items: [
             BottomNavigationBarItem(
+
               // ignore: deprecated_member_use
-              title: Padding(
-                padding: EdgeInsets.all(0),
-              ),
+              label: 'null',
               icon: ImageIcon(AssetImage('assets/bottomNavBar/service.png')),
             ),
             BottomNavigationBarItem(
               // ignore: deprecated_member_use
-              title: Padding(
-                padding: EdgeInsets.all(0),
-              ),
+              label: 'null',
               icon: ImageIcon(AssetImage('assets/bottomNavBar/search.png')),
             ),
             BottomNavigationBarItem(
               // ignore: deprecated_member_use
-              title: Padding(
-                padding: EdgeInsets.all(0),
-              ),
+              label: 'null',
               icon: ImageIcon(AssetImage('assets/bottomNavBar/favo.png')),
             ),
             BottomNavigationBarItem(
               // ignore: deprecated_member_use
-              title: Padding(
-                padding: EdgeInsets.all(0),
-              ),
+              label: 'null',
               icon: Stack(
                 children: <Widget>[
                   ImageIcon(AssetImage('assets/bottomNavBar/shop.png')),
@@ -156,9 +151,7 @@ class _BottomNavBarWidgetState extends State<BottomNavBarWidget> {
             ),
             BottomNavigationBarItem(
               // ignore: deprecated_member_use
-              title: Padding(
-                padding: EdgeInsets.all(0),
-              ),
+              label: 'null',
               icon: ImageIcon(AssetImage('assets/bottomNavBar/user.png')),
             ),
           ],
