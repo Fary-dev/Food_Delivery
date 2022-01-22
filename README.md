@@ -1,6 +1,6 @@
 # Foodo
 
-<img src="assets/App/Foodo_App.png" width="500">
+<img src="assets/App/Foodo_App.png" width="900">
 
 A new Flutter application.
 
