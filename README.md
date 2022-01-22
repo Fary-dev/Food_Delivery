@@ -1,4 +1,6 @@
-# mjam
+# Foodo
+
+<img src="assets/App/Foodo_App.png" width="500">
 
 A new Flutter application.
 
