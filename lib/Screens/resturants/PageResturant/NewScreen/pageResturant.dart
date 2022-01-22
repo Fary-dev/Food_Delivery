@@ -1,5 +1,7 @@
 import 'dart:async';
 
+import 'package:flutter/painting.dart';
+import 'package:flutter/rendering.dart';
 import 'package:get/get.dart';
 import 'package:mjam/Screens/BootomNavBar/BottomNavBarWidget.dart';
 import 'package:mjam/Screens/BootomNavBar/bottom_Navigation_bar/Shopping/shopping_Controller.dart';
@@ -16,6 +18,7 @@ import '../FavoritController.dart';
 import '../counterController.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/foundation.dart';
 import 'package:mjam/Contants/Color.dart';
 import 'package:mjam/models_and_data/Class/models_and_data.dart';
 
