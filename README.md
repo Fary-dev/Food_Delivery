@@ -2,11 +2,11 @@
 
 <img src="assets/App/Foodo_App.png" width="900">
 <p float="left">
-  <img src="assets/App/1.png" width="200">
-  <img src="assets/App/2.png" width="200">
-  <img src="assets/App/3.png" width="200">
-  <img src="assets/App/4.png" width="200">
-  <img src="assets/App/5.png" width="200">
+  <img src="assets/App/1.png" width="220">
+  <img src="assets/App/2.png" width="220">
+  <img src="assets/App/3.png" width="220">
+  <img src="assets/App/4.png" width="220">
+  <img src="assets/App/5.png" width="220">
 </p>
 
 <img src="assets/App/6.png" width="100">
