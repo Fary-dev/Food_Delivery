@@ -7,21 +7,21 @@
   <img src="assets/App/3.png" width="220">
   <img src="assets/App/4.png" width="220">
   <img src="assets/App/5.png" width="220">
+  <img src="assets/App/6.png" width="220">
+  <img src="assets/App/7.png" width="220">
+  <img src="assets/App/8.png" width="220">
+  <img src="assets/App/9.png" width="220">
+  <img src="assets/App/10.png" width="220">
+  <img src="assets/App/11.png" width="220">
+  <img src="assets/App/12.png" width="220">
+  <img src="assets/App/13.png" width="220">
+  <img src="assets/App/14.png" width="220">
+  <img src="assets/App/15.png" width="220">
+  <img src="assets/App/16.png" width="220">
+  <img src="assets/App/17.png" width="220">
+  <img src="assets/App/18.png" width="220">
 </p>
 
-<img src="assets/App/6.png" width="100">
-<img src="assets/App/7.png" width="100">
-<img src="assets/App/8.png" width="100">
-<img src="assets/App/9.png" width="100">
-<img src="assets/App/10.png" width="100">
-<img src="assets/App/11.png" width="100">
-<img src="assets/App/12.png" width="100">
-<img src="assets/App/13.png" width="100">
-<img src="assets/App/14.png" width="100">
-<img src="assets/App/15.png" width="100">
-<img src="assets/App/16.png" width="100">
-<img src="assets/App/17.png" width="100">
-<img src="assets/App/18.png" width="100">
 
 A new Flutter application.
 
