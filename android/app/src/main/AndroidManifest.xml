@@ -6,15 +6,18 @@
          additional functionality it is fine to subclass or reimplement
          FlutterApplication and put your custom class here. -->
 
-            <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
-            <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
-            <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
+    <uses-permission android:name="android.permission.ACCESS_BACKGROUND_LOCATION"/>
 
     <application
         android:name="${applicationName}"
         android:label="Foodo"
         android:icon="@mipmap/ic_launcher">
         <activity
+            android:exported="true"
             android:name=".MainActivity"
             android:launchMode="singleTop"
             android:theme="@style/LaunchTheme"
@@ -48,8 +51,8 @@
         <meta-data
             android:name="flutterEmbedding"
             android:value="2" />
-        <meta-data android:name="com.google.android.geo.API_KEY"
-               android:value="AIzaSyBTSyppNhe7iObjoH4431VkXJ_Hd6zvf5Q"/>
+        <meta-data android:name="com.google.android.geo.AIzaSyBDOQv80Gr13HEl6Pm6q-L-GyB_pD85Yyg"
+               android:value="AIzaSyBDOQv80Gr13HEl6Pm6q-L-GyB_pD85Yyg"/>
 
         <!-- Facebook Login requirements -->
         <meta-data android:name="com.facebook.sdk.ApplicationId" android:value="@string/facebook_app_id"/>

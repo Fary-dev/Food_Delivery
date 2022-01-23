@@ -84,6 +84,24 @@ flutter:
   # To add assets to your application, add an assets section, like this:
   assets:
     - assets/gim1.jpg
+    - assets/App/1.png
+    - assets/App/2.png
+    - assets/App/3.png
+    - assets/App/4.png
+    - assets/App/5.png
+    - assets/App/6.png
+    - assets/App/7.png
+    - assets/App/8.png
+    - assets/App/9.png
+    - assets/App/10.png
+    - assets/App/11.png
+    - assets/App/12.png
+    - assets/App/13.png
+    - assets/App/14.png
+    - assets/App/15.png
+    - assets/App/16.png
+    - assets/App/17.png
+    - assets/App/18.png
     - assets/flame.png
     - assets/ham1.jpg
     - assets/obs1.jpg
@@ -95,6 +113,7 @@ flutter:
     - assets/gg1.jpg
     - assets/ber1.png
     - assets/sa1.png
+    - assets/sp1.png
     - assets/App/Foodo_App.png
     - assets/ke1.png
     - assets/HornerPizzaa.jpg
